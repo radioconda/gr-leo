@@ -23,7 +23,9 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIR}
+					${SGP4_INCLUDE_DIRS})
+					
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
@@ -37,7 +39,13 @@ if(NOT leo_sources)
 endif(NOT leo_sources)
 
 add_library(gnuradio-leo SHARED ${leo_sources})
-target_link_libraries(gnuradio-leo ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+add_dependencies(gnuradio-leo sgp4)
+
+target_link_libraries(	gnuradio-leo 
+						${Boost_LIBRARIES} 
+						${GNURADIO_ALL_LIBRARIES}
+						${SGP4_LIBRARIES})
+
 set_target_properties(gnuradio-leo PROPERTIES DEFINE_SYMBOL "gnuradio_leo_EXPORTS")
 
 if(APPLE)

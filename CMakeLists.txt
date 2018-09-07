@@ -144,7 +144,7 @@ if(NOT SGP4_FOUND)
     message(WARNING "libsgp4 is not installed. The internal libsgp4 will be automatically build and install.")
     include(ExternalProject)
 	
-    ExternalProject_Add(libsgp4
+    ExternalProject_Add(SGP4_EXTERNAL
     	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/libsgp4
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4
         BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/libsgp4
@@ -153,10 +153,22 @@ if(NOT SGP4_FOUND)
         INSTALL_COMMAND ${CMAKE_COMMAND} -E echo Skipping installation of libsgp4
     )
     
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsgp4/libsgp4.so DESTINATION lib${LIB_SUFFIX})
-	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4/ DESTINATION include/sgp4 FILES_MATCHING
-    PATTERN "*.h"
-    PATTERN "*cmake*" EXCLUDE)
+    ExternalProject_Get_Property(SGP4_EXTERNAL binary_dir)
+    
+    set_property(TARGET sgp4 PROPERTY IMPORTED_LOCATION ${install_dir}/libsgp4.so)
+    add_dependencies(sgp4 SGP4_EXTERNAL)
+ 
+    set(SGP4_LIBRARIES "${binary_dir}/libsgp4.so")
+    set(SGP4_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/libsgp4")
+    
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsgp4/libsgp4.so 
+			DESTINATION lib${LIB_SUFFIX})
+			
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4/ 
+			DESTINATION include/sgp4 
+			FILES_MATCHING
+    		PATTERN "*.h"
+    		PATTERN "*cmake*" EXCLUDE)
     
 else()
     add_library(sgp4 INTERFACE)
