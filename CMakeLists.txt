@@ -136,6 +136,34 @@ endif(APPLE)
 find_package(CppUnit)
 find_package(Doxygen)
 
+########################################################################
+# Search for the libfec if it is already installed in the system
+# If not, install the internal one.
+########################################################################
+find_package(SGP4)
+if(NOT SGP4_FOUND)
+    message(WARNING "libsgp4 is not installed. The internal libsgp4 will be automatically build and install.")
+    include(ExternalProject)
+	
+    ExternalProject_Add(libsgp4
+    	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/libsgp4
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4
+        BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/libsgp4
+        CMAKE_ARGS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+                   "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}"
+        INSTALL_COMMAND ${CMAKE_COMMAND} -E echo Skipping installation of libsgp4
+    )
+    
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsgp4/libsgp4.so DESTINATION lib${LIB_SUFFIX})
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4/ DESTINATION include/sgp4 FILES_MATCHING
+    PATTERN "*.h"
+    PATTERN "*cmake*" EXCLUDE)
+    
+else()
+    add_library(sgp4 INTERFACE)
+endif()
+
+
 # Search for GNU Radio and its components and versions. Add any
 # components required to the list of GR_REQUIRED_COMPONENTS (in all
 # caps such as FILTER or FFT) and change the version to the minimum
