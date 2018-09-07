@@ -27,6 +27,7 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
+    leo_channel_model_impl.cc
 )
 
 set(leo_sources "${leo_sources}" PARENT_SCOPE)
@@ -51,29 +52,6 @@ endif(APPLE)
 include(GrMiscUtils)
 GR_LIBRARY_FOO(gnuradio-leo RUNTIME_COMPONENT "leo_runtime" DEVEL_COMPONENT "leo_devel")
 
-########################################################################
-# Build and register unit test
-########################################################################
-include(GrTest)
-
-include_directories(${CPPUNIT_INCLUDE_DIRS})
-
-list(APPEND test_leo_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_leo.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_leo.cc
-)
-
-add_executable(test-leo ${test_leo_sources})
-
-target_link_libraries(
-  test-leo
-  ${GNURADIO_RUNTIME_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${CPPUNIT_LIBRARIES}
-  gnuradio-leo
-)
-
-GR_ADD_TEST(test_leo test-leo)
 
 ########################################################################
 # Print summary

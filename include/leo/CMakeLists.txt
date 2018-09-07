@@ -23,5 +23,5 @@
 ########################################################################
 install(FILES
     api.h
-    DESTINATION include/leo
+    leo_channel_model.h DESTINATION include/leo
 )

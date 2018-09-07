@@ -8,6 +8,9 @@
 %include "leo_swig_doc.i"
 
 %{
+#include "leo/leo_channel_model.h"
 %}
 
 
+%include "leo/leo_channel_model.h"
+GR_SWIG_BLOCK_MAGIC2(leo, leo_channel_model);

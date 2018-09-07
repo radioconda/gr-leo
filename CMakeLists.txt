@@ -23,7 +23,6 @@
 ########################################################################
 cmake_minimum_required(VERSION 2.6)
 project(gr-leo CXX C)
-enable_testing()
 
 #install to PyBOMBS target prefix if defined
 if(DEFINED ENV{PYBOMBS_PREFIX})
