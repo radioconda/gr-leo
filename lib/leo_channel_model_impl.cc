@@ -24,6 +24,11 @@
 
 #include <gnuradio/io_signature.h>
 #include "leo_channel_model_impl.h"
+#include <sgp4/CoordTopocentric.h>
+#include <sgp4/CoordGeodetic.h>
+#include <sgp4/Observer.h>
+#include <sgp4/SGP4.h>
+#include <iostream>
 
 namespace gr {
   namespace leo {
@@ -42,7 +47,15 @@ namespace gr {
       : gr::sync_block("leo_channel_model",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex)))
-    {}
+    {
+      Observer obs(51.507406923983446, -0.12773752212524414, 0.05);
+          Tle tle = Tle("UK-DMC 2                ",
+              "1 35683U 09041C   12289.23158813  .00000484  00000-0  89219-4 0  5863",
+              "2 35683  98.0221 185.3682 0001499 100.5295 259.6088 14.69819587172294");
+          SGP4 sgp4(tle);
+
+      std::cout << tle << std::endl;
+    }
 
     /*
      * Our virtual destructor.
@@ -59,9 +72,8 @@ namespace gr {
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
-      // Do <+signal processing+>
+      memcpy(out, in, noutput_items*sizeof(gr_complex));
 
-      // Tell runtime system how many output items we produced.
       return noutput_items;
     }
 
