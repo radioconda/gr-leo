@@ -23,5 +23,6 @@
 ########################################################################
 install(FILES
     api.h
+    sat_tracker.h
     leo_channel_model.h DESTINATION include/leo
 )

@@ -30,49 +30,66 @@
 #include <sgp4/SGP4.h>
 #include <iostream>
 
-namespace gr {
-  namespace leo {
+namespace gr
+{
+  namespace leo
+  {
 
     leo_channel_model::sptr
-    leo_channel_model::make()
+    leo_channel_model::make (const std::string& tle_title,
+                             const std::string& tle_1, const std::string& tle_2,
+                             const float gs_lat, const float gs_lon,
+                             const float gs_alt, const std::string& obs_start,
+                             const std::string& obs_end)
     {
-      return gnuradio::get_initial_sptr
-        (new leo_channel_model_impl());
+      return gnuradio::get_initial_sptr (
+          new leo_channel_model_impl (tle_title, tle_1, tle_2, gs_lat, gs_lon,
+                                      gs_alt, obs_start, obs_end));
     }
 
     /*
      * The private constructor
      */
-    leo_channel_model_impl::leo_channel_model_impl()
-      : gr::sync_block("leo_channel_model",
-              gr::io_signature::make(1, 1, sizeof(gr_complex)),
-              gr::io_signature::make(1, 1, sizeof(gr_complex)))
+    leo_channel_model_impl::leo_channel_model_impl (
+        const std::string& tle_title, const std::string& tle_1,
+        const std::string& tle_2, const float gs_lat, const float gs_lon,
+        const float gs_alt, const std::string& obs_start,
+        const std::string& obs_end) :
+            gr::sync_block ("leo_channel_model",
+                            gr::io_signature::make (1, 1, sizeof(gr_complex)),
+                            gr::io_signature::make (1, 1, sizeof(gr_complex))),
+            d_tracker (
+                sat_tracker (tle_title, tle_1, tle_2, gs_lat, gs_lon, gs_alt,
+                             obs_start, obs_end))
     {
-      Observer obs(51.507406923983446, -0.12773752212524414, 0.05);
-          Tle tle = Tle("UK-DMC 2                ",
-              "1 35683U 09041C   12289.23158813  .00000484  00000-0  89219-4 0  5863",
-              "2 35683  98.0221 185.3682 0001499 100.5295 259.6088 14.69819587172294");
-          SGP4 sgp4(tle);
+      Observer obs (51.507406923983446, -0.12773752212524414, 0.05);
+      Tle tle =
+          Tle (
+              "UK-DMC 2                ",
+              "1 25338U 98030A   18251.55629493  .00000033  00000-0  32739-4 0  9995",
+              "2 25338  98.7677 268.0353 0010227 351.6368   8.4639 14.25874123 56893");
+      SGP4 sgp4 (tle);
 
       std::cout << tle << std::endl;
+
     }
 
     /*
      * Our virtual destructor.
      */
-    leo_channel_model_impl::~leo_channel_model_impl()
+    leo_channel_model_impl::~leo_channel_model_impl ()
     {
     }
 
     int
-    leo_channel_model_impl::work(int noutput_items,
-        gr_vector_const_void_star &input_items,
-        gr_vector_void_star &output_items)
+    leo_channel_model_impl::work (int noutput_items,
+                                  gr_vector_const_void_star &input_items,
+                                  gr_vector_void_star &output_items)
     {
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
-      memcpy(out, in, noutput_items*sizeof(gr_complex));
+      memcpy (out, in, noutput_items * sizeof(gr_complex));
 
       return noutput_items;
     }

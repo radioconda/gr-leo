@@ -29,6 +29,7 @@ include_directories(${Boost_INCLUDE_DIR}
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
+	sat_tracker.cc
     leo_channel_model_impl.cc
 )
 
@@ -66,4 +67,3 @@ GR_LIBRARY_FOO(gnuradio-leo RUNTIME_COMPONENT "leo_runtime" DEVEL_COMPONENT "leo
 ########################################################################
 message(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Building for version: ${VERSION} / ${LIBVER}")
-
