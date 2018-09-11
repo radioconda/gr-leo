@@ -9,8 +9,12 @@
 
 %{
 #include "leo/leo_channel_model.h"
+#include "leo/sat_tracker.h"
+#include "leo/utils/datetime.h"
 %}
 
 
 %include "leo/leo_channel_model.h"
 GR_SWIG_BLOCK_MAGIC2(leo, leo_channel_model);
+%include "leo/sat_tracker.h"
+%include "leo/utils/datetime.h"

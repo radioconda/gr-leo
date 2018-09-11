@@ -46,7 +46,14 @@ namespace gr {
        * class. leo::leo_channel_model::make is the public interface for
        * creating new instances.
        */
-      static sptr make();
+      static sptr make(const std::string& tle_title,
+                       const std::string& tle_1,
+                       const std::string& tle_2,
+                       const float gs_lat,
+                       const float gs_lon,
+                       const float gs_alt,
+                       const std::string& obs_start,
+                       const std::string& obs_end);
     };
 
   } // namespace leo
