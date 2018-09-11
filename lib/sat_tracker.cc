@@ -34,14 +34,20 @@ namespace gr
                               const std::string& tle_1,
                               const std::string& tle_2, const float gs_lat,
                               const float gs_lon, const float gs_alt,
-                              const std::string& obs_start,
-                              const std::string& obs_end) :
+                              const datetime& obs_start,
+                              const datetime& obs_end) :
             d_observer (gs_lat, gs_lon, gs_alt),
             d_tle (Tle (tle_title, tle_1, tle_2)),
-            d_sgp4 (d_tle),
-            d_obs_start (DateTime::Now (true)),
-            d_obs_end (d_obs_start.AddDays (7.0))
+            d_sgp4 (d_tle)
     {
+      d_obs_start = DateTime (obs_start.get_year (), obs_start.get_month (),
+                              obs_start.get_day (), obs_start.get_hour (),
+                              obs_start.get_minute (), obs_start.get_second ());
+
+      d_obs_end = DateTime (obs_end.get_year (), obs_end.get_month (),
+                            obs_end.get_day (), obs_end.get_hour (),
+                            obs_end.get_minute (), obs_end.get_second ());
+
       d_passlist = generate_passlist (d_sgp4, d_obs_start, d_obs_end, 180);
       if (d_passlist.begin () == d_passlist.end ()) {
         std::cout << "No passes found" << std::endl;

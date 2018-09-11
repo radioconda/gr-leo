@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_SAT_TRACKER_H
 
 #include <leo/api.h>
+#include <leo/utils/datetime.h>
 #include <sgp4/CoordTopocentric.h>
 #include <sgp4/CoordGeodetic.h>
 #include <sgp4/Observer.h>
@@ -51,7 +52,7 @@ namespace gr
       sat_tracker (const std::string& tle_title, const std::string& tle_1,
                    const std::string& tle_2, const float gs_lat,
                    const float gs_lon, const float gs_alt,
-                   const std::string& obs_start, const std::string& obs_end);
+                   const datetime& obs_start, const datetime& obs_end);
 
       ~sat_tracker ();
 

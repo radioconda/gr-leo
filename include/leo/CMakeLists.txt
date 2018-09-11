@@ -24,5 +24,6 @@
 install(FILES
     api.h
     sat_tracker.h
-    leo_channel_model.h DESTINATION include/leo
+    leo_channel_model.h
+    utils/datetime.h DESTINATION include/leo
 )
