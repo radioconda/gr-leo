@@ -155,7 +155,10 @@ if(NOT SGP4_FOUND)
     
     ExternalProject_Get_Property(SGP4_EXTERNAL binary_dir)
     
-    set_property(TARGET sgp4 PROPERTY IMPORTED_LOCATION ${install_dir}/libsgp4.so)
+    add_library(sgp4 SHARED IMPORTED)
+
+    set_property(TARGET sgp4 PROPERTY IMPORTED_LOCATION ${binary_dir}/libfec.so)
+    
     add_dependencies(sgp4 SGP4_EXTERNAL)
  
     set(SGP4_LIBRARIES "${binary_dir}/libsgp4.so")
@@ -164,12 +167,15 @@ if(NOT SGP4_FOUND)
 	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsgp4/libsgp4.so 
 			DESTINATION lib${LIB_SUFFIX})
 			
-	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4/ 
-			DESTINATION include/sgp4 
-			FILES_MATCHING
-    		PATTERN "*.h"
-    		PATTERN "*cmake*" EXCLUDE)
-    
+#	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4/ 
+#			DESTINATION include/sgp4 
+#			FILES_MATCHING
+#    		PATTERN "*.h"
+#    		PATTERN "*cmake*" EXCLUDE)
+    		
+    install(DIRECTORY ${SGP4_INCLUDE_DIRS}
+			DESTINATION "include")
+    		
 else()
     add_library(sgp4 INTERFACE)
 endif()
@@ -201,6 +207,7 @@ endif(DOXYGEN_FOUND)
 # Setup the include and linker paths
 ########################################################################
 include_directories(
+	${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_BINARY_DIR}/lib

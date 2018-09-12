@@ -34,8 +34,8 @@ namespace gr
                               const std::string& tle_1,
                               const std::string& tle_2, const float gs_lat,
                               const float gs_lon, const float gs_alt,
-                              const datetime& obs_start,
-                              const datetime& obs_end) :
+                              datetime obs_start,
+                              datetime obs_end) :
             d_observer (gs_lat, gs_lon, gs_alt),
             d_tle (Tle (tle_title, tle_1, tle_2)),
             d_sgp4 (d_tle)

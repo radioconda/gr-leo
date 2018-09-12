@@ -24,11 +24,6 @@
 
 #include <gnuradio/io_signature.h>
 #include "leo_channel_model_impl.h"
-#include <sgp4/CoordTopocentric.h>
-#include <sgp4/CoordGeodetic.h>
-#include <sgp4/Observer.h>
-#include <sgp4/SGP4.h>
-#include <leo/utils/datetime.h>
 #include <iostream>
 
 namespace gr
@@ -59,20 +54,10 @@ namespace gr
             gr::sync_block ("leo_channel_model",
                             gr::io_signature::make (1, 1, sizeof(gr_complex)),
                             gr::io_signature::make (1, 1, sizeof(gr_complex))),
-            d_tracker (
-                sat_tracker (tle_title, tle_1, tle_2, gs_lat, gs_lon, gs_alt,
-                             obs_start, obs_end))
+                            d_tracker(sat_tracker(tle_title, tle_1, tle_2, gs_lat, gs_lon, gs_alt,
+                                      datetime(obs_start), datetime(obs_end)))
     {
 
-//      Observer obs (51.507406923983446, -0.12773752212524414, 0.05);
-//      Tle tle =
-//          Tle (
-//              "UK-DMC 2                ",
-//              "1 25338U 98030A   18251.55629493  .00000033  00000-0  32739-4 0  9995",
-//              "2 25338  98.7677 268.0353 0010227 351.6368   8.4639 14.25874123 56893");
-//      SGP4 sgp4 (tle);
-//
-//      std::cout << tle << std::endl;
 
     }
 

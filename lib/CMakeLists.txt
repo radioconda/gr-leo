@@ -22,16 +22,17 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-
-include_directories(${Boost_INCLUDE_DIR}
-					${SGP4_INCLUDE_DIRS})
-					
+			
+include_directories(
+    ${SGP4_INCLUDE_DIRS}
+)
+		
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
+	leo_channel_model_impl.cc
 	sat_tracker.cc
-    leo_channel_model_impl.cc
-    utils/datetime.cc
+	utils/datetime.cc
 )
 
 set(leo_sources "${leo_sources}" PARENT_SCOPE)
@@ -43,10 +44,11 @@ endif(NOT leo_sources)
 add_library(gnuradio-leo SHARED ${leo_sources})
 add_dependencies(gnuradio-leo sgp4)
 
-target_link_libraries(	gnuradio-leo 
-						${Boost_LIBRARIES} 
-						${GNURADIO_ALL_LIBRARIES}
-						${SGP4_LIBRARIES})
+target_link_libraries(gnuradio-leo 
+					  ${Boost_LIBRARIES} 
+					  ${GNURADIO_ALL_LIBRARIES}
+					  ${SGP4_LIBRARIES})
+
 
 set_target_properties(gnuradio-leo PROPERTIES DEFINE_SYMBOL "gnuradio_leo_EXPORTS")
 

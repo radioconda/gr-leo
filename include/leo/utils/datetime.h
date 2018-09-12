@@ -24,6 +24,7 @@
 #define INCLUDED_LEO_UTILS_DATETIME_H
 
 #include <leo/api.h>
+#include <string>
 
 namespace gr
 {
@@ -40,23 +41,24 @@ namespace gr
       datetime (const std::string& datetime);
 
       ~datetime ();
-      size_t
-      get_day () const;
 
       size_t
-      get_hour () const;
+      get_day ();
 
       size_t
-      get_month () const;
+      get_hour ();
 
       size_t
-      get_second () const;
+      get_month ();
 
       size_t
-      get_year () const;
+      get_second ();
 
       size_t
-      get_minute() const;
+      get_year ();
+
+      size_t
+      get_minute();
 
     private:
 
@@ -67,6 +69,7 @@ namespace gr
       size_t d_hour;
       size_t d_minute;
       size_t d_second;
+
     };
 
   } // namespace leo

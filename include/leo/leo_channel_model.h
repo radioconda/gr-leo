@@ -24,7 +24,7 @@
 
 #include <leo/api.h>
 #include <gnuradio/sync_block.h>
-
+#include <string>
 namespace gr {
   namespace leo {
 

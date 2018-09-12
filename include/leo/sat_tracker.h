@@ -23,12 +23,13 @@
 
 #include <leo/api.h>
 #include <leo/utils/datetime.h>
-#include <sgp4/CoordTopocentric.h>
-#include <sgp4/CoordGeodetic.h>
-#include <sgp4/Observer.h>
-#include <sgp4/SGP4.h>
+#include <libsgp4/CoordTopocentric.h>
+#include <libsgp4/CoordGeodetic.h>
+#include <libsgp4/Observer.h>
+#include <libsgp4/SGP4.h>
 #include <iostream>
 #include <vector>
+
 
 namespace gr
 {
@@ -52,7 +53,7 @@ namespace gr
       sat_tracker (const std::string& tle_title, const std::string& tle_1,
                    const std::string& tle_2, const float gs_lat,
                    const float gs_lon, const float gs_alt,
-                   const datetime& obs_start, const datetime& obs_end);
+                   datetime obs_start, datetime obs_end);
 
       ~sat_tracker ();
 
