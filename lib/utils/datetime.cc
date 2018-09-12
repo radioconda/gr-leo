@@ -60,37 +60,37 @@ namespace gr
     }
 
     size_t
-    datetime::get_day () const
+    datetime::get_day ()
     {
       return d_day;
     }
 
     size_t
-    datetime::get_hour () const
+    datetime::get_hour ()
     {
       return d_hour;
     }
 
     size_t
-    datetime::get_month () const
+    datetime::get_month ()
     {
       return d_month;
     }
 
     size_t
-    datetime::get_second () const
+    datetime::get_second ()
     {
       return d_second;
     }
 
     size_t
-    datetime::get_year () const
+    datetime::get_year ()
     {
       return d_year;
     }
 
     size_t
-    datetime::get_minute () const
+    datetime::get_minute ()
     {
       return d_minute;
     }

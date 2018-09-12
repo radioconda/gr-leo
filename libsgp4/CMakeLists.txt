@@ -54,6 +54,7 @@ set(libsgp4_includes
     Vector.h)
 
 add_library(sgp4 SHARED ${libsgp4_sources} ${libsgp4_includes})
+set_property(TARGET sgp4 PROPERTY IMPORTED_LOCATION ${install_dir}/libsgp4.so)
 
 ########################################################################
 # Create uninstall target
