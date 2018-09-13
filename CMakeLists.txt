@@ -157,7 +157,7 @@ if(NOT SGP4_FOUND)
     
     add_library(sgp4 SHARED IMPORTED)
 
-    set_property(TARGET sgp4 PROPERTY IMPORTED_LOCATION ${binary_dir}/libfec.so)
+    set_property(TARGET sgp4 PROPERTY IMPORTED_LOCATION ${binary_dir}/libsgp4.so)
     
     add_dependencies(sgp4 SGP4_EXTERNAL)
  
@@ -174,7 +174,7 @@ if(NOT SGP4_FOUND)
 #    		PATTERN "*cmake*" EXCLUDE)
     		
     install(DIRECTORY ${SGP4_INCLUDE_DIRS}
-			DESTINATION "include")
+			DESTINATION include)
     		
 else()
     add_library(sgp4 INTERFACE)

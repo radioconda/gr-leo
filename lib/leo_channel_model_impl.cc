@@ -55,7 +55,7 @@ namespace gr
                             gr::io_signature::make (1, 1, sizeof(gr_complex)),
                             gr::io_signature::make (1, 1, sizeof(gr_complex))),
                             d_tracker(sat_tracker(tle_title, tle_1, tle_2, gs_lat, gs_lon, gs_alt,
-                                      datetime(obs_start), datetime(obs_end)))
+                                      obs_start, obs_end))
     {
 
 

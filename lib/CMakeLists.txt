@@ -32,7 +32,6 @@ link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND leo_sources
 	leo_channel_model_impl.cc
 	sat_tracker.cc
-	utils/datetime.cc
 )
 
 set(leo_sources "${leo_sources}" PARENT_SCOPE)
