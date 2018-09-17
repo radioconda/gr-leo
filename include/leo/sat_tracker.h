@@ -22,13 +22,13 @@
 #define INCLUDED_LEO_SAT_TRACKER_H
 
 #include <leo/api.h>
-#include <leo/utils/datetime.h>
 #include <libsgp4/CoordTopocentric.h>
 #include <libsgp4/CoordGeodetic.h>
 #include <libsgp4/Observer.h>
 #include <libsgp4/SGP4.h>
 #include <iostream>
 #include <vector>
+#include <string>
 
 
 namespace gr
@@ -53,18 +53,35 @@ namespace gr
       sat_tracker (const std::string& tle_title, const std::string& tle_1,
                    const std::string& tle_2, const float gs_lat,
                    const float gs_lon, const float gs_alt,
-                   datetime obs_start, datetime obs_end);
+                   const std::string& obs_start, const std::string& obs_end);
 
       ~sat_tracker ();
+
+      double
+      get_slant_range ();
+
+      void
+      add_elapsed_time (size_t microseconds);
+
+      DateTime
+      get_elapsed_time();
+
+      DateTime
+      parse_ISO_8601_UTC(const std::string& datetime);
 
     private:
 
       Observer d_observer;
+
       Tle d_tle;
       SGP4 d_sgp4;
+
       DateTime d_obs_start;
       DateTime d_obs_end;
+      DateTime d_obs_elapsed;
+
       std::vector<pass_details_t> d_passlist;
+
 
       //make pointer
       std::vector<pass_details_t>
@@ -72,11 +89,11 @@ namespace gr
                          const DateTime& end_time, const int time_step);
 
       double
-      FindMaxElevation (Observer& observer, SGP4& sgp4, const DateTime& aos,
+      find_max_elevation (Observer& observer, SGP4& sgp4, const DateTime& aos,
                         const DateTime& los);
 
       DateTime
-      FindCrossingPoint (Observer& observer, SGP4& sgp4,
+      find_crossing_point_time (Observer& observer, SGP4& sgp4,
                          const DateTime& initial_time1,
                          const DateTime& initial_time2, bool finding_aos);
 

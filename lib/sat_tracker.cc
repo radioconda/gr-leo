@@ -24,6 +24,8 @@
 
 #include <gnuradio/io_signature.h>
 #include <leo/sat_tracker.h>
+#include <chrono>
+#include <ctime>
 
 namespace gr
 {
@@ -34,47 +36,58 @@ namespace gr
                               const std::string& tle_1,
                               const std::string& tle_2, const float gs_lat,
                               const float gs_lon, const float gs_alt,
-                              datetime obs_start,
-                              datetime obs_end) :
+                              const std::string& obs_start,
+                              const std::string& obs_end) :
             d_observer (gs_lat, gs_lon, gs_alt),
             d_tle (Tle (tle_title, tle_1, tle_2)),
-            d_sgp4 (d_tle)
+            d_sgp4 (d_tle),
+            d_obs_start (parse_ISO_8601_UTC(obs_start)),
+            d_obs_end (parse_ISO_8601_UTC(obs_end)),
+            d_obs_elapsed (d_obs_start)
     {
-      d_obs_start = DateTime (obs_start.get_year (), obs_start.get_month (),
-                              obs_start.get_day (), obs_start.get_hour (),
-                              obs_start.get_minute (), obs_start.get_second ());
 
-      d_obs_end = DateTime (obs_end.get_year (), obs_end.get_month (),
-                            obs_end.get_day (), obs_end.get_hour (),
-                            obs_end.get_minute (), obs_end.get_second ());
+//      DateTime dt = d_obs_start;
+//      while (dt <= d_obs_end) {
+//        std::cout << dt << std::endl;
+//        Eci eci = d_sgp4.FindPosition(dt);
+//        CoordTopocentric topo = d_observer.GetLookAngle(eci);
+//        CoordGeodetic geo = eci.ToGeodetic();
+//        std::cout << dt << " " << topo << " " << geo << std::endl;
+//        dt = dt.AddMicroseconds(1000);
+//      }
 
-      d_passlist = generate_passlist (d_sgp4, d_obs_start, d_obs_end, 180);
-      if (d_passlist.begin () == d_passlist.end ()) {
-        std::cout << "No passes found" << std::endl;
-      }
-      else {
-        std::stringstream ss;
-
-        ss << std::right << std::setprecision (1) << std::fixed;
-
-        std::vector<pass_details_t>::const_iterator itr = d_passlist.begin ();
-        do {
-          ss << "AOS: " << itr->aos << ", LOS: " << itr->los << ", Max El: "
-              << std::setw (4) << Util::RadiansToDegrees (itr->max_elevation)
-              << ", Duration: " << (itr->los - itr->aos) << std::endl;
-        }
-        while (++itr != d_passlist.end ());
-
-        std::cout << ss.str ();
-      }
+//      d_passlist = generate_passlist (d_sgp4, d_obs_start, d_obs_end, 180);
+//      if (d_passlist.begin () == d_passlist.end ()) {
+//        std::cout << "No passes found" << std::endl;
+//      }
+//      else {
+//        std::stringstream ss;
+//
+//        ss << std::right << std::setprecision (1) << std::fixed;
+//
+//        std::vector<pass_details_t>::const_iterator itr = d_passlist.begin ();
+//        do {
+//          ss << "AOS: " << itr->aos << ", LOS: " << itr->los << ", Max El: "
+//              << std::setw (4) << Util::RadiansToDegrees (itr->max_elevation)
+//              << ", Duration: " << (itr->los - itr->aos) << std::endl;
+//        }
+//        while (++itr != d_passlist.end ());
+//
+//        std::cout << ss.str ();
+//      }
     }
 
     sat_tracker::~sat_tracker ()
     {
     }
 
+//    Eci
+//    get_satellite_position_velocity(size_t microseconds_since) {
+//      d_obser
+//    }
+
     double
-    sat_tracker::FindMaxElevation (Observer& observer, SGP4& sgp4,
+    sat_tracker::find_max_elevation (Observer& observer, SGP4& sgp4,
                                    const DateTime& aos, const DateTime& los)
     {
 
@@ -145,7 +158,7 @@ namespace gr
     }
 
     DateTime
-    sat_tracker::FindCrossingPoint (Observer& observer, SGP4& sgp4,
+    sat_tracker::find_crossing_point_time (Observer& observer, SGP4& sgp4,
                                     const DateTime& initial_time1,
                                     const DateTime& initial_time2,
                                     bool finding_aos)
@@ -262,7 +275,7 @@ namespace gr
             /*
              * find the point at which the satellite crossed the horizon
              */
-            aos_time = FindCrossingPoint (d_observer, d_sgp4, previous_time,
+            aos_time = find_crossing_point_time (d_observer, d_sgp4, previous_time,
                                           current_time, true);
           }
           found_aos = true;
@@ -277,12 +290,12 @@ namespace gr
            * already have the aos, but now the satellite is below the horizon,
            * so find the los
            */
-          los_time = FindCrossingPoint (d_observer, d_sgp4, previous_time,
+          los_time = find_crossing_point_time (d_observer, d_sgp4, previous_time,
                                         current_time, false);
 
           pd.aos = aos_time;
           pd.los = los_time;
-          pd.max_elevation = FindMaxElevation (d_observer, d_sgp4, aos_time,
+          pd.max_elevation = find_max_elevation (d_observer, d_sgp4, aos_time,
                                                los_time);
 
           d_passlist.push_back (pd);
@@ -322,7 +335,7 @@ namespace gr
         pass_details_t pd;
         pd.aos = aos_time;
         pd.los = end_time;
-        pd.max_elevation = FindMaxElevation (d_observer, d_sgp4, aos_time,
+        pd.max_elevation = find_max_elevation (d_observer, d_sgp4, aos_time,
                                              end_time);
 
         d_passlist.push_back (pd);
@@ -330,6 +343,48 @@ namespace gr
 
       return d_passlist;
     }
+
+    double
+    sat_tracker::get_slant_range() {
+      double elevation;
+
+      Eci eci = d_sgp4.FindPosition(get_elapsed_time());
+      CoordTopocentric topo = d_observer.GetLookAngle(eci);
+      elevation = Util::RadiansToDegrees (topo.elevation);
+      std::cout << "Time: " << get_elapsed_time() << " | Elevation: "<< elevation << "| Slant Range: " << topo.range << std::endl;
+      if (elevation < 3) {
+        return 0;
+      }
+      else {
+        return topo.range;
+      }
+    }
+
+    DateTime
+    sat_tracker::parse_ISO_8601_UTC(const std::string& datetime) {
+      std::tm tm;
+      strptime (datetime.c_str(), "%Y-%m-%dT%H:%M:%S", &tm);
+      std::chrono::system_clock::time_point tp =
+          std::chrono::system_clock::from_time_t (std::mktime (&tm));
+
+      std::time_t t = std::chrono::system_clock::to_time_t (tp);
+      std::tm utc_tm = *localtime (&t);
+
+      return DateTime (utc_tm.tm_year + 1900, utc_tm.tm_mon + 1,
+                       utc_tm.tm_mday, utc_tm.tm_hour,
+                       utc_tm.tm_min, utc_tm.tm_sec);
+    }
+
+    void
+    sat_tracker::add_elapsed_time (size_t microseconds) {
+      d_obs_elapsed = d_obs_elapsed.AddTicks(microseconds);
+    }
+
+    DateTime
+    sat_tracker::get_elapsed_time() {
+      return d_obs_elapsed;
+    }
+
 
   } /* namespace leo */
 } /* namespace gr */

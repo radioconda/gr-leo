@@ -24,7 +24,6 @@
 #include <leo/leo_channel_model.h>
 #include <leo/sat_tracker.h>
 
-
 namespace gr
 {
   namespace leo
@@ -33,10 +32,17 @@ namespace gr
     class leo_channel_model_impl : public leo_channel_model
     {
     private:
-      const sat_tracker& d_tracker;
+      const float d_sample_rate;
+      const float d_time_resolution_us;
+
+      size_t d_time_resolution_samples;
+
+      sat_tracker d_tracker;
 
     public:
-      leo_channel_model_impl (const std::string& tle_title,
+      leo_channel_model_impl (const float sample_rate,
+                              const float time_resolution,
+                              const std::string& tle_title,
                               const std::string& tle_1,
                               const std::string& tle_2, const float gs_lat,
                               const float gs_lon, const float gs_alt,

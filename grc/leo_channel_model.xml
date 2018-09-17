@@ -4,8 +4,20 @@
   <key>leo_channel_model</key>
   <category>[LEO]</category>
   <import>import leo</import>
-  <make>leo.leo_channel_model($tle_title, $tle_1, $tle_2, $gs_lat,
+  <make>leo.leo_channel_model($sample_rate, $time_resolution_us, $tle_title, $tle_1, $tle_2, $gs_lat,
                               $gs_lon, $gs_alt, $obs_start, $obs_end)</make>
+  
+  <param>
+    <name>Sampling Rate</name>
+    <key>sample_rate</key>
+    <type>float</type>
+  </param>	
+  
+  <param>
+    <name>Time resolution (us)</name>
+    <key>time_resolution_us</key>
+    <type>float</type>
+  </param>	
   
   <param>
     <name>TLE Title</name>

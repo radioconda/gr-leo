@@ -4,7 +4,7 @@ PKG_CHECK_MODULES(PC_SGP4 sgp4)
 FIND_PATH(
     SGP4_INCLUDE_DIRS
     NAMES SGP4
-    HINTS $ENV{SGP4_DIR}/include/SGP4/
+    HINTS $ENV{SGP4_DIR}/include/sgp4/
         ${PC_SGP4_INCLUDEDIR}
     PATHS /usr/local/include
           /usr/include
@@ -12,7 +12,7 @@ FIND_PATH(
 
 FIND_LIBRARY(
     SGP4_LIBRARIES
-    NAMES sgp4
+    NAMES SGP4
     HINTS $ENV{SGP4_DIR}/lib
         ${PC_SGP4_LIBDIR}
     PATHS /usr/local/lib
