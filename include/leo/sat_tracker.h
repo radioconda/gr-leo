@@ -57,6 +57,9 @@ namespace gr
 
       ~sat_tracker ();
 
+      double
+      get_slant_range ();
+
       void
       add_elapsed_time (size_t microseconds);
 

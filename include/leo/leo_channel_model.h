@@ -18,15 +18,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef INCLUDED_LEO_LEO_CHANNEL_MODEL_H
 #define INCLUDED_LEO_LEO_CHANNEL_MODEL_H
 
 #include <leo/api.h>
 #include <gnuradio/sync_block.h>
 #include <string>
-namespace gr {
-  namespace leo {
+namespace gr
+{
+  namespace leo
+  {
 
     /*!
      * \brief <+description of block+>
@@ -35,7 +36,7 @@ namespace gr {
      */
     class LEO_API leo_channel_model : virtual public gr::sync_block
     {
-     public:
+    public:
       typedef boost::shared_ptr<leo_channel_model> sptr;
 
       /*!
@@ -46,14 +47,12 @@ namespace gr {
        * class. leo::leo_channel_model::make is the public interface for
        * creating new instances.
        */
-      static sptr make(const std::string& tle_title,
-                       const std::string& tle_1,
-                       const std::string& tle_2,
-                       const float gs_lat,
-                       const float gs_lon,
-                       const float gs_alt,
-                       const std::string& obs_start,
-                       const std::string& obs_end);
+      static sptr
+      make (const float sample_rate, const float time_resolution,
+            const std::string& tle_title, const std::string& tle_1,
+            const std::string& tle_2, const float gs_lat, const float gs_lon,
+            const float gs_alt, const std::string& obs_start,
+            const std::string& obs_end);
     };
 
   } // namespace leo

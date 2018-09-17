@@ -46,8 +46,6 @@ namespace gr
             d_obs_elapsed (d_obs_start)
     {
 
-      std::cout<<d_obs_start << std::endl;
-      std::cout<<d_obs_end << std::endl;
 //      DateTime dt = d_obs_start;
 //      while (dt <= d_obs_end) {
 //        std::cout << dt << std::endl;
@@ -344,6 +342,22 @@ namespace gr
       }
 
       return d_passlist;
+    }
+
+    double
+    sat_tracker::get_slant_range() {
+      double elevation;
+
+      Eci eci = d_sgp4.FindPosition(get_elapsed_time());
+      CoordTopocentric topo = d_observer.GetLookAngle(eci);
+      elevation = Util::RadiansToDegrees (topo.elevation);
+      std::cout << "Time: " << get_elapsed_time() << " | Elevation: "<< elevation << "| Slant Range: " << topo.range << std::endl;
+      if (elevation < 3) {
+        return 0;
+      }
+      else {
+        return topo.range;
+      }
     }
 
     DateTime
