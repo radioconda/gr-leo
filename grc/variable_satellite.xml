@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<block>
+  <name>Satellite</name>
+  <key>variable_satellite</key>
+  <import>import leo</import>
+  <var_make>self.$(id) = $(id) = leo.satellite_make($tle_title, $tle_1, $tle_2, $freq_uplink, $freq_downlink, $name)</var_make>
+  <var_value>leo.satellite_make($tle_title, $tle_1, $tle_2, $freq_uplink, $freq_downlink, $name)</var_value>
+  <make></make>
+  <param>
+      <name>Ignore Me</name>
+      <key>value</key>
+      <value>'ok'</value>
+      <type>raw</type>
+      <hide>all</hide>
+  </param>
+  
+  <param>
+    <name>Name</name>
+    <key>name</key>
+    <type>string</type>
+    <hide>all</hide>
+  </param>
+
+  <param>
+    <name>TLE Title</name>
+    <key>tle_title</key>
+    <type>string</type>
+  </param>
+  
+  <param>
+    <name>TLE 1</name>
+    <key>tle_1</key>
+    <type>string</type>
+  </param>
+	
+  <param>
+    <name>TLE 2</name>
+    <key>tle_2</key>
+    <type>string</type>
+  </param>
+  
+  <param>
+  	<name>Uplink Frequency</name>
+  	<key>freq_uplink</key>
+  	<type>float</type>
+  </param>
+  
+  <param>
+  	<name>Downlink Frequency</name>
+  	<key>freq_downlink</key>
+  	<type>float</type>
+  </param>
+
+</block>

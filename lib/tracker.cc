@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <leo/sat_tracker.h>
+#include <leo/tracker.h>
 #include <chrono>
 #include <ctime>
 
@@ -32,20 +32,29 @@ namespace gr
   namespace leo
   {
 
-    sat_tracker::sat_tracker (const std::string& tle_title,
-                              const std::string& tle_1,
-                              const std::string& tle_2, const float gs_lat,
-                              const float gs_lon, const float gs_alt,
-                              const std::string& obs_start,
-                              const std::string& obs_end) :
-            d_observer (gs_lat, gs_lon, gs_alt),
-            d_tle (Tle (tle_title, tle_1, tle_2)),
-            d_sgp4 (d_tle),
-            d_obs_start (parse_ISO_8601_UTC(obs_start)),
-            d_obs_end (parse_ISO_8601_UTC(obs_end)),
-            d_obs_elapsed (d_obs_start)
+    tracker::tracker_sptr
+    tracker::make (satellite::satellite_sptr satellite_info,
+                     const float gs_lat, const float gs_lon,
+                     const float gs_alt, const std::string& obs_start,
+                     const std::string& obs_end, const std::string& name)
     {
+      return tracker::tracker_sptr (
+          new tracker (satellite_info, gs_lat, gs_lon,
+                         gs_alt, obs_start, obs_end, name));
+    }
 
+    tracker::tracker (satellite::satellite_sptr satellite_info,
+                      const float gs_lat, const float gs_lon,
+                      const float gs_alt, const std::string& obs_start,
+                      const std::string& obs_end, const std::string& name) :
+            d_observer (gs_lat, gs_lon, gs_alt),
+            d_tle (Tle (satellite_info->get_tle_title(), satellite_info->get_tle_1(), satellite_info->get_tle_2())),
+            d_sgp4 (d_tle),
+            d_obs_start (parse_ISO_8601_UTC (obs_start)),
+            d_obs_end (parse_ISO_8601_UTC (obs_end)),
+            d_obs_elapsed (43)
+    {
+      my_id = base_unique_id++;
 //      DateTime dt = d_obs_start;
 //      while (dt <= d_obs_end) {
 //        std::cout << dt << std::endl;
@@ -77,7 +86,7 @@ namespace gr
 //      }
     }
 
-    sat_tracker::~sat_tracker ()
+    tracker::~tracker ()
     {
     }
 
@@ -86,9 +95,17 @@ namespace gr
 //      d_obser
 //    }
 
+    int tracker::base_unique_id = 1;
+
+    int
+    tracker::unique_id ()
+    {
+      return my_id;
+    }
+
     double
-    sat_tracker::find_max_elevation (Observer& observer, SGP4& sgp4,
-                                   const DateTime& aos, const DateTime& los)
+    tracker::find_max_elevation (Observer& observer, SGP4& sgp4,
+                                 const DateTime& aos, const DateTime& los)
     {
 
       bool running;
@@ -158,10 +175,10 @@ namespace gr
     }
 
     DateTime
-    sat_tracker::find_crossing_point_time (Observer& observer, SGP4& sgp4,
-                                    const DateTime& initial_time1,
-                                    const DateTime& initial_time2,
-                                    bool finding_aos)
+    tracker::find_crossing_point_time (Observer& observer, SGP4& sgp4,
+                                       const DateTime& initial_time1,
+                                       const DateTime& initial_time2,
+                                       bool finding_aos)
     {
       bool running;
       int cnt;
@@ -236,122 +253,125 @@ namespace gr
       return middle_time;
     }
 
-    std::vector<pass_details_t>
-    sat_tracker::generate_passlist (SGP4& sgp4, const DateTime& start_time,
-                                    const DateTime& end_time,
-                                    const int time_step)
-    {
-      pass_details_t pd;
-      DateTime aos_time;
-      DateTime los_time;
-
-      bool found_aos = false;
-
-      DateTime previous_time (start_time);
-      DateTime current_time (start_time);
-
-      while (current_time < end_time) {
-        bool end_of_pass = false;
-
-        /*
-         * calculate satellite position
-         */
-        Eci eci = d_sgp4.FindPosition (current_time);
-        CoordTopocentric topo = d_observer.GetLookAngle (eci);
-
-        if (!found_aos && topo.elevation > 0.0) {
-          /*
-           * aos hasnt occured yet, but the satellite is now above horizon
-           * this must have occured within the last time_step
-           */
-          if (start_time == current_time) {
-            /*
-             * satellite was already above the horizon at the start,
-             * so use the start time
-             */
-            aos_time = start_time;
-          }
-          else {
-            /*
-             * find the point at which the satellite crossed the horizon
-             */
-            aos_time = find_crossing_point_time (d_observer, d_sgp4, previous_time,
-                                          current_time, true);
-          }
-          found_aos = true;
-        }
-        else if (found_aos && topo.elevation < 0.0) {
-          found_aos = false;
-          /*
-           * end of pass, so move along more than time_step
-           */
-          end_of_pass = true;
-          /*
-           * already have the aos, but now the satellite is below the horizon,
-           * so find the los
-           */
-          los_time = find_crossing_point_time (d_observer, d_sgp4, previous_time,
-                                        current_time, false);
-
-          pd.aos = aos_time;
-          pd.los = los_time;
-          pd.max_elevation = find_max_elevation (d_observer, d_sgp4, aos_time,
-                                               los_time);
-
-          d_passlist.push_back (pd);
-        }
-
-        /*
-         * save current time
-         */
-        previous_time = current_time;
-
-        if (end_of_pass) {
-          /*
-           * at the end of the pass move the time along by 30mins
-           */
-          current_time = current_time + TimeSpan (0, 30, 0);
-        }
-        else {
-          /*
-           * move the time along by the time step value
-           */
-          current_time = current_time + TimeSpan (0, 0, time_step);
-        }
-
-        if (current_time > end_time) {
-          /*
-           * dont go past end time
-           */
-          current_time = end_time;
-        }
-      };
-
-      if (found_aos) {
-        /*
-         * satellite still above horizon at end of search period, so use end
-         * time as los
-         */
-        pass_details_t pd;
-        pd.aos = aos_time;
-        pd.los = end_time;
-        pd.max_elevation = find_max_elevation (d_observer, d_sgp4, aos_time,
-                                             end_time);
-
-        d_passlist.push_back (pd);
-      }
-
-      return d_passlist;
-    }
+//    std::vector<pass_details_t>
+//    tracker::generate_passlist (SGP4& sgp4, const DateTime& start_time,
+//                                const DateTime& end_time, const int time_step)
+//    {
+//      pass_details_t pd;
+//      DateTime aos_time;
+//      DateTime los_time;
+//
+//      bool found_aos = false;
+//
+//      DateTime previous_time (start_time);
+//      DateTime current_time (start_time);
+//
+//      while (current_time < end_time) {
+//        bool end_of_pass = false;
+//
+//        /*
+//         * calculate satellite position
+//         */
+//        Eci eci = d_sgp4.FindPosition (current_time);
+//        CoordTopocentric topo = d_observer.GetLookAngle (eci);
+//
+//        if (!found_aos && topo.elevation > 0.0) {
+//          /*
+//           * aos hasnt occured yet, but the satellite is now above horizon
+//           * this must have occured within the last time_step
+//           */
+//          if (start_time == current_time) {
+//            /*
+//             * satellite was already above the horizon at the start,
+//             * so use the start time
+//             */
+//            aos_time = start_time;
+//          }
+//          else {
+//            /*
+//             * find the point at which the satellite crossed the horizon
+//             */
+//            aos_time = find_crossing_point_time (d_observer, d_sgp4,
+//                                                 previous_time, current_time,
+//                                                 true);
+//          }
+//          found_aos = true;
+//        }
+//        else if (found_aos && topo.elevation < 0.0) {
+//          found_aos = false;
+//          /*
+//           * end of pass, so move along more than time_step
+//           */
+//          end_of_pass = true;
+//          /*
+//           * already have the aos, but now the satellite is below the horizon,
+//           * so find the los
+//           */
+//          los_time = find_crossing_point_time (d_observer, d_sgp4,
+//                                               previous_time, current_time,
+//                                               false);
+//
+//          pd.aos = aos_time;
+//          pd.los = los_time;
+//          pd.max_elevation = find_max_elevation (d_observer, d_sgp4, aos_time,
+//                                                 los_time);
+//
+//          d_passlist.push_back (pd);
+//        }
+//
+//        /*
+//         * save current time
+//         */
+//        previous_time = current_time;
+//
+//        if (end_of_pass) {
+//          /*
+//           * at the end of the pass move the time along by 30mins
+//           */
+//          current_time = current_time + TimeSpan (0, 30, 0);
+//        }
+//        else {
+//          /*
+//           * move the time along by the time step value
+//           */
+//          current_time = current_time + TimeSpan (0, 0, time_step);
+//        }
+//
+//        if (current_time > end_time) {
+//          /*
+//           * dont go past end time
+//           */
+//          current_time = end_time;
+//        }
+//      };
+//
+//      if (found_aos) {
+//        /*
+//         * satellite still above horizon at end of search period, so use end
+//         * time as los
+//         */
+//        pass_details_t pd;
+//        pd.aos = aos_time;
+//        pd.los = end_time;
+//        pd.max_elevation = find_max_elevation (d_observer, d_sgp4, aos_time,
+//                                               end_time);
+//
+//        d_passlist.push_back (pd);
+//      }
+//
+//      return d_passlist;
+//    }
 
     double
-    sat_tracker::get_slant_range() {
+    tracker::get_slant_range ()
+    {
       double elevation;
 
-      Eci eci = d_sgp4.FindPosition(get_elapsed_time());
-      CoordTopocentric topo = d_observer.GetLookAngle(eci);
+      Eci eci = d_sgp4.FindPosition (get_elapsed_time ());
+      CoordTopocentric topo = d_observer.GetLookAngle (eci);
       elevation = Util::RadiansToDegrees (topo.elevation);
-      std::cout << "Time: " << get_elapsed_time() << " | Elevation: "<< elevation << "| Slant Range: " << topo.range << std::endl;
+      std::cout << "Time: " << get_elapsed_time () << " | Elevation: "
+          << elevation << "| Slant Range: " << topo.range << std::endl;
       if (elevation < 3) {
         return 0;
       }
@@ -361,30 +381,31 @@ namespace gr
     }
 
     DateTime
-    sat_tracker::parse_ISO_8601_UTC(const std::string& datetime) {
+    tracker::parse_ISO_8601_UTC (const std::string& datetime)
+    {
       std::tm tm;
-      strptime (datetime.c_str(), "%Y-%m-%dT%H:%M:%S", &tm);
+      strptime (datetime.c_str (), "%Y-%m-%dT%H:%M:%S", &tm);
       std::chrono::system_clock::time_point tp =
           std::chrono::system_clock::from_time_t (std::mktime (&tm));
 
       std::time_t t = std::chrono::system_clock::to_time_t (tp);
       std::tm utc_tm = *localtime (&t);
 
-      return DateTime (utc_tm.tm_year + 1900, utc_tm.tm_mon + 1,
-                       utc_tm.tm_mday, utc_tm.tm_hour,
-                       utc_tm.tm_min, utc_tm.tm_sec);
+      return DateTime (utc_tm.tm_year + 1900, utc_tm.tm_mon + 1, utc_tm.tm_mday,
+                       utc_tm.tm_hour, utc_tm.tm_min, utc_tm.tm_sec);
     }
 
     void
-    sat_tracker::add_elapsed_time (size_t microseconds) {
-      d_obs_elapsed = d_obs_elapsed.AddTicks(microseconds);
+    tracker::add_elapsed_time (size_t microseconds)
+    {
+      d_obs_elapsed = d_obs_elapsed.AddTicks (microseconds);
     }
 
     DateTime
-    sat_tracker::get_elapsed_time() {
+    tracker::get_elapsed_time ()
+    {
       return d_obs_elapsed;
     }
-
 
   } /* namespace leo */
 } /* namespace gr */
