@@ -1,0 +1,10 @@
+<cat>
+  <name>[LEO]</name>
+  <cat>
+    <name>Impairment Models</name>
+      <block>variable_test_model_def</block>
+  </cat>
+  <block>leo_channel_model</block>
+  <block>variable_satellite</block>
+  <block>variable_tracker</block>
+</cat>

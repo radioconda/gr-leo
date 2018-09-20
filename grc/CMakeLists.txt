@@ -19,5 +19,10 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    leo_channel_model.xml DESTINATION share/gnuradio/grc/blocks
+	leo_block_tree.xml
+    leo_channel_model.xml
+    variable_satellite.xml
+    variable_tracker.xml 
+    variable_test_model_def.xml 
+    DESTINATION share/gnuradio/grc/blocks
 )

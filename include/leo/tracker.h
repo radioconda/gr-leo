@@ -18,10 +18,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_SAT_TRACKER_H
-#define INCLUDED_LEO_SAT_TRACKER_H
+#ifndef INCLUDED_LEO_TRACKER_H
+#define INCLUDED_LEO_TRACKER_H
 
 #include <leo/api.h>
+#include <leo/satellite.h>
 #include <libsgp4/CoordTopocentric.h>
 #include <libsgp4/CoordGeodetic.h>
 #include <libsgp4/Observer.h>
@@ -29,33 +30,49 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include <boost/format.hpp>
+#include <boost/shared_ptr.hpp>
 
 namespace gr
 {
   namespace leo
   {
 
-    typedef struct
-    {
-      DateTime aos;
-      DateTime los;
-      double max_elevation;
-    } pass_details_t;
+//    typedef struct
+//    {
+//      DateTime aos;
+//      DateTime los;
+//      double max_elevation;
+//    } pass_details_t;
 
     /*!
      * \brief <+description+>
      *
      */
-    class LEO_API sat_tracker
+    class LEO_API tracker
     {
-    public:
-      sat_tracker (const std::string& tle_title, const std::string& tle_1,
-                   const std::string& tle_2, const float gs_lat,
-                   const float gs_lon, const float gs_alt,
-                   const std::string& obs_start, const std::string& obs_end);
 
-      ~sat_tracker ();
+    public:
+      static int base_unique_id;
+
+      int my_id;
+
+      int
+      unique_id ();
+
+    public:
+      typedef boost::shared_ptr<tracker> tracker_sptr;
+
+      static tracker_sptr
+      make (satellite::satellite_sptr satellite_info, const float gs_lat, const float gs_lon,
+            const float gs_alt, const std::string& obs_start,
+            const std::string& obs_end, const std::string& name);
+
+      tracker (satellite::satellite_sptr satellite_info, const float gs_lat, const float gs_lon,
+               const float gs_alt, const std::string& obs_start,
+               const std::string& obs_end, const std::string& name);
+
+      ~tracker ();
 
       double
       get_slant_range ();
@@ -64,10 +81,10 @@ namespace gr
       add_elapsed_time (size_t microseconds);
 
       DateTime
-      get_elapsed_time();
+      get_elapsed_time ();
 
       DateTime
-      parse_ISO_8601_UTC(const std::string& datetime);
+      parse_ISO_8601_UTC (const std::string& datetime);
 
     private:
 
@@ -80,27 +97,27 @@ namespace gr
       DateTime d_obs_end;
       DateTime d_obs_elapsed;
 
-      std::vector<pass_details_t> d_passlist;
-
+      //std::vector<pass_details_t> d_passlist;
 
       //make pointer
-      std::vector<pass_details_t>
-      generate_passlist (SGP4& sgp4, const DateTime& start_time,
-                         const DateTime& end_time, const int time_step);
+//      std::vector<pass_details_t>
+//      generate_passlist (SGP4& sgp4, const DateTime& start_time,
+//                         const DateTime& end_time, const int time_step);
 
       double
       find_max_elevation (Observer& observer, SGP4& sgp4, const DateTime& aos,
-                        const DateTime& los);
+                          const DateTime& los);
 
       DateTime
       find_crossing_point_time (Observer& observer, SGP4& sgp4,
-                         const DateTime& initial_time1,
-                         const DateTime& initial_time2, bool finding_aos);
+                                const DateTime& initial_time1,
+                                const DateTime& initial_time2,
+                                bool finding_aos);
 
     };
 
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_SAT_TRACKER_H */
+#endif /* INCLUDED_LEO_TRACKER_H */
 

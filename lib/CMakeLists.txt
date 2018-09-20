@@ -30,8 +30,11 @@ include_directories(
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
-	leo_channel_model_impl.cc
-	sat_tracker.cc
+	satellite.cc
+	tracker.cc
+	generic_model.cc
+	test_model_impl.cc
+	channel_model_impl.cc
 )
 
 set(leo_sources "${leo_sources}" PARENT_SCOPE)

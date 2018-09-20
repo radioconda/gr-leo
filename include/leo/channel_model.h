@@ -18,12 +18,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_LEO_CHANNEL_MODEL_H
-#define INCLUDED_LEO_LEO_CHANNEL_MODEL_H
+#ifndef INCLUDED_LEO_CHANNEL_MODEL_H
+#define INCLUDED_LEO_CHANNEL_MODEL_H
 
 #include <leo/api.h>
+#include <leo/generic_model.h>
 #include <gnuradio/sync_block.h>
 #include <string>
+
 namespace gr
 {
   namespace leo
@@ -34,29 +36,25 @@ namespace gr
      * \ingroup leo
      *
      */
-    class LEO_API leo_channel_model : virtual public gr::sync_block
+    class LEO_API channel_model : virtual public gr::sync_block
     {
     public:
-      typedef boost::shared_ptr<leo_channel_model> sptr;
-
+      typedef boost::shared_ptr<channel_model> sptr;
       /*!
-       * \brief Return a shared_ptr to a new instance of leo::leo_channel_model.
+       * \brief Return a shared_ptr to a new instance of leo::channel_model.
        *
-       * To avoid accidental use of raw pointers, leo::leo_channel_model's
+       * To avoid accidental use of raw pointers, leo::channel_model's
        * constructor is in a private implementation
-       * class. leo::leo_channel_model::make is the public interface for
+       * class. leo::channel_model::make is the public interface for
        * creating new instances.
        */
       static sptr
       make (const float sample_rate, const float time_resolution,
-            const std::string& tle_title, const std::string& tle_1,
-            const std::string& tle_2, const float gs_lat, const float gs_lon,
-            const float gs_alt, const std::string& obs_start,
-            const std::string& obs_end);
+            generic_model::generic_model_sptr);
     };
 
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_LEO_CHANNEL_MODEL_H */
+#endif /* INCLUDED_LEO_CHANNEL_MODEL_H */
 

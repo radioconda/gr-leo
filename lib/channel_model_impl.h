@@ -18,18 +18,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_LEO_CHANNEL_MODEL_IMPL_H
-#define INCLUDED_LEO_LEO_CHANNEL_MODEL_IMPL_H
+#ifndef INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
+#define INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
 
-#include <leo/leo_channel_model.h>
-#include <leo/sat_tracker.h>
+#include <leo/channel_model.h>
 
 namespace gr
 {
   namespace leo
   {
 
-    class leo_channel_model_impl : public leo_channel_model
+    class channel_model_impl : public channel_model
     {
     private:
       const float d_sample_rate;
@@ -37,18 +36,11 @@ namespace gr
 
       size_t d_time_resolution_samples;
 
-      sat_tracker d_tracker;
-
     public:
-      leo_channel_model_impl (const float sample_rate,
-                              const float time_resolution,
-                              const std::string& tle_title,
-                              const std::string& tle_1,
-                              const std::string& tle_2, const float gs_lat,
-                              const float gs_lon, const float gs_alt,
-                              const std::string& obs_start,
-                              const std::string& obs_end);
-      ~leo_channel_model_impl ();
+      channel_model_impl (const float sample_rate, const float time_resolution,
+                          generic_model::generic_model_sptr model);
+
+      ~channel_model_impl ();
 
       // Where all the action really happens
       int
@@ -59,5 +51,5 @@ namespace gr
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_LEO_CHANNEL_MODEL_IMPL_H */
+#endif /* INCLUDED_LEO_CHANNEL_MODEL_IMPL_H */
 
