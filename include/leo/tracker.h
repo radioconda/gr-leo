@@ -80,6 +80,9 @@ namespace gr
       void
       add_elapsed_time (size_t microseconds);
 
+      bool
+      is_observation_over();
+
       DateTime
       get_elapsed_time ();
 
@@ -97,12 +100,6 @@ namespace gr
       DateTime d_obs_end;
       DateTime d_obs_elapsed;
 
-      //std::vector<pass_details_t> d_passlist;
-
-      //make pointer
-//      std::vector<pass_details_t>
-//      generate_passlist (SGP4& sgp4, const DateTime& start_time,
-//                         const DateTime& end_time, const int time_step);
 
       double
       find_max_elevation (Observer& observer, SGP4& sgp4, const DateTime& aos,

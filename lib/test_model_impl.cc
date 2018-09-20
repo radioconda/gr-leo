@@ -23,35 +23,45 @@
 #endif
 
 #include "test_model_impl.h"
+#include <cstring>
 
-namespace gr {
-  namespace leo {
+namespace gr
+{
+  namespace leo
+  {
 
-      generic_model::generic_model_sptr
-      test_model::make(tracker::tracker_sptr tracker)
-      {
-        return generic_model::generic_model_sptr
-          (new test_model_impl(tracker));
-      }
+    generic_model::generic_model_sptr
+    test_model::make (tracker::tracker_sptr tracker)
+    {
+      return generic_model::generic_model_sptr (new test_model_impl (tracker));
+    }
 
-      test_model_impl::test_model_impl(tracker::tracker_sptr tracker)
-        : generic_model("test_model")
-      {
-      }
+    test_model_impl::test_model_impl (tracker::tracker_sptr tracker) :
+            generic_model ("test_model", tracker),
+            d_tracker (tracker)
+    {
+    }
 
-      test_model_impl::~test_model_impl()
-      {
-      }
+    test_model_impl::~test_model_impl ()
+    {
+    }
 
-      void
-      test_model_impl::generic_work(void *inbuffer, void *outbuffer)
-      {
-        const gr_complex *in = (const gr_complex *) inbuffer;
-        gr_complex *out = (gr_complex *) outbuffer;
+    void
+    test_model_impl::generic_work (const gr_complex *inbuffer,
+                                   gr_complex *outbuffer, int noutput_items)
+    {
+      const gr_complex *in = (const gr_complex *) inbuffer;
+      gr_complex *out = (gr_complex *) outbuffer;
 
-      }
+      d_tracker->add_elapsed_time (noutput_items);
+      d_tracker->get_slant_range ();
+      std::cout << "Time: " << d_tracker->get_elapsed_time ()
+          << "| Slant Range: " << d_tracker->get_slant_range () << std::endl;
+
+      memcpy (outbuffer, inbuffer, noutput_items * sizeof(gr_complex));
+
+    }
 
   } /* namespace leo */
 } /* namespace gr */
-
 

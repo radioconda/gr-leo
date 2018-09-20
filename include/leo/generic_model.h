@@ -25,6 +25,7 @@
 #include <gnuradio/runtime_types.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/format.hpp>
+#include <leo/tracker.h>
 
 namespace gr
 {
@@ -41,11 +42,12 @@ namespace gr
 
       friend class channel_model;
 
-      virtual void generic_work(void *inbuffer, void *outbuffer) = 0;
+      virtual void generic_work(const gr_complex *inbuffer, gr_complex *outbuffer, int noutput_items) = 0;
 
       static int base_unique_id;
 
       std::string d_name;
+      tracker::tracker_sptr d_tracker;
 
       int my_id;
 
@@ -60,13 +62,16 @@ namespace gr
 
       generic_model(void) {};
 
-      generic_model (std::string name);
+      generic_model (std::string name,
+                     tracker::tracker_sptr tracker);
 
       virtual ~generic_model ();
 
       virtual int get_input_item_size();
 
       virtual int get_output_item_size();
+
+      virtual tracker::tracker_sptr get_tracker();
 
 
     };

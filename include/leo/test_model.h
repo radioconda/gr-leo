@@ -23,7 +23,6 @@
 
 #include <leo/api.h>
 #include <leo/generic_model.h>
-#include <leo/tracker.h>
 
 namespace gr
 {
