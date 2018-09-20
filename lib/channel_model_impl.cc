@@ -42,26 +42,19 @@ namespace gr
     /*
      * The private constructor
      */
-    channel_model_impl::channel_model_impl (const float sample_rate,
-                                            const float time_resolution,
-                                            generic_model::generic_model_sptr model) :
+    channel_model_impl::channel_model_impl (
+        const float sample_rate, const float time_resolution,
+        generic_model::generic_model_sptr model) :
             gr::sync_block ("channel_model",
                             gr::io_signature::make (1, 1, sizeof(gr_complex)),
                             gr::io_signature::make (1, 1, sizeof(gr_complex))),
             d_sample_rate (sample_rate),
             d_time_resolution_us (time_resolution),
             d_time_resolution_samples (
-                (d_sample_rate * d_time_resolution_us) / 1e6)
+                (d_sample_rate * d_time_resolution_us) / 1e6),
+            d_model (model)
     {
-      //std::string tle = d_satellite_info->get_tle_title ();
-      //std::cout << tle << std::endl;
-      //std::cout << d_tracker->get_elapsed_time() << std::endl;
       set_output_multiple ((d_sample_rate * d_time_resolution_us) / 1e6);
-
-      std::cout << "Time resolution (us) " << d_time_resolution_us << std::endl;
-      std::cout << "Time resolution (samples) " << d_time_resolution_samples
-          << std::endl;
-      exit (-1);
     }
 
     /*
@@ -79,12 +72,13 @@ namespace gr
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
-      memcpy (out, in, noutput_items * sizeof(gr_complex));
       for (size_t t = 0; t < noutput_items / d_time_resolution_samples; t++) {
-        //d_tracker->add_elapsed_time (d_time_resolution_samples);
-        //d_tracker->get_slant_range ();
-//        std::cout << "Time: " << d_tracker.get_elapsed_time() << "| Slant Range: " << d_tracker.get_slant_range() << std::endl;
+        if (d_model->get_tracker()->is_observation_over()){
+          return WORK_DONE;
+        }
+        d_model->generic_work(in, out, d_time_resolution_samples);
       }
+
       return noutput_items;
     }
 

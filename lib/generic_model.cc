@@ -30,8 +30,10 @@ namespace gr
   namespace leo
   {
 
-    generic_model::generic_model (std::string name) :
-            d_name (name)
+    generic_model::generic_model (std::string name,
+                                  tracker::tracker_sptr tracker) :
+            d_name (name),
+            d_tracker (tracker)
     {
       my_id = base_unique_id++;
     }
@@ -50,6 +52,11 @@ namespace gr
     generic_model::get_output_item_size ()
     {
       return sizeof(gr_complex);
+    }
+
+    tracker::tracker_sptr
+    generic_model::get_tracker() {
+      return d_tracker;
     }
 
     int generic_model::base_unique_id = 1;
