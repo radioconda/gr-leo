@@ -3,7 +3,7 @@
   <name>Channel Model</name>
   <key>leo_channel_model</key>
   <import>import leo</import>
-  <make>leo.channel_model($sample_rate, $time_resolution_us, $model)</make>
+  <make>leo.channel_model($sample_rate, $model)</make>
   
   <param>
       <name>Ignore Me</name>
@@ -19,11 +19,6 @@
     <type>float</type>
   </param>	
   
-  <param>
-    <name>Time resolution (us)</name>
-    <key>time_resolution_us</key>
-    <type>float</type>
-  </param>	
   
   <param>
     <name>Channel Model</name>

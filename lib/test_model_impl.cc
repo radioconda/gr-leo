@@ -52,11 +52,11 @@ namespace gr
     {
       const gr_complex *in = (const gr_complex *) inbuffer;
       gr_complex *out = (gr_complex *) outbuffer;
-
-      d_tracker->add_elapsed_time (noutput_items);
+      d_tracker->add_elapsed_time ();
       d_tracker->get_slant_range ();
+
       std::cout << "Time: " << d_tracker->get_elapsed_time ()
-          << "| Slant Range: " << d_tracker->get_slant_range () << std::endl;
+          << "| Slant Range: " << d_tracker->get_slant_range () << " | Elevation: " << d_tracker->get_current_elevation()<< std::endl;
 
       memcpy (outbuffer, inbuffer, noutput_items * sizeof(gr_complex));
 

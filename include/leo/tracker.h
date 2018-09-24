@@ -66,19 +66,25 @@ namespace gr
       static tracker_sptr
       make (satellite::satellite_sptr satellite_info, const float gs_lat, const float gs_lon,
             const float gs_alt, const std::string& obs_start,
-            const std::string& obs_end, const std::string& name);
+            const std::string& obs_end, const float time_resolution_us, const std::string& name);
 
       tracker (satellite::satellite_sptr satellite_info, const float gs_lat, const float gs_lon,
                const float gs_alt, const std::string& obs_start,
-               const std::string& obs_end, const std::string& name);
+               const std::string& obs_end, const float time_resolution_us, const std::string& name);
 
       ~tracker ();
 
       double
       get_slant_range ();
 
+      double
+	  get_current_elevation();
+
+      float
+	  get_time_resolution_us();
+
       void
-      add_elapsed_time (size_t microseconds);
+      add_elapsed_time ();
 
       bool
       is_observation_over();
@@ -99,6 +105,8 @@ namespace gr
       DateTime d_obs_start;
       DateTime d_obs_end;
       DateTime d_obs_elapsed;
+
+      const float d_time_resolution_us;
 
 
       double

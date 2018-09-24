@@ -39,8 +39,7 @@ namespace gr
 
 
     public:
-      channel_model_impl (const float sample_rate, const float time_resolution,
-                          generic_model::generic_model_sptr model);
+      channel_model_impl (const float sample_rate, generic_model::generic_model_sptr model);
 
       ~channel_model_impl ();
 

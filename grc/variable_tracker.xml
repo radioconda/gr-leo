@@ -3,8 +3,8 @@
   <name>Tracker</name>
   <key>variable_tracker</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $name)</var_make>
-  <var_value>leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $name)</var_value>
+  <var_make>self.$(id) = $(id) = leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $name)</var_make>
+  <var_value>leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $name)</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>
@@ -57,5 +57,11 @@
     <key>obs_end</key>
     <type>string</type>
   </param>
+  
+  <param>
+    <name>Time resolution (us)</name>
+    <key>time_resolution_us</key>
+    <type>float</type>
+  </param>	
 
 </block>
