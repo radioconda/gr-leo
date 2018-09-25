@@ -32,7 +32,8 @@ namespace gr
   {
 
     channel_model::sptr
-    channel_model::make (const float sample_rate, generic_model::generic_model_sptr model)
+    channel_model::make (const float sample_rate,
+                         generic_model::generic_model_sptr model)
     {
       return gnuradio::get_initial_sptr (
           new channel_model_impl (sample_rate, model));
@@ -47,7 +48,8 @@ namespace gr
                             gr::io_signature::make (1, 1, sizeof(gr_complex)),
                             gr::io_signature::make (1, 1, sizeof(gr_complex))),
             d_sample_rate (sample_rate),
-            d_time_resolution_us (model->get_tracker()->get_time_resolution_us()),
+            d_time_resolution_us (
+                model->get_tracker ()->get_time_resolution_us ()),
             d_time_resolution_samples (
                 (d_sample_rate * d_time_resolution_us) / 1e6),
             d_model (model)
@@ -70,13 +72,13 @@ namespace gr
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
-      std::cout << "Noutput: " << noutput_items << std::endl;
-      std::cout << "d_time_resolution_samples: " << d_time_resolution_samples << std::endl;
       for (size_t t = 0; t < noutput_items / d_time_resolution_samples; t++) {
-        if (d_model->get_tracker()->is_observation_over()){
+        if (d_model->get_tracker ()->is_observation_over ()) {
           return WORK_DONE;
         }
-        d_model->generic_work(&in[d_time_resolution_samples*t], &out[d_time_resolution_samples*t], d_time_resolution_samples);
+        d_model->generic_work (&in[d_time_resolution_samples * t],
+                               &out[d_time_resolution_samples * t],
+                               d_time_resolution_samples);
       }
 
       return noutput_items;

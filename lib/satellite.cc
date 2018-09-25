@@ -33,14 +33,13 @@ namespace gr
   {
 
     satellite::satellite_sptr
-    satellite::make (const std::string& tle_title,
-                     const std::string& tle_1, const std::string& tle_2,
-                     const float freq_uplink, const float freq_downlink,
-                     const std::string& name)
+    satellite::make (const std::string& tle_title, const std::string& tle_1,
+                     const std::string& tle_2, const float freq_uplink,
+                     const float freq_downlink, const std::string& name)
     {
       return satellite::satellite_sptr (
-          new satellite (tle_title, tle_1, tle_2, freq_uplink,
-                         freq_downlink, name));
+          new satellite (tle_title, tle_1, tle_2, freq_uplink, freq_downlink,
+                         name));
     }
 
     satellite::satellite (const std::string& tle_title,
@@ -98,7 +97,6 @@ namespace gr
     {
       return d_tle_title;
     }
-
 
   } /* namespace leo */
 } /* namespace gr */

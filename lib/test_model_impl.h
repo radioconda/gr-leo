@@ -27,21 +27,22 @@ namespace gr
 {
   namespace leo
   {
-      class LEO_API test_model_impl : public test_model
-      {
+    class LEO_API test_model_impl : public test_model
+    {
 
-      private:
-        tracker::tracker_sptr d_tracker;
+    private:
+      tracker::tracker_sptr d_tracker;
 
-      public:
-        test_model_impl(tracker::tracker_sptr tracker);
+    public:
+      test_model_impl (tracker::tracker_sptr tracker);
 
-        ~test_model_impl();
+      ~test_model_impl ();
 
-        void
-        generic_work (const gr_complex *inbuffer, gr_complex *outbuffer, int noutput_items);
+      void
+      generic_work (const gr_complex *inbuffer, gr_complex *outbuffer,
+                    int noutput_items);
 
-      };
+    };
   } // namespace leo
 } // namespace gr
 

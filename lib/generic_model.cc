@@ -55,7 +55,8 @@ namespace gr
     }
 
     tracker::tracker_sptr
-    generic_model::get_tracker() {
+    generic_model::get_tracker ()
+    {
       return d_tracker;
     }
 

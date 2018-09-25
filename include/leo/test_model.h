@@ -28,20 +28,19 @@ namespace gr
 {
   namespace leo
   {
-      /*!
-       * \brief <+description+>
-       *
-       */
-      class LEO_API test_model : virtual public generic_model
-      {
+    /*!
+     * \brief <+description+>
+     *
+     */
+    class LEO_API test_model : virtual public generic_model
+    {
 
-      public:
+    public:
 
-        static generic_model::generic_model_sptr
-        make (tracker::tracker_sptr tracker);
+      static generic_model::generic_model_sptr
+      make (tracker::tracker_sptr tracker);
 
-
-      };
+    };
   } // namespace leo
 } // namespace gr
 

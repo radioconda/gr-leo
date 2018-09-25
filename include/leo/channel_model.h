@@ -49,8 +49,7 @@ namespace gr
        * creating new instances.
        */
       static sptr
-      make (const float sample_rate,
-            generic_model::generic_model_sptr);
+      make (const float sample_rate, generic_model::generic_model_sptr);
     };
 
   } // namespace leo

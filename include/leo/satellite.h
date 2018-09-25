@@ -53,10 +53,9 @@ namespace gr
             const std::string& tle_2, const float freq_uplink,
             const float freq_downlink, const std::string& name);
 
-      satellite (const std::string& tle_title,
-                 const std::string& tle_1, const std::string& tle_2,
-                 const float freq_uplink, const float freq_downlink,
-                 const std::string& name);
+      satellite (const std::string& tle_title, const std::string& tle_1,
+                 const std::string& tle_2, const float freq_uplink,
+                 const float freq_downlink, const std::string& name);
 
       ~satellite ();
 

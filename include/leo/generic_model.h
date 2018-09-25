@@ -42,7 +42,9 @@ namespace gr
 
       friend class channel_model;
 
-      virtual void generic_work(const gr_complex *inbuffer, gr_complex *outbuffer, int noutput_items) = 0;
+      virtual void
+      generic_work (const gr_complex *inbuffer, gr_complex *outbuffer,
+                    int noutput_items) = 0;
 
       static int base_unique_id;
 
@@ -54,25 +56,32 @@ namespace gr
       int
       unique_id ();
 
-      std::string alias(){
-        return (boost::format("%s%d")%d_name%unique_id()).str();
+      std::string
+      alias ()
+      {
+        return (boost::format ("%s%d") % d_name % unique_id ()).str ();
       }
 
       typedef boost::shared_ptr<generic_model> generic_model_sptr;
 
-      generic_model(void) {};
+      generic_model (void)
+      {
+      }
+      ;
 
-      generic_model (std::string name,
-                     tracker::tracker_sptr tracker);
+      generic_model (std::string name, tracker::tracker_sptr tracker);
 
-      virtual ~generic_model ();
+      virtual
+      ~generic_model ();
 
-      virtual int get_input_item_size();
+      virtual int
+      get_input_item_size ();
 
-      virtual int get_output_item_size();
+      virtual int
+      get_output_item_size ();
 
-      virtual tracker::tracker_sptr get_tracker();
-
+      virtual tracker::tracker_sptr
+      get_tracker ();
 
     };
 

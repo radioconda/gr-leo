@@ -38,12 +38,12 @@ namespace gr
   namespace leo
   {
 
-//    typedef struct
-//    {
-//      DateTime aos;
-//      DateTime los;
-//      double max_elevation;
-//    } pass_details_t;
+    typedef struct
+    {
+      DateTime aos;
+      DateTime los;
+      double max_elevation;
+    } pass_details_t;
 
     /*!
      * \brief <+description+>
@@ -64,30 +64,37 @@ namespace gr
       typedef boost::shared_ptr<tracker> tracker_sptr;
 
       static tracker_sptr
-      make (satellite::satellite_sptr satellite_info, const float gs_lat, const float gs_lon,
-            const float gs_alt, const std::string& obs_start,
-            const std::string& obs_end, const float time_resolution_us, const std::string& name);
+      make (satellite::satellite_sptr satellite_info, const float gs_lat,
+            const float gs_lon, const float gs_alt,
+            const std::string& obs_start, const std::string& obs_end,
+            const float time_resolution_us, const std::string& name);
 
-      tracker (satellite::satellite_sptr satellite_info, const float gs_lat, const float gs_lon,
-               const float gs_alt, const std::string& obs_start,
-               const std::string& obs_end, const float time_resolution_us, const std::string& name);
+      tracker (satellite::satellite_sptr satellite_info, const float gs_lat,
+               const float gs_lon, const float gs_alt,
+               const std::string& obs_start, const std::string& obs_end,
+               const float time_resolution_us, const std::string& name);
 
       ~tracker ();
+
+      std::vector<pass_details_t>
+      generate_passlist (Observer& observer, SGP4& sgp4,
+                         const DateTime& start_time, const DateTime& end_time,
+                         const int time_step);
 
       double
       get_slant_range ();
 
       double
-	  get_current_elevation();
+      get_current_elevation ();
 
       float
-	  get_time_resolution_us();
+      get_time_resolution_us ();
 
       void
       add_elapsed_time ();
 
       bool
-      is_observation_over();
+      is_observation_over ();
 
       DateTime
       get_elapsed_time ();
@@ -96,7 +103,7 @@ namespace gr
       parse_ISO_8601_UTC (const std::string& datetime);
 
     private:
-
+      std::vector<pass_details_t> d_passlist;
       Observer d_observer;
 
       Tle d_tle;
@@ -107,7 +114,6 @@ namespace gr
       DateTime d_obs_elapsed;
 
       const float d_time_resolution_us;
-
 
       double
       find_max_elevation (Observer& observer, SGP4& sgp4, const DateTime& aos,

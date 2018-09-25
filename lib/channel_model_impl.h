@@ -37,9 +37,9 @@ namespace gr
       size_t d_time_resolution_samples;
       generic_model::generic_model_sptr d_model;
 
-
     public:
-      channel_model_impl (const float sample_rate, generic_model::generic_model_sptr model);
+      channel_model_impl (const float sample_rate,
+                          generic_model::generic_model_sptr model);
 
       ~channel_model_impl ();
 
