@@ -2,7 +2,7 @@
   <name>[LEO]</name>
   <cat>
     <name>Impairment Models</name>
-      <block>variable_test_model_def</block>
+      <block>variable_leo_model_def</block>
   </cat>
   <block>leo_channel_model</block>
   <block>variable_satellite</block>

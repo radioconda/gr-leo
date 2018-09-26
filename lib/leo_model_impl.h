@@ -18,31 +18,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_TEST_MODEL_H
-#define INCLUDED_LEO_TEST_MODEL_H
+#ifndef INCLUDED_LEO_LEO_MODEL_IMPL_H
+#define INCLUDED_LEO_LEO_MODEL_IMPL_H
 
-#include <leo/api.h>
-#include <leo/generic_model.h>
+#include "../include/leo/leo_model.h"
 
 namespace gr
 {
   namespace leo
   {
-    /*!
-     * \brief <+description+>
-     *
-     */
-    class LEO_API test_model : virtual public generic_model
+    class LEO_API leo_model_impl : public leo_model
     {
 
-    public:
+    private:
+      tracker::tracker_sptr d_tracker;
 
-      static generic_model::generic_model_sptr
-      make (tracker::tracker_sptr tracker);
+    public:
+      leo_model_impl (tracker::tracker_sptr tracker);
+
+      ~leo_model_impl ();
+
+      void
+      generic_work (const gr_complex *inbuffer, gr_complex *outbuffer,
+                    int noutput_items);
+
+      float
+      calculate_free_space_path_loss(float slant_range);
 
     };
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_LEO_MODEL_H */
+#endif /* INCLUDED_LEO_LEO_MODEL_IMPL_H */
 

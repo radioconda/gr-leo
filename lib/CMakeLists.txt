@@ -33,7 +33,7 @@ list(APPEND leo_sources
 	satellite.cc
 	tracker.cc
 	generic_model.cc
-	test_model_impl.cc
+	leo_model_impl.cc
 	channel_model_impl.cc
 )
 

@@ -50,10 +50,11 @@ namespace gr
                       const float time_resolution_us, const std::string& name) :
             d_time_resolution_us (time_resolution_us),
             d_observer (gs_lat, gs_lon, gs_alt),
+            d_satellite (satellite_info),
             d_tle (
-                Tle (satellite_info->get_tle_title (),
-                     satellite_info->get_tle_1 (),
-                     satellite_info->get_tle_2 ())),
+                Tle (d_satellite->get_tle_title (),
+                     d_satellite->get_tle_1 (),
+                     d_satellite->get_tle_2 ())),
             d_sgp4 (d_tle),
             d_obs_start (parse_ISO_8601_UTC (obs_start)),
             d_obs_end (parse_ISO_8601_UTC (obs_end)),
@@ -72,6 +73,11 @@ namespace gr
     tracker::unique_id ()
     {
       return my_id;
+    }
+
+    satellite::satellite_sptr
+    tracker::get_satellite_info() {
+      return d_satellite;
     }
 
     double

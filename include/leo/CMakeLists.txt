@@ -26,7 +26,7 @@ install(FILES
     satellite.h
     tracker.h
     generic_model.h
-    test_model.h
+    leo_model.h
     channel_model.h
      DESTINATION include/leo
 )

@@ -20,14 +20,14 @@
 #include "leo/satellite.h"
 #include "leo/tracker.h"
 #include "leo/generic_model.h"
-#include "leo/test_model.h"
+#include "leo/leo_model.h"
 #include "leo/channel_model.h"
 %}
 
 %include "leo/satellite.h"
 %include "leo/tracker.h"
 %include "leo/generic_model.h"
-%include "leo/test_model.h"
+%include "leo/leo_model.h"
 %include "leo/channel_model.h"
 
 GR_SWIG_BLOCK_MAGIC2(leo, channel_model);

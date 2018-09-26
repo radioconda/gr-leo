@@ -81,6 +81,9 @@ namespace gr
                          const DateTime& start_time, const DateTime& end_time,
                          const int time_step);
 
+      satellite::satellite_sptr
+      get_satellite_info();
+
       double
       get_slant_range ();
 
@@ -105,6 +108,7 @@ namespace gr
     private:
       std::vector<pass_details_t> d_passlist;
       Observer d_observer;
+      satellite::satellite_sptr d_satellite;
 
       Tle d_tle;
       SGP4 d_sgp4;

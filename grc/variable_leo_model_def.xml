@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
   <name>LEO Model Definition</name>
-  <key>variable_test_model_def</key>
+  <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.test_model_make($tracker)</var_make>
-  <var_value>leo.test_model_make($tracker)</var_value>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make($tracker)</var_make>
+  <var_value>leo.leo_model_make($tracker)</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>

@@ -31,4 +31,6 @@
 #  define LEO_API __GR_ATTR_IMPORT
 #endif
 
+#define LIGHT_SPEED     299792458
+
 #endif /* INCLUDED_LEO_API_H */

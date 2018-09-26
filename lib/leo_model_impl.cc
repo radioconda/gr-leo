@@ -22,7 +22,7 @@
 #include "config.h"
 #endif
 
-#include "test_model_impl.h"
+#include "leo_model_impl.h"
 #include <cstring>
 
 namespace gr
@@ -31,31 +31,51 @@ namespace gr
   {
 
     generic_model::generic_model_sptr
-    test_model::make (tracker::tracker_sptr tracker)
+    leo_model::make (tracker::tracker_sptr tracker)
     {
-      return generic_model::generic_model_sptr (new test_model_impl (tracker));
+      return generic_model::generic_model_sptr (new leo_model_impl (tracker));
     }
 
-    test_model_impl::test_model_impl (tracker::tracker_sptr tracker) :
-            generic_model ("test_model", tracker),
+    leo_model_impl::leo_model_impl (tracker::tracker_sptr tracker) :
+            generic_model ("leo_model", tracker),
             d_tracker (tracker)
     {
     }
 
-    test_model_impl::~test_model_impl ()
+    leo_model_impl::~leo_model_impl ()
     {
     }
 
+    float
+    leo_model_impl::calculate_free_space_path_loss (float slant_range)
+    {
+      float wave_length = LIGHT_SPEED
+          / d_tracker->get_satellite_info ()->get_freq_uplink ();
+
+      return 22.0 + 20 * std::log10 ((slant_range * 1e3) / wave_length);
+    }
+
     void
-    test_model_impl::generic_work (const gr_complex *inbuffer,
-                                   gr_complex *outbuffer, int noutput_items)
+    leo_model_impl::generic_work (const gr_complex *inbuffer,
+                                  gr_complex *outbuffer, int noutput_items)
     {
       const gr_complex *in = (const gr_complex *) inbuffer;
       gr_complex *out = (gr_complex *) outbuffer;
-      d_tracker->add_elapsed_time ();
-      d_tracker->get_slant_range ();
 
-      memcpy (outbuffer, inbuffer, noutput_items * sizeof(gr_complex));
+      d_tracker->add_elapsed_time ();
+      double slant_range = d_tracker->get_slant_range ();
+      float PL = calculate_free_space_path_loss (slant_range);
+
+      if (slant_range) {
+        memcpy (outbuffer, inbuffer, noutput_items * sizeof(gr_complex));
+      }
+      else {
+        memset (outbuffer, 0, noutput_items * sizeof(gr_complex));
+      }
+
+      std::cout << "Time: " << d_tracker->get_elapsed_time ()
+          << " | Slant Range: " << slant_range << " | Path Loss (dB): " << PL
+          << std::endl;
 
     }
 
