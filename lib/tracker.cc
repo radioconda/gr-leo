@@ -52,14 +52,17 @@ namespace gr
             d_observer (gs_lat, gs_lon, gs_alt),
             d_satellite (satellite_info),
             d_tle (
-                Tle (d_satellite->get_tle_title (),
-                     d_satellite->get_tle_1 (),
+                Tle (d_satellite->get_tle_title (), d_satellite->get_tle_1 (),
                      d_satellite->get_tle_2 ())),
             d_sgp4 (d_tle),
             d_obs_start (parse_ISO_8601_UTC (obs_start)),
             d_obs_end (parse_ISO_8601_UTC (obs_end)),
             d_obs_elapsed (d_obs_start)
     {
+      if (d_obs_end <= d_obs_start) {
+        throw std::runtime_error ("Invalid observation timeframe");
+      }
+
       my_id = base_unique_id++;
     }
 
@@ -76,7 +79,8 @@ namespace gr
     }
 
     satellite::satellite_sptr
-    tracker::get_satellite_info() {
+    tracker::get_satellite_info ()
+    {
       return d_satellite;
     }
 
