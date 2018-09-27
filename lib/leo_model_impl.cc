@@ -24,6 +24,7 @@
 
 #include "leo_model_impl.h"
 #include <cstring>
+#include <volk/volk.h>
 
 namespace gr
 {
@@ -38,8 +39,11 @@ namespace gr
 
     leo_model_impl::leo_model_impl (tracker::tracker_sptr tracker) :
             generic_model ("leo_model", tracker),
-            d_tracker (tracker)
+            d_tracker (tracker),
+            d_nco ()
     {
+      d_nco.set_freq (0);
+
     }
 
     leo_model_impl::~leo_model_impl ()
@@ -47,12 +51,19 @@ namespace gr
     }
 
     float
-    leo_model_impl::calculate_free_space_path_loss (float slant_range)
+    leo_model_impl::calculate_free_space_path_loss (double slant_range)
     {
       float wave_length = LIGHT_SPEED
           / d_tracker->get_satellite_info ()->get_freq_uplink ();
 
       return 22.0 + 20 * std::log10 ((slant_range * 1e3) / wave_length);
+    }
+
+    float
+    leo_model_impl::calculate_doppler_shift (double velocity)
+    {
+      return (velocity * d_tracker->get_satellite_info ()->get_freq_uplink ())
+          / LIGHT_SPEED;
     }
 
     void
@@ -61,20 +72,28 @@ namespace gr
     {
       const gr_complex *in = (const gr_complex *) inbuffer;
       gr_complex *out = (gr_complex *) outbuffer;
+      gr_complex* tmp = new gr_complex[noutput_items];
 
       d_tracker->add_elapsed_time ();
       double slant_range = d_tracker->get_slant_range ();
       float PL = calculate_free_space_path_loss (slant_range);
+      float doppler_shift = calculate_doppler_shift (
+          1e3 * d_tracker->get_velocity ());
 
       if (slant_range) {
-        memcpy (outbuffer, inbuffer, noutput_items * sizeof(gr_complex));
+        d_nco.set_freq(2*M_PI*doppler_shift/((1e6*noutput_items)/d_tracker->get_time_resolution_us()));
+        d_nco.sincos(tmp, noutput_items, 1.0);
+        volk_32fc_x2_multiply_32fc(outbuffer, tmp, inbuffer, noutput_items);
       }
       else {
         memset (outbuffer, 0, noutput_items * sizeof(gr_complex));
       }
 
+      delete tmp;
       std::cout << "Time: " << d_tracker->get_elapsed_time ()
           << " | Slant Range: " << slant_range << " | Path Loss (dB): " << PL
+          << " | Doppler (Hz): "
+          << doppler_shift
           << std::endl;
 
     }

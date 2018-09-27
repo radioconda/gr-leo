@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_LEO_MODEL_IMPL_H
 
 #include "../include/leo/leo_model.h"
+#include <gnuradio/fxpt_nco.h>
 
 namespace gr
 {
@@ -32,6 +33,7 @@ namespace gr
 
     private:
       tracker::tracker_sptr d_tracker;
+      gr::fxpt_nco d_nco;
 
     public:
       leo_model_impl (tracker::tracker_sptr tracker);
@@ -43,7 +45,10 @@ namespace gr
                     int noutput_items);
 
       float
-      calculate_free_space_path_loss(float slant_range);
+      calculate_free_space_path_loss(double slant_range);
+
+      float
+      calculate_doppler_shift(double velocity);
 
     };
   } // namespace leo

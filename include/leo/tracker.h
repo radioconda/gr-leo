@@ -88,6 +88,9 @@ namespace gr
       get_slant_range ();
 
       double
+      get_velocity ();
+
+      double
       get_current_elevation ();
 
       float
