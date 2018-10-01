@@ -33,8 +33,22 @@ namespace gr
   {
 
     /*!
-     * \brief <+description+>
+     * \brief Parent class for LEO_API model objects.
      *
+     * \details
+     *
+     * Parent of a model variable class for LEO_API that will fit
+     * into the gr::leo::model block to handle channel simulation.
+     *
+     * We create objects from LEO_API-derived classes to go into the
+     * actual GNU Radio channel model block. Each object contains its own
+     * state and so there should be a one-to-one mapping of an LEO_API
+     * object and a GR channel model block.
+     *
+     * This is a pure virtual class and must be derived from by a
+     * child class.
+     *
+     * \sa gr::fec::model::leo_model
      */
     class LEO_API generic_model
     {

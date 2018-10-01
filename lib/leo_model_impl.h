@@ -28,29 +28,45 @@ namespace gr
 {
   namespace leo
   {
-    class LEO_API leo_model_impl : public leo_model
+    namespace model
     {
+      class LEO_API leo_model_impl : public leo_model
+      {
 
-    private:
-      tracker::tracker_sptr d_tracker;
-      gr::fxpt_nco d_nco;
+      private:
+        tracker::tracker_sptr d_tracker;
+        gr::fxpt_nco d_nco;
 
-    public:
-      leo_model_impl (tracker::tracker_sptr tracker);
+      public:
+        leo_model_impl (tracker::tracker_sptr tracker);
 
-      ~leo_model_impl ();
+        ~leo_model_impl ();
 
-      void
-      generic_work (const gr_complex *inbuffer, gr_complex *outbuffer,
-                    int noutput_items);
+        void
+        generic_work (const gr_complex *inbuffer, gr_complex *outbuffer,
+                      int noutput_items);
 
-      float
-      calculate_free_space_path_loss(double slant_range);
+        /*!
+         * Calculate the free-space path-loss attenuation for a
+         * given slant range.
+         * \param slant_range The distance in kilometers between the observer and the
+         *      satellite.
+         * @return a float representing the attenuation in dB.
+         */
+        float
+        calculate_free_space_path_loss (double slant_range);
 
-      float
-      calculate_doppler_shift(double velocity);
+        /*!
+         * Calculate the Doppler frequency shift for a given satellite range rate.
+         * \param velocity The range rate of the satellite expressed in
+         * kilometers/sec.
+         * @return a float representing the frequency shift in hertz.
+         */
+        float
+        calculate_doppler_shift (double velocity);
 
-    };
+      };
+    } // namespace model
   } // namespace leo
 } // namespace gr
 

@@ -28,19 +28,30 @@ namespace gr
 {
   namespace leo
   {
-    /*!
-     * \brief <+description+>
-     *
-     */
-    class LEO_API leo_model : virtual public generic_model
+    namespace model
     {
 
-    public:
+      /*!
+       * \brief Low Earth orbit (LEO) channel model.
+       *
+       * \details
+       * It accepts a complex input signal and appropriately
+       * applies free-space path-loss attenuation, Doppler frequency shift
+       * and atmospheric/ionosperic attenation.
+       *
+       */
+      class LEO_API leo_model : virtual public generic_model
+      {
 
-      static generic_model::generic_model_sptr
-      make (tracker::tracker_sptr tracker);
+      public:
+        /*!
+         * \param tracker. A boost::shared_ptr to the tracker object.
+         */
+        static generic_model::generic_model_sptr
+        make (tracker::tracker_sptr tracker);
 
-    };
+      };
+    } //namespace
   } // namespace leo
 } // namespace gr
 

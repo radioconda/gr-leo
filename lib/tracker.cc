@@ -43,6 +43,24 @@ namespace gr
                        obs_end, time_resolution_us, name));
     }
 
+    /**
+     * Construct the Tracker.
+     *
+     * @param satellite_info the observed satellite.
+     *
+     * @param gs_lat the latitude of the ground station in degrees.
+     *
+     * @param gs_lon the longitude of the ground station in degrees.
+     *
+     * @param gs_alt the altitude of the ground station in degrees.
+     *
+     * @param obs_start the starting timestamp of the observation in ISO-8601 UTC string format.
+     *
+     * @param obs_end the ending timestamp of the observation in ISO-8601 UTC string format.
+     *
+     * @param time_resolution_us the time resolution of the observation in microseconds. This quantity
+     * defines the interval between every orbit-related calculation for the observed satellite.
+     */
     tracker::tracker (satellite::satellite_sptr satellite_info,
                       const float gs_lat, const float gs_lon,
                       const float gs_alt, const std::string& obs_start,
@@ -65,31 +83,27 @@ namespace gr
 
       my_id = base_unique_id++;
 
-      d_passlist = generate_passlist(d_observer, d_sgp4, d_obs_start, d_obs_end, 180);
+      d_passlist = generate_passlist (d_observer, d_sgp4, d_obs_start,
+                                      d_obs_end, 180);
 
-          if (d_passlist.begin() == d_passlist.end())
-          {
-              std::cout << "No passes found" << std::endl;
-          }
-          else
-          {
-              std::stringstream ss;
+      if (d_passlist.begin () == d_passlist.end ()) {
+        std::cout << "No passes found" << std::endl;
+      }
+      else {
+        std::stringstream ss;
 
-              ss << std::right << std::setprecision(1) << std::fixed;
+        ss << std::right << std::setprecision (1) << std::fixed;
 
-              std::vector<pass_details_t>::const_iterator itr = d_passlist.begin();
-              do
-              {
-                  ss  << "AOS: " << itr->aos
-                      << ", LOS: " << itr->los
-                      << ", Max El: " << std::setw(4) << Util::RadiansToDegrees(itr->max_elevation)
-                      << ", Duration: " << (itr->los - itr->aos)
-                      << std::endl;
-              }
-              while (++itr != d_passlist.end());
+        std::vector<pass_details_t>::const_iterator itr = d_passlist.begin ();
+        do {
+          ss << "AOS: " << itr->aos << ", LOS: " << itr->los << ", Max El: "
+              << std::setw (4) << Util::RadiansToDegrees (itr->max_elevation)
+              << ", Duration: " << (itr->los - itr->aos) << std::endl;
+        }
+        while (++itr != d_passlist.end ());
 
-              std::cout << ss.str();
-          }
+        std::cout << ss.str ();
+      }
 
     }
 
@@ -261,7 +275,7 @@ namespace gr
       return middle_time;
     }
 
-    std::vector<pass_details_t>
+    std::vector<tracker::pass_details_t>
     tracker::generate_passlist (Observer& observer, SGP4& sgp4,
                                 const DateTime& start_time,
                                 const DateTime& end_time, const int time_step)
@@ -369,6 +383,14 @@ namespace gr
       return d_passlist;
     }
 
+    /**
+     * Calculates the range, in kilometers, between the ground station and
+     * the satellite, at a specific time instance of the observation timeframe.
+     *
+     * @return the range if the current elevation of the satellite is positive,
+     * zero otherwise. Note that positive satellite elevation means that the
+     * satellite is above the horizon and there is a line-of-sight with the observer.
+     */
     double
     tracker::get_slant_range ()
     {

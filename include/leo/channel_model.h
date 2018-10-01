@@ -32,9 +32,18 @@ namespace gr
   {
 
     /*!
-     * \brief <+description of block+>
-     * \ingroup leo
+     * \brief General channel model block that takes in a model
+     * variable object (derived from gr::leo::general_model) for use
+     * in a flowgraph.
      *
+     * \details
+     * This block uses a model variable object (derived from
+     * gr::leo::generic_model) to simulate different space channels in a
+     * flowgraph. This block interacts with the general LEO_API
+     * architecture to handle all passing input and output data in
+     * a flowgraph. The model variable takes the incoming signal and
+     * applies the appropriate signal effects and attenuation according
+     * to the described channel.
      */
     class LEO_API channel_model : virtual public gr::sync_block
     {
@@ -42,14 +51,10 @@ namespace gr
       typedef boost::shared_ptr<channel_model> sptr;
       /*!
        * \brief Return a shared_ptr to a new instance of leo::channel_model.
-       *
-       * To avoid accidental use of raw pointers, leo::channel_model's
-       * constructor is in a private implementation
-       * class. leo::channel_model::make is the public interface for
-       * creating new instances.
+       * \param model An LEO_API model object (See gr::leo::generic_model).
        */
       static sptr
-      make (const float sample_rate, generic_model::generic_model_sptr);
+      make (const float sample_rate, generic_model::generic_model_sptr model);
     };
 
   } // namespace leo

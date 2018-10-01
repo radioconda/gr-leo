@@ -31,9 +31,14 @@ namespace gr
   namespace leo
   {
 
-    /*!
-     * \brief <+description+>
+    /**
+     * @brief Satellite represents a satellite in orbit.
      *
+     * Satellite holds all the information related to the satellite orbiting the Earth, such the
+     * Two-Line Element (TLE) and the operating frequencies.
+     *
+     * In order to parse the TLE and extract its information, the Satellite constructor
+     * calls appropriately the API of <a href="https://www.danrw.com/sgp4">C++ SGP4</a>.
      */
     class LEO_API satellite
     {
