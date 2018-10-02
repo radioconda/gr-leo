@@ -23,6 +23,7 @@
 ########################################################################
 install(FILES
     api.h
+    log.h
     satellite.h
     tracker.h
     generic_model.h

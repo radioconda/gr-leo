@@ -24,6 +24,7 @@
 
 #include "leo_model_impl.h"
 #include <cstring>
+#include <leo/log.h>
 #include <volk/volk.h>
 
 namespace gr
@@ -81,7 +82,7 @@ namespace gr
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
         float PL = calculate_free_space_path_loss (slant_range);
-        gr_complex PL_linear = gr_complex(pow(10,(-PL/10)));
+        gr_complex PL_linear = gr_complex (pow (10, (-PL / 10)));
         float doppler_shift = calculate_doppler_shift (
             d_tracker->get_velocity ());
 
@@ -92,16 +93,17 @@ namespace gr
                       / d_tracker->get_time_resolution_us ()));
           d_nco.sincos (tmp, noutput_items, 1.0);
           volk_32fc_x2_multiply_32fc (tmp, tmp, inbuffer, noutput_items);
-          volk_32fc_s32fc_multiply_32fc(outbuffer, tmp, PL_linear, noutput_items);
+          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, PL_linear,
+                                         noutput_items);
         }
         else {
           memset (outbuffer, 0, noutput_items * sizeof(gr_complex));
         }
 
         delete tmp;
-        std::cout << "Time: " << d_tracker->get_elapsed_time ()
-            << " | Slant Range: " << slant_range << " | Path Loss (dB): " << PL
-            << " | Doppler (Hz): " << doppler_shift << std::endl;
+
+        LEO_DEBUG("Time: %s | Slant Range: %f | Path Loss (dB): %f | Doppler (Hz): %f",
+                  d_tracker->get_elapsed_time ().ToString().c_str(), slant_range, PL, doppler_shift);
 
       }
     } /* namespace model */
