@@ -81,6 +81,7 @@ namespace gr
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
         float PL = calculate_free_space_path_loss (slant_range);
+        gr_complex PL_linear = gr_complex(pow(10,(-PL/10)));
         float doppler_shift = calculate_doppler_shift (
             d_tracker->get_velocity ());
 
@@ -90,7 +91,8 @@ namespace gr
                   / ((1e6 * noutput_items)
                       / d_tracker->get_time_resolution_us ()));
           d_nco.sincos (tmp, noutput_items, 1.0);
-          volk_32fc_x2_multiply_32fc (outbuffer, tmp, inbuffer, noutput_items);
+          volk_32fc_x2_multiply_32fc (tmp, tmp, inbuffer, noutput_items);
+          volk_32fc_s32fc_multiply_32fc(outbuffer, tmp, PL_linear, noutput_items);
         }
         else {
           memset (outbuffer, 0, noutput_items * sizeof(gr_complex));
