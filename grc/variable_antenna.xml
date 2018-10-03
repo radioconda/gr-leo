@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<block>
+  <name>Antenna</name>
+  <key>variable_antenna</key>
+  <import>import leo</import>
+  <var_make>
+#if int($type())==0 #
+self.$(id) = $(id) = leo.yagi_antenna_make($type, $frequency, $polarization, $boom_length)
+#else #
+print "Invalid antenna type"
+raise RuntimeError
+#end if 
+  </var_make>
+  <make></make>
+  
+  <param>
+        <name>Type</name>
+        <key>type</key>
+        <value>0</value>
+        <type>enum</type>
+        <option>
+            <name>Yagi</name>
+            <key>0</key>
+        </option>
+        <option>
+            <name>Helix</name>
+            <key>1</key>
+        </option>
+        <option>
+            <name>Custom</name>
+            <key>2</key>
+        </option>
+    </param>
+  
+  <param>
+    <name>Frequency</name>
+    <key>frequency</key>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>Polarization</name>
+    <key>polarization</key>
+    <type>int</type>
+  </param>
+  
+    <param>
+    <name>Boom length</name>
+    <key>boom_length</key>
+    <type>float</type>
+    <hide>#if int($type())==0 then 'none' else 'all'#</hide>
+  </param>
+
+</block>

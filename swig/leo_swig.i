@@ -16,9 +16,15 @@
 %nodefaultctor gr::leo::generic_model;
 %template(generic_model_sptr) boost::shared_ptr<gr::leo::generic_model>;
 
+%nodefaultctor gr::leo::generic_antenna;
+%template(generic_antenna_sptr) boost::shared_ptr<gr::leo::generic_antenna>;
+
+
 %{
 #include "leo/satellite.h"
 #include "leo/tracker.h"
+#include "leo/generic_antenna.h"
+#include "leo/yagi_antenna.h"
 #include "leo/generic_model.h"
 #include "leo/leo_model.h"
 #include "leo/channel_model.h"
@@ -26,6 +32,8 @@
 
 %include "leo/satellite.h"
 %include "leo/tracker.h"
+%include "leo/generic_antenna.h"
+%include "leo/yagi_antenna.h"
 %include "leo/generic_model.h"
 %include "leo/leo_model.h"
 %include "leo/channel_model.h"

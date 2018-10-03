@@ -32,6 +32,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND leo_sources
 	satellite.cc
 	tracker.cc
+	generic_antenna.cc
+	yagi_antenna_impl.cc
 	generic_model.cc
 	leo_model_impl.cc
 	channel_model_impl.cc
