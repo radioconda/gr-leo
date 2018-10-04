@@ -44,12 +44,13 @@ namespace gr
 
       yagi_antenna_impl::yagi_antenna_impl (uint8_t type, float frequency,
                                             int polarization, float boom_length) :
-              generic_antenna (Yagi, frequency, polarization),
+              generic_antenna (YAGI, frequency, polarization),
               d_boom_length (boom_length)
       {
         d_optimum_elements = find_optimum_elements ();
         LEO_DEBUG("Yagi");
-        exit (-1);
+        LEO_DEBUG("Maximum Gain: %f", get_gain ());
+        LEO_DEBUG("Beamwidth: %f", get_beamwidth ());
       }
 
       yagi_antenna_impl::~yagi_antenna_impl ()
@@ -70,7 +71,7 @@ namespace gr
       float
       yagi_antenna_impl::get_beamwidth ()
       {
-        return sqrt(40000/std::pow(10,get_gain()/10));
+        return sqrt (40000 / std::pow (10, get_gain () / 10));
       }
 
       float

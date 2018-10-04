@@ -23,7 +23,6 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <gnuradio/block_registry.h>
 #include <leo/satellite.h>
 #include <iostream>
 
@@ -35,22 +34,30 @@ namespace gr
     satellite::satellite_sptr
     satellite::make (const std::string& tle_title, const std::string& tle_1,
                      const std::string& tle_2, const float freq_uplink,
-                     const float freq_downlink, const std::string& name)
+                     const float freq_downlink,
+                     generic_antenna::generic_antenna_sptr uplink_antenna,
+                     generic_antenna::generic_antenna_sptr downlink_antenna,
+                     const std::string& name)
     {
       return satellite::satellite_sptr (
           new satellite (tle_title, tle_1, tle_2, freq_uplink, freq_downlink,
-                         name));
+                         uplink_antenna, downlink_antenna, name));
     }
 
-    satellite::satellite (const std::string& tle_title,
-                          const std::string& tle_1, const std::string& tle_2,
-                          const float freq_uplink, const float freq_downlink,
-                          const std::string& name) :
+    satellite::satellite (
+        const std::string& tle_title, const std::string& tle_1,
+        const std::string& tle_2, const float comm_freq_uplink,
+        const float comm_freq_downlink,
+        generic_antenna::generic_antenna_sptr uplink_antenna,
+        generic_antenna::generic_antenna_sptr downlink_antenna,
+        const std::string& name) :
             d_tle_title (tle_title),
             d_tle_1 (tle_1),
             d_tle_2 (tle_2),
-            d_freq_uplink (freq_uplink),
-            d_freq_downlink (freq_downlink)
+            d_comm_freq_uplink (comm_freq_uplink),
+            d_comm_freq_downlink (comm_freq_downlink),
+            d_uplink_antenna (uplink_antenna),
+            d_downlink_antenna (downlink_antenna)
     {
 
       my_id = base_unique_id++;
@@ -69,15 +76,15 @@ namespace gr
     }
 
     const float
-    satellite::get_freq_downlink () const
+    satellite::get_comm_freq_downlink () const
     {
-      return d_freq_downlink;
+      return d_comm_freq_downlink;
     }
 
     const float
-    satellite::get_freq_uplink () const
+    satellite::get_comm_freq_uplink () const
     {
-      return d_freq_uplink;
+      return d_comm_freq_uplink;
     }
 
     const std::string&
@@ -96,6 +103,18 @@ namespace gr
     satellite::get_tle_title () const
     {
       return d_tle_title;
+    }
+
+    generic_antenna::generic_antenna_sptr
+    satellite::get_uplink_antenna ()
+    {
+      return d_uplink_antenna;
+    }
+
+    generic_antenna::generic_antenna_sptr
+    satellite::get_downlink_antenna ()
+    {
+      return d_downlink_antenna;
     }
 
   } /* namespace leo */

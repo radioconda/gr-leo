@@ -53,7 +53,8 @@ namespace gr
     public:
       static int base_unique_id;
 
-      enum Antennas {Yagi, Helix, Custom};
+      enum Antennas {YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM};
+      enum Polarization {RHCP, LHCP, LINEAR};
 
       uint8_t d_type;
 

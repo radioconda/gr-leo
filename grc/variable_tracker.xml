@@ -3,8 +3,14 @@
   <name>Tracker</name>
   <key>variable_tracker</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $name)</var_make>
-  <var_value>leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $name)</var_value>
+  <var_make>self.$(id) = $(id) = leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $comm_freq_uplink,
+            $comm_freq_downlink,
+            $uplink_antenna,
+            $downlink_antenna, $name)</var_make>
+  <var_value>leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $comm_freq_uplink,
+            $comm_freq_downlink,
+            $uplink_antenna,
+            $downlink_antenna, $name)</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>
@@ -44,6 +50,32 @@
     <name>Altitude</name>
     <key>gs_alt</key>
     <type>float</type>
+  </param>
+  
+  <param>
+  	<name>Uplink Frequency (Hz)</name>
+  	<key>comm_freq_uplink</key>
+  	<type>float</type>
+  </param>
+  
+  <param>
+    <name>Uplink Antenna</name>
+    <key>uplink_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
+  </param>
+  
+  <param>
+  	<name>Downlink Frequency (Hz)</name>
+  	<key>comm_freq_downlink</key>
+  	<type>float</type>
+  </param>
+  
+  <param>
+    <name>Downlink Antenna</name>
+    <key>downlink_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
   </param>
   
   <param>

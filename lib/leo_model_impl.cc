@@ -56,8 +56,7 @@ namespace gr
       float
       leo_model_impl::calculate_free_space_path_loss (double slant_range)
       {
-        float wave_length = LIGHT_SPEED
-            / d_tracker->get_satellite_info ()->get_freq_uplink ();
+        float wave_length = LIGHT_SPEED / get_frequency ();
 
         // Multiply slant_range to convert to meters/sec
         return 22.0 + 20 * std::log10 ((slant_range * 1e3) / wave_length);
@@ -66,9 +65,7 @@ namespace gr
       float
       leo_model_impl::calculate_doppler_shift (double velocity)
       {
-        return (1e3 * velocity
-            * d_tracker->get_satellite_info ()->get_freq_uplink ())
-            / LIGHT_SPEED;
+        return (1e3 * velocity * get_frequency ()) / LIGHT_SPEED;
       }
 
       void
@@ -81,7 +78,8 @@ namespace gr
 
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
-        float PL = calculate_free_space_path_loss (slant_range);
+        float PL = calculate_free_space_path_loss (slant_range) - (
+            + get_tracker_antenna_gain () + get_satellite_antenna_gain ());
         gr_complex PL_linear = gr_complex (pow (10, (-PL / 10)));
         float doppler_shift = calculate_doppler_shift (
             d_tracker->get_velocity ());
@@ -102,8 +100,10 @@ namespace gr
 
         delete tmp;
 
-        LEO_DEBUG("Time: %s | Slant Range: %f | Path Loss (dB): %f | Doppler (Hz): %f",
-                  d_tracker->get_elapsed_time ().ToString().c_str(), slant_range, PL, doppler_shift);
+        LEO_DEBUG(
+            "Time: %s | Slant Range: %f | Path Loss (dB): %f | Doppler (Hz): %f",
+            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range,
+            PL, doppler_shift);
 
       }
     } /* namespace model */

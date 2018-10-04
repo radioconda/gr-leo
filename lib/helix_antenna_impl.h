@@ -18,41 +18,45 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
-#define INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
+#ifndef INCLUDED_LEO_HELIX_ANTENNA_IMPL_H
+#define INCLUDED_LEO_HELIX_ANTENNA_IMPL_H
 
-#include <leo/channel_model.h>
+#include "../include/leo/helix_antenna.h"
+#include <vector>
 
 namespace gr
 {
   namespace leo
   {
-
-    class channel_model_impl : public channel_model
+    namespace antenna
     {
-    private:
-      const float d_sample_rate;
-      const float d_time_resolution_us;
-      const uint8_t d_mode;
 
-      size_t d_time_resolution_samples;
-      generic_model::generic_model_sptr d_model;
+      class LEO_API helix_antenna_impl : public helix_antenna
+      {
 
-    public:
-      channel_model_impl (const float sample_rate,
-                          generic_model::generic_model_sptr model,
-                          const uint8_t mode);
+      public:
+        helix_antenna_impl (uint8_t type, float frequency, int polarization,
+                            size_t turns, float turn_spacing,
+                            float circumference);
 
-      ~channel_model_impl ();
+        ~helix_antenna_impl ();
 
-      // Where all the action really happens
-      int
-      work (int noutput_items, gr_vector_const_void_star &input_items,
-            gr_vector_void_star &output_items);
-    };
+        float
+        get_gain ();
 
+        float
+        get_beamwidth ();
+
+      private:
+
+        size_t d_turns;
+        float d_turn_spacing;
+        float d_circumference;
+
+      };
+    } // namespace antenna
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_CHANNEL_MODEL_IMPL_H */
+#endif /* INCLUDED_LEO_YAGI_ANTENNA_IMPL_H */
 

@@ -42,22 +42,58 @@ namespace gr
     {
     }
 
-    int
-    generic_model::get_input_item_size ()
-    {
-      return sizeof(gr_complex);
-    }
-
-    int
-    generic_model::get_output_item_size ()
-    {
-      return sizeof(gr_complex);
-    }
-
     tracker::tracker_sptr
     generic_model::get_tracker ()
     {
       return d_tracker;
+    }
+
+    void
+    generic_model::set_mode (uint8_t mode)
+    {
+      d_mode = mode;
+    }
+
+    float
+    generic_model::get_frequency ()
+    {
+      if (d_mode == UPLINK) {
+        return d_tracker->get_comm_freq_uplink();
+      }
+      else if (d_mode == DOWNLINK) {
+        return d_tracker->get_satellite_info()->get_comm_freq_downlink();
+      }
+      else {
+        throw std::runtime_error("Invalid transmission mode");
+      }
+    }
+
+    float
+    generic_model::get_tracker_antenna_gain ()
+    {
+      if (d_mode == UPLINK) {
+        return d_tracker->get_uplink_antenna()->get_gain();
+      }
+      else if (d_mode == DOWNLINK) {
+        return d_tracker->get_downlink_antenna()->get_gain();
+      }
+      else {
+        throw std::runtime_error("Invalid transmission mode");
+      }
+    }
+
+    float
+    generic_model::get_satellite_antenna_gain ()
+    {
+      if (d_mode == UPLINK) {
+        return d_tracker->get_satellite_info()->get_uplink_antenna()->get_gain();
+      }
+      else if (d_mode == DOWNLINK) {
+        return d_tracker->get_satellite_info()->get_downlink_antenna()->get_gain();
+      }
+      else {
+        throw std::runtime_error("Invalid transmission mode");
+      }
     }
 
     int generic_model::base_unique_id = 1;

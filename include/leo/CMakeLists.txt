@@ -25,9 +25,12 @@ install(FILES
     api.h
     log.h
     satellite.h
-    tracker.h
     generic_antenna.h
     yagi_antenna.h
+    helix_antenna.h
+    parabolic_reflector_antenna.h
+    custom_antenna.h
+    tracker.h
     generic_model.h
     leo_model.h
     channel_model.h

@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_SATELLITE_H
 
 #include <leo/api.h>
+#include <leo/generic_antenna.h>
 #include <string>
 #include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
@@ -55,20 +56,26 @@ namespace gr
 
       static satellite_sptr
       make (const std::string& tle_title, const std::string& tle_1,
-            const std::string& tle_2, const float freq_uplink,
-            const float freq_downlink, const std::string& name);
+            const std::string& tle_2, const float comm_freq_uplink,
+            const float comm_freq_downlink,
+            generic_antenna::generic_antenna_sptr uplink_antenna,
+            generic_antenna::generic_antenna_sptr downlink_antenna,
+            const std::string& name);
 
       satellite (const std::string& tle_title, const std::string& tle_1,
-                 const std::string& tle_2, const float freq_uplink,
-                 const float freq_downlink, const std::string& name);
+                 const std::string& tle_2, const float comm_freq_uplink,
+                 const float comm_freq_downlink,
+                 generic_antenna::generic_antenna_sptr uplink_antenna,
+                 generic_antenna::generic_antenna_sptr downlink_antenna,
+                 const std::string& name);
 
       ~satellite ();
 
       const float
-      get_freq_downlink () const;
+      get_comm_freq_downlink () const;
 
       const float
-      get_freq_uplink () const;
+      get_comm_freq_uplink () const;
 
       const std::string&
       get_tle_1 () const;
@@ -79,13 +86,22 @@ namespace gr
       const std::string&
       get_tle_title () const;
 
+      generic_antenna::generic_antenna_sptr
+      get_uplink_antenna ();
+
+      generic_antenna::generic_antenna_sptr
+      get_downlink_antenna ();
+
     private:
       std::string d_tle_title;
       std::string d_tle_1;
       std::string d_tle_2;
 
-      const float d_freq_uplink;
-      const float d_freq_downlink;
+      const float d_comm_freq_uplink;
+      const float d_comm_freq_downlink;
+
+      generic_antenna::generic_antenna_sptr d_uplink_antenna;
+      generic_antenna::generic_antenna_sptr d_downlink_antenna;
 
     };
 

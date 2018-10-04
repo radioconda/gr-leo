@@ -47,6 +47,9 @@ namespace gr
         get_beamwidth();
 
       private:
+        /**
+         * Data taken from ARPL antenna book
+         */
         std::vector<yagi_preformance_t> d_yagi_performance {
                   yagi_preformance_t(0.35, 3, 9.65),
                   yagi_preformance_t(0.55, 4, 10.86),
