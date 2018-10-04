@@ -3,8 +3,8 @@
   <name>Satellite</name>
   <key>variable_satellite</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.satellite_make($tle_title, $tle_1, $tle_2, $freq_uplink, $freq_downlink, $name)</var_make>
-  <var_value>leo.satellite_make($tle_title, $tle_1, $tle_2, $freq_uplink, $freq_downlink, $name)</var_value>
+  <var_make>self.$(id) = $(id) = leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_uplink, $comm_freq_downlink, $uplink_antenna, $downlink_antenna, $name)</var_make>
+  <var_value>leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_uplink, $comm_freq_downlink, $uplink_antenna, $downlink_antenna, $name)</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>
@@ -40,15 +40,29 @@
   </param>
   
   <param>
-  	<name>Uplink Frequency</name>
-  	<key>freq_uplink</key>
+  	<name>Uplink Frequency (Hz)</name>
+  	<key>comm_freq_uplink</key>
   	<type>float</type>
   </param>
   
   <param>
-  	<name>Downlink Frequency</name>
-  	<key>freq_downlink</key>
+    <name>Uplink Antenna</name>
+    <key>uplink_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
+  </param>
+  
+  <param>
+  	<name>Downlink Frequency (Hz)</name>
+  	<key>comm_freq_downlink</key>
   	<type>float</type>
+  </param>
+  
+  <param>
+    <name>Downlink Antenna</name>
+    <key>downlink_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
   </param>
 
 </block>

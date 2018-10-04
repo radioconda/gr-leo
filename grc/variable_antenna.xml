@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<block>
+  <name>Antenna</name>
+  <key>variable_antenna</key>
+  <import>import leo</import>
+  <var_make>
+#if int($type())==0 #
+self.$(id) = $(id) = leo.yagi_antenna_make($type, $frequency, $polarization, $boom_length)
+#else if int($type())==1#
+self.$(id) = $(id) = leo.helix_antenna_make($type, $frequency, $polarization, $turns,
+                                    $turn_spacing, $circumference)
+#else if int($type())==2#
+self.$(id) = $(id) = leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $diameter,
+									$aperture_efficiency)
+#else if int($type())==3#
+self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $gain, $beamwidth)
+#else #
+print "Invalid antenna type"
+raise RuntimeError
+#end if 
+  </var_make>
+  <var_value>leo.generic_antenna_make($type, $frequency, $polarization)</var_value>
+  <make></make>
+  
+  <param>
+        <name>Type</name>
+        <key>type</key>
+        <value>0</value>
+        <type>enum</type>
+        <option>
+            <name>Yagi</name>
+            <key>0</key>
+        </option>
+        <option>
+            <name>Helix</name>
+            <key>1</key>
+        </option>
+        <option>
+            <name>Parabolic reflector</name>
+            <key>2</key>
+        </option>
+        <option>
+            <name>Custom</name>
+            <key>3</key>
+        </option>
+    </param>
+  
+  <param>
+    <name>Frequency (Hz)</name>
+    <key>frequency</key>
+    <type>float</type>
+  </param>
+
+  <param>
+    <name>Polarization</name>
+    <key>polarization</key>
+    <type>int</type>
+  </param>
+  
+  <param>
+    <name>Boom length (m)</name>
+    <key>boom_length</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==0 then 'none' else 'all'#</hide>
+  </param>
+  
+  <param>
+    <name>Turns</name>
+    <key>turns</key>
+    <value>0</value>
+    <type>int</type>
+    <hide>#if int($type())==1 then 'none' else 'all'#</hide>
+  </param>
+  
+  <param>
+    <name>Turn spacing (m)</name>
+    <key>turn_spacing</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==1 then 'none' else 'all'#</hide>
+  </param>  
+  
+  <param>
+    <name>Circumference (m)</name>
+    <key>circumference</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==1 then 'none' else 'all'#</hide>
+  </param> 
+
+  <param>
+    <name>Diameter (m)</name>
+    <key>diameter</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==2 then 'none' else 'all'#</hide>
+  </param> 
+
+  <param>
+    <name>Aperture efficiency (%)</name>
+    <key>aperture_efficiency</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==2 then 'none' else 'all'#</hide>
+  </param> 
+
+  <param>
+    <name>Gain (dBiC)</name>
+    <key>gain</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==3 then 'none' else 'all'#</hide>
+  </param> 
+
+  <param>
+    <name>Beamwidth (degrees)</name>
+    <key>beamwidth</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==3 then 'none' else 'all'#</hide>
+  </param> 
+    
+</block>

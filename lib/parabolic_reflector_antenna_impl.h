@@ -18,41 +18,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
-#define INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
+#ifndef INCLUDED_LEO_PARABOLIC_REFLECTOR_ANTENNA_IMPL_H
+#define INCLUDED_LEO_PARABOLIC_REFLECTOR_ANTENNA_IMPL_H
 
-#include <leo/channel_model.h>
+#include "../include/leo/parabolic_reflector_antenna.h"
+#include <vector>
 
 namespace gr
 {
   namespace leo
   {
-
-    class channel_model_impl : public channel_model
+    namespace antenna
     {
-    private:
-      const float d_sample_rate;
-      const float d_time_resolution_us;
-      const uint8_t d_mode;
 
-      size_t d_time_resolution_samples;
-      generic_model::generic_model_sptr d_model;
+      class LEO_API parabolic_reflector_antenna_impl : public parabolic_reflector_antenna
+      {
 
-    public:
-      channel_model_impl (const float sample_rate,
-                          generic_model::generic_model_sptr model,
-                          const uint8_t mode);
+      public:
+        parabolic_reflector_antenna_impl (uint8_t type, float frequency, int polarization, float diameter, float aperture_efficiency);
 
-      ~channel_model_impl ();
+        ~parabolic_reflector_antenna_impl ();
 
-      // Where all the action really happens
-      int
-      work (int noutput_items, gr_vector_const_void_star &input_items,
-            gr_vector_void_star &output_items);
-    };
+        float
+        get_gain();
 
+        float
+        get_beamwidth();
+
+      private:
+
+        float d_diameter;
+        float d_aperture_efficiency;
+
+      };
+    } // namespace antenna
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_CHANNEL_MODEL_IMPL_H */
+#endif /* INCLUDED_LEO_PARABOLIC_REFLECTOR_ANTENNA_IMPL_H */
 

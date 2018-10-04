@@ -24,5 +24,6 @@ install(FILES
     variable_satellite.xml
     variable_tracker.xml 
     variable_leo_model_def.xml 
+    variable_antenna.xml 
     DESTINATION share/gnuradio/grc/blocks
 )

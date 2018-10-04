@@ -7,4 +7,5 @@
   <block>leo_channel_model</block>
   <block>variable_satellite</block>
   <block>variable_tracker</block>
+  <block>variable_antenna</block>
 </cat>

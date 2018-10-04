@@ -36,11 +36,17 @@ namespace gr
     tracker::make (satellite::satellite_sptr satellite_info, const float gs_lat,
                    const float gs_lon, const float gs_alt,
                    const std::string& obs_start, const std::string& obs_end,
-                   const float time_resolution_us, const std::string& name)
+                   const float time_resolution_us, const float comm_freq_uplink,
+                   const float comm_freq_downlink,
+                   generic_antenna::generic_antenna_sptr uplink_antenna,
+                   generic_antenna::generic_antenna_sptr downlink_antenna,
+                   const std::string& name)
     {
       return tracker::tracker_sptr (
           new tracker (satellite_info, gs_lat, gs_lon, gs_alt, obs_start,
-                       obs_end, time_resolution_us, name));
+                       obs_end, time_resolution_us, comm_freq_uplink,
+                       comm_freq_downlink, uplink_antenna, downlink_antenna,
+                       name));
     }
 
     /**
@@ -65,7 +71,12 @@ namespace gr
                       const float gs_lat, const float gs_lon,
                       const float gs_alt, const std::string& obs_start,
                       const std::string& obs_end,
-                      const float time_resolution_us, const std::string& name) :
+                      const float time_resolution_us,
+                      const float comm_freq_uplink,
+                      const float comm_freq_downlink,
+                      generic_antenna::generic_antenna_sptr uplink_antenna,
+                      generic_antenna::generic_antenna_sptr downlink_antenna,
+                      const std::string& name) :
             d_time_resolution_us (time_resolution_us),
             d_observer (gs_lat, gs_lon, gs_alt),
             d_satellite (satellite_info),
@@ -75,7 +86,11 @@ namespace gr
             d_sgp4 (d_tle),
             d_obs_start (parse_ISO_8601_UTC (obs_start)),
             d_obs_end (parse_ISO_8601_UTC (obs_end)),
-            d_obs_elapsed (d_obs_start)
+            d_obs_elapsed (d_obs_start),
+            d_comm_freq_uplink (comm_freq_uplink),
+            d_comm_freq_downlink (comm_freq_downlink),
+            d_uplink_antenna (uplink_antenna),
+            d_downlink_antenna (downlink_antenna)
     {
       if (d_obs_end <= d_obs_start) {
         throw std::runtime_error ("Invalid observation timeframe");
@@ -445,6 +460,30 @@ namespace gr
     tracker::get_time_resolution_us ()
     {
       return d_time_resolution_us;
+    }
+
+    const float
+    tracker::get_comm_freq_downlink () const
+    {
+      return d_comm_freq_downlink;
+    }
+
+    const float
+    tracker::get_comm_freq_uplink () const
+    {
+      return d_comm_freq_uplink;
+    }
+
+    generic_antenna::generic_antenna_sptr
+    tracker::get_uplink_antenna ()
+    {
+      return d_uplink_antenna;
+    }
+
+    generic_antenna::generic_antenna_sptr
+    tracker::get_downlink_antenna ()
+    {
+      return d_downlink_antenna;
     }
 
     void

@@ -96,7 +96,11 @@ namespace gr
       make (satellite::satellite_sptr satellite_info, const float gs_lat,
             const float gs_lon, const float gs_alt,
             const std::string& obs_start, const std::string& obs_end,
-            const float time_resolution_us, const std::string& name);
+            const float time_resolution_us, const float comm_freq_uplink,
+            const float comm_freq_downlink,
+            generic_antenna::generic_antenna_sptr uplink_antenna,
+            generic_antenna::generic_antenna_sptr downlink_antenna,
+            const std::string& name);
 
       ~tracker ();
 
@@ -170,6 +174,18 @@ namespace gr
       DateTime
       get_elapsed_time ();
 
+      const float
+      get_comm_freq_downlink () const;
+
+      const float
+      get_comm_freq_uplink () const;
+
+      generic_antenna::generic_antenna_sptr
+      get_uplink_antenna ();
+
+      generic_antenna::generic_antenna_sptr
+      get_downlink_antenna ();
+
     private:
       std::vector<pass_details_t> d_passlist;
       Observer d_observer;
@@ -183,11 +199,20 @@ namespace gr
       DateTime d_obs_elapsed;
 
       const float d_time_resolution_us;
+      const float d_comm_freq_uplink;
+      const float d_comm_freq_downlink;
+
+      generic_antenna::generic_antenna_sptr d_uplink_antenna;
+      generic_antenna::generic_antenna_sptr d_downlink_antenna;
 
       tracker (satellite::satellite_sptr satellite_info, const float gs_lat,
                const float gs_lon, const float gs_alt,
                const std::string& obs_start, const std::string& obs_end,
-               const float time_resolution_us, const std::string& name);
+               const float time_resolution_us, const float comm_freq_uplink,
+               const float comm_freq_downlink,
+               generic_antenna::generic_antenna_sptr uplink_antenna,
+               generic_antenna::generic_antenna_sptr downlink_antenna,
+               const std::string& name);
 
       /*!
        * Converts an ISO-8601 UTC timestamp into a libSGP4 DateTime object.

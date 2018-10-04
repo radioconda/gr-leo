@@ -33,17 +33,19 @@ namespace gr
 
     channel_model::sptr
     channel_model::make (const float sample_rate,
-                         generic_model::generic_model_sptr model)
+                         generic_model::generic_model_sptr model,
+                         const uint8_t mode)
     {
       return gnuradio::get_initial_sptr (
-          new channel_model_impl (sample_rate, model));
+          new channel_model_impl (sample_rate, model, mode));
     }
 
     /*
      * The private constructor
      */
     channel_model_impl::channel_model_impl (
-        const float sample_rate, generic_model::generic_model_sptr model) :
+        const float sample_rate, generic_model::generic_model_sptr model,
+        const uint8_t mode) :
             gr::sync_block ("channel_model",
                             gr::io_signature::make (1, 1, sizeof(gr_complex)),
                             gr::io_signature::make (1, 1, sizeof(gr_complex))),
@@ -52,9 +54,11 @@ namespace gr
                 model->get_tracker ()->get_time_resolution_us ()),
             d_time_resolution_samples (
                 (d_sample_rate * d_time_resolution_us) / 1e6),
-            d_model (model)
+            d_model (model),
+            d_mode (mode)
     {
       set_output_multiple (d_time_resolution_samples);
+      d_model->set_mode (mode);
     }
 
     /*

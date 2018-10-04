@@ -54,6 +54,11 @@ namespace gr
     {
     public:
 
+      enum Mode
+      {
+        UPLINK, DOWNLINK
+      };
+
       friend class channel_model;
 
       virtual void
@@ -85,17 +90,26 @@ namespace gr
 
       generic_model (std::string name, tracker::tracker_sptr tracker);
 
+      void
+      set_mode (uint8_t mode);
+
+      float
+      get_frequency ();
+
+      float
+      get_satellite_antenna_gain ();
+
+      float
+      get_tracker_antenna_gain ();
+
       virtual
       ~generic_model ();
 
-      virtual int
-      get_input_item_size ();
-
-      virtual int
-      get_output_item_size ();
-
       virtual tracker::tracker_sptr
       get_tracker ();
+
+    private:
+      uint8_t d_mode;
 
     };
 
