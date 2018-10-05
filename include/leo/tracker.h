@@ -174,15 +174,31 @@ namespace gr
       DateTime
       get_elapsed_time ();
 
+      /*!
+       * Returns the downlink frequency of the tracker's COMM system.
+       * @return the frequency in Hz.
+       */
       const float
       get_comm_freq_downlink () const;
 
+      /*!
+       * Returns the uplink frequency of the tracker's COMM system.
+       * @return the frequency in Hz.
+       */
       const float
       get_comm_freq_uplink () const;
 
+      /*!
+       * Returns the antenna that is used from the tracker's uplink COMM system.
+       * @return a boost::shared_ptr to the antenna.
+       */
       generic_antenna::generic_antenna_sptr
       get_uplink_antenna ();
 
+      /*!
+       * Returns the antenna that is used from the tracker's downlink COMM system.
+       * @return a boost::shared_ptr to the antenna.
+       */
       generic_antenna::generic_antenna_sptr
       get_downlink_antenna ();
 

@@ -90,21 +90,45 @@ namespace gr
 
       generic_model (std::string name, tracker::tracker_sptr tracker);
 
+      /*!
+       * \brief Set the mode that defines whether channel model is uplink or
+       * downlink
+       */
       void
       set_mode (uint8_t mode);
 
+      /*!
+       * \brief Get the appropriate communication frequency that is used when channel
+       * model is uplink or downlink.
+       * downlink
+       * \return the frequency in Hz.
+       */
       float
       get_frequency ();
 
+      /*!
+       * \brief Get the appropriate satellite antenna gain for the cases of uplink and
+       * downlink mode.
+       * \return the satellite antenna gain in dBiC.
+       */
       float
       get_satellite_antenna_gain ();
 
+      /*!
+       * \brief Get the appropriate tracker antenna gain for the cases of uplink and
+       * downlink mode.
+       * \return the tracker antenna gain in dBiC.
+       */
       float
       get_tracker_antenna_gain ();
 
       virtual
       ~generic_model ();
 
+      /*!
+       * Get the tracker.
+       * @return a boost::shared_ptr to the tracker.
+       */
       virtual tracker::tracker_sptr
       get_tracker ();
 

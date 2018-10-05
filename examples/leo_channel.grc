@@ -168,7 +168,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -235,7 +235,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -302,7 +302,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -369,7 +369,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -809,7 +809,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(734, 418)</value>
+      <value>(734, 466)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1028,7 +1028,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(734, 514)</value>
+      <value>(734, 546)</value>
     </param>
     <param>
       <key>_rotation</key>

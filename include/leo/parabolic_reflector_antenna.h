@@ -32,20 +32,7 @@ namespace gr
     namespace antenna
     {
       /*!
-       * \brief Parent class for LEO_API antenna objects.
-       *
-       * \details
-       *
-       * Parent of a antenna variable class for LEO_API that will fit
-       * into the gr::leo::antenna block to handle antenna simulation.
-       *
-       * We create objects from LEO_API-derived classes to go into the
-       * actual GNU Radio antenna block. Each object contains its own
-       * state and so there should be a one-to-one mapping of an LEO_API
-       * object and a GR antenna.
-       *
-       * This is a pure virtual class and must be derived from by a
-       * child class.
+       * \brief Parabolic antenna
        */
       class LEO_API parabolic_reflector_antenna : virtual public generic_antenna
       {

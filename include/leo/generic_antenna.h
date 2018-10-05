@@ -37,15 +37,12 @@ namespace gr
      * \details
      *
      * Parent of a antenna variable class for LEO_API that will fit
-     * into the gr::leo::antenna block to handle antenna simulation.
+     * into the gr::leo::generic_antenna block to handle antenna simulation.
      *
      * We create objects from LEO_API-derived classes to go into the
      * actual GNU Radio antenna block. Each object contains its own
      * state and so there should be a one-to-one mapping of an LEO_API
      * object and a GR antenna.
-     *
-     * This is a pure virtual class and must be derived from by a
-     * child class.
      */
     class LEO_API generic_antenna
     {
@@ -53,8 +50,15 @@ namespace gr
     public:
       static int base_unique_id;
 
-      enum Antennas {YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM};
-      enum Polarization {RHCP, LHCP, LINEAR};
+      enum Antennas
+      {
+        YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM
+      };
+
+      enum Polarization
+      {
+        RHCP, LHCP, LINEAR
+      };
 
       uint8_t d_type;
 
@@ -72,18 +76,40 @@ namespace gr
         return (boost::format ("%s%d") % d_type % unique_id ()).str ();
       }
 
+      /*!
+       * \brief Get the frequency of the antenna.
+       * \return the frequency in Hz.
+       */
       float
       get_frequency ();
 
+      /*!
+       * \brief Get the polarization of the antenna.
+       * \return the gr::leo::generic_antenna::Polarization enum.
+       */
       int
       get_polarization ();
 
+      /*!
+       * \brief Get the wavelength of the antenna.
+       * \return the wavelength in meters.
+       */
       float
       get_wavelength ();
 
+      /*!
+       * \brief Get the gain of the antenna. This pure virtual
+       * function MUST be implemented by every derived class.
+       * \return the gain in dBiC.
+       */
       virtual float
       get_gain () = 0;
 
+      /*!
+       * \brief Get the beamwidth of the antenna. This pure virtual
+       * function MUST be implemented by every derived class.
+       * \return the beamwidth in degrees.
+       */
       virtual float
       get_beamwidth () = 0;
 

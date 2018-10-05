@@ -23,26 +23,26 @@ raise RuntimeError
   <make></make>
   
   <param>
-        <name>Type</name>
-        <key>type</key>
-        <value>0</value>
-        <type>enum</type>
-        <option>
-            <name>Yagi</name>
-            <key>0</key>
-        </option>
-        <option>
-            <name>Helix</name>
-            <key>1</key>
-        </option>
-        <option>
-            <name>Parabolic reflector</name>
-            <key>2</key>
-        </option>
-        <option>
-            <name>Custom</name>
-            <key>3</key>
-        </option>
+    <name>Type</name>
+    <key>type</key>
+    <value>0</value>
+    <type>enum</type>
+    <option>
+        <name>Yagi</name>
+        <key>0</key>
+    </option>
+    <option>
+        <name>Helix</name>
+        <key>1</key>
+    </option>
+    <option>
+        <name>Parabolic reflector</name>
+        <key>2</key>
+    </option>
+    <option>
+        <name>Custom</name>
+        <key>3</key>
+    </option>
     </param>
   
   <param>
@@ -54,8 +54,21 @@ raise RuntimeError
   <param>
     <name>Polarization</name>
     <key>polarization</key>
-    <type>int</type>
-  </param>
+    <value>0</value>
+    <type>enum</type>
+    <option>
+        <name>RHCP</name>
+        <key>0</key>
+    </option>
+    <option>
+        <name>LHCP</name>
+        <key>1</key>
+    </option>
+    <option>
+        <name>LINEAR</name>
+        <key>2</key>
+    </option>
+    </param>
   
   <param>
     <name>Boom length (m)</name>

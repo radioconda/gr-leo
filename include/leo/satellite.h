@@ -71,9 +71,17 @@ namespace gr
 
       ~satellite ();
 
+      /*!
+       * Returns the downlink frequency of the satellite's COMM system.
+       * @return the frequency in Hz.
+       */
       const float
       get_comm_freq_downlink () const;
 
+      /*!
+       * Returns the uplink frequency of the satellite's COMM system.
+       * @return the frequency in Hz.
+       */
       const float
       get_comm_freq_uplink () const;
 
@@ -86,9 +94,17 @@ namespace gr
       const std::string&
       get_tle_title () const;
 
+      /*!
+       * Returns the antenna that is used from the satellite's uplink COMM system.
+       * @return a boost::shared_ptr to the antenna.
+       */
       generic_antenna::generic_antenna_sptr
       get_uplink_antenna ();
 
+      /*!
+       * Returns the antenna that is used from the satellite's downlink COMM system.
+       * @return a boost::shared_ptr to the antenna.
+       */
       generic_antenna::generic_antenna_sptr
       get_downlink_antenna ();
 
