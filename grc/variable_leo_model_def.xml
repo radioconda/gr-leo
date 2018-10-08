@@ -3,8 +3,8 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make($tracker)</var_make>
-  <var_value>leo.leo_model_make($tracker)</var_value>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make()</var_make>
+  <var_value>leo.leo_model_make()</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>
@@ -12,13 +12,6 @@
       <value>'fine'</value>
       <type>raw</type>
       <hide>all</hide>
-  </param>
-  
-  <param>
-    <name>Tracker</name>
-    <key>tracker</key>
-    <value>tracker_variable</value>
-    <type>raw</type>
   </param>
 
 </block>

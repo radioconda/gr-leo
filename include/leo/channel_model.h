@@ -51,10 +51,15 @@ namespace gr
       typedef boost::shared_ptr<channel_model> sptr;
       /*!
        * \brief Return a shared_ptr to a new instance of leo::channel_model.
+       * \param sample_rate. The sampling rate of the block.
        * \param model An LEO_API model object (See gr::leo::generic_model).
+       * \param tracker. A boost::shared_ptr to the tracker object.
+       * \param mode. The transmission mode.
        */
       static sptr
-      make (const float sample_rate, generic_model::generic_model_sptr model, const uint8_t mode);
+      make (const float sample_rate, generic_model::generic_model_sptr model,
+            tracker::tracker_sptr tracker, const uint8_t mode);
+
     };
 
   } // namespace leo

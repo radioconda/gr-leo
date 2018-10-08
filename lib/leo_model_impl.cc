@@ -35,18 +35,16 @@ namespace gr
     {
 
       generic_model::generic_model_sptr
-      leo_model::make (tracker::tracker_sptr tracker)
+      leo_model::make ()
       {
-        return generic_model::generic_model_sptr (new leo_model_impl (tracker));
+        return generic_model::generic_model_sptr (new leo_model_impl ());
       }
 
-      leo_model_impl::leo_model_impl (tracker::tracker_sptr tracker) :
-              generic_model ("leo_model", tracker),
-              d_tracker (tracker),
+      leo_model_impl::leo_model_impl () :
+              generic_model ("leo_model"),
               d_nco ()
       {
         d_nco.set_freq (0);
-
       }
 
       leo_model_impl::~leo_model_impl ()
@@ -75,7 +73,6 @@ namespace gr
         const gr_complex *in = (const gr_complex *) inbuffer;
         gr_complex *out = (gr_complex *) outbuffer;
         gr_complex* tmp = new gr_complex[noutput_items];
-
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
         float PL = calculate_free_space_path_loss (slant_range) - (

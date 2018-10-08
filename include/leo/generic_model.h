@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_GENERIC_MODEL_H
 
 #include <leo/api.h>
+#include <leo/tracker.h>
 #include <gnuradio/runtime_types.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/format.hpp>
@@ -88,7 +89,7 @@ namespace gr
       }
       ;
 
-      generic_model (std::string name, tracker::tracker_sptr tracker);
+      generic_model (std::string name);
 
       /*!
        * \brief Set the mode that defines whether channel model is uplink or
@@ -96,6 +97,12 @@ namespace gr
        */
       void
       set_mode (uint8_t mode);
+
+      /*!
+       * \brief Set the ground station tracker.
+       */
+      void
+      set_tracker(tracker::tracker_sptr tracker);
 
       /*!
        * \brief Get the appropriate communication frequency that is used when channel

@@ -34,11 +34,10 @@ namespace gr
       {
 
       private:
-        tracker::tracker_sptr d_tracker;
         gr::fxpt_nco d_nco;
 
       public:
-        leo_model_impl (tracker::tracker_sptr tracker);
+        leo_model_impl ();
 
         ~leo_model_impl ();
 

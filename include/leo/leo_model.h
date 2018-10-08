@@ -44,11 +44,8 @@ namespace gr
       {
 
       public:
-        /*!
-         * \param tracker. A boost::shared_ptr to the tracker object.
-         */
         static generic_model::generic_model_sptr
-        make (tracker::tracker_sptr tracker);
+        make ();
 
       };
     } //namespace
