@@ -37,6 +37,7 @@ list(APPEND leo_sources
 	custom_antenna_impl.cc
 	satellite.cc
 	tracker.cc
+	atmosphere.cc
 	generic_model.cc
 	leo_model_impl.cc
 	channel_model_impl.cc

@@ -35,6 +35,7 @@ namespace gr
 
       private:
         gr::fxpt_nco d_nco;
+        atmosphere* d_atmosphere;
 
       public:
         leo_model_impl ();

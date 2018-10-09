@@ -31,6 +31,14 @@
 #  define LEO_API __GR_ATTR_IMPORT
 #endif
 
-#define LIGHT_SPEED     299792458
+/**
+ * Speed of light in m/s
+ */
+#define LIGHT_SPEED                     299792458
+
+/**
+ * Radius of the Earth in km
+ */
+#define EARTH_RADIUS         8500
 
 #endif /* INCLUDED_LEO_API_H */

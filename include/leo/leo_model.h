@@ -23,6 +23,7 @@
 
 #include <leo/api.h>
 #include <leo/generic_model.h>
+#include <leo/atmosphere.h>
 
 namespace gr
 {
