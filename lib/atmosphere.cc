@@ -35,7 +35,7 @@ namespace gr
      *
      */
     atmosphere::atmosphere (float frequency, float watervap, float temperature) :
-            d_frequency (frequency),
+            d_frequency (frequency / 1e9),
             d_watervap (watervap),
             d_temperature (temperature)
     {

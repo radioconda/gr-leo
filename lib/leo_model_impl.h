@@ -37,8 +37,11 @@ namespace gr
         gr::fxpt_nco d_nco;
         atmosphere* d_atmosphere;
 
+        float d_watervap;
+        float d_temperature;
+
       public:
-        leo_model_impl ();
+        leo_model_impl (float watervap, float temperature);
 
         ~leo_model_impl ();
 

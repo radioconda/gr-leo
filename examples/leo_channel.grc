@@ -101,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(7, 91)</value>
+      <value>(183, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(255, 235)</value>
+      <value>(7, 291)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -219,7 +219,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(406, 235)</value>
+      <value>(7, 434)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -286,7 +286,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(710, 235)</value>
+      <value>(7, 179)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -353,7 +353,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(558, 235)</value>
+      <value>(7, 578)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -392,11 +392,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(582, 179)</value>
+      <value>(486, 19)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -407,8 +407,12 @@
       <value>variable_leo_model_def_0</value>
     </param>
     <param>
-      <key>value</key>
-      <value>'fine'</value>
+      <key>watervap</key>
+      <value>7.5</value>
+    </param>
+    <param>
+      <key>temperature</key>
+      <value>20</value>
     </param>
   </block>
   <block>
@@ -431,7 +435,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(582, 11)</value>
+      <value>(1005, 402)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -494,7 +498,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(255, 11)</value>
+      <value>(941, 179)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -569,7 +573,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(422, 530)</value>
+      <value>(406, 426)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -628,7 +632,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(231, 394)</value>
+      <value>(223, 315)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -683,7 +687,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(654, 486)</value>
+      <value>(630, 382)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -738,7 +742,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(422, 410)</value>
+      <value>(375, 323)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -809,7 +813,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(765, 418)</value>
+      <value>(742, 323)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1028,7 +1032,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(765, 498)</value>
+      <value>(742, 418)</value>
     </param>
     <param>
       <key>_rotation</key>

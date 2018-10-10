@@ -131,6 +131,14 @@ namespace gr
       get_slant_range ();
 
       /*!
+       * Returns the elevation of satellite in degrees at
+       * the specific moment inside the observation.
+       * @return a double representing the current elevation of the satellite.
+       */
+      double
+      get_elevation ();
+
+      /*!
        * Returns the range rate of the observed satellite in kilometers/sec, at
        * the specific moment inside the observation.
        * @return a double representing the current range rate of the satellite.

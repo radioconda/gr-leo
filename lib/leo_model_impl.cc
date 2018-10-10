@@ -35,20 +35,24 @@ namespace gr
     {
 
       generic_model::generic_model_sptr
-      leo_model::make ()
+      leo_model::make (float watervap, float temperature)
       {
-        return generic_model::generic_model_sptr (new leo_model_impl ());
+        return generic_model::generic_model_sptr (
+            new leo_model_impl (watervap, temperature));
       }
 
-      leo_model_impl::leo_model_impl () :
+      leo_model_impl::leo_model_impl (float watervap, float temperature) :
               generic_model ("leo_model"),
-              d_nco ()
+              d_nco (),
+              d_watervap (watervap),
+              d_temperature (temperature)
       {
         d_nco.set_freq (0);
       }
 
       leo_model_impl::~leo_model_impl ()
       {
+
       }
 
       float
@@ -73,22 +77,55 @@ namespace gr
         const gr_complex *in = (const gr_complex *) inbuffer;
         gr_complex *out = (gr_complex *) outbuffer;
         gr_complex* tmp = new gr_complex[noutput_items];
+
+        float pl_attenuation_db;
+        float atmo_attenuation_db;
+        float doppler_shift;
+
+        gr_complex attenuation_linear;
+
+        /**
+         * TODO: This object should be created at the constructor once.
+         * The first argument that refers to the
+         * frequency is taken by calling the get_frequency function from
+         * the parent class. The problem is that in order to call this
+         * function the channel_model_impl block must first set the transmission
+         * mode, that accepts as a parameter, to the parent class.
+         */
+        d_atmosphere = new atmosphere (get_frequency (), d_watervap,
+                                               d_temperature);
+
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
-        float PL = calculate_free_space_path_loss (slant_range) - (
-            + get_tracker_antenna_gain () + get_satellite_antenna_gain ());
-        gr_complex PL_linear = gr_complex (pow (10, (-PL / 10)));
-        float doppler_shift = calculate_doppler_shift (
-            d_tracker->get_velocity ());
+        float elevation = d_tracker->get_elevation();
 
         if (slant_range) {
+          doppler_shift = calculate_doppler_shift (d_tracker->get_velocity ());
+
           d_nco.set_freq (
               2 * M_PI * doppler_shift
                   / ((1e6 * noutput_items)
                       / d_tracker->get_time_resolution_us ()));
           d_nco.sincos (tmp, noutput_items, 1.0);
           volk_32fc_x2_multiply_32fc (tmp, tmp, inbuffer, noutput_items);
-          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, PL_linear,
+
+          /**
+           * Calculate Free-Space Path Loss attenuation in db,
+           * convert it to liner and multiply.
+           */
+          pl_attenuation_db = calculate_free_space_path_loss (slant_range)
+              - (+get_tracker_antenna_gain () + get_satellite_antenna_gain ());
+          attenuation_linear = gr_complex (pow (10, (-pl_attenuation_db / 10)));
+          volk_32fc_s32fc_multiply_32fc (tmp, tmp, attenuation_linear,
+                                         noutput_items);
+
+          /**
+           * Calculate atmospheric gases attenuation in db,
+           * convert it to liner and multiply.
+           */
+          atmo_attenuation_db = d_atmosphere->get_atmospheric_attenuation(elevation);
+          attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
+          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
                                          noutput_items);
         }
         else {
@@ -96,11 +133,12 @@ namespace gr
         }
 
         delete tmp;
+        delete d_atmosphere;
 
         LEO_DEBUG(
-            "Time: %s | Slant Range: %f | Path Loss (dB): %f | Doppler (Hz): %f",
-            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range,
-            PL, doppler_shift);
+            "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Doppler (Hz): %f",
+            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range, elevation,
+            pl_attenuation_db, atmo_attenuation_db, doppler_shift);
 
       }
     } /* namespace model */
