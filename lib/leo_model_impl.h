@@ -34,11 +34,14 @@ namespace gr
       {
 
       private:
-        tracker::tracker_sptr d_tracker;
         gr::fxpt_nco d_nco;
+        atmosphere* d_atmosphere;
+
+        float d_watervap;
+        float d_temperature;
 
       public:
-        leo_model_impl (tracker::tracker_sptr tracker);
+        leo_model_impl (float watervap, float temperature);
 
         ~leo_model_impl ();
 

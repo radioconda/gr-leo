@@ -30,7 +30,6 @@ namespace gr
   {
     namespace antenna
     {
-      typedef std::tuple<float, float, float> yagi_preformance_t;
 
       class LEO_API yagi_antenna_impl : public yagi_antenna
       {
@@ -47,6 +46,7 @@ namespace gr
         get_beamwidth();
 
       private:
+        typedef std::tuple<float, float, float> yagi_preformance_t;
         /**
          * Data taken from ARPL antenna book
          */

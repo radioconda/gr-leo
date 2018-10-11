@@ -30,10 +30,8 @@ namespace gr
   namespace leo
   {
 
-    generic_model::generic_model (std::string name,
-                                  tracker::tracker_sptr tracker) :
-            d_name (name),
-            d_tracker (tracker)
+    generic_model::generic_model (std::string name) :
+            d_name (name)
     {
       my_id = base_unique_id++;
     }
@@ -54,17 +52,23 @@ namespace gr
       d_mode = mode;
     }
 
+    void
+    generic_model::set_tracker (tracker::tracker_sptr tracker)
+    {
+      d_tracker = tracker;
+    }
+
     float
     generic_model::get_frequency ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_comm_freq_uplink();
+        return d_tracker->get_comm_freq_uplink ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_satellite_info()->get_comm_freq_downlink();
+        return d_tracker->get_satellite_info ()->get_comm_freq_downlink ();
       }
       else {
-        throw std::runtime_error("Invalid transmission mode");
+        throw std::runtime_error ("Invalid transmission mode");
       }
     }
 
@@ -72,13 +76,13 @@ namespace gr
     generic_model::get_tracker_antenna_gain ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_uplink_antenna()->get_gain();
+        return d_tracker->get_uplink_antenna ()->get_gain ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_downlink_antenna()->get_gain();
+        return d_tracker->get_downlink_antenna ()->get_gain ();
       }
       else {
-        throw std::runtime_error("Invalid transmission mode");
+        throw std::runtime_error ("Invalid transmission mode");
       }
     }
 
@@ -86,13 +90,13 @@ namespace gr
     generic_model::get_satellite_antenna_gain ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_satellite_info()->get_uplink_antenna()->get_gain();
+        return d_tracker->get_satellite_info ()->get_uplink_antenna ()->get_gain ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_satellite_info()->get_downlink_antenna()->get_gain();
+        return d_tracker->get_satellite_info ()->get_downlink_antenna ()->get_gain ();
       }
       else {
-        throw std::runtime_error("Invalid transmission mode");
+        throw std::runtime_error ("Invalid transmission mode");
       }
     }
 

@@ -31,6 +31,7 @@ install(FILES
     parabolic_reflector_antenna.h
     custom_antenna.h
     tracker.h
+    atmosphere.h
     generic_model.h
     leo_model.h
     channel_model.h

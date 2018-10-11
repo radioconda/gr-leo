@@ -38,7 +38,7 @@
     </param>
     <param>
       <key>generate_options</key>
-      <value>qt_gui</value>
+      <value>no_gui</value>
     </param>
     <param>
       <key>hier_block_src_path</key>
@@ -101,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(7, 91)</value>
+      <value>(183, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(255, 235)</value>
+      <value>(7, 291)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -219,7 +219,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(406, 235)</value>
+      <value>(7, 434)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -286,7 +286,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(558, 235)</value>
+      <value>(7, 179)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -353,7 +353,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(718, 235)</value>
+      <value>(7, 578)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -392,11 +392,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(582, 171)</value>
+      <value>(486, 19)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -407,12 +407,12 @@
       <value>variable_leo_model_def_0</value>
     </param>
     <param>
-      <key>value</key>
-      <value>'fine'</value>
+      <key>watervap</key>
+      <value>7.5</value>
     </param>
     <param>
-      <key>tracker</key>
-      <value>variable_tracker_0</value>
+      <key>temperature</key>
+      <value>20</value>
     </param>
   </block>
   <block>
@@ -435,7 +435,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(582, 11)</value>
+      <value>(1005, 402)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -498,7 +498,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(255, 11)</value>
+      <value>(941, 179)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -573,7 +573,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(390, 554)</value>
+      <value>(406, 426)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -608,7 +608,7 @@
     <key>analog_sig_source_x</key>
     <param>
       <key>amp</key>
-      <value>9.988</value>
+      <value>1e8</value>
     </param>
     <param>
       <key>alias</key>
@@ -632,7 +632,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(199, 450)</value>
+      <value>(223, 315)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -687,7 +687,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(622, 542)</value>
+      <value>(630, 382)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -742,7 +742,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(390, 466)</value>
+      <value>(375, 323)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -772,6 +772,10 @@
       <key>sample_rate</key>
       <value>samp_rate</value>
     </param>
+    <param>
+      <key>tracker</key>
+      <value>variable_tracker_0</value>
+    </param>
   </block>
   <block>
     <key>qtgui_waterfall_sink_x</key>
@@ -789,7 +793,7 @@
     </param>
     <param>
       <key>fc</key>
-      <value>2.4e9</value>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -801,7 +805,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>fftsize</key>
@@ -809,7 +813,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(734, 466)</value>
+      <value>(742, 323)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1016,7 +1020,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>fft_size</key>
@@ -1028,7 +1032,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(734, 546)</value>
+      <value>(742, 418)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1044,7 +1048,7 @@
     </param>
     <param>
       <key>pps</key>
-      <value>10</value>
+      <value>1</value>
     </param>
     <param>
       <key>samp_rate</key>

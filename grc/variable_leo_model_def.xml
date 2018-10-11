@@ -3,22 +3,22 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make($tracker)</var_make>
-  <var_value>leo.leo_model_make($tracker)</var_value>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make($watervap, $temperature)</var_make>
+  <var_value>leo.leo_model_make($watervap, $temperature)</var_value>
   <make></make>
+
   <param>
-      <name>Ignore Me</name>
-      <key>value</key>
-      <value>'fine'</value>
-      <type>raw</type>
-      <hide>all</hide>
+      <name>Surface H2O Concentration (g/m3)</name>
+      <key>watervap</key>
+      <value>0</value>
+      <type>float</type>
   </param>
   
   <param>
-    <name>Tracker</name>
-    <key>tracker</key>
-    <value>tracker_variable</value>
-    <type>raw</type>
+      <name>Surface Temperature (degress Celcius)</name>
+      <key>temperature</key>
+      <value>0</value>
+      <type>float</type>
   </param>
 
 </block>

@@ -23,6 +23,7 @@
 
 #include <leo/api.h>
 #include <leo/generic_model.h>
+#include <leo/atmosphere.h>
 
 namespace gr
 {
@@ -44,11 +45,8 @@ namespace gr
       {
 
       public:
-        /*!
-         * \param tracker. A boost::shared_ptr to the tracker object.
-         */
         static generic_model::generic_model_sptr
-        make (tracker::tracker_sptr tracker);
+        make (float watervap, float temperature);
 
       };
     } //namespace

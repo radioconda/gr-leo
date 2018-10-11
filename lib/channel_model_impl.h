@@ -35,12 +35,15 @@ namespace gr
       const float d_time_resolution_us;
       const uint8_t d_mode;
 
+      tracker::tracker_sptr d_tracker;
+
       size_t d_time_resolution_samples;
       generic_model::generic_model_sptr d_model;
 
     public:
       channel_model_impl (const float sample_rate,
                           generic_model::generic_model_sptr model,
+                          tracker::tracker_sptr tracker,
                           const uint8_t mode);
 
       ~channel_model_impl ();
