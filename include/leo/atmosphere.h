@@ -22,7 +22,7 @@
 #define INCLUDED_LEO_ATMOSPHERE_H
 
 #include <leo/api.h>
-#include <iostream>
+#include <gnuradio/random.h>
 
 namespace gr
 {
@@ -44,7 +44,7 @@ namespace gr
       ~atmosphere ();
 
       float
-      get_atmospheric_attenuation (float elevation);
+      get_atmo_gases_attenuation (float elevation);
 
     private:
 
@@ -53,6 +53,9 @@ namespace gr
       float d_temperature;
       float d_af, d_bf, d_cf;
       float d_azf, d_bzf, d_czf;
+      float d_atmo_attenuation;
+
+      gr::random d_rng;
 
       typedef std::tuple<float, float, float, float> atmo_coefficients_t;
 
@@ -81,7 +84,7 @@ namespace gr
       m (float y1, float y2, float f1, float f2);
 
       float
-      calc_coeff (float y1, float y2, float f1, float f2, float f0);
+      calc_atmo_coeff (float y1, float y2, float f1, float f2, float f0);
 
       atmosphere::atmo_coefficients_t
       get_atmo_coeff (float frequency, std::vector<atmo_coefficients_t>* coeff_table);

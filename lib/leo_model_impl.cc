@@ -123,7 +123,7 @@ namespace gr
            * Calculate atmospheric gases attenuation in db,
            * convert it to liner and multiply.
            */
-          atmo_attenuation_db = d_atmosphere->get_atmospheric_attenuation(elevation);
+          atmo_attenuation_db = d_atmosphere->get_atmo_gases_attenuation(elevation);
           attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
           volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
                                          noutput_items);

@@ -37,7 +37,8 @@ namespace gr
     atmosphere::atmosphere (float frequency, float watervap, float temperature) :
             d_frequency (frequency / 1e9),
             d_watervap (watervap),
-            d_temperature (temperature)
+            d_temperature (temperature),
+            d_atmo_attenuation(0)
     {
       atmosphere::atmo_coefficients_t tmp_coeff;
       tmp_coeff = get_atmo_coeff (frequency, &d_atmo_gases_coeff);
@@ -64,7 +65,7 @@ namespace gr
     }
 
     float
-    atmosphere::calc_coeff (float y1, float y2, float f1, float f2, float f0)
+    atmosphere::calc_atmo_coeff (float y1, float y2, float f1, float f2, float f0)
     {
       float _m = m (y1, y2, f1, f2);
       return std::pow (
@@ -97,15 +98,15 @@ namespace gr
           break;
         }
         else if (std::get<0> ((*coeff_table)[i]) > frequency) {
-          a_f = calc_coeff (std::get<1> ((*coeff_table)[i - 1]),
+          a_f = calc_atmo_coeff (std::get<1> ((*coeff_table)[i - 1]),
                             std::get<1> ((*coeff_table)[i]),
                             std::get<0> ((*coeff_table)[i - 1]),
                             std::get<0> ((*coeff_table)[i]), frequency);
-          b_f = calc_coeff (std::get<2> ((*coeff_table)[i - 1]),
+          b_f = calc_atmo_coeff (std::get<2> ((*coeff_table)[i - 1]),
                             std::get<2> ((*coeff_table)[i]),
                             std::get<0> ((*coeff_table)[i - 1]),
                             std::get<0> ((*coeff_table)[i]), frequency);
-          c_f = calc_coeff (std::get<3> ((*coeff_table)[i - 1]),
+          c_f = calc_atmo_coeff (std::get<3> ((*coeff_table)[i - 1]),
                             std::get<3> ((*coeff_table)[i]),
                             std::get<0> ((*coeff_table)[i - 1]),
                             std::get<0> ((*coeff_table)[i]), frequency);
@@ -117,7 +118,7 @@ namespace gr
     }
 
     float
-    atmosphere::get_atmospheric_attenuation (float elevation)
+    atmosphere::get_atmo_gases_attenuation (float elevation)
     {
       float elevation_rad = elevation *  3.141592 / 180;
       float gammaa = d_af + d_bf * d_watervap - d_cf * d_temperature;
@@ -126,15 +127,19 @@ namespace gr
       float ha = zenitha / gammaa;
 
       if (elevation >= 10) {
-        return (ha * zenitha) / std::sin (elevation_rad);
+        d_atmo_attenuation = (ha * zenitha) / std::sin (elevation_rad);
       }
       else {
-        return (2 * ha * zenitha)
+        d_atmo_attenuation = (2 * ha * zenitha)
             / (std::sqrt (
                 std::pow (std::sin (elevation_rad), 2) + ((2 * ha) / EARTH_RADIUS))
                     + std::sin (elevation_rad));
       }
+
+      return d_atmo_attenuation;
     }
+
+
 
   } /* namespace leo */
 } /* namespace gr */
