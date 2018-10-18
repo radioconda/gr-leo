@@ -34,24 +34,9 @@ namespace gr
     /**
      *
      */
-    atmosphere::atmosphere (float frequency, float watervap, float temperature) :
-            d_frequency (frequency / 1e9),
-            d_watervap (watervap),
-            d_temperature (temperature),
-            d_atmo_attenuation(0)
+    atmosphere::atmosphere (float frequency) :
+            d_frequency (frequency / 1e9)
     {
-      atmosphere::atmo_coefficients_t tmp_coeff;
-      tmp_coeff = get_atmo_coeff (frequency, &d_atmo_gases_coeff);
-
-      d_af = std::get<1> (tmp_coeff);
-      d_bf = std::get<2> (tmp_coeff);
-      d_cf = std::get<3> (tmp_coeff);
-
-      tmp_coeff = get_atmo_coeff (frequency, &d_atmo_gases_coeff_zenith);
-
-      d_azf = std::get<1> (tmp_coeff);
-      d_bzf = std::get<2> (tmp_coeff);
-      d_czf = std::get<3> (tmp_coeff);
     }
 
     atmosphere::~atmosphere ()
@@ -59,87 +44,232 @@ namespace gr
     }
 
     float
-    atmosphere::m (float y1, float y2, float f1, float f2)
+    atmosphere::geopotential_to_geometric (float alt)
     {
-      return std::log10 (y1 / y2) / std::log10 (f1 / f2);
+      return (6356.766 * alt) / (6356.766 - alt);
     }
 
     float
-    atmosphere::calc_atmo_coeff (float y1, float y2, float f1, float f2, float f0)
+    atmosphere::geometric_to_geopotential (float alt)
     {
-      float _m = m (y1, y2, f1, f2);
-      return std::pow (
-          10, _m * std::log10 (f0) + (std::log10 (y2) - _m * std::log10 (f2)));
+      return (6356.766 * alt) / (6356.766 + alt);
     }
 
-    atmosphere::atmo_coefficients_t
-    atmosphere::get_atmo_coeff (float frequency,
-                                std::vector<atmo_coefficients_t>* coeff_table)
+    double
+    atmosphere::get_temperature (float alt)
     {
-      float a_f, b_f, c_f = 0;
-
-      if (frequency < std::get<0> ((*coeff_table)[0])) {
-        a_f = std::get<1> ((*coeff_table)[0]);
-        b_f = std::get<2> ((*coeff_table)[0]);
-        c_f = std::get<3> ((*coeff_table)[0]);
+      float geopotential_alt = geometric_to_geopotential (alt);
+      double temperature = 0;
+      /**
+       * Troposphere
+       */
+      if (geopotential_alt >= 0 && geopotential_alt <= 11) {
+        temperature = 288.15 - 6.5 * geopotential_alt;
       }
-      else if (frequency
-          > std::get<0> ((*coeff_table)[coeff_table->size () - 1])) {
-        a_f = std::get<1> ((*coeff_table)[0]);
-        b_f = std::get<2> ((*coeff_table)[0]);
-        c_f = std::get<3> ((*coeff_table)[0]);
+      /**
+       * Tropopause
+       */
+      else if (geopotential_alt > 11 && geopotential_alt <= 20) {
+        temperature = 216.65;
       }
+      /**
+       * Stratosphere
+       */
+      else if (geopotential_alt > 20 && geopotential_alt <= 32) {
+        temperature = 216.65 + geopotential_alt - 20;
+      }
+      /**
+       * Stratosphere
+       */
+      else if (geopotential_alt > 32 && geopotential_alt <= 47) {
+        temperature = 228.65 + 2.8 * (geopotential_alt - 32);
+      }
+      /**
+       * Stratopause
+       */
+      else if (geopotential_alt > 47 && geopotential_alt <= 51) {
+        temperature = 270.65;
+      }
+      /**
+       * Mesosphere
+       */
+      else if (geopotential_alt > 51 && geopotential_alt <= 71) {
+        temperature = 270.65 - 2.8 * (geopotential_alt - 51);
+      }
+      /**
+       * Mesosphere
+       */
+      else if (geopotential_alt > 71 && geopotential_alt <= 84.852) {
+        temperature = 270.65 - 2.8 * (geopotential_alt - 51);
+      }
+      /**
+       * Mesopause
+       */
+      else if (geopotential_alt > 86 && geopotential_alt <= 91) {
+        temperature = 186.8673;
+      }
+      else if (alt > 91) {
+        temperature = 263.1905
+            - 76.3232 * std::pow (1 - std::pow ((alt - 91) / 19.9429, 2), 0.5);
+      }
+      return temperature;
+    }
 
-      for (size_t i = 0; i < coeff_table->size (); i++) {
-        if (std::get<0> ((*coeff_table)[i]) == frequency) {
-          a_f = std::get<1> ((*coeff_table)[i]);
-          b_f = std::get<2> ((*coeff_table)[i]);
-          c_f = std::get<3> ((*coeff_table)[i]);
+    double
+    atmosphere::get_pressure (float alt)
+    {
+      float geopotential_alt = geometric_to_geopotential (alt);
+      double pressure = 0;
+      const double a0 = 95.571899;
+      const double a1 = -4.011801;
+      const double a2 = 6.424731e-2;
+      const double a3 = -4.789660e-4;
+      const double a4 = 1.340543e-6;
+
+      /**
+       * Troposphere
+       */
+      if (geopotential_alt >= 0 && geopotential_alt <= 11) {
+        pressure = 1013.25
+            * std::pow (288.15 / (288.15 - 6.5 * geopotential_alt),
+                        -34.1632 / 6.5);
+      }
+      /**
+       * Tropopause
+       */
+      else if (geopotential_alt > 11 && geopotential_alt <= 20) {
+        pressure = 226.3226
+            * std::exp (-34.1632 * (geopotential_alt - 11) / 216.65);
+      }
+      /**
+       * Stratosphere
+       */
+      else if (geopotential_alt > 20 && geopotential_alt <= 32) {
+        pressure = 54.74980
+            * std::pow (216.65 / (216.65 + geopotential_alt - 20), -34.1632);
+      }
+      /**
+       * Stratosphere
+       */
+      else if (geopotential_alt > 32 && geopotential_alt <= 47) {
+        pressure = 8.680422
+            * std::pow (228.65 / (228.65 + 2.8 * (geopotential_alt - 32)),
+                        -34.1632 / 2.8);
+      }
+      /**
+       * Stratopause
+       */
+      else if (geopotential_alt > 47 && geopotential_alt <= 51) {
+        pressure = 1.109106
+            * std::exp (-34.1632 * (geopotential_alt - 47) / 270.65);
+      }
+      /**
+       * Mesosphere
+       */
+      else if (geopotential_alt > 51 && geopotential_alt <= 71) {
+        pressure = 0.6694167
+            * std::pow (270.65 / (270.65 - 2.8 * (geopotential_alt - 51)),
+                        -34.1632 / 2.8);
+      }
+      /**
+       * Mesosphere
+       */
+      else if (geopotential_alt > 71 && geopotential_alt <= 84.852) {
+        pressure = 0.03956649
+            * std::pow (214.65 / (214.65 - 2 * (geopotential_alt - 71)),
+                        -34.1632 / 2);
+      }
+      /**
+       * Mesopause
+       */
+      else if (geopotential_alt > 86) {
+        pressure = std::exp (
+            a0 + a1 * geopotential_alt + a2 * std::pow (geopotential_alt, 2)
+                + a3 * std::pow (geopotential_alt, 3)
+                + a4 * std::pow (geopotential_alt, 4));
+      }
+    }
+
+    double
+    atmosphere::get_water_vapour_pressure (float alt)
+    {
+      double rh = 7.5 * std::exp (-alt / 2);
+      return (rh * get_temperature (alt)) / 216.7;
+    }
+
+//    float
+//    atmosphere::specific_gaseous_attenuation ()
+//    {
+//      float gamma;
+//
+//      gamma = 0.1820*d_frequency*(Noxygen + Nwatervapour);
+//    }
+
+    float
+    atmosphere::S (size_t index, atmo_element_t element)
+    {
+      float theta = 300 / d_temperature;
+      switch (element)
+        {
+        case OXYGEN:
+          return d_table1[index][1] * 1e-7 * d_oxygen_pressure
+              * std::pow (theta, 3)
+              * std::exp (d_table1[index][2] * (1 - theta));
           break;
-        }
-        else if (std::get<0> ((*coeff_table)[i]) > frequency) {
-          a_f = calc_atmo_coeff (std::get<1> ((*coeff_table)[i - 1]),
-                            std::get<1> ((*coeff_table)[i]),
-                            std::get<0> ((*coeff_table)[i - 1]),
-                            std::get<0> ((*coeff_table)[i]), frequency);
-          b_f = calc_atmo_coeff (std::get<2> ((*coeff_table)[i - 1]),
-                            std::get<2> ((*coeff_table)[i]),
-                            std::get<0> ((*coeff_table)[i - 1]),
-                            std::get<0> ((*coeff_table)[i]), frequency);
-          c_f = calc_atmo_coeff (std::get<3> ((*coeff_table)[i - 1]),
-                            std::get<3> ((*coeff_table)[i]),
-                            std::get<0> ((*coeff_table)[i - 1]),
-                            std::get<0> ((*coeff_table)[i]), frequency);
+        case WATER_VAPOUR:
+          d_table2[index][1] * (1e-1) * d_water_pressure * std::pow (theta, 3.5)
+              * std::exp (d_table2[index][2] * (1 - theta));
           break;
+        default:
+          throw std::runtime_error ("Invalid atmosphere element!");
         }
-      }
-
-      return atmo_coefficients_t (frequency, a_f, b_f, c_f);
     }
 
     float
-    atmosphere::get_atmo_gases_attenuation (float elevation)
+    atmosphere::F (size_t index, atmo_element_t element)
     {
-      float elevation_rad = elevation *  3.141592 / 180;
-      float gammaa = d_af + d_bf * d_watervap - d_cf * d_temperature;
-      float zenitha = d_azf + d_bzf * d_watervap - d_czf * d_temperature;
+      float theta = 300 / d_temperature;
+      float f0;
+      double df;
+      double delta = 0;
+      double result;
 
-      float ha = zenitha / gammaa;
+      switch (element)
+        {
+        case OXYGEN:
+          f0 = d_table1[index][0];
+          df = d_table1[index][3] * (1e-4)
+              * (d_oxygen_pressure * std::pow (theta, 0.8 - d_table1[index][4])
+                  + 1.1 * d_water_pressure * theta);
+          //TODO: Equation 6b
+          delta = (1e-4) * (d_table1[index][5] + d_table1[index][6] * theta)
+              * (d_oxygen_pressure + d_water_pressure) * std::pow (theta, 0.8);
+          result = (d_frequency / f0)
+              * (((df - delta * (f0 - d_frequency))
+                  / (std::pow (f0 - d_frequency, 2) + std::pow (df, 2)))
+                  + ((df - delta * (f0 + d_frequency))
+                      / (std::pow (f0 + d_frequency, 2) + pow (df, 2))));
+          break;
+        case WATER_VAPOUR:
+          f0 = d_table2[index][0];
+          df = d_table2[index][3] * 1e-4
+              * (d_oxygen_pressure * std::pow (theta, d_table1[index][4])
+                  + d_table2[index][5] * d_water_pressure
+                      * std::pow (theta, d_table2[index][6]));
+          //TODO: Equation 6b
+          delta = 0;
+          break;
+        default:
+          throw std::runtime_error ("Invalid atmosphere element!");
+        }
+      result = (d_frequency / f0)
+          * (((df - delta * (f0 - d_frequency))
+              / (std::pow (f0 - d_frequency, 2) + std::pow (df, 2)))
+              + ((df - delta * (f0 + d_frequency))
+                  / (std::pow (f0 + d_frequency, 2) + pow (df, 2))));
 
-      if (elevation >= 10) {
-        d_atmo_attenuation = (ha * zenitha) / std::sin (elevation_rad);
-      }
-      else {
-        d_atmo_attenuation = (2 * ha * zenitha)
-            / (std::sqrt (
-                std::pow (std::sin (elevation_rad), 2) + ((2 * ha) / EARTH_RADIUS))
-                    + std::sin (elevation_rad));
-      }
-
-      return d_atmo_attenuation;
+      return result;
     }
-
-
 
   } /* namespace leo */
 } /* namespace gr */

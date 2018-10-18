@@ -92,8 +92,7 @@ namespace gr
          * function the channel_model_impl block must first set the transmission
          * mode, that accepts as a parameter, to the parent class.
          */
-        d_atmosphere = new atmosphere (get_frequency (), d_watervap,
-                                               d_temperature);
+        d_atmosphere = new atmosphere (get_frequency ());
 
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
@@ -123,10 +122,10 @@ namespace gr
            * Calculate atmospheric gases attenuation in db,
            * convert it to liner and multiply.
            */
-          atmo_attenuation_db = d_atmosphere->get_atmo_gases_attenuation(elevation);
-          attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
-          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
-                                         noutput_items);
+//          atmo_attenuation_db = d_atmosphere->get_atmo_gases_attenuation(elevation);
+//          attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
+//          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
+//                                         noutput_items);
         }
         else {
           memset (outbuffer, 0, noutput_items * sizeof(gr_complex));
