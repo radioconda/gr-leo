@@ -136,7 +136,15 @@ namespace gr
        * @return a double representing the current elevation of the satellite.
        */
       double
-      get_elevation ();
+      get_elevation_degrees ();
+
+      /*!
+       * Returns the elevation of satellite in radians at
+       * the specific moment inside the observation.
+       * @return a double representing the current elevation of the satellite.
+       */
+      double
+      get_elevation_radians ();
 
       /*!
        * Returns the range rate of the observed satellite in kilometers/sec, at

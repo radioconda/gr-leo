@@ -35,17 +35,15 @@ namespace gr
     {
 
       generic_model::generic_model_sptr
-      leo_model::make (float watervap, float temperature)
+      leo_model::make ()
       {
         return generic_model::generic_model_sptr (
-            new leo_model_impl (watervap, temperature));
+            new leo_model_impl ());
       }
 
-      leo_model_impl::leo_model_impl (float watervap, float temperature) :
+      leo_model_impl::leo_model_impl () :
               generic_model ("leo_model"),
-              d_nco (),
-              d_watervap (watervap),
-              d_temperature (temperature)
+              d_nco ()
       {
         d_nco.set_freq (0);
       }
@@ -96,7 +94,9 @@ namespace gr
 
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
-        float elevation = d_tracker->get_elevation();
+        float elevation_degrees = d_tracker->get_elevation_degrees();
+        float elevation_radians = d_tracker->get_elevation_radians();
+        d_atmosphere->set_elevation_angle(elevation_radians);
 
         if (slant_range) {
           doppler_shift = calculate_doppler_shift (d_tracker->get_velocity ());
@@ -122,10 +122,10 @@ namespace gr
            * Calculate atmospheric gases attenuation in db,
            * convert it to liner and multiply.
            */
-//          atmo_attenuation_db = d_atmosphere->get_atmo_gases_attenuation(elevation);
-//          attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
-//          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
-//                                         noutput_items);
+          atmo_attenuation_db = d_atmosphere->get_gaseous_attenuation();
+          attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
+          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
+                                         noutput_items);
         }
         else {
           memset (outbuffer, 0, noutput_items * sizeof(gr_complex));
@@ -134,9 +134,9 @@ namespace gr
         delete tmp;
         delete d_atmosphere;
 
-        LEO_DEBUG(
+        LEO_LOG_INFO(
             "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Doppler (Hz): %f",
-            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range, elevation,
+            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range, elevation_degrees,
             pl_attenuation_db, atmo_attenuation_db, doppler_shift);
 
       }

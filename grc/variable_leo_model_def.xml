@@ -3,22 +3,8 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make($watervap, $temperature)</var_make>
-  <var_value>leo.leo_model_make($watervap, $temperature)</var_value>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make()</var_make>
+  <var_value>leo.leo_model_make()</var_value>
   <make></make>
-
-  <param>
-      <name>Surface H2O Concentration (g/m3)</name>
-      <key>watervap</key>
-      <value>0</value>
-      <type>float</type>
-  </param>
-  
-  <param>
-      <name>Surface Temperature (degress Celcius)</name>
-      <key>temperature</key>
-      <value>0</value>
-      <type>float</type>
-  </param>
 
 </block>

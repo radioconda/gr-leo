@@ -46,7 +46,7 @@ namespace gr
 
       public:
         static generic_model::generic_model_sptr
-        make (float watervap, float temperature);
+        make ();
 
       };
     } //namespace

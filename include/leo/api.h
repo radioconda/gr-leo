@@ -40,5 +40,6 @@
  * Radius of the Earth in km
  */
 #define EARTH_RADIUS         6356.766
+#define MATH_PI              3.14159265358979323846
 
 #endif /* INCLUDED_LEO_API_H */

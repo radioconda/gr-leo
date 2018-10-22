@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include <leo/atmosphere.h>
 #include <cmath>
+#include <leo/log.h>
 
 namespace gr
 {
@@ -188,6 +189,7 @@ namespace gr
                 + a3 * std::pow (geopotential_alt, 3)
                 + a4 * std::pow (geopotential_alt, 4));
       }
+      return pressure;
     }
 
     double
@@ -197,13 +199,11 @@ namespace gr
       return (rh * get_temperature (alt)) / 216.7;
     }
 
-//    float
-//    atmosphere::specific_gaseous_attenuation ()
-//    {
-//      float gamma;
-//
-//      gamma = 0.1820*d_frequency*(Noxygen + Nwatervapour);
-//    }
+    void
+    atmosphere::set_elevation_angle (float angle)
+    {
+      d_elevation_angle = angle;
+    }
 
     float
     atmosphere::S (size_t index, atmo_element_t element)
@@ -217,7 +217,8 @@ namespace gr
               * std::exp (d_table1[index][2] * (1 - theta));
           break;
         case WATER_VAPOUR:
-          d_table2[index][1] * (1e-1) * d_water_pressure * std::pow (theta, 3.5)
+          return d_table2[index][1] * (1e-1) * d_water_pressure
+              * std::pow (theta, 3.5)
               * std::exp (d_table2[index][2] * (1 - theta));
           break;
         default:
@@ -248,7 +249,7 @@ namespace gr
               * (((df - delta * (f0 - d_frequency))
                   / (std::pow (f0 - d_frequency, 2) + std::pow (df, 2)))
                   + ((df - delta * (f0 + d_frequency))
-                      / (std::pow (f0 + d_frequency, 2) + pow (df, 2))));
+                      / (std::pow (f0 + d_frequency, 2) + std::pow (df, 2))));
           break;
         case WATER_VAPOUR:
           f0 = d_table2[index][0];
@@ -266,9 +267,143 @@ namespace gr
           * (((df - delta * (f0 - d_frequency))
               / (std::pow (f0 - d_frequency, 2) + std::pow (df, 2)))
               + ((df - delta * (f0 + d_frequency))
-                  / (std::pow (f0 + d_frequency, 2) + pow (df, 2))));
+                  / (std::pow (f0 + d_frequency, 2) + std::pow (df, 2))));
 
       return result;
+    }
+
+    float
+    atmosphere::ND ()
+    {
+      float theta = 300 / d_temperature;
+      float d = (d_oxygen_pressure + d_water_pressure) * std::pow (theta, 0.8)
+          * 5.6e-4;
+      return d_frequency * d_oxygen_pressure * std::pow (theta, 2)
+          * (6.14e-5 / (d * (1 + std::pow (d_frequency / d, 2)))
+              + (d_oxygen_pressure * std::pow (theta, 1.5) * 1.4e-12
+                  / (1 + (std::pow (d_frequency, 1.5) * 1.9e-5))));
+    }
+
+    float
+    atmosphere::N (atmo_element_t element)
+    {
+      float sum = 0;
+      switch (element)
+        {
+        case OXYGEN:
+          for (size_t i = 0; i < d_table1.size (); i++) {
+            sum = sum + S (i, element) * F (i, element);
+          }
+          return sum + ND ();
+          break;
+        case WATER_VAPOUR:
+          for (size_t i = 0; i < d_table2.size (); i++) {
+            sum = sum + S (i, element) * F (i, element);
+          }
+          return sum;
+          break;
+        default:
+          throw std::runtime_error ("Invalid atmosphere element!");
+        }
+
+    }
+
+    float
+    atmosphere::gamma ()
+    {
+      return 0.1820 * d_frequency * (N (OXYGEN) + N (WATER_VAPOUR));
+    }
+
+    float
+    atmosphere::nh (float temperature, float oxygen_pressure,
+                    float watevapour_pressure)
+    {
+      return 1
+          + (77.6 * (oxygen_pressure / temperature)
+              + 72 * (watevapour_pressure / temperature)
+              + (watevapour_pressure / std::pow (temperature, 2)) * 3.75e5)
+              * 1e-6;
+    }
+
+    float
+    atmosphere::a (float an, float rn, float delta)
+    {
+      double internal = (-std::pow (an, 2) - 2 * rn * delta
+          - std::pow (delta, 2)) / (2 * an * rn + 2 * an * delta);
+      if (internal < -1) {
+        internal = -1;
+      }
+      else if (internal > 1) {
+        internal = 1;
+      }
+      float a_tmp = MATH_PI - acos (internal);
+      return a_tmp;
+    }
+
+    float
+    atmosphere::alpha (size_t n, float rn, float delta, float prev_alpha)
+    {
+      float b = beta (n, rn, delta, prev_alpha);
+      float alpha_tmp = -rn * cos (b)
+          + 0.5
+              * std::sqrt (
+                  4 * std::pow (rn, 2) * std::pow (cos (b), 2)
+                      + (8 * rn * delta) + (4 * std::pow (delta, 2)));
+      return alpha_tmp;
+    }
+
+    float
+    atmosphere::beta (size_t n, float rn, float delta, float prev_alpha)
+    {
+      float delta_next = 0.0001 * std::exp (((n + 1) - 1) / 100);
+      float aangle;
+      float bangle;
+      if (n == 1) {
+        bangle = 1.5707963268 - d_elevation_angle;
+        return bangle;
+      }
+      else {
+        aangle = a (prev_alpha, rn, delta);
+        bangle = asin (
+            (nh (d_temperature, d_oxygen_pressure, d_water_pressure)
+                / nh (
+                    get_temperature (rn + delta_next - EARTH_RADIUS),
+                    get_pressure (rn + delta_next - EARTH_RADIUS),
+                    get_water_vapour_pressure (rn + delta_next - EARTH_RADIUS)))
+                * sin (aangle));
+        return bangle;
+      }
+
+    }
+
+    float
+    atmosphere::get_gaseous_attenuation ()
+    {
+      float delta;
+      float delta_sum = 0;
+      float attenuation_sum = 0;
+      float attenuation;
+      float rn = EARTH_RADIUS;
+      float prev_alpha = 0;
+      float alpha_sum = 0;
+      for (size_t i = 1; i <= 922; i++) {
+        delta = 0.0001 * std::exp ((i - 1) / 100.0);
+        delta_sum += delta;
+        rn += delta;
+        d_temperature = get_temperature (delta_sum);
+        d_oxygen_pressure = get_pressure (delta_sum);
+        d_water_pressure = get_water_vapour_pressure (delta_sum);
+        prev_alpha = alpha (i, rn, delta, prev_alpha);
+        if (!std::isnan (prev_alpha)) {
+          alpha_sum += prev_alpha;
+        }
+        attenuation = prev_alpha * gamma ();
+        if (!std::isnan (attenuation)) {
+          attenuation_sum += attenuation;
+        }
+      }
+
+      return attenuation_sum;
     }
 
   } /* namespace leo */

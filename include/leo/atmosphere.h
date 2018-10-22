@@ -57,10 +57,17 @@ namespace gr
       double
       get_water_vapour_pressure (float alt);
 
+      float
+      get_gaseous_attenuation ();
+
+      void
+      set_elevation_angle (float angle);
+
     private:
       float d_temperature;
       float d_oxygen_pressure;
       float d_water_pressure;
+      float d_elevation_angle;
 
       /**
        * Spectroscopic data for oxygen attenuation
@@ -163,14 +170,31 @@ namespace gr
       geopotential_to_geometric (float alt);
 
       float
-      specific_gaseous_attenuation ();
-
-      float
       S (size_t index, atmo_element_t element);
 
       float
       F (size_t index, atmo_element_t element);
 
+      float
+      ND ();
+
+      float
+      N (atmo_element_t element);
+
+      float
+      gamma ();
+
+      float
+      nh (float temperature, float oxygen_pressure, float watevapour_pressure);
+
+      float
+      a (float an, float rn, float delta);
+
+      float
+      alpha (size_t n, float rn, float delta, float prev_alpha);
+
+      float
+      beta (size_t n, float rn, float delta, float prev_alpha);
     };
 
   } // namespace leo
