@@ -399,18 +399,35 @@ namespace gr
 
         d_elevation_angle = elevation;
 
+        /**
+         * Method is only valid for elevation angles above 1 degree
+         */
         if (d_elevation_angle < 0.0174533) {
           return 0;
         }
 
+        /**
+         * Iterate through all atmoshpere layers
+         * up to 100km.
+         * Each layer has height that exponentially
+         * grows from 10cm to 1km
+         */
         for (size_t i = 1; i <= 922; i++) {
           delta = 0.0001 * std::exp ((i - 1) / 100.0);
           delta_sum += delta;
           rn += delta;
+          /**
+           * Estimate temperature and pressure for the
+           * current atmospheric layer.
+           */
           d_temperature = get_temperature (delta_sum);
           d_oxygen_pressure = get_pressure (delta_sum);
           d_water_pressure = get_water_vapour_pressure (delta_sum);
           prev_alpha = alpha (i, rn, delta, prev_alpha);
+          /**
+           * Ignore some NaN
+           * TODO: Investigate this issue
+           */
           if (!std::isnan (prev_alpha)) {
             alpha_sum += prev_alpha;
           }

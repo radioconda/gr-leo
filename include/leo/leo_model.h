@@ -45,7 +45,8 @@ namespace gr
 
       public:
         static generic_model::generic_model_sptr
-        make (const uint8_t atmo_gases_attenuation);
+        make (const uint8_t atmo_gases_attenuation, const float watervap = 0,
+              const float temperature = 0);
 
       };
 

@@ -24,6 +24,7 @@
 
 #include <gnuradio/io_signature.h>
 #include <leo/atmospheric_gases_itu.h>
+#include <leo/atmospheric_gases_regression.h>
 #include <leo/atmosphere.h>
 #include <leo/log.h>
 
@@ -36,16 +37,24 @@ namespace gr
      *
      */
     atmosphere::atmosphere (float frequency,
-                            const atmo_gases_attenuation_t atmo_gases) :
+                            const atmo_gases_attenuation_t atmo_gases,
+                            const float watervap,
+                            const float temperature) :
             d_frequency (frequency / 1e9),
             d_elevation (0),
-            d_atmo_gases_enum (atmo_gases)
+            d_atmo_gases_enum (atmo_gases),
+            d_watervap (watervap),
+            d_temperature (temperature)
     {
       switch (d_atmo_gases_enum)
         {
         case ATMO_GASES_ITU:
           d_atmo_gases_attenuation = attenuation::atmospheric_gases_itu::make (
               d_frequency);
+          break;
+        case ATMO_GASES_REGRESSION:
+          d_atmo_gases_attenuation = attenuation::atmospheric_gases_regression::make (
+                        d_frequency, d_watervap, d_temperature);
           break;
         case NONE:
           break;

@@ -35,16 +35,21 @@ namespace gr
     {
 
       generic_model::generic_model_sptr
-      leo_model::make (const uint8_t atmo_gases_attenuation)
+      leo_model::make (const uint8_t atmo_gases_attenuation,
+                       const float watervap, const float temperature)
       {
         return generic_model::generic_model_sptr (
-            new leo_model_impl (atmo_gases_attenuation));
+            new leo_model_impl (atmo_gases_attenuation, watervap, temperature));
       }
 
-      leo_model_impl::leo_model_impl (const uint8_t atmo_gases_attenuation) :
+      leo_model_impl::leo_model_impl (const uint8_t atmo_gases_attenuation,
+                                      const float watervap,
+                                      const float temperature) :
               generic_model ("leo_model"),
               d_nco (),
-              d_atmo_gases_attenuation(atmo_gases_attenuation)
+              d_atmo_gases_attenuation (atmo_gases_attenuation),
+              d_watervap (watervap),
+              d_temperature (temperature)
       {
         d_nco.set_freq (0);
       }
@@ -80,6 +85,8 @@ namespace gr
         float pl_attenuation_db;
         float atmo_attenuation_db;
         float doppler_shift;
+        float tracker_antenna_gain_db;
+        float satellite_antenna_gain_db;
 
         gr_complex attenuation_linear;
 
@@ -91,13 +98,14 @@ namespace gr
          * function the channel_model_impl block must first set the transmission
          * mode, that accepts as a parameter, to the parent class.
          */
-        d_atmosphere = new atmosphere (get_frequency (), ATMO_GASES_ITU);
+        d_atmosphere = new atmosphere (get_frequency (), ATMO_GASES_ITU,
+                                       d_watervap, d_temperature);
 
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
-        float elevation_degrees = d_tracker->get_elevation_degrees();
-        float elevation_radians = d_tracker->get_elevation_radians();
-        d_atmosphere->set_elevation_angle(elevation_radians);
+        float elevation_degrees = d_tracker->get_elevation_degrees ();
+        float elevation_radians = d_tracker->get_elevation_radians ();
+        d_atmosphere->set_elevation_angle (elevation_radians);
 
         if (slant_range) {
           doppler_shift = calculate_doppler_shift (d_tracker->get_velocity ());
@@ -113,9 +121,11 @@ namespace gr
            * Calculate Free-Space Path Loss attenuation in db,
            * convert it to liner and multiply.
            */
+          tracker_antenna_gain_db = get_tracker_antenna_gain ();
+          satellite_antenna_gain_db = get_satellite_antenna_gain ();
           pl_attenuation_db = calculate_free_space_path_loss (slant_range)
-              - (+get_tracker_antenna_gain () + get_satellite_antenna_gain ());
-          attenuation_linear = gr_complex (pow (10, (-pl_attenuation_db / 10)));
+              - (tracker_antenna_gain_db + satellite_antenna_gain_db);
+          attenuation_linear = gr_complex (1.0 / pow (10, (pl_attenuation_db / 20)), 0);
           volk_32fc_s32fc_multiply_32fc (tmp, tmp, attenuation_linear,
                                          noutput_items);
 
@@ -123,8 +133,9 @@ namespace gr
            * Calculate atmospheric gases attenuation in db,
            * convert it to liner and multiply.
            */
-          atmo_attenuation_db = d_atmosphere->get_attenuation();
-          attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
+          atmo_attenuation_db = d_atmosphere->get_attenuation ();
+          attenuation_linear = gr_complex (
+              1.0 / pow (10, (atmo_attenuation_db / 20)));
           volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
                                          noutput_items);
         }
@@ -136,9 +147,13 @@ namespace gr
         delete d_atmosphere;
 
         LEO_LOG_INFO(
+                    "Tracker antenna gain (dB): %f | Satellite antenna gain (dB): %f",
+                    tracker_antenna_gain_db, satellite_antenna_gain_db);
+        LEO_LOG_INFO(
             "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Doppler (Hz): %f",
-            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range, elevation_degrees,
-            pl_attenuation_db, atmo_attenuation_db, doppler_shift);
+            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range,
+            elevation_degrees, pl_attenuation_db, atmo_attenuation_db,
+            doppler_shift);
 
       }
     } /* namespace model */

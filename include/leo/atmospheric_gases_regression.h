@@ -18,52 +18,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_ATMOSPHERE_H
-#define INCLUDED_LEO_ATMOSPHERE_H
+#ifndef INCLUDED_LEO_ATMOSPHERIC_GASES_REGRESSION_H
+#define INCLUDED_LEO_ATMOSPHERIC_GASES_REGRESSION_H
 
 #include <leo/api.h>
 #include <leo/generic_attenuation.h>
+#include <string>
 
 namespace gr
 {
   namespace leo
   {
-
-    /**
-     * @brief Mean annual global reference atmosphere Rec. ITU-R  P.835-6
-     *
-     */
-
-    class LEO_API atmosphere
+    namespace attenuation
     {
+      /*!
+       * \brief Atmospheric gas following the method described in
+       * Radiowave Propagation in Satellite Communications,
+       * Louis J. Ippolito Jr, 1986
+       */
+      class LEO_API atmospheric_gases_regression : virtual public generic_attenuation
+      {
 
-    public:
+      public:
 
-      atmosphere (float frequency, const atmo_gases_attenuation_t, const float watervap,
-                  const float temperature);
+        static generic_attenuation::generic_attenuation_sptr
+        make (float frequency, float watervap, float temperature);
 
-      ~atmosphere ();
-
-      float
-      get_attenuation ();
-
-      void
-      set_elevation_angle (float angle);
-
-    private:
-      float d_frequency;
-      float d_elevation;
-
-      float d_watervap;
-      float d_temperature;
-
-      atmo_gases_attenuation_t d_atmo_gases_enum;
-      generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
-
-    };
-
+      };
+    } // namespace attenuation
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_ATMOSPHERE_H */
+#endif /* INCLUDED_LEO_ATMOSPHERIC_GASES_REGRESSION_H */
 
