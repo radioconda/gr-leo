@@ -37,6 +37,8 @@ list(APPEND leo_sources
 	custom_antenna_impl.cc
 	satellite.cc
 	tracker.cc
+	generic_attenuation.cc
+	atmospheric_gases_itu_impl.cc
 	atmosphere.cc
 	generic_model.cc
 	leo_model_impl.cc

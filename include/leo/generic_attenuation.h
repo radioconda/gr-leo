@@ -18,40 +18,49 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_LEO_MODEL_H
-#define INCLUDED_LEO_LEO_MODEL_H
+#ifndef INCLUDED_LEO_GENERIC_ATTENUATION_H
+#define INCLUDED_LEO_GENERIC_ATTENUATION_H
 
 #include <leo/api.h>
-#include <leo/generic_model.h>
+#include <string>
+#include <boost/format.hpp>
+#include <boost/shared_ptr.hpp>
 
 namespace gr
 {
   namespace leo
   {
-    namespace model
+
+    /*!
+     * \brief Parent class for LEO_API attenuation objects.
+     *
+     */
+    class LEO_API generic_attenuation
     {
 
+    public:
+
       /*!
-       * \brief Low Earth orbit (LEO) channel model.
-       *
-       * \details
-       * It accepts a complex input signal and appropriately
-       * applies free-space path-loss attenuation, Doppler frequency shift
-       * and atmospheric/ionosperic attenation.
-       *
+       * \brief Get the estimated attenuation. This pure virtual
+       * function MUST be implemented by every derived class.
+       * \return the attenuation in dB.
        */
-      class LEO_API leo_model : virtual public generic_model
-      {
+      virtual float
+      get_attenuation (float elevation) = 0;
 
-      public:
-        static generic_model::generic_model_sptr
-        make (const uint8_t atmo_gases_attenuation);
+      typedef boost::shared_ptr<generic_attenuation> generic_attenuation_sptr;
 
-      };
+      static generic_attenuation::generic_attenuation_sptr
+      make ();
 
-    } //namespace
+      virtual
+      ~generic_attenuation ();
+
+      generic_attenuation ();
+
+    };
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_LEO_MODEL_H */
+#endif /* INCLUDED_LEO_GENERIC_ATTENUATION_H */
 

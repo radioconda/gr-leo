@@ -36,6 +36,11 @@
  */
 #define LIGHT_SPEED                     299792458
 
+enum atmo_gases_attenuation_t
+{
+  NONE = 0, ATMO_GASES_ITU, ATMO_GASES_REGRESSION
+};
+
 /**
  * Radius of the Earth in km
  */

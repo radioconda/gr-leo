@@ -18,40 +18,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_LEO_MODEL_H
-#define INCLUDED_LEO_LEO_MODEL_H
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <leo/api.h>
-#include <leo/generic_model.h>
+#include <gnuradio/io_signature.h>
+#include <leo/generic_attenuation.h>
 
 namespace gr
 {
   namespace leo
   {
-    namespace model
+
+    generic_attenuation::generic_attenuation_sptr
+    generic_attenuation::make ()
     {
+      return generic_attenuation::generic_attenuation_sptr ();
+    }
 
-      /*!
-       * \brief Low Earth orbit (LEO) channel model.
-       *
-       * \details
-       * It accepts a complex input signal and appropriately
-       * applies free-space path-loss attenuation, Doppler frequency shift
-       * and atmospheric/ionosperic attenation.
-       *
-       */
-      class LEO_API leo_model : virtual public generic_model
-      {
+    generic_attenuation::generic_attenuation ()
+    {
+    }
 
-      public:
-        static generic_model::generic_model_sptr
-        make (const uint8_t atmo_gases_attenuation);
+    generic_attenuation::~generic_attenuation ()
+    {
+    }
 
-      };
-
-    } //namespace
-  } // namespace leo
-} // namespace gr
-
-#endif /* INCLUDED_LEO_LEO_MODEL_H */
+  } /* namespace leo */
+} /* namespace gr */
 

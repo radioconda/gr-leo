@@ -23,6 +23,7 @@
 
 #include "../include/leo/leo_model.h"
 #include <gnuradio/fxpt_nco.h>
+#include <leo/atmosphere.h>
 
 namespace gr
 {
@@ -36,9 +37,10 @@ namespace gr
       private:
         gr::fxpt_nco d_nco;
         atmosphere* d_atmosphere;
+        uint8_t d_atmo_gases_attenuation;
 
       public:
-        leo_model_impl ();
+        leo_model_impl (const uint8_t atmo_gases_attenuation);
 
         ~leo_model_impl ();
 

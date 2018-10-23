@@ -35,15 +35,16 @@ namespace gr
     {
 
       generic_model::generic_model_sptr
-      leo_model::make ()
+      leo_model::make (const uint8_t atmo_gases_attenuation)
       {
         return generic_model::generic_model_sptr (
-            new leo_model_impl ());
+            new leo_model_impl (atmo_gases_attenuation));
       }
 
-      leo_model_impl::leo_model_impl () :
+      leo_model_impl::leo_model_impl (const uint8_t atmo_gases_attenuation) :
               generic_model ("leo_model"),
-              d_nco ()
+              d_nco (),
+              d_atmo_gases_attenuation(atmo_gases_attenuation)
       {
         d_nco.set_freq (0);
       }
@@ -90,7 +91,7 @@ namespace gr
          * function the channel_model_impl block must first set the transmission
          * mode, that accepts as a parameter, to the parent class.
          */
-        d_atmosphere = new atmosphere (get_frequency ());
+        d_atmosphere = new atmosphere (get_frequency (), ATMO_GASES_ITU);
 
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
@@ -122,7 +123,7 @@ namespace gr
            * Calculate atmospheric gases attenuation in db,
            * convert it to liner and multiply.
            */
-          atmo_attenuation_db = d_atmosphere->get_gaseous_attenuation();
+          atmo_attenuation_db = d_atmosphere->get_attenuation();
           attenuation_linear = gr_complex (pow (10, (-atmo_attenuation_db / 10)));
           volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
                                          noutput_items);

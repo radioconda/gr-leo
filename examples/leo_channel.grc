@@ -144,7 +144,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>frequency</key>
@@ -211,7 +211,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>frequency</key>
@@ -278,7 +278,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>frequency</key>
@@ -345,7 +345,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>frequency</key>
@@ -387,16 +387,20 @@
   <block>
     <key>variable_leo_model_def</key>
     <param>
+      <key>atmo_gases_attenuation</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(486, 19)</value>
+      <value>(430, 131)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -405,14 +409,6 @@
     <param>
       <key>id</key>
       <value>variable_leo_model_def_0</value>
-    </param>
-    <param>
-      <key>watervap</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>temperature</key>
-      <value>15</value>
     </param>
   </block>
   <block>
@@ -427,7 +423,7 @@
     </param>
     <param>
       <key>comm_freq_downlink</key>
-      <value> 435.765e6</value>
+      <value>500e9</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -471,7 +467,7 @@
     </param>
     <param>
       <key>comm_freq_uplink</key>
-      <value>340e6</value>
+      <value>500e9</value>
     </param>
   </block>
   <block>
@@ -490,7 +486,7 @@
     </param>
     <param>
       <key>comm_freq_downlink</key>
-      <value>340e6</value>
+      <value>100e9</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -546,7 +542,7 @@
     </param>
     <param>
       <key>comm_freq_uplink</key>
-      <value>500e6</value>
+      <value>100e9</value>
     </param>
   </block>
   <block>

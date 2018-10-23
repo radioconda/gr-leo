@@ -16,8 +16,12 @@
 %nodefaultctor gr::leo::tracker;
 %template(tracker_sptr) boost::shared_ptr<gr::leo::tracker>;
 
+%nodefaultctor gr::leo::generic_attenuation;
+%template(generic_attenuation_sptr) boost::shared_ptr<gr::leo::generic_attenuation>;
+
 %nodefaultctor gr::leo::generic_model;
 %template(generic_model_sptr) boost::shared_ptr<gr::leo::generic_model>;
+
 
 
 %{
@@ -28,6 +32,8 @@
 #include "leo/custom_antenna.h"
 #include "leo/satellite.h"
 #include "leo/tracker.h"
+#include "leo/generic_attenuation.h"
+#include "leo/atmospheric_gases_itu.h"
 #include "leo/generic_model.h"
 #include "leo/leo_model.h"
 #include "leo/channel_model.h"
@@ -40,6 +46,8 @@
 %include "leo/custom_antenna.h"
 %include "leo/satellite.h"
 %include "leo/tracker.h"
+%include "leo/generic_attenuation.h"
+%include "leo/atmospheric_gases_itu.h"
 %include "leo/generic_model.h"
 %include "leo/leo_model.h"
 %include "leo/channel_model.h"

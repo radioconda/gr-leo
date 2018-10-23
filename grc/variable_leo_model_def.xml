@@ -3,8 +3,23 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make()</var_make>
-  <var_value>leo.leo_model_make()</var_value>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make($atmo_gases_attenuation)</var_make>
+  <var_value>leo.leo_model_make($atmo_gases_attenuation)</var_value>
   <make></make>
+  
+  <param>
+	<name>Atmospheric gases attenuation</name>
+	<key>atmo_gases_attenuation</key>
+	<value>0</value>
+	<type>enum</type>
+	<option>
+		<name>None</name>
+		<key>0</key>
+	</option>
+	<option>
+		<name>ITU Recommendation</name>
+		<key>1</key>
+	</option>
+  </param>
 
 </block>
