@@ -388,7 +388,7 @@
     <key>variable_leo_model_def</key>
     <param>
       <key>atmo_gases_attenuation</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -557,7 +557,7 @@
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>0</value>
+      <value>0.0001</value>
     </param>
     <param>
       <key>alias</key>

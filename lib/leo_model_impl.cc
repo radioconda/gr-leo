@@ -98,7 +98,7 @@ namespace gr
          * function the channel_model_impl block must first set the transmission
          * mode, that accepts as a parameter, to the parent class.
          */
-        d_atmosphere = new atmosphere (get_frequency (), ATMO_GASES_ITU,
+        d_atmosphere = new atmosphere (get_frequency (), (atmo_gases_attenuation_t)d_atmo_gases_attenuation,
                                        d_watervap, d_temperature);
 
         d_tracker->add_elapsed_time ();

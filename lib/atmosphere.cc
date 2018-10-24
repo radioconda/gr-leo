@@ -44,7 +44,8 @@ namespace gr
             d_elevation (0),
             d_atmo_gases_enum (atmo_gases),
             d_watervap (watervap),
-            d_temperature (temperature)
+            d_temperature (temperature),
+            d_atmo_gases_attenuation(NULL)
     {
       switch (d_atmo_gases_enum)
         {
@@ -76,7 +77,7 @@ namespace gr
     float
     atmosphere::get_attenuation ()
     {
-      float total_atmo_attenuation;
+      float total_atmo_attenuation = 0;
       if (d_atmo_gases_attenuation != NULL) {
         total_atmo_attenuation = d_atmo_gases_attenuation->get_attenuation (
             d_elevation);
