@@ -22,11 +22,28 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-
-include_directories(${Boost_INCLUDE_DIR})
+			
+include_directories(
+    ${SGP4_INCLUDE_DIRS}
+)
+		
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
+    generic_antenna.cc
+	yagi_antenna_impl.cc
+	helix_antenna_impl.cc
+	parabolic_reflector_antenna_impl.cc
+	custom_antenna_impl.cc
+	satellite.cc
+	tracker.cc
+	generic_attenuation.cc
+	atmospheric_gases_itu_impl.cc
+	atmospheric_gases_regression_impl.cc
+	atmosphere.cc
+	generic_model.cc
+	leo_model_impl.cc
+	channel_model_impl.cc
 )
 
 set(leo_sources "${leo_sources}" PARENT_SCOPE)
@@ -36,7 +53,14 @@ if(NOT leo_sources)
 endif(NOT leo_sources)
 
 add_library(gnuradio-leo SHARED ${leo_sources})
-target_link_libraries(gnuradio-leo ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+add_dependencies(gnuradio-leo sgp4)
+
+target_link_libraries(gnuradio-leo 
+					  ${Boost_LIBRARIES} 
+					  ${GNURADIO_ALL_LIBRARIES}
+					  ${SGP4_LIBRARIES})
+
+
 set_target_properties(gnuradio-leo PROPERTIES DEFINE_SYMBOL "gnuradio_leo_EXPORTS")
 
 if(APPLE)
@@ -51,29 +75,6 @@ endif(APPLE)
 include(GrMiscUtils)
 GR_LIBRARY_FOO(gnuradio-leo RUNTIME_COMPONENT "leo_runtime" DEVEL_COMPONENT "leo_devel")
 
-########################################################################
-# Build and register unit test
-########################################################################
-include(GrTest)
-
-include_directories(${CPPUNIT_INCLUDE_DIRS})
-
-list(APPEND test_leo_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_leo.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_leo.cc
-)
-
-add_executable(test-leo ${test_leo_sources})
-
-target_link_libraries(
-  test-leo
-  ${GNURADIO_RUNTIME_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${CPPUNIT_LIBRARIES}
-  gnuradio-leo
-)
-
-GR_ADD_TEST(test_leo test-leo)
 
 ########################################################################
 # Print summary

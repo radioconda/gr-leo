@@ -31,4 +31,20 @@
 #  define LEO_API __GR_ATTR_IMPORT
 #endif
 
+/**
+ * Speed of light in m/s
+ */
+#define LIGHT_SPEED                     299792458
+
+enum atmo_gases_attenuation_t
+{
+  NONE = 0, ATMO_GASES_ITU, ATMO_GASES_REGRESSION
+};
+
+/**
+ * Radius of the Earth in km
+ */
+#define EARTH_RADIUS         6356.766
+#define MATH_PI              3.14159265358979323846
+
 #endif /* INCLUDED_LEO_API_H */
