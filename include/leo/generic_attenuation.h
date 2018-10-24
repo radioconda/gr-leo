@@ -18,52 +18,49 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_ATMOSPHERE_H
-#define INCLUDED_LEO_ATMOSPHERE_H
+#ifndef INCLUDED_LEO_GENERIC_ATTENUATION_H
+#define INCLUDED_LEO_GENERIC_ATTENUATION_H
 
 #include <leo/api.h>
-#include <leo/generic_attenuation.h>
+#include <string>
+#include <boost/format.hpp>
+#include <boost/shared_ptr.hpp>
 
 namespace gr
 {
   namespace leo
   {
 
-    /**
-     * @brief Mean annual global reference atmosphere Rec. ITU-R  P.835-6
+    /*!
+     * \brief Parent class for LEO_API attenuation objects.
      *
      */
-
-    class LEO_API atmosphere
+    class LEO_API generic_attenuation
     {
 
     public:
 
-      atmosphere (float frequency, const atmo_gases_attenuation_t, const float watervap,
-                  const float temperature);
+      /*!
+       * \brief Get the estimated attenuation. This pure virtual
+       * function MUST be implemented by every derived class.
+       * \return the attenuation in dB.
+       */
+      virtual float
+      get_attenuation (float elevation) = 0;
 
-      ~atmosphere ();
+      typedef boost::shared_ptr<generic_attenuation> generic_attenuation_sptr;
 
-      float
-      get_attenuation ();
+      static generic_attenuation::generic_attenuation_sptr
+      make ();
 
-      void
-      set_elevation_angle (float angle);
+      virtual
+      ~generic_attenuation ();
 
-    private:
-      float d_frequency;
-      float d_elevation;
-
-      float d_watervap;
-      float d_temperature;
-
-      atmo_gases_attenuation_t d_atmo_gases_enum;
-      generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
+      generic_attenuation ();
 
     };
-
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_ATMOSPHERE_H */
+#endif /* INCLUDED_LEO_GENERIC_ATTENUATION_H */
 

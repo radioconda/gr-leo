@@ -23,7 +23,6 @@
 
 #include <leo/api.h>
 #include <leo/generic_model.h>
-#include <leo/atmosphere.h>
 
 namespace gr
 {
@@ -46,9 +45,11 @@ namespace gr
 
       public:
         static generic_model::generic_model_sptr
-        make (float watervap, float temperature);
+        make (const uint8_t atmo_gases_attenuation, const float watervap = 0,
+              const float temperature = 0);
 
       };
+
     } //namespace
   } // namespace leo
 } // namespace gr

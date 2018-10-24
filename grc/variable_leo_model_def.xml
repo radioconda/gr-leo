@@ -3,15 +3,35 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make($watervap, $temperature)</var_make>
-  <var_value>leo.leo_model_make($watervap, $temperature)</var_value>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make($atmo_gases_attenuation, $watervap, $temperature)</var_make>
+  <var_value>leo.leo_model_make($atmo_gases_attenuation, $watervap, $temperature)</var_value>
   <make></make>
-
+  
+  <param>
+	<name>Atmospheric gases attenuation</name>
+	<key>atmo_gases_attenuation</key>
+	<value>0</value>
+	<type>enum</type>
+	<option>
+		<name>None</name>
+		<key>0</key>
+	</option>
+	<option>
+		<name>ITU Recommendation</name>
+		<key>1</key>
+	</option>
+	<option>
+		<name>Regression Analysis</name>
+		<key>2</key>
+	</option>
+  </param>
+  
   <param>
       <name>Surface H2O Concentration (g/m3)</name>
       <key>watervap</key>
       <value>0</value>
       <type>float</type>
+      <hide>#if int($atmo_gases_attenuation())==2 then 'none' else 'all'#</hide>
   </param>
   
   <param>
@@ -19,6 +39,8 @@
       <key>temperature</key>
       <value>0</value>
       <type>float</type>
+      <hide>#if int($atmo_gases_attenuation())==2 then 'none' else 'all'#</hide>
   </param>
+
 
 </block>

@@ -18,10 +18,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_ATMOSPHERE_H
-#define INCLUDED_LEO_ATMOSPHERE_H
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <leo/api.h>
+#include <gnuradio/io_signature.h>
 #include <leo/generic_attenuation.h>
 
 namespace gr
@@ -29,41 +30,20 @@ namespace gr
   namespace leo
   {
 
-    /**
-     * @brief Mean annual global reference atmosphere Rec. ITU-R  P.835-6
-     *
-     */
-
-    class LEO_API atmosphere
+    generic_attenuation::generic_attenuation_sptr
+    generic_attenuation::make ()
     {
+      return generic_attenuation::generic_attenuation_sptr ();
+    }
 
-    public:
+    generic_attenuation::generic_attenuation ()
+    {
+    }
 
-      atmosphere (float frequency, const atmo_gases_attenuation_t, const float watervap,
-                  const float temperature);
+    generic_attenuation::~generic_attenuation ()
+    {
+    }
 
-      ~atmosphere ();
-
-      float
-      get_attenuation ();
-
-      void
-      set_elevation_angle (float angle);
-
-    private:
-      float d_frequency;
-      float d_elevation;
-
-      float d_watervap;
-      float d_temperature;
-
-      atmo_gases_attenuation_t d_atmo_gases_enum;
-      generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
-
-    };
-
-  } // namespace leo
-} // namespace gr
-
-#endif /* INCLUDED_LEO_ATMOSPHERE_H */
+  } /* namespace leo */
+} /* namespace gr */
 

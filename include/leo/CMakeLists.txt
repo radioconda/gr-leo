@@ -31,6 +31,9 @@ install(FILES
     parabolic_reflector_antenna.h
     custom_antenna.h
     tracker.h
+    generic_attenuation.h
+    atmospheric_gases_itu.h
+    atmospheric_gases_regression.h
     atmosphere.h
     generic_model.h
     leo_model.h

@@ -423,11 +423,19 @@ namespace gr
     }
 
     double
-    tracker::get_elevation ()
+    tracker::get_elevation_degrees ()
     {
       Eci eci = d_sgp4.FindPosition (get_elapsed_time ());
       CoordTopocentric topo = d_observer.GetLookAngle (eci);
       return Util::RadiansToDegrees (topo.elevation);
+    }
+
+    double
+    tracker::get_elevation_radians ()
+    {
+      Eci eci = d_sgp4.FindPosition (get_elapsed_time ());
+      CoordTopocentric topo = d_observer.GetLookAngle (eci);
+      return topo.elevation;
     }
 
     double
