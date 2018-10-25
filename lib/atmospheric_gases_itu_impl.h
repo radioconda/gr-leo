@@ -35,7 +35,7 @@ namespace gr
       {
 
       public:
-        atmospheric_gases_itu_impl (float frequency);
+        atmospheric_gases_itu_impl (float frequency, float surface_watervap_density);
 
         ~atmospheric_gases_itu_impl ();
 
@@ -52,6 +52,7 @@ namespace gr
         float d_temperature;
         float d_oxygen_pressure;
         float d_water_pressure;
+        float d_surface_watervap_density;
         float d_elevation_angle;
 
         /**

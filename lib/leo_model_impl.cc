@@ -36,19 +36,19 @@ namespace gr
 
       generic_model::generic_model_sptr
       leo_model::make (const uint8_t atmo_gases_attenuation,
-                       const float watervap, const float temperature)
+                       const float surface_watervap_density, const float temperature)
       {
         return generic_model::generic_model_sptr (
-            new leo_model_impl (atmo_gases_attenuation, watervap, temperature));
+            new leo_model_impl (atmo_gases_attenuation, surface_watervap_density, temperature));
       }
 
       leo_model_impl::leo_model_impl (const uint8_t atmo_gases_attenuation,
-                                      const float watervap,
+                                      const float surface_watervap_density,
                                       const float temperature) :
               generic_model ("leo_model"),
               d_nco (),
               d_atmo_gases_attenuation (atmo_gases_attenuation),
-              d_watervap (watervap),
+              d_surface_watervap_density (surface_watervap_density),
               d_temperature (temperature)
       {
         d_nco.set_freq (0);
@@ -99,7 +99,7 @@ namespace gr
          * mode, that accepts as a parameter, to the parent class.
          */
         d_atmosphere = new atmosphere (get_frequency (), (atmo_gases_attenuation_t)d_atmo_gases_attenuation,
-                                       d_watervap, d_temperature);
+                                       d_surface_watervap_density, d_temperature);
 
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();

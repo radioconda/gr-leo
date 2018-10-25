@@ -38,12 +38,12 @@ namespace gr
      */
     atmosphere::atmosphere (float frequency,
                             const atmo_gases_attenuation_t atmo_gases,
-                            const float watervap,
+                            const float surface_watervap_density,
                             const float temperature) :
             d_frequency (frequency / 1e9),
             d_elevation (0),
             d_atmo_gases_enum (atmo_gases),
-            d_watervap (watervap),
+            d_surface_watervap_density (surface_watervap_density),
             d_temperature (temperature),
             d_atmo_gases_attenuation(NULL)
     {
@@ -51,11 +51,11 @@ namespace gr
         {
         case ATMO_GASES_ITU:
           d_atmo_gases_attenuation = attenuation::atmospheric_gases_itu::make (
-              d_frequency);
+              d_frequency, d_surface_watervap_density);
           break;
         case ATMO_GASES_REGRESSION:
           d_atmo_gases_attenuation = attenuation::atmospheric_gases_regression::make (
-                        d_frequency, d_watervap, d_temperature);
+                        d_frequency, d_surface_watervap_density, d_temperature);
           break;
         case NONE:
           break;

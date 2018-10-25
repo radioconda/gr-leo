@@ -34,19 +34,23 @@ namespace gr
     {
 
       generic_attenuation::generic_attenuation_sptr
-      atmospheric_gases_itu::make (float frequency)
+      atmospheric_gases_itu::make (float frequency,
+                                   float surface_watervap_density)
       {
         return generic_attenuation::generic_attenuation_sptr (
-            new atmospheric_gases_itu_impl (frequency));
+            new atmospheric_gases_itu_impl (frequency,
+                                            surface_watervap_density));
       }
 
-      atmospheric_gases_itu_impl::atmospheric_gases_itu_impl (float frequency) :
+      atmospheric_gases_itu_impl::atmospheric_gases_itu_impl (
+          float frequency, float surface_watervap_density) :
               generic_attenuation (),
-              d_frequency(frequency),
-              d_oxygen_pressure(0),
-              d_temperature(0),
-              d_water_pressure(0),
-              d_elevation_angle(0)
+              d_frequency (frequency),
+              d_oxygen_pressure (0),
+              d_temperature (0),
+              d_water_pressure (0),
+              d_elevation_angle (0),
+              d_surface_watervap_density(surface_watervap_density)
       {
 
       }
@@ -207,7 +211,7 @@ namespace gr
       double
       atmospheric_gases_itu_impl::get_water_vapour_pressure (float alt)
       {
-        double rh = 7.5 * std::exp (-alt / 2);
+        double rh = d_surface_watervap_density * std::exp (-alt / 2);
         return (rh * get_temperature (alt)) / 216.7;
       }
 
@@ -387,7 +391,7 @@ namespace gr
       }
 
       float
-      atmospheric_gases_itu_impl::get_attenuation(float elevation)
+      atmospheric_gases_itu_impl::get_attenuation (float elevation)
       {
         float delta;
         float delta_sum = 0;
