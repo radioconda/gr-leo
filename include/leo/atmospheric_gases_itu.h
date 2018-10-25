@@ -40,7 +40,7 @@ namespace gr
       public:
 
         static generic_attenuation::generic_attenuation_sptr
-        make (float frequency);
+        make (float frequency, float surface_watervap_density);
 
       };
     } // namespace attenuation

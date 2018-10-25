@@ -39,7 +39,7 @@ namespace gr
 
     public:
 
-      atmosphere (float frequency, const atmo_gases_attenuation_t, const float watervap,
+      atmosphere (float frequency, const atmo_gases_attenuation_t, const float surface_watervap_density,
                   const float temperature);
 
       ~atmosphere ();
@@ -54,7 +54,7 @@ namespace gr
       float d_frequency;
       float d_elevation;
 
-      float d_watervap;
+      float d_surface_watervap_density;
       float d_temperature;
 
       atmo_gases_attenuation_t d_atmo_gases_enum;

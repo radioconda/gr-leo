@@ -34,11 +34,11 @@ namespace gr
     {
 
       generic_attenuation::generic_attenuation_sptr
-      atmospheric_gases_regression::make (float frequency, float watervap,
+      atmospheric_gases_regression::make (float frequency, float surface_watervap_density,
                                           float temperature)
       {
         return generic_attenuation::generic_attenuation_sptr (
-            new atmospheric_gases_regression_impl (frequency, watervap,
+            new atmospheric_gases_regression_impl (frequency, surface_watervap_density,
                                                    temperature));
       }
 
@@ -46,7 +46,7 @@ namespace gr
           float frequency, float watervap, float temperature) :
               generic_attenuation (),
               d_frequency (frequency),
-              d_watervap (watervap),
+              d_surface_watervap_density (watervap),
               d_temperature (temperature)
 
       {
@@ -135,8 +135,8 @@ namespace gr
       atmospheric_gases_regression_impl::get_attenuation (float elevation)
       {
         float elevation_rad = elevation * 3.141592 / 180;
-        float gammaa = d_af + d_bf * d_watervap - d_cf * d_temperature;
-        float zenitha = d_azf + d_bzf * d_watervap - d_czf * d_temperature;
+        float gammaa = d_af + d_bf * d_surface_watervap_density - d_cf * d_temperature;
+        float zenitha = d_azf + d_bzf * d_surface_watervap_density - d_czf * d_temperature;
 
         float ha = zenitha / gammaa;
 
