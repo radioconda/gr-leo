@@ -42,6 +42,7 @@ namespace gr
                             const float temperature) :
             d_frequency (frequency / 1e9),
             d_elevation (0),
+            d_tracker_altitude(0),
             d_atmo_gases_enum (atmo_gases),
             d_surface_watervap_density (surface_watervap_density),
             d_temperature (temperature),
@@ -73,6 +74,19 @@ namespace gr
     {
       d_elevation = angle;
     }
+
+    void
+    atmosphere::set_tracker_altitude (float altitude)
+    {
+      d_tracker_altitude = altitude;
+    }
+
+    void
+    atmosphere::set_tracker_latitude (float latitude)
+    {
+      d_tracker_latitude = latitude;
+    }
+
 
     float
     atmosphere::get_attenuation ()

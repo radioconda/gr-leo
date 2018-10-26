@@ -50,9 +50,17 @@ namespace gr
       void
       set_elevation_angle (float angle);
 
+      void
+      set_tracker_altitude (float altitude);
+
+      void
+      set_tracker_latitude (float latitude);
+
     private:
       float d_frequency;
       float d_elevation;
+      float d_tracker_altitude;
+      float d_tracker_latitude;
 
       float d_surface_watervap_density;
       float d_temperature;
