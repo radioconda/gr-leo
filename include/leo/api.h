@@ -25,10 +25,15 @@
 
 #include <gnuradio/attributes.h>
 
+
 #ifdef gnuradio_leo_EXPORTS
 #  define LEO_API __GR_ATTR_EXPORT
 #else
 #  define LEO_API __GR_ATTR_IMPORT
+#endif
+
+#ifndef DATA_PATH
+    #error "Path for data files must be defined"
 #endif
 
 /**

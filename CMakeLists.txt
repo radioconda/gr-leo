@@ -240,6 +240,12 @@ add_custom_target(uninstall
 )
 
 ########################################################################
+# Data direcotry path definition
+########################################################################
+add_definitions(-DDATA_PATH=\"${CMAKE_INSTALL_PREFIX}/${GR_PKG_DATA_DIR}\")
+message( \"${CMAKE_INSTALL_PREFIX}/${GR_PKG_DATA_DIR}\" )
+
+########################################################################
 # Add subdirectories
 ########################################################################
 add_subdirectory(include/leo)
@@ -250,6 +256,7 @@ add_subdirectory(grc)
 add_subdirectory(apps)
 add_subdirectory(docs)
 add_subdirectory(data)
+
 
 ########################################################################
 # Install cmake search helper for this library

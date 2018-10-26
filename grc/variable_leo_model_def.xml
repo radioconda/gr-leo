@@ -3,7 +3,7 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make($atmo_gases_attenuation, $watervap, $temperature)</var_make>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make($atmo_gases_attenuation, $surface_watervap_density, $temperature)</var_make>
   <var_value>leo.leo_model_make($atmo_gases_attenuation, $surface_watervap_density, $temperature)</var_value>
   <make></make>
   

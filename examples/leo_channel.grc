@@ -388,7 +388,7 @@
     <key>variable_leo_model_def</key>
     <param>
       <key>atmo_gases_attenuation</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>comment</key>
@@ -411,7 +411,7 @@
       <value>variable_leo_model_def_0</value>
     </param>
     <param>
-      <key>watervap</key>
+      <key>surface_watervap_density</key>
       <value>7.5</value>
     </param>
     <param>
@@ -829,7 +829,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(454, 586)</value>
+      <value>(726, 594)</value>
     </param>
     <param>
       <key>gui_hint</key>

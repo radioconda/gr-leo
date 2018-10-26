@@ -19,6 +19,8 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
+	Lat.txt
+	Lon.txt
 	ITU_R-REC-P.839-4.txt
-    DESTINATION ${GR_DATA_DIR}/gnuradio/gr-leo
+    DESTINATION ${GR_PKG_DATA_DIR}
 )
