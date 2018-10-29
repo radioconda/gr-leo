@@ -35,28 +35,37 @@ namespace gr
     {
 
       generic_model::generic_model_sptr
-      leo_model::make (const uint8_t atmo_gases_attenuation,
-                       const float surface_watervap_density, const float temperature)
+      leo_model::make (tracker::tracker_sptr tracker, const uint8_t mode,
+                       const uint8_t atmo_gases_attenuation,
+                       const float surface_watervap_density,
+                       const float temperature)
       {
         return generic_model::generic_model_sptr (
-            new leo_model_impl (atmo_gases_attenuation, surface_watervap_density, temperature));
+            new leo_model_impl (tracker, mode, atmo_gases_attenuation,
+                                surface_watervap_density, temperature));
       }
 
-      leo_model_impl::leo_model_impl (const uint8_t atmo_gases_attenuation,
+      leo_model_impl::leo_model_impl (tracker::tracker_sptr tracker,
+                                      const uint8_t mode,
+                                      const uint8_t atmo_gases_attenuation,
                                       const float surface_watervap_density,
                                       const float temperature) :
-              generic_model ("leo_model"),
+              generic_model ("leo_model", tracker, mode),
               d_nco (),
               d_atmo_gases_attenuation (atmo_gases_attenuation),
               d_surface_watervap_density (surface_watervap_density),
               d_temperature (temperature)
       {
         d_nco.set_freq (0);
+        d_atmosphere = new atmosphere (
+            get_frequency (),
+            (atmo_gases_attenuation_t) d_atmo_gases_attenuation,
+            d_surface_watervap_density, d_temperature);
       }
 
       leo_model_impl::~leo_model_impl ()
       {
-
+        delete d_atmosphere;
       }
 
       float
@@ -80,6 +89,10 @@ namespace gr
       {
         const gr_complex *in = (const gr_complex *) inbuffer;
         gr_complex *out = (gr_complex *) outbuffer;
+
+        /**
+         * TODO: Allocate a large enough vector at the constructor
+         */
         gr_complex* tmp = new gr_complex[noutput_items];
 
         float pl_attenuation_db;
@@ -89,17 +102,6 @@ namespace gr
         float satellite_antenna_gain_db;
 
         gr_complex attenuation_linear;
-
-        /**
-         * TODO: This object should be created at the constructor once.
-         * The first argument that refers to the
-         * frequency is taken by calling the get_frequency function from
-         * the parent class. The problem is that in order to call this
-         * function the channel_model_impl block must first set the transmission
-         * mode, that accepts as a parameter, to the parent class.
-         */
-        d_atmosphere = new atmosphere (get_frequency (), (atmo_gases_attenuation_t)d_atmo_gases_attenuation,
-                                       d_surface_watervap_density, d_temperature);
 
         d_tracker->add_elapsed_time ();
         double slant_range = d_tracker->get_slant_range ();
@@ -125,7 +127,8 @@ namespace gr
           satellite_antenna_gain_db = get_satellite_antenna_gain ();
           pl_attenuation_db = calculate_free_space_path_loss (slant_range)
               - (tracker_antenna_gain_db + satellite_antenna_gain_db);
-          attenuation_linear = gr_complex (1.0 / pow (10, (pl_attenuation_db / 20)), 0);
+          attenuation_linear = gr_complex (
+              1.0 / pow (10, (pl_attenuation_db / 20)), 0);
           volk_32fc_s32fc_multiply_32fc (tmp, tmp, attenuation_linear,
                                          noutput_items);
 
@@ -144,11 +147,10 @@ namespace gr
         }
 
         delete tmp;
-        delete d_atmosphere;
 
         LEO_LOG_INFO(
-                    "Tracker antenna gain (dB): %f | Satellite antenna gain (dB): %f",
-                    tracker_antenna_gain_db, satellite_antenna_gain_db);
+            "Tracker antenna gain (dB): %f | Satellite antenna gain (dB): %f",
+            tracker_antenna_gain_db, satellite_antenna_gain_db);
         LEO_LOG_INFO(
             "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Doppler (Hz): %f",
             d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range,

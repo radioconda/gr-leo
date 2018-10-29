@@ -69,7 +69,6 @@ namespace gr
       static int base_unique_id;
 
       std::string d_name;
-      tracker::tracker_sptr d_tracker;
 
       int my_id;
 
@@ -84,32 +83,12 @@ namespace gr
 
       typedef boost::shared_ptr<generic_model> generic_model_sptr;
 
-      generic_model (void)
-      {
-      }
-      ;
+      generic_model (std::string name, tracker::tracker_sptr tracker,
+                     const uint8_t mode);
 
-      generic_model (std::string name);
+      tracker::tracker_sptr
+      get_tracker ();
 
-      /*!
-       * \brief Set the mode that defines whether channel model is uplink or
-       * downlink
-       */
-      void
-      set_mode (uint8_t mode);
-
-      /*!
-       * \brief Set the ground station tracker.
-       */
-      void
-      set_tracker(tracker::tracker_sptr tracker);
-
-      /*!
-       * \brief Get the appropriate communication frequency that is used when channel
-       * model is uplink or downlink.
-       * downlink
-       * \return the frequency in Hz.
-       */
       float
       get_frequency ();
 
@@ -132,15 +111,9 @@ namespace gr
       virtual
       ~generic_model ();
 
-      /*!
-       * Get the tracker.
-       * @return a boost::shared_ptr to the tracker.
-       */
-      virtual tracker::tracker_sptr
-      get_tracker ();
-
-    private:
-      uint8_t d_mode;
+    protected:
+      const uint8_t d_mode;
+      tracker::tracker_sptr d_tracker;
 
     };
 

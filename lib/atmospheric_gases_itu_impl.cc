@@ -52,7 +52,6 @@ namespace gr
               d_elevation_angle (0),
               d_surface_watervap_density(surface_watervap_density)
       {
-
       }
 
       atmospheric_gases_itu_impl::~atmospheric_gases_itu_impl ()

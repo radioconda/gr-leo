@@ -42,8 +42,10 @@ namespace gr
         float d_temperature;
 
       public:
-        leo_model_impl (const uint8_t atmo_gases_attenuation,
-                        const float surface_watervap_density, const float temperature);
+        leo_model_impl (tracker::tracker_sptr tracker, const uint8_t mode,
+                        const uint8_t atmo_gases_attenuation,
+                        const float surface_watervap_density,
+                        const float temperature);
 
         ~leo_model_impl ();
 
