@@ -67,6 +67,7 @@ namespace gr
 
       atmo_gases_attenuation_t d_atmo_gases_enum;
       generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
+      generic_attenuation::generic_attenuation_sptr d_precipitation_attenuation;
 
     };
 

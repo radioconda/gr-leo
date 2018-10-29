@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include <leo/atmospheric_gases_itu.h>
 #include <leo/atmospheric_gases_regression.h>
+#include <leo/precipitation_itu.h>
 #include <leo/atmosphere.h>
 #include <leo/log.h>
 
@@ -34,7 +35,7 @@ namespace gr
   {
 
     /**
-     *
+     * TODO: Pass tracker as argument to avoid initialization issues
      */
     atmosphere::atmosphere (float frequency,
                             const atmo_gases_attenuation_t atmo_gases,
@@ -63,6 +64,8 @@ namespace gr
         default:
           throw std::runtime_error ("Invalid atmospheric gases attenuation!");
         }
+
+      d_precipitation_attenuation = attenuation::precipitation_itu::make(d_frequency, 8.5, d_tracker_altitude, d_tracker_latitude);
     }
 
     atmosphere::~atmosphere ()

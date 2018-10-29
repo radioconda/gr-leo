@@ -22,6 +22,7 @@
 # Install public header files
 ########################################################################
 install(FILES
+	utils/helper.h
     api.h
     log.h
     satellite.h
@@ -34,6 +35,7 @@ install(FILES
     generic_attenuation.h
     atmospheric_gases_itu.h
     atmospheric_gases_regression.h
+    precipitation_itu.h
     atmosphere.h
     generic_model.h
     leo_model.h
