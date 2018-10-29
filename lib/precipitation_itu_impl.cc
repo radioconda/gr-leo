@@ -37,31 +37,34 @@ namespace gr
 
       generic_attenuation::generic_attenuation_sptr
       precipitation_itu::make (float frequency, float rainfall_rate,
-                             float tracker_altitude, float tracker_latitude)
+                               float tracker_lontitude, float tracker_altitude,
+                               float tracker_latitude)
       {
         return generic_attenuation::generic_attenuation_sptr (
             new precipitation_itu_impl (frequency, rainfall_rate,
-                                      tracker_altitude, tracker_latitude));
+                                        tracker_lontitude, tracker_altitude,
+                                        tracker_latitude));
       }
 
       precipitation_itu_impl::precipitation_itu_impl (float frequency,
-                                                  float rainfall_rate,
-                                                  float tracker_altitude,
-                                                  float tracker_latitude) :
+                                                      float rainfall_rate,
+                                                      float tracker_lontitude,
+                                                      float tracker_altitude,
+                                                      float tracker_latitude) :
               generic_attenuation (),
               d_frequency (frequency),
               d_rainfall_rate (rainfall_rate),
+              d_tracker_lontitude (tracker_lontitude),
               d_tracker_altitude (tracker_altitude),
               d_tracker_latitude (tracker_latitude),
               d_elevation_angle (0)
       {
         std::string data_path (DATA_PATH);
         float isotherm_height;
-        isotherm_height = utils::parser_ITU_heatmap (data_path + "/Lat.txt",
-                                   data_path + "/Lon.txt",
-                                   data_path + "/ITU_R-REC-P.839-4.txt",
-                                   2,
-                                   86);
+        isotherm_height = utils::parser_ITU_heatmap (
+            data_path + "/Lat.txt", data_path + "/Lon.txt",
+            data_path + "/ITU_R-REC-P.839-4.txt", d_tracker_lontitude,
+            d_tracker_latitude);
       }
 
       precipitation_itu_impl::~precipitation_itu_impl ()

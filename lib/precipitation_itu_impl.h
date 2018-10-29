@@ -35,26 +35,26 @@ namespace gr
       {
 
       public:
-        precipitation_itu_impl (float frequency, float rainfall_rate, float tracker_altitude, float tracker_latitude);
+        precipitation_itu_impl (float frequency, float rainfall_rate,
+                                float tracker_lontitude, float tracker_altitude,
+                                float tracker_latitude);
 
         ~precipitation_itu_impl ();
 
-
         float
         get_attenuation (float elevation);
-
-
 
       private:
 
         float d_frequency;
         float d_rainfall_rate;
         float d_elevation_angle;
+        float d_tracker_lontitude;
         float d_tracker_altitude;
         float d_tracker_latitude;
 
         float
-        get_zero_degree_isotherm_height(float lat, float lon);
+        get_zero_degree_isotherm_height (float lat, float lon);
 
       };
     } // namespace attenuation

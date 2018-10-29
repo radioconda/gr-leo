@@ -37,17 +37,20 @@ namespace gr
     /**
      * TODO: Pass tracker as argument to avoid initialization issues
      */
-    atmosphere::atmosphere (float frequency,
+    atmosphere::atmosphere (float frequency, float tracker_lontitude,
+                            float tracker_altitude, float tracker_latitude,
                             const atmo_gases_attenuation_t atmo_gases,
                             const float surface_watervap_density,
                             const float temperature) :
             d_frequency (frequency / 1e9),
             d_elevation (0),
-            d_tracker_altitude(0),
+            d_tracker_lontitude (tracker_lontitude),
+            d_tracker_altitude (tracker_altitude),
+            d_tracker_latitude (tracker_latitude),
             d_atmo_gases_enum (atmo_gases),
             d_surface_watervap_density (surface_watervap_density),
             d_temperature (temperature),
-            d_atmo_gases_attenuation(NULL)
+            d_atmo_gases_attenuation (NULL)
     {
       switch (d_atmo_gases_enum)
         {
@@ -56,8 +59,9 @@ namespace gr
               d_frequency, d_surface_watervap_density);
           break;
         case ATMO_GASES_REGRESSION:
-          d_atmo_gases_attenuation = attenuation::atmospheric_gases_regression::make (
-                        d_frequency, d_surface_watervap_density, d_temperature);
+          d_atmo_gases_attenuation =
+              attenuation::atmospheric_gases_regression::make (
+                  d_frequency, d_surface_watervap_density, d_temperature);
           break;
         case NONE:
           break;
@@ -65,7 +69,9 @@ namespace gr
           throw std::runtime_error ("Invalid atmospheric gases attenuation!");
         }
 
-      d_precipitation_attenuation = attenuation::precipitation_itu::make(d_frequency, 8.5, d_tracker_altitude, d_tracker_latitude);
+      d_precipitation_attenuation = attenuation::precipitation_itu::make (
+          d_frequency, 8.5, d_tracker_lontitude, d_tracker_altitude,
+          d_tracker_latitude);
     }
 
     atmosphere::~atmosphere ()
@@ -89,7 +95,6 @@ namespace gr
     {
       d_tracker_latitude = latitude;
     }
-
 
     float
     atmosphere::get_attenuation ()

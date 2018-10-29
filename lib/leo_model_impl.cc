@@ -59,6 +59,9 @@ namespace gr
         d_nco.set_freq (0);
         d_atmosphere = new atmosphere (
             get_frequency (),
+            d_tracker->get_lontitude(),
+            d_tracker->get_altitude(),
+            d_tracker->get_latitude(),
             (atmo_gases_attenuation_t) d_atmo_gases_attenuation,
             d_surface_watervap_density, d_temperature);
       }

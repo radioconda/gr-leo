@@ -39,7 +39,9 @@ namespace gr
 
     public:
 
-      atmosphere (float frequency, const atmo_gases_attenuation_t, const float surface_watervap_density,
+      atmosphere (float frequency, float tracker_lontitude, float tracker_altitude,
+                  float tracker_latitude, const atmo_gases_attenuation_t,
+                  const float surface_watervap_density,
                   const float temperature);
 
       ~atmosphere ();
@@ -59,6 +61,7 @@ namespace gr
     private:
       float d_frequency;
       float d_elevation;
+      float d_tracker_lontitude;
       float d_tracker_altitude;
       float d_tracker_latitude;
 

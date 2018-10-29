@@ -40,7 +40,8 @@ namespace gr
       public:
 
         static generic_attenuation::generic_attenuation_sptr
-        make (float frequency, float rainfall_rate, float tracker_altitude, float tracker_latitude);
+        make (float frequency, float rainfall_rate, float tracker_lontitude,
+              float tracker_altitude, float tracker_latitude);
 
       };
     } // namespace attenuation
