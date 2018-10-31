@@ -34,6 +34,9 @@ namespace gr
   {
     namespace utils
     {
+      /**
+       *
+       */
       float
       parser_ITU_heatmap (std::string lat_file_path, std::string lon_file_path,
                           std::string heatmap_file_path, float lon, float lat)
@@ -43,71 +46,109 @@ namespace gr
         size_t lon_idx = 0;
         size_t lat_idx = 0;
         size_t tmp_idx = 0;
+        size_t middle_idx;
+        bool reversed = false;
+        float tmp;
 
-        std::ifstream lon_file (lon_file_path);
+        std::vector<float> coord;
+
         std::string line;
+        boost::regex pat ("[^\\s\\n]+");
+        boost::regex pattern (pat);
+
+        /**
+         * Handle Longitude
+         */
+        std::ifstream lon_file (lon_file_path);
         std::getline (lon_file, line);
 
-        boost::tokenizer<separator_type> tokenizer (line, separator_type (" "));
-        auto it = tokenizer.begin ();
-        while (it != tokenizer.end ()) {
-          float val = std::atof ((*it++).c_str ());
-          if (val == lon) {
-            break;
-          }
-          /**
-           * TODO: Fix the case that lon data is descending
-           */
-          else if (val > lon) {
-            lon_idx--;
-            break;
-          }
-          lon_idx++;
+        boost::sregex_iterator it (line.begin (), line.end (), pattern);
+        boost::sregex_iterator end;
+
+        for (; it != end; ++it) {
+          coord.push_back (std::atof (it->str ().c_str ()));
         }
 
-        std::ifstream file_lat (lat_file_path);
-        while (std::getline (file_lat, line)) {
-          boost::tokenizer<separator_type> tokenizer (line,
-                                                      separator_type ("\t"));
-          auto it = tokenizer.begin ();
-          float val = std::atof ((*it).c_str ());
-          if (val == lat) {
-            break;
+        // Convert ITU data to follow (-180, 180) scheme
+        if (*max_element (coord.begin (), coord.end ()) == 360) {
+          for (size_t t = 0; t < coord.size (); t++) {
+            coord[t] -= 180;
           }
-          /**
-           * TODO: Fix the case that lat data is ascending
-           */
-          else if (val < lat) {
-            lat_idx--;
-            break;
-          }
-          lat_idx++;
+        }
+        if (!std::is_sorted (coord.begin (), coord.end ())) {
+          std::reverse (coord.begin (), coord.end ());
+          reversed = true;
+        }
+        lon_idx = std::distance (
+            coord.begin (),
+            std::lower_bound (coord.begin (), coord.end () - 1, lon));
+        if (reversed) {
+          middle_idx = (coord.size () - 1) / 2;
+          lon_idx =
+              (lon_idx >= middle_idx) ?
+                  lon_idx - 2 * (std::fabs (middle_idx - lon_idx)) :
+                  lon_idx + 2 * (std::fabs (middle_idx - lon_idx));
+        }
+        reversed = false;
+
+        /**
+         * Handle Latitude
+         */
+        std::ifstream lat_file (lat_file_path);
+        coord.clear ();
+        while (std::getline (lat_file, line)) {
+          boost::sregex_iterator it_lat (line.begin (), line.end (), pattern);
+          tmp = std::atof (it_lat->str ().c_str ());
+          coord.push_back (tmp);
         }
 
-        std::ifstream file_heatmap (heatmap_file_path);
-        while (std::getline (file_heatmap, line)) {
+        // Convert ITU data to follow (-90, 90) scheme
+        if (*max_element (coord.begin (), coord.end ()) == 180) {
+          for (size_t t = 0; t < coord.size (); t++) {
+            coord[t] -= 90;
+          }
+        }
+        if (!std::is_sorted (coord.begin (), coord.end ())) {
+          std::reverse (coord.begin (), coord.end ());
+          reversed = true;
+        }
+        lat_idx = std::distance (
+            coord.begin (),
+            std::lower_bound (coord.begin (), coord.end () - 1, lat));
+        if (reversed) {
+          middle_idx = (coord.size () - 1) / 2;
+          lat_idx =
+              (lat_idx >= middle_idx) ?
+                  lat_idx - 2 * (lat_idx - middle_idx) :
+                  lat_idx + 2 * (middle_idx - lat_idx);
+        }
+
+        /**
+         * Handle Latitude
+         */
+        std::ifstream heatmap_file (heatmap_file_path);
+        coord.clear ();
+        while (std::getline (heatmap_file, line)) {
           if (tmp_idx == lat_idx) {
             tmp_idx = 0;
-            boost::tokenizer<separator_type> tokenizer (line,
-                                                        separator_type ("\t"));
-            auto it = tokenizer.begin ();
-            for (boost::tokenizer<separator_type>::iterator it =
-                tokenizer.begin (); it != tokenizer.end (); ++it) {
-              if (tmp_idx == lon_idx) {
-                float tmp = std::atof ((*it).c_str ());
-                value = tmp;
-                break;
-              }
-              tmp_idx++;
-            }
-          }
-          if (value > 0) {
+            boost::sregex_iterator it_lat (line.begin (), line.end (), pattern);
             break;
           }
           tmp_idx++;
         }
+        boost::sregex_iterator it_heat (line.begin (), line.end (), pattern);
+        for (; it_heat != end; ++it_heat) {
+          if (tmp_idx == lon_idx) {
+            value = std::atof (it_heat->str ().c_str ());
+            break;
+          }
+          tmp_idx++;
+        }
+
         return value;
+
       }
+
     } /* utils */
   } /* namespace leo */
 } /* namespace gr */

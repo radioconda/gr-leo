@@ -31,6 +31,7 @@
 #include <sstream>
 #include <iterator>
 #include <boost/tokenizer.hpp>
+#include <boost/regex.hpp>
 
 namespace gr
 {
