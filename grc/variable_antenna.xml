@@ -68,6 +68,14 @@ raise RuntimeError
         <name>LINEAR</name>
         <key>2</key>
     </option>
+    <option>
+        <name>VERTICAL</name>
+        <key>3</key>
+    </option>
+    <option>
+        <name>HORIZONTAL</name>
+        <key>4</key>
+    </option>
     </param>
   
   <param>

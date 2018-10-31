@@ -39,8 +39,10 @@ namespace gr
 
     public:
 
-      atmosphere (float frequency, float tracker_lontitude, float tracker_altitude,
-                  float tracker_latitude, const atmo_gases_attenuation_t,
+      atmosphere (float frequency, float tracker_lontitude,
+                  float tracker_latitude,
+                  const atmo_gases_attenuation_t atmo_gases,
+                  const precipitation_attenuation_t precipitation,
                   const float surface_watervap_density,
                   const float temperature);
 
@@ -53,22 +55,19 @@ namespace gr
       set_elevation_angle (float angle);
 
       void
-      set_tracker_altitude (float altitude);
-
-      void
       set_tracker_latitude (float latitude);
 
     private:
       float d_frequency;
       float d_elevation;
       float d_tracker_lontitude;
-      float d_tracker_altitude;
       float d_tracker_latitude;
 
       float d_surface_watervap_density;
       float d_temperature;
 
       atmo_gases_attenuation_t d_atmo_gases_enum;
+      precipitation_attenuation_t d_precipitation_enum;
       generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
       generic_attenuation::generic_attenuation_sptr d_precipitation_attenuation;
 

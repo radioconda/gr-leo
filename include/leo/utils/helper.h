@@ -32,6 +32,7 @@
 #include <iterator>
 #include <boost/tokenizer.hpp>
 #include <boost/regex.hpp>
+#include <leo/api.h>
 
 namespace gr
 {
@@ -42,6 +43,12 @@ namespace gr
       float
       parser_ITU_heatmap (std::string lat_file, std::string lon_file,
                           std::string heatmap_file, float lon, float lat);
+
+      float
+      degrees_to_radians(float degrees);
+
+      float
+      radians_to_degrees(float radians);
     }
   }
 }

@@ -149,6 +149,18 @@ namespace gr
 
       }
 
+      float
+      degrees_to_radians (float degrees)
+      {
+        return degrees * MATH_PI / 180.0;
+      }
+
+      float
+      radians_to_degrees (float radians)
+      {
+        return radians * 180.0 / MATH_PI;
+      }
+
     } /* utils */
   } /* namespace leo */
 } /* namespace gr */

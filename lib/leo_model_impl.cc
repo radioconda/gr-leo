@@ -37,32 +37,35 @@ namespace gr
       generic_model::generic_model_sptr
       leo_model::make (tracker::tracker_sptr tracker, const uint8_t mode,
                        const uint8_t atmo_gases_attenuation,
+                       const uint8_t precipitation_attenuation,
                        const float surface_watervap_density,
                        const float temperature)
       {
         return generic_model::generic_model_sptr (
             new leo_model_impl (tracker, mode, atmo_gases_attenuation,
+                                precipitation_attenuation,
                                 surface_watervap_density, temperature));
       }
 
       leo_model_impl::leo_model_impl (tracker::tracker_sptr tracker,
                                       const uint8_t mode,
                                       const uint8_t atmo_gases_attenuation,
+                                      const uint8_t precipitation_attenuation,
                                       const float surface_watervap_density,
                                       const float temperature) :
               generic_model ("leo_model", tracker, mode),
               d_nco (),
               d_atmo_gases_attenuation (atmo_gases_attenuation),
+              d_precipitation_attenuation (precipitation_attenuation),
               d_surface_watervap_density (surface_watervap_density),
               d_temperature (temperature)
       {
         d_nco.set_freq (0);
         d_atmosphere = new atmosphere (
-            get_frequency (),
-            d_tracker->get_lontitude(),
-            d_tracker->get_altitude(),
-            d_tracker->get_latitude(),
+            get_frequency (), d_tracker->get_lontitude (),
+            d_tracker->get_latitude (),
             (atmo_gases_attenuation_t) d_atmo_gases_attenuation,
+            (precipitation_attenuation_t) d_precipitation_attenuation,
             d_surface_watervap_density, d_temperature);
       }
 

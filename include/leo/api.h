@@ -43,7 +43,17 @@
 
 enum atmo_gases_attenuation_t
 {
-  NONE = 0, ATMO_GASES_ITU, ATMO_GASES_REGRESSION
+  ATMO_GASES_NONE = 0, ATMO_GASES_ITU, ATMO_GASES_REGRESSION
+};
+
+enum precipitation_attenuation_t
+{
+  PRECIPITATION_NONE = 0, PRECIPITATION_ITU, CUSTOM
+};
+
+enum polarization_t
+{
+  RHCP = 0, LHCP, LINEAR, VERTICAL, HORIZONTAL
 };
 
 /**
