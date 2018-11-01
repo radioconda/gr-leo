@@ -24,6 +24,11 @@
 
 #include "leo_model_impl.h"
 #include <cstring>
+#include <leo/free_space_path_loss.h>
+#include <leo/atmospheric_gases_itu.h>
+#include <leo/atmospheric_gases_regression.h>
+#include <leo/precipitation_itu.h>
+#include <leo/utils/helper.h>
 #include <leo/log.h>
 #include <volk/volk.h>
 
@@ -39,39 +44,64 @@ namespace gr
                        const uint8_t atmo_gases_attenuation,
                        const uint8_t precipitation_attenuation,
                        const float surface_watervap_density,
-                       const float temperature)
+                       const float temperature,
+                       const float rainfall_rate)
       {
         return generic_model::generic_model_sptr (
             new leo_model_impl (tracker, mode, atmo_gases_attenuation,
                                 precipitation_attenuation,
-                                surface_watervap_density, temperature));
+                                surface_watervap_density, temperature,
+                                rainfall_rate));
       }
 
       leo_model_impl::leo_model_impl (tracker::tracker_sptr tracker,
                                       const uint8_t mode,
-                                      const uint8_t atmo_gases_attenuation,
-                                      const uint8_t precipitation_attenuation,
+                                      const uint8_t atmo_gases_enum,
+                                      const uint8_t precipitation_enum,
                                       const float surface_watervap_density,
-                                      const float temperature) :
+                                      const float temperature,
+                                      const float rainfall_rate) :
               generic_model ("leo_model", tracker, mode),
               d_nco (),
-              d_atmo_gases_attenuation (atmo_gases_attenuation),
-              d_precipitation_attenuation (precipitation_attenuation),
+              d_slant_range (0),
+              d_doppler_shift (0),
+              d_atmo_gases_enum ((atmo_gases_attenuation_t) atmo_gases_enum),
               d_surface_watervap_density (surface_watervap_density),
-              d_temperature (temperature)
+              d_temperature (temperature),
+              d_rainfall_rate (rainfall_rate)
       {
         d_nco.set_freq (0);
-        d_atmosphere = new atmosphere (
-            get_frequency (), d_tracker->get_lontitude (),
-            d_tracker->get_latitude (),
-            (atmo_gases_attenuation_t) d_atmo_gases_attenuation,
-            (precipitation_attenuation_t) d_precipitation_attenuation,
-            d_surface_watervap_density, d_temperature);
+
+        orbit_update();
+
+        switch (atmo_gases_enum)
+          {
+          case ATMO_GASES_ITU:
+            d_atmo_gases_attenuation =
+                attenuation::atmospheric_gases_itu::make (
+                    d_surface_watervap_density);
+            break;
+          case ATMO_GASES_REGRESSION:
+            d_atmo_gases_attenuation =
+                attenuation::atmospheric_gases_regression::make (
+                    d_surface_watervap_density, d_temperature);
+            break;
+          case ATMO_GASES_NONE:
+            break;
+          default:
+            throw std::runtime_error ("Invalid atmospheric gases attenuation!");
+          }
+
+        /**
+         * TODO: Add parameter for rainfall rate
+         */
+        d_precipitation_attenuation = attenuation::precipitation_itu::make (
+            d_rainfall_rate, d_tracker->get_lontitude (), d_tracker->get_latitude (),
+            (precipitation_attenuation_t) precipitation_enum);
       }
 
       leo_model_impl::~leo_model_impl ()
       {
-        delete d_atmosphere;
       }
 
       float
@@ -89,6 +119,37 @@ namespace gr
         return (1e3 * velocity * get_frequency ()) / LIGHT_SPEED;
       }
 
+      float
+      leo_model_impl::calculate_total_attenuation ()
+      {
+        float total_attenuation = 0;
+        float atmo_attenuation = 0;
+        float fspl_attenuation = 0;
+        float rainfall_attenuation = 0;
+
+        orbit_update();
+
+        if (d_atmo_gases_attenuation) {
+          atmo_attenuation = d_atmo_gases_attenuation->get_attenuation ();
+          total_attenuation += atmo_attenuation;
+        }
+        if (d_precipitation_attenuation) {
+          rainfall_attenuation = d_precipitation_attenuation->get_attenuation ();
+          total_attenuation += rainfall_attenuation;
+        }
+        if (d_fspl_attenuation) {
+          total_attenuation += d_fspl_attenuation->get_attenuation ();
+        }
+
+        LEO_LOG_INFO(
+            "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Doppler (Hz): %f",
+            d_tracker->get_elapsed_time ().ToString ().c_str (), d_slant_range,
+            d_tracker->get_elevation_degrees(), fspl_attenuation, atmo_attenuation,
+            d_doppler_shift);
+
+        return total_attenuation;
+      }
+
       void
       leo_model_impl::generic_work (const gr_complex *inbuffer,
                                     gr_complex *outbuffer, int noutput_items)
@@ -102,66 +163,63 @@ namespace gr
         gr_complex* tmp = new gr_complex[noutput_items];
 
         float pl_attenuation_db;
-        float atmo_attenuation_db;
-        float doppler_shift;
+        float total_attenuation_db;
         float tracker_antenna_gain_db;
         float satellite_antenna_gain_db;
 
         gr_complex attenuation_linear;
 
         d_tracker->add_elapsed_time ();
-        double slant_range = d_tracker->get_slant_range ();
-        float elevation_degrees = d_tracker->get_elevation_degrees ();
-        float elevation_radians = d_tracker->get_elevation_radians ();
-        d_atmosphere->set_elevation_angle (elevation_radians);
+        d_slant_range = d_tracker->get_slant_range ();
 
-        if (slant_range) {
-          doppler_shift = calculate_doppler_shift (d_tracker->get_velocity ());
+        if (d_slant_range) {
+          d_doppler_shift = calculate_doppler_shift (d_tracker->get_velocity ());
 
           d_nco.set_freq (
-              2 * M_PI * doppler_shift
+              2 * M_PI * d_doppler_shift
                   / ((1e6 * noutput_items)
                       / d_tracker->get_time_resolution_us ()));
           d_nco.sincos (tmp, noutput_items, 1.0);
           volk_32fc_x2_multiply_32fc (tmp, tmp, inbuffer, noutput_items);
 
           /**
-           * Calculate Free-Space Path Loss attenuation in db,
-           * convert it to liner and multiply.
+           * Get total attenuation in dB, convert it to linear and
+           * multiply
            */
-          tracker_antenna_gain_db = get_tracker_antenna_gain ();
-          satellite_antenna_gain_db = get_satellite_antenna_gain ();
-          pl_attenuation_db = calculate_free_space_path_loss (slant_range)
-              - (tracker_antenna_gain_db + satellite_antenna_gain_db);
+          total_attenuation_db = calculate_total_attenuation ();
           attenuation_linear = gr_complex (
-              1.0 / pow (10, (pl_attenuation_db / 20)), 0);
-          volk_32fc_s32fc_multiply_32fc (tmp, tmp, attenuation_linear,
-                                         noutput_items);
-
-          /**
-           * Calculate atmospheric gases attenuation in db,
-           * convert it to liner and multiply.
-           */
-          atmo_attenuation_db = d_atmosphere->get_attenuation ();
-          attenuation_linear = gr_complex (
-              1.0 / pow (10, (atmo_attenuation_db / 20)));
+              1.0 / pow (10, (total_attenuation_db / 20)));
           volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
                                          noutput_items);
+
+//          /**
+//           * Calculate Free-Space Path Loss attenuation in db,
+//           * convert it to liner and multiply.
+//           */
+//          tracker_antenna_gain_db = get_tracker_antenna_gain ();
+//          satellite_antenna_gain_db = get_satellite_antenna_gain ();
+//          pl_attenuation_db = calculate_free_space_path_loss (slant_range)
+//              - (tracker_antenna_gain_db + satellite_antenna_gain_db);
+//          attenuation_linear = gr_complex (
+//              1.0 / pow (10, (pl_attenuation_db / 20)), 0);
+//          volk_32fc_s32fc_multiply_32fc (tmp, tmp, attenuation_linear,
+//                                         noutput_items);
+//
+//          /**
+//           * Calculate atmospheric gases attenuation in db,
+//           * convert it to liner and multiply.
+//           */
+//          atmo_attenuation_db = d_atmosphere->get_attenuation ();
+//          attenuation_linear = gr_complex (
+//              1.0 / pow (10, (atmo_attenuation_db / 20)));
+//          volk_32fc_s32fc_multiply_32fc (outbuffer, tmp, attenuation_linear,
+//                                         noutput_items);
         }
         else {
           memset (outbuffer, 0, noutput_items * sizeof(gr_complex));
         }
 
         delete tmp;
-
-        LEO_LOG_INFO(
-            "Tracker antenna gain (dB): %f | Satellite antenna gain (dB): %f",
-            tracker_antenna_gain_db, satellite_antenna_gain_db);
-        LEO_LOG_INFO(
-            "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Doppler (Hz): %f",
-            d_tracker->get_elapsed_time ().ToString ().c_str (), slant_range,
-            elevation_degrees, pl_attenuation_db, atmo_attenuation_db,
-            doppler_shift);
 
       }
     } /* namespace model */

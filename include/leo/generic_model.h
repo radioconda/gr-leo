@@ -23,10 +23,10 @@
 
 #include <leo/api.h>
 #include <leo/tracker.h>
+#include <leo/generic_attenuation.h>
 #include <gnuradio/runtime_types.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/format.hpp>
-#include <leo/tracker.h>
 
 namespace gr
 {
@@ -92,6 +92,9 @@ namespace gr
       float
       get_frequency ();
 
+      uint8_t
+      get_polarization ();
+
       /*!
        * \brief Get the appropriate satellite antenna gain for the cases of uplink and
        * downlink mode.
@@ -107,6 +110,9 @@ namespace gr
        */
       float
       get_tracker_antenna_gain ();
+
+      void
+      orbit_update();
 
       virtual
       ~generic_model ();

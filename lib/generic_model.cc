@@ -57,7 +57,21 @@ namespace gr
         return d_tracker->get_comm_freq_uplink ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_satellite_info ()->get_comm_freq_downlink ();
+        return d_tracker->get_comm_freq_downlink ();
+      }
+      else {
+        throw std::runtime_error ("Invalid transmission mode");
+      }
+    }
+
+    uint8_t
+    generic_model::get_polarization ()
+    {
+      if (d_mode == UPLINK) {
+        return d_tracker->get_uplink_antenna ()->get_polarization ();
+      }
+      else if (d_mode == DOWNLINK) {
+        return d_tracker->get_downlink_antenna ()->get_polarization ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
@@ -98,6 +112,17 @@ namespace gr
     generic_model::unique_id ()
     {
       return my_id;
+    }
+
+    void
+    generic_model::orbit_update ()
+    {
+      float elevation_radians = d_tracker->get_elevation_radians ();
+      uint8_t polarization = get_tracker_antenna_gain ();
+
+      generic_attenuation::set_elevation_angle (elevation_radians);
+      generic_attenuation::set_frequency (get_frequency ());
+      generic_attenuation::set_polarization (polarization);
     }
 
   } /* namespace leo */

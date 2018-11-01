@@ -39,10 +39,10 @@ list(APPEND leo_sources
 	satellite.cc
 	tracker.cc
 	generic_attenuation.cc
+	free_space_path_loss_impl.cc
 	atmospheric_gases_itu_impl.cc
 	atmospheric_gases_regression_impl.cc
 	precipitation_itu_impl.cc
-	atmosphere.cc
 	generic_model.cc
 	leo_model_impl.cc
 	channel_model_impl.cc

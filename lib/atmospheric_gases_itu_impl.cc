@@ -34,23 +34,19 @@ namespace gr
     {
 
       generic_attenuation::generic_attenuation_sptr
-      atmospheric_gases_itu::make (float frequency,
-                                   float surface_watervap_density)
+      atmospheric_gases_itu::make (float surface_watervap_density)
       {
         return generic_attenuation::generic_attenuation_sptr (
-            new atmospheric_gases_itu_impl (frequency,
-                                            surface_watervap_density));
+            new atmospheric_gases_itu_impl (surface_watervap_density));
       }
 
       atmospheric_gases_itu_impl::atmospheric_gases_itu_impl (
-          float frequency, float surface_watervap_density) :
+          float surface_watervap_density) :
               generic_attenuation (),
-              d_frequency (frequency),
               d_oxygen_pressure (0),
               d_temperature (0),
               d_water_pressure (0),
-              d_elevation_angle (0),
-              d_surface_watervap_density(surface_watervap_density)
+              d_surface_watervap_density (surface_watervap_density)
       {
       }
 
@@ -256,11 +252,11 @@ namespace gr
             delta = (1e-4) * (d_table1[index][5] + d_table1[index][6] * theta)
                 * (d_oxygen_pressure + d_water_pressure)
                 * std::pow (theta, 0.8);
-            result = (d_frequency / f0)
-                * (((df - delta * (f0 - d_frequency))
-                    / (std::pow (f0 - d_frequency, 2) + std::pow (df, 2)))
-                    + ((df - delta * (f0 + d_frequency))
-                        / (std::pow (f0 + d_frequency, 2) + std::pow (df, 2))));
+            result = (frequency / f0)
+                * (((df - delta * (f0 - frequency))
+                    / (std::pow (f0 - frequency, 2) + std::pow (df, 2)))
+                    + ((df - delta * (f0 + frequency))
+                        / (std::pow (f0 + frequency, 2) + std::pow (df, 2))));
             break;
           case WATER_VAPOUR:
             f0 = d_table2[index][0];
@@ -274,11 +270,11 @@ namespace gr
           default:
             throw std::runtime_error ("Invalid atmosphere element!");
           }
-        result = (d_frequency / f0)
-            * (((df - delta * (f0 - d_frequency))
-                / (std::pow (f0 - d_frequency, 2) + std::pow (df, 2)))
-                + ((df - delta * (f0 + d_frequency))
-                    / (std::pow (f0 + d_frequency, 2) + std::pow (df, 2))));
+        result = (frequency / f0)
+            * (((df - delta * (f0 - frequency))
+                / (std::pow (f0 - frequency, 2) + std::pow (df, 2)))
+                + ((df - delta * (f0 + frequency))
+                    / (std::pow (f0 + frequency, 2) + std::pow (df, 2))));
 
         return result;
       }
@@ -289,10 +285,10 @@ namespace gr
         float theta = 300 / d_temperature;
         float d = (d_oxygen_pressure + d_water_pressure) * std::pow (theta, 0.8)
             * 5.6e-4;
-        return d_frequency * d_oxygen_pressure * std::pow (theta, 2)
-            * (6.14e-5 / (d * (1 + std::pow (d_frequency / d, 2)))
+        return frequency * d_oxygen_pressure * std::pow (theta, 2)
+            * (6.14e-5 / (d * (1 + std::pow (frequency / d, 2)))
                 + (d_oxygen_pressure * std::pow (theta, 1.5) * 1.4e-12
-                    / (1 + (std::pow (d_frequency, 1.5) * 1.9e-5))));
+                    / (1 + (std::pow (frequency, 1.5) * 1.9e-5))));
       }
 
       float
@@ -322,7 +318,7 @@ namespace gr
       float
       atmospheric_gases_itu_impl::gamma ()
       {
-        return 0.1820 * d_frequency * (N (OXYGEN) + N (WATER_VAPOUR));
+        return 0.1820 * frequency * (N (OXYGEN) + N (WATER_VAPOUR));
       }
 
       float
@@ -372,7 +368,7 @@ namespace gr
         float aangle;
         float bangle;
         if (n == 1) {
-          bangle = 1.5707963268 - d_elevation_angle;
+          bangle = 1.5707963268 - elevation_angle;
           return bangle;
         }
         else {
@@ -390,7 +386,7 @@ namespace gr
       }
 
       float
-      atmospheric_gases_itu_impl::get_attenuation (float elevation)
+      atmospheric_gases_itu_impl::get_attenuation ()
       {
         float delta;
         float delta_sum = 0;
@@ -400,12 +396,10 @@ namespace gr
         float prev_alpha = 0;
         float alpha_sum = 0;
 
-        d_elevation_angle = elevation;
-
         /**
          * Method is only valid for elevation angles above 1 degree
          */
-        if (d_elevation_angle < 0.0174533) {
+        if (elevation_angle < 0.0174533) {
           return 0;
         }
 

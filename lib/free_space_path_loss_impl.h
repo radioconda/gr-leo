@@ -18,11 +18,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_PRECIPITATION_ITU_H
-#define INCLUDED_LEO_PRECIPITATION_ITU_H
+#ifndef INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H
+#define INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H
 
-#include <leo/api.h>
-#include <leo/generic_attenuation.h>
+#include "../include/leo/free_space_path_loss.h"
+#include <vector>
 
 namespace gr
 {
@@ -30,22 +30,24 @@ namespace gr
   {
     namespace attenuation
     {
-      /*!
-       * \brief Precipitation loss following the ITU P.618 recommendation
-       */
-      class LEO_API precipitation_itu : virtual public generic_attenuation
+
+      class LEO_API free_space_path_loss_impl : public free_space_path_loss
       {
 
       public:
+        free_space_path_loss_impl ();
 
-        static generic_attenuation::generic_attenuation_sptr
-        make (float rainfall_rate, float tracker_lontitude,
-              float tracker_latitude, precipitation_attenuation_t mode);
+        ~free_space_path_loss_impl ();
+
+        float
+        get_attenuation ();
+
+      private:
 
       };
     } // namespace attenuation
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEOPRECIPITATION_ITU_H */
+#endif /* INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H */
 

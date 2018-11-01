@@ -70,7 +70,7 @@ namespace gr
         }
 
         // Convert ITU data to follow (-180, 180) scheme
-        if (*max_element (coord.begin (), coord.end ()) == 360) {
+        if (*max_element (coord.begin (), coord.end ()) >= 180) {
           for (size_t t = 0; t < coord.size (); t++) {
             coord[t] -= 180;
           }
@@ -103,7 +103,7 @@ namespace gr
         }
 
         // Convert ITU data to follow (-90, 90) scheme
-        if (*max_element (coord.begin (), coord.end ()) == 180) {
+        if (*max_element (coord.begin (), coord.end ()) >= 90) {
           for (size_t t = 0; t < coord.size (); t++) {
             coord[t] -= 90;
           }
