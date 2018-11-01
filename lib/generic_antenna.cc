@@ -64,7 +64,7 @@ namespace gr
     generic_antenna::get_polarization ()
     {
       // FIXME
-      return 0;
+      return d_polarization;
     }
 
     int generic_antenna::base_unique_id = 1;

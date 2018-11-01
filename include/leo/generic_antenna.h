@@ -55,11 +55,6 @@ namespace gr
         YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM
       };
 
-      enum Polarization
-      {
-        RHCP, LHCP, LINEAR
-      };
-
       uint8_t d_type;
 
       float d_frequency;

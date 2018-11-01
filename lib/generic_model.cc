@@ -30,8 +30,12 @@ namespace gr
   namespace leo
   {
 
-    generic_model::generic_model (std::string name) :
-            d_name (name)
+    generic_model::generic_model (std::string name,
+                                  tracker::tracker_sptr tracker,
+                                  const uint8_t mode) :
+            d_name (name),
+            d_mode (mode),
+            d_tracker (tracker)
     {
       my_id = base_unique_id++;
     }
@@ -44,18 +48,6 @@ namespace gr
     generic_model::get_tracker ()
     {
       return d_tracker;
-    }
-
-    void
-    generic_model::set_mode (uint8_t mode)
-    {
-      d_mode = mode;
-    }
-
-    void
-    generic_model::set_tracker (tracker::tracker_sptr tracker)
-    {
-      d_tracker = tracker;
     }
 
     float

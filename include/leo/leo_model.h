@@ -45,7 +45,10 @@ namespace gr
 
       public:
         static generic_model::generic_model_sptr
-        make (const uint8_t atmo_gases_attenuation, const float surface_watervap_density = 7.5,
+        make (tracker::tracker_sptr tracker, const uint8_t mode,
+              const uint8_t atmo_gases_attenuation,
+              const uint8_t precipitation_attenuation,
+              const float surface_watervap_density = 7.5,
               const float temperature = 0);
 
       };

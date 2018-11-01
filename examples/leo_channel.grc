@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1093, 434)</value>
+      <value>(813, 3)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -168,7 +168,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>4</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -219,7 +219,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(941, 434)</value>
+      <value>(502, 3)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -235,7 +235,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>4</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -286,7 +286,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1101, 51)</value>
+      <value>(654, 3)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -302,7 +302,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>4</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -353,7 +353,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(949, 51)</value>
+      <value>(351, 3)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -369,7 +369,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>4</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -388,7 +388,7 @@
     <key>variable_leo_model_def</key>
     <param>
       <key>atmo_gases_attenuation</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>comment</key>
@@ -400,7 +400,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(550, 155)</value>
+      <value>(510, 482)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -411,12 +411,28 @@
       <value>variable_leo_model_def_0</value>
     </param>
     <param>
-      <key>watervap</key>
+      <key>value</key>
+      <value>'fine'</value>
+    </param>
+    <param>
+      <key>mode</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>precipitation_attenuation</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>surface_watervap_density</key>
       <value>7.5</value>
     </param>
     <param>
       <key>temperature</key>
       <value>20</value>
+    </param>
+    <param>
+      <key>tracker</key>
+      <value>variable_tracker_0</value>
     </param>
   </block>
   <block>
@@ -439,7 +455,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(941, 578)</value>
+      <value>(718, 195)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -502,7 +518,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(941, 195)</value>
+      <value>(367, 187)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -518,11 +534,11 @@
     </param>
     <param>
       <key>gs_lat</key>
-      <value>35.3333</value>
+      <value>102.0700247</value>
     </param>
     <param>
       <key>gs_lon</key>
-      <value>25.1833</value>
+      <value>14</value>
     </param>
     <param>
       <key>name</key>
@@ -577,7 +593,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(406, 426)</value>
+      <value>(406, 809)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -636,7 +652,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(223, 315)</value>
+      <value>(207, 690)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -691,7 +707,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(630, 382)</value>
+      <value>(630, 765)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -746,7 +762,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(375, 323)</value>
+      <value>(375, 706)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -769,16 +785,8 @@
       <value>0</value>
     </param>
     <param>
-      <key>mode</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>sample_rate</key>
       <value>samp_rate</value>
-    </param>
-    <param>
-      <key>tracker</key>
-      <value>variable_tracker_0</value>
     </param>
   </block>
   <block>
@@ -829,7 +837,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(454, 586)</value>
+      <value>(742, 937)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1116,7 +1124,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(742, 323)</value>
+      <value>(742, 706)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1335,7 +1343,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(742, 418)</value>
+      <value>(742, 801)</value>
     </param>
     <param>
       <key>_rotation</key>
