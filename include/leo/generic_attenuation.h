@@ -46,19 +46,38 @@ namespace gr
        * \return the attenuation in dB.
        */
       virtual float
-      get_attenuation (float elevation) = 0;
+      get_attenuation () = 0;
+
+      static void
+      set_frequency (float freq);
+
+      static void
+      set_slant_range (float range);
+
+      static void
+      set_polarization (uint8_t polar);
+
+      static void
+      set_elevation_angle (float elev_angle);
 
       typedef boost::shared_ptr<generic_attenuation> generic_attenuation_sptr;
 
       static generic_attenuation::generic_attenuation_sptr
       make ();
 
+      generic_attenuation ();
+
       virtual
       ~generic_attenuation ();
 
-      generic_attenuation ();
-
+    protected:
+      static float frequency;
+      static float elevation_angle;
+      static float slant_range;
+      static uint8_t polarization;
     };
+
+
   } // namespace leo
 } // namespace gr
 

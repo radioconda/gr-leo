@@ -35,17 +35,17 @@ namespace gr
       {
 
       public:
-        atmospheric_gases_regression_impl (float frequency, float watervap, float temperature);
+        atmospheric_gases_regression_impl (float surface_watervap_density,
+                                           float temperature);
 
         ~atmospheric_gases_regression_impl ();
 
         float
-        get_attenuation (float elevation);
+        get_attenuation ();
 
       private:
 
-        float d_frequency;
-        float d_watervap;
+        float d_surface_watervap_density;
         float d_temperature;
         float d_af, d_bf, d_cf;
         float d_azf, d_bzf, d_czf;

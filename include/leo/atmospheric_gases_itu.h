@@ -23,7 +23,6 @@
 
 #include <leo/api.h>
 #include <leo/generic_attenuation.h>
-#include <string>
 
 namespace gr
 {
@@ -40,7 +39,7 @@ namespace gr
       public:
 
         static generic_attenuation::generic_attenuation_sptr
-        make (float frequency);
+        make (float surface_watervap_density);
 
       };
     } // namespace attenuation

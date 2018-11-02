@@ -57,8 +57,7 @@ namespace gr
        * \param mode. The transmission mode.
        */
       static sptr
-      make (const float sample_rate, generic_model::generic_model_sptr model,
-            tracker::tracker_sptr tracker, const uint8_t mode);
+      make (const float sample_rate, generic_model::generic_model_sptr model);
 
     };
 

@@ -30,8 +30,12 @@ namespace gr
   namespace leo
   {
 
-    generic_model::generic_model (std::string name) :
-            d_name (name)
+    generic_model::generic_model (std::string name,
+                                  tracker::tracker_sptr tracker,
+                                  const uint8_t mode) :
+            d_name (name),
+            d_mode (mode),
+            d_tracker (tracker)
     {
       my_id = base_unique_id++;
     }
@@ -46,18 +50,6 @@ namespace gr
       return d_tracker;
     }
 
-    void
-    generic_model::set_mode (uint8_t mode)
-    {
-      d_mode = mode;
-    }
-
-    void
-    generic_model::set_tracker (tracker::tracker_sptr tracker)
-    {
-      d_tracker = tracker;
-    }
-
     float
     generic_model::get_frequency ()
     {
@@ -65,7 +57,21 @@ namespace gr
         return d_tracker->get_comm_freq_uplink ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_satellite_info ()->get_comm_freq_downlink ();
+        return d_tracker->get_comm_freq_downlink ();
+      }
+      else {
+        throw std::runtime_error ("Invalid transmission mode");
+      }
+    }
+
+    uint8_t
+    generic_model::get_polarization ()
+    {
+      if (d_mode == UPLINK) {
+        return d_tracker->get_uplink_antenna ()->get_polarization ();
+      }
+      else if (d_mode == DOWNLINK) {
+        return d_tracker->get_downlink_antenna ()->get_polarization ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
@@ -106,6 +112,19 @@ namespace gr
     generic_model::unique_id ()
     {
       return my_id;
+    }
+
+    void
+    generic_model::orbit_update ()
+    {
+      float elevation_radians = d_tracker->get_elevation_radians ();
+      double range = d_tracker->get_slant_range();
+      uint8_t polarization = get_polarization();
+
+      generic_attenuation::set_elevation_angle (elevation_radians);
+      generic_attenuation::set_frequency (get_frequency ());
+      generic_attenuation::set_polarization (polarization);
+      generic_attenuation::set_slant_range (range);
     }
 
   } /* namespace leo */

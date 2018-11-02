@@ -204,6 +204,16 @@ namespace gr
       const float
       get_comm_freq_uplink () const;
 
+
+      const float
+      get_altitude () const;
+
+      const float
+      get_latitude () const;
+
+      const float
+      get_lontitude () const;
+
       /*!
        * Returns the antenna that is used from the tracker's uplink COMM system.
        * @return a boost::shared_ptr to the antenna.
@@ -233,6 +243,10 @@ namespace gr
       const float d_time_resolution_us;
       const float d_comm_freq_uplink;
       const float d_comm_freq_downlink;
+
+      const float d_gs_lat;
+      const float d_gs_alt;
+      const float d_gs_lon;
 
       generic_antenna::generic_antenna_sptr d_uplink_antenna;
       generic_antenna::generic_antenna_sptr d_downlink_antenna;

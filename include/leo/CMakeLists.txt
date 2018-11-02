@@ -22,6 +22,7 @@
 # Install public header files
 ########################################################################
 install(FILES
+	utils/helper.h
     api.h
     log.h
     satellite.h
@@ -32,9 +33,10 @@ install(FILES
     custom_antenna.h
     tracker.h
     generic_attenuation.h
+    free_space_path_loss.h
     atmospheric_gases_itu.h
     atmospheric_gases_regression.h
-    atmosphere.h
+    precipitation_itu.h
     generic_model.h
     leo_model.h
     channel_model.h

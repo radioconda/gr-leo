@@ -25,6 +25,7 @@
 #include "atmospheric_gases_regression_impl.h"
 #include <cmath>
 #include <leo/log.h>
+#include <leo/utils/helper.h>
 
 namespace gr
 {
@@ -34,19 +35,18 @@ namespace gr
     {
 
       generic_attenuation::generic_attenuation_sptr
-      atmospheric_gases_regression::make (float frequency, float watervap,
+      atmospheric_gases_regression::make (float surface_watervap_density,
                                           float temperature)
       {
         return generic_attenuation::generic_attenuation_sptr (
-            new atmospheric_gases_regression_impl (frequency, watervap,
+            new atmospheric_gases_regression_impl (surface_watervap_density,
                                                    temperature));
       }
 
       atmospheric_gases_regression_impl::atmospheric_gases_regression_impl (
-          float frequency, float watervap, float temperature) :
+          float watervap, float temperature) :
               generic_attenuation (),
-              d_frequency (frequency),
-              d_watervap (watervap),
+              d_surface_watervap_density (watervap),
               d_temperature (temperature)
 
       {
@@ -132,22 +132,23 @@ namespace gr
       }
 
       float
-      atmospheric_gases_regression_impl::get_attenuation (float elevation)
+      atmospheric_gases_regression_impl::get_attenuation ()
       {
-        float elevation_rad = elevation * 3.141592 / 180;
-        float gammaa = d_af + d_bf * d_watervap - d_cf * d_temperature;
-        float zenitha = d_azf + d_bzf * d_watervap - d_czf * d_temperature;
+        float gammaa = d_af + d_bf * d_surface_watervap_density
+            - d_cf * d_temperature;
+        float zenitha = d_azf + d_bzf * d_surface_watervap_density
+            - d_czf * d_temperature;
 
         float ha = zenitha / gammaa;
 
-        if (elevation >= 10) {
-          return (ha * zenitha) / std::sin (elevation_rad);
+        if (utils::radians_to_degrees (elevation_angle) >= 10) {
+          return (ha * zenitha) / std::sin (elevation_angle);
         }
         else {
           return (2 * ha * zenitha)
               / (std::sqrt (
-                  std::pow (std::sin (elevation_rad), 2)
-                      + ((2 * ha) / EARTH_RADIUS)) + std::sin (elevation_rad));
+                  std::pow (std::sin (elevation_angle), 2)
+                      + ((2 * ha) / EARTH_RADIUS)) + std::sin (elevation_angle));
         }
       }
 

@@ -25,10 +25,15 @@
 
 #include <gnuradio/attributes.h>
 
+
 #ifdef gnuradio_leo_EXPORTS
 #  define LEO_API __GR_ATTR_EXPORT
 #else
 #  define LEO_API __GR_ATTR_IMPORT
+#endif
+
+#ifndef DATA_PATH
+    #error "Path for data files must be defined"
 #endif
 
 /**
@@ -38,7 +43,17 @@
 
 enum atmo_gases_attenuation_t
 {
-  NONE = 0, ATMO_GASES_ITU, ATMO_GASES_REGRESSION
+  ATMO_GASES_NONE = 0, ATMO_GASES_ITU, ATMO_GASES_REGRESSION
+};
+
+enum precipitation_attenuation_t
+{
+  PRECIPITATION_NONE = 0, PRECIPITATION_ITU, PRECIPITATION_CUSTOM
+};
+
+enum polarization_t
+{
+  RHCP = 0, LHCP, LINEAR, VERTICAL, HORIZONTAL
 };
 
 /**

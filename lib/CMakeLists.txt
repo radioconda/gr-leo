@@ -30,6 +30,7 @@ include_directories(
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
+	utils/helper.cc
     generic_antenna.cc
 	yagi_antenna_impl.cc
 	helix_antenna_impl.cc
@@ -38,9 +39,10 @@ list(APPEND leo_sources
 	satellite.cc
 	tracker.cc
 	generic_attenuation.cc
+	free_space_path_loss_impl.cc
 	atmospheric_gases_itu_impl.cc
 	atmospheric_gases_regression_impl.cc
-	atmosphere.cc
+	precipitation_itu_impl.cc
 	generic_model.cc
 	leo_model_impl.cc
 	channel_model_impl.cc

@@ -33,35 +33,26 @@ namespace gr
 
     channel_model::sptr
     channel_model::make (const float sample_rate,
-                         generic_model::generic_model_sptr model,
-                         tracker::tracker_sptr tracker,
-                         const uint8_t mode)
+                         generic_model::generic_model_sptr model)
     {
       return gnuradio::get_initial_sptr (
-          new channel_model_impl (sample_rate, model, tracker, mode));
+          new channel_model_impl (sample_rate, model));
     }
 
     /*
      * The private constructor
      */
     channel_model_impl::channel_model_impl (
-        const float sample_rate, generic_model::generic_model_sptr model,
-        tracker::tracker_sptr tracker, const uint8_t mode) :
+        const float sample_rate, generic_model::generic_model_sptr model) :
             gr::sync_block ("channel_model",
                             gr::io_signature::make (1, 1, sizeof(gr_complex)),
                             gr::io_signature::make (1, 1, sizeof(gr_complex))),
             d_sample_rate (sample_rate),
-            d_time_resolution_us (
-                tracker->get_time_resolution_us ()),
-            d_time_resolution_samples (
-                (d_sample_rate * d_time_resolution_us) / 1e6),
-            d_model (model),
-            d_tracker (tracker),
-            d_mode (mode)
+            d_model (model)
     {
+      d_time_resolution_us = d_model->get_tracker()->get_time_resolution_us ();
+      d_time_resolution_samples = (d_sample_rate * d_time_resolution_us) / 1e6;
       set_output_multiple (d_time_resolution_samples);
-      d_model->set_mode (mode);
-      d_model->set_tracker(tracker);
     }
 
     /*
@@ -80,7 +71,7 @@ namespace gr
       gr_complex *out = (gr_complex *) output_items[0];
 
       for (size_t t = 0; t < noutput_items / d_time_resolution_samples; t++) {
-        if (d_tracker->is_observation_over ()) {
+        if (d_model->get_tracker()->is_observation_over ()) {
           return WORK_DONE;
         }
         d_model->generic_work (&in[d_time_resolution_samples * t],

@@ -90,7 +90,10 @@ namespace gr
             d_comm_freq_uplink (comm_freq_uplink),
             d_comm_freq_downlink (comm_freq_downlink),
             d_uplink_antenna (uplink_antenna),
-            d_downlink_antenna (downlink_antenna)
+            d_downlink_antenna (downlink_antenna),
+            d_gs_alt (gs_alt),
+            d_gs_lat (gs_lat),
+            d_gs_lon (gs_lon)
     {
       if (d_obs_end <= d_obs_start) {
         throw std::runtime_error ("Invalid observation timeframe");
@@ -488,6 +491,24 @@ namespace gr
     tracker::get_comm_freq_uplink () const
     {
       return d_comm_freq_uplink;
+    }
+
+    const float
+    tracker::get_altitude () const
+    {
+      return d_gs_alt;
+    }
+
+    const float
+    tracker::get_latitude () const
+    {
+      return d_gs_lat;
+    }
+
+    const float
+    tracker::get_lontitude () const
+    {
+      return d_gs_lon;
     }
 
     generic_antenna::generic_antenna_sptr

@@ -23,7 +23,6 @@
 
 #include "../include/leo/leo_model.h"
 #include <gnuradio/fxpt_nco.h>
-#include <leo/atmosphere.h>
 
 namespace gr
 {
@@ -36,14 +35,26 @@ namespace gr
 
       private:
         gr::fxpt_nco d_nco;
-        atmosphere* d_atmosphere;
-        uint8_t d_atmo_gases_attenuation;
-        float d_watervap;
+
+        float d_surface_watervap_density;
         float d_temperature;
+        float d_rainfall_rate;
+        float d_doppler_shift;
+        double d_slant_range;
+
+        atmo_gases_attenuation_t d_atmo_gases_enum;
+
+        generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
+        generic_attenuation::generic_attenuation_sptr d_precipitation_attenuation;
+        generic_attenuation::generic_attenuation_sptr d_fspl_attenuation;
 
       public:
-        leo_model_impl (const uint8_t atmo_gases_attenuation,
-                        const float watervap, const float temperature);
+        leo_model_impl (tracker::tracker_sptr tracker, const uint8_t mode,
+                        const uint8_t atmo_gases_attenuation,
+                        const uint8_t precipitation_attenuation,
+                        const float surface_watervap_density,
+                        const float temperature,
+                        const float rainfall_rate);
 
         ~leo_model_impl ();
 
@@ -69,6 +80,9 @@ namespace gr
          */
         float
         calculate_doppler_shift (double velocity);
+
+        float
+        calculate_total_attenuation ();
 
       };
     } // namespace model

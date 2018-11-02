@@ -168,7 +168,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>3</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -235,7 +235,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>3</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -388,7 +388,7 @@
     <key>variable_leo_model_def</key>
     <param>
       <key>atmo_gases_attenuation</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>comment</key>
@@ -411,12 +411,32 @@
       <value>variable_leo_model_def_0</value>
     </param>
     <param>
-      <key>watervap</key>
+      <key>value</key>
+      <value>'fine'</value>
+    </param>
+    <param>
+      <key>mode</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>precipitation_attenuation</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>rainfall_rate</key>
+      <value>90</value>
+    </param>
+    <param>
+      <key>surface_watervap_density</key>
       <value>7.5</value>
     </param>
     <param>
       <key>temperature</key>
       <value>20</value>
+    </param>
+    <param>
+      <key>tracker</key>
+      <value>variable_tracker_0</value>
     </param>
   </block>
   <block>
@@ -482,7 +502,7 @@
     <key>variable_tracker</key>
     <param>
       <key>gs_alt</key>
-      <value>39</value>
+      <value>1.5</value>
     </param>
     <param>
       <key>comment</key>
@@ -494,7 +514,7 @@
     </param>
     <param>
       <key>comm_freq_downlink</key>
-      <value>435e6</value>
+      <value>2.4e9</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -550,7 +570,7 @@
     </param>
     <param>
       <key>comm_freq_uplink</key>
-      <value>435e6</value>
+      <value>2.4e9</value>
     </param>
   </block>
   <block>
@@ -769,16 +789,8 @@
       <value>0</value>
     </param>
     <param>
-      <key>mode</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>sample_rate</key>
       <value>samp_rate</value>
-    </param>
-    <param>
-      <key>tracker</key>
-      <value>variable_tracker_0</value>
     </param>
   </block>
   <block>

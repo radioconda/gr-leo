@@ -86,7 +86,7 @@ set(Boost_ADDITIONAL_VERSIONS
     "1.60.0" "1.60" "1.61.0" "1.61" "1.62.0" "1.62" "1.63.0" "1.63" "1.64.0" "1.64"
     "1.65.0" "1.65" "1.66.0" "1.66" "1.67.0" "1.67" "1.68.0" "1.68" "1.69.0" "1.69"
 )
-find_package(Boost "1.35" COMPONENTS filesystem system)
+find_package(Boost "1.35" COMPONENTS filesystem system regex)
 
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost required to compile leo")
@@ -240,6 +240,12 @@ add_custom_target(uninstall
 )
 
 ########################################################################
+# Data direcotry path definition
+########################################################################
+add_definitions(-DDATA_PATH=\"${CMAKE_INSTALL_PREFIX}/${GR_PKG_DATA_DIR}\")
+message( \"${CMAKE_INSTALL_PREFIX}/${GR_PKG_DATA_DIR}\" )
+
+########################################################################
 # Add subdirectories
 ########################################################################
 add_subdirectory(include/leo)
@@ -249,6 +255,8 @@ add_subdirectory(python)
 add_subdirectory(grc)
 add_subdirectory(apps)
 add_subdirectory(docs)
+add_subdirectory(data)
+
 
 ########################################################################
 # Install cmake search helper for this library

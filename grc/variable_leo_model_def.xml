@@ -3,9 +3,41 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make($atmo_gases_attenuation, $watervap, $temperature)</var_make>
-  <var_value>leo.leo_model_make($atmo_gases_attenuation, $watervap, $temperature)</var_value>
+  <var_make>self.$(id) = $(id) = leo.leo_model_make($tracker, $mode, $atmo_gases_attenuation, $precipitation_attenuation,
+  													$surface_watervap_density, $temperature, $rainfall_rate)</var_make>
+  <var_value>leo.leo_model_make($tracker, $mode, $atmo_gases_attenuation, $precipitation_attenuation, 
+  								$surface_watervap_density, $temperature, $rainfall_rate)</var_value>
   <make></make>
+  
+  <param>
+    <name>Ignore Me</name>
+    <key>value</key>
+    <value>'fine'</value>
+    <type>raw</type>
+    <hide>all</hide>
+  </param>
+  
+  <param>
+    <name>Tracker</name>
+    <key>tracker</key>
+    <value>tracker_variable</value>
+    <type>raw</type>
+  </param>
+  
+  <param>
+    <name>Mode</name>
+    <key>mode</key>
+    <value>0</value>
+    <type>enum</type>
+    <option>
+        <name>Uplink</name>
+        <key>0</key>
+    </option>
+    <option>
+        <name>Downlink</name>
+        <key>1</key>
+    </option>
+  </param>
   
   <param>
 	<name>Atmospheric gases attenuation</name>
@@ -27,9 +59,9 @@
   </param>
   
   <param>
-      <name>Surface H2O Concentration (g/m3)</name>
-      <key>watervap</key>
-      <value>0</value>
+      <name>Surface H2O Density (g/m3)</name>
+      <key>surface_watervap_density</key>
+      <value>7.5</value>
       <type>float</type>
       <hide>#if int($atmo_gases_attenuation())==2 then 'none' else 'all'#</hide>
   </param>
@@ -41,6 +73,32 @@
       <type>float</type>
       <hide>#if int($atmo_gases_attenuation())==2 then 'none' else 'all'#</hide>
   </param>
-
-
+  
+  <param>
+	<name>Precipitation attenuation</name>
+	<key>precipitation_attenuation</key>
+	<value>0</value>
+	<type>enum</type>
+	<option>
+		<name>None</name>
+		<key>0</key>
+	</option>
+	<option>
+		<name>ITU Recommendation</name>
+		<key>1</key>
+	</option>
+	<option>
+		<name>Local Measurement</name>
+		<key>2</key>
+	</option>
+  </param>
+  
+    <param>
+      <name>Rainfall Rate (mm3/h)</name>
+      <key>rainfall_rate</key>
+      <value>25</value>
+      <type>float</type>
+      <hide>#if int($precipitation_attenuation())==2 then 'none' else 'all'#</hide>
+  </param>
+  
 </block>

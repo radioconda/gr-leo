@@ -3,7 +3,7 @@
   <name>Channel Model</name>
   <key>leo_channel_model</key>
   <import>import leo</import>
-  <make>leo.channel_model($sample_rate, $model, $tracker, $mode)</make>
+  <make>leo.channel_model($sample_rate, $model)</make>
   
   <param>
       <name>Ignore Me</name>
@@ -24,28 +24,6 @@
     <key>model</key>
     <value>model_variable</value>
     <type>raw</type>
-  </param>
-  
-  <param>
-    <name>Tracker</name>
-    <key>tracker</key>
-    <value>tracker_variable</value>
-    <type>raw</type>
-  </param>
-  
-  <param>
-    <name>Mode</name>
-    <key>mode</key>
-    <value>0</value>
-    <type>enum</type>
-    <option>
-        <name>Uplink</name>
-        <key>0</key>
-    </option>
-    <option>
-        <name>Downlink</name>
-        <key>1</key>
-    </option>
   </param>
   	 
   <sink>
