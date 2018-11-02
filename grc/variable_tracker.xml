@@ -47,7 +47,7 @@
   </param>
   
   <param>
-    <name>Altitude</name>
+    <name>Altitude (km)</name>
     <key>gs_alt</key>
     <type>float</type>
   </param>

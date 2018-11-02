@@ -49,7 +49,8 @@ namespace gr
               const uint8_t atmo_gases_attenuation,
               const uint8_t precipitation_attenuation,
               const float surface_watervap_density = 7.5,
-              const float temperature = 0);
+              const float temperature = 0,
+              const float rainfall_rate = 25);
 
       };
 

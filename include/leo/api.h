@@ -48,7 +48,7 @@ enum atmo_gases_attenuation_t
 
 enum precipitation_attenuation_t
 {
-  PRECIPITATION_NONE = 0, PRECIPITATION_ITU, CUSTOM
+  PRECIPITATION_NONE = 0, PRECIPITATION_ITU, PRECIPITATION_CUSTOM
 };
 
 enum polarization_t

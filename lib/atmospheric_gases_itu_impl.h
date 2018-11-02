@@ -35,7 +35,7 @@ namespace gr
       {
 
       public:
-        atmospheric_gases_itu_impl (float frequency, float surface_watervap_density);
+        atmospheric_gases_itu_impl (float surface_watervap_density);
 
         ~atmospheric_gases_itu_impl ();
 
@@ -45,7 +45,7 @@ namespace gr
         } atmo_element_t;
 
         float
-        get_attenuation (float elevation);
+        get_attenuation ();
 
       private:
 
@@ -53,7 +53,6 @@ namespace gr
         float d_oxygen_pressure;
         float d_water_pressure;
         float d_surface_watervap_density;
-        float d_elevation_angle;
 
         /**
          * Spectroscopic data for oxygen attenuation
@@ -146,8 +145,6 @@ namespace gr
             { 923.112692, 0.0079, 10.293, 29, 0.7, 5, 0.8 },
             { 970.315022, 9.009, 1.919, 25.5, 0.64, 4.94, 0.67 },
             { 987.926764, 134.6, 0.257, 29.85, 0.68, 4.55, 0.9 } };
-
-        float d_frequency;
 
         double
         get_temperature (float alt);

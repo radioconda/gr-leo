@@ -18,8 +18,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_ATMOSPHERIC_GASES_ITU_H
-#define INCLUDED_LEO_ATMOSPHERIC_GASES_ITU_H
+#ifndef INCLUDED_LEO_FREE_SPACE_PATH_LOSS_H
+#define INCLUDED_LEO_FREE_SPACE_PATH_LOSS_H
 
 #include <leo/api.h>
 #include <leo/generic_attenuation.h>
@@ -31,20 +31,20 @@ namespace gr
     namespace attenuation
     {
       /*!
-       * \brief Atmospheric gas following the ITU P.676 recommendation
+       * \brief Free-space Path Loss
        */
-      class LEO_API atmospheric_gases_itu : virtual public generic_attenuation
+      class LEO_API free_space_path_loss : virtual public generic_attenuation
       {
 
       public:
 
         static generic_attenuation::generic_attenuation_sptr
-        make (float surface_watervap_density);
+        make (float rx_antenna_gain, float tx_antenna_gain);
 
       };
     } // namespace attenuation
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_ATMOSPHERIC_GASES_ITU_H */
+#endif /* INCLUDED_LEO_FREE_SPACE_PATH_LOSS_H */
 

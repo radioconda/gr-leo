@@ -23,7 +23,6 @@
 
 #include <leo/api.h>
 #include <leo/generic_attenuation.h>
-#include <string>
 
 namespace gr
 {
@@ -40,8 +39,8 @@ namespace gr
       public:
 
         static generic_attenuation::generic_attenuation_sptr
-        make (float frequency, float rainfall_rate, float tracker_lontitude,
-              float tracker_latitude, float polarization,
+        make (float rainfall_rate, float tracker_lontitude,
+              float tracker_latitude, float tracker_altitude,
               precipitation_attenuation_t mode);
 
       };

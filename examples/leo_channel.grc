@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(813, 3)</value>
+      <value>(1093, 434)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -168,7 +168,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>4</value>
+      <value>3</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -219,7 +219,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(502, 3)</value>
+      <value>(941, 434)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -235,7 +235,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>4</value>
+      <value>3</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -286,7 +286,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(654, 3)</value>
+      <value>(1101, 51)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -302,7 +302,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>4</value>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -353,7 +353,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(351, 3)</value>
+      <value>(949, 51)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -369,7 +369,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>4</value>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -400,7 +400,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(510, 482)</value>
+      <value>(550, 155)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -416,11 +416,15 @@
     </param>
     <param>
       <key>mode</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>precipitation_attenuation</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>rainfall_rate</key>
+      <value>90</value>
     </param>
     <param>
       <key>surface_watervap_density</key>
@@ -455,7 +459,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(718, 195)</value>
+      <value>(941, 578)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -498,7 +502,7 @@
     <key>variable_tracker</key>
     <param>
       <key>gs_alt</key>
-      <value>39</value>
+      <value>1.5</value>
     </param>
     <param>
       <key>comment</key>
@@ -510,7 +514,7 @@
     </param>
     <param>
       <key>comm_freq_downlink</key>
-      <value>435e6</value>
+      <value>2.4e9</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -518,7 +522,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(367, 187)</value>
+      <value>(941, 195)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -534,11 +538,11 @@
     </param>
     <param>
       <key>gs_lat</key>
-      <value>102.0700247</value>
+      <value>35.3333</value>
     </param>
     <param>
       <key>gs_lon</key>
-      <value>14</value>
+      <value>25.1833</value>
     </param>
     <param>
       <key>name</key>
@@ -566,7 +570,7 @@
     </param>
     <param>
       <key>comm_freq_uplink</key>
-      <value>435e6</value>
+      <value>2.4e9</value>
     </param>
   </block>
   <block>
@@ -593,7 +597,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(406, 809)</value>
+      <value>(406, 426)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -652,7 +656,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(207, 690)</value>
+      <value>(223, 315)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -707,7 +711,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(630, 765)</value>
+      <value>(630, 382)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -762,7 +766,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(375, 706)</value>
+      <value>(375, 323)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -837,7 +841,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(742, 937)</value>
+      <value>(454, 586)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1124,7 +1128,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(742, 706)</value>
+      <value>(742, 323)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1343,7 +1347,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(742, 801)</value>
+      <value>(742, 418)</value>
     </param>
     <param>
       <key>_rotation</key>

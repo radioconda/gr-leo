@@ -42,7 +42,7 @@ namespace gr
       public:
 
         static generic_attenuation::generic_attenuation_sptr
-        make (float frequency, float watervap, float temperature);
+        make (float watervap, float temperature);
 
       };
     } // namespace attenuation
