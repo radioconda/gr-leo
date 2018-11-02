@@ -97,7 +97,7 @@ namespace gr
           case PRECIPITATION_CUSTOM:
             d_precipitation_attenuation = attenuation::precipitation_itu::make (
                 d_rainfall_rate, d_tracker->get_lontitude (),
-                d_tracker->get_latitude (),
+                d_tracker->get_latitude (), d_tracker->get_altitude(),
                 (precipitation_attenuation_t) precipitation_enum);
             break;
           case PRECIPITATION_NONE:

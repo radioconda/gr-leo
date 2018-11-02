@@ -37,23 +37,25 @@ namespace gr
 
       generic_attenuation::generic_attenuation_sptr
       precipitation_itu::make (float rainfall_rate, float tracker_lontitude,
-                               float tracker_latitude,
+                               float tracker_latitude, float tracker_altitude,
                                precipitation_attenuation_t mode)
       {
         return generic_attenuation::generic_attenuation_sptr (
             new precipitation_itu_impl (rainfall_rate, tracker_lontitude,
-                                        tracker_latitude, mode));
+                                        tracker_latitude, tracker_altitude,
+                                        mode));
       }
 
       precipitation_itu_impl::precipitation_itu_impl (
           float rainfall_rate, float tracker_lontitude, float tracker_latitude,
-          precipitation_attenuation_t mode) :
+          float tracker_altitude, precipitation_attenuation_t mode) :
               generic_attenuation (),
               d_rainfall_rate (rainfall_rate),
               d_tracker_lontitude (tracker_lontitude),
               d_tracker_latitude (tracker_latitude),
+              d_tracker_altitude (tracker_altitude),
               d_mode (mode),
-              d_hs (1)
+              d_hs (tracker_altitude)
       {
 
         /**
@@ -66,6 +68,11 @@ namespace gr
             data_path + "/ITU_RREC_P839/Lon.txt",
             data_path + "/ITU_RREC_P839/ITU_R-REC-P.839-4.txt",
             d_tracker_lontitude, d_tracker_latitude);
+
+        /**
+         * TODO: Parse ITU data P.1511 to extract height above sea level
+         */
+
 
         if (d_mode == PRECIPITATION_ITU) {
           d_rainfall_rate = utils::parser_ITU_heatmap (
@@ -132,20 +139,20 @@ namespace gr
         for (size_t j = 0; j < d_kh.size (); j++) {
           logkh += d_kh[j][0]
               * std::exp (
-                  -std::pow (
-                      (std::log10 (frequency) - d_kh[j][1]) / d_kh[j][2], 2));
+                  -std::pow ((std::log10 (frequency) - d_kh[j][1]) / d_kh[j][2],
+                             2));
           logkv += d_kv[j][0]
               * std::exp (
-                  -std::pow (
-                      (std::log10 (frequency) - d_kv[j][1]) / d_kv[j][2], 2));
+                  -std::pow ((std::log10 (frequency) - d_kv[j][1]) / d_kv[j][2],
+                             2));
           av += d_av[j][0]
               * std::exp (
-                  -std::pow (
-                      (std::log10 (frequency) - d_av[j][1]) / d_av[j][2], 2));
+                  -std::pow ((std::log10 (frequency) - d_av[j][1]) / d_av[j][2],
+                             2));
           ah += d_ah[j][0]
               * std::exp (
-                  -std::pow (
-                      (std::log10 (frequency) - d_ah[j][1]) / d_ah[j][2], 2));
+                  -std::pow ((std::log10 (frequency) - d_ah[j][1]) / d_ah[j][2],
+                             2));
         }
         logkh += (d_kh[0][3] * std::log10 (frequency) + d_kh[0][4]);
         logkv += (d_kv[0][3] * std::log10 (frequency) + d_kv[0][4]);
@@ -186,7 +193,7 @@ namespace gr
                 / (2 * k);
             break;
           default:
-            throw std::runtime_error("Invalid antenna polarization!");
+            throw std::runtime_error ("Invalid antenna polarization!");
           }
 
         gammar = k * std::pow (d_rainfall_rate, a);
@@ -234,8 +241,8 @@ namespace gr
                 / (1
                     + std::sqrt (std::sin (elevation_angle))
                         * (31 * (1 - std::exp (-elevation_angle / (1 + x)))
-                            * (std::sqrt (LR * gammar)
-                                / std::pow (frequency, 2)) - 0.45)));
+                            * (std::sqrt (LR * gammar) / std::pow (frequency, 2))
+                            - 0.45)));
       }
 
     } /* namespace attenuation */

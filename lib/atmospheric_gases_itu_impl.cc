@@ -408,6 +408,7 @@ namespace gr
          * up to 100km.
          * Each layer has height that exponentially
          * grows from 10cm to 1km
+         * TODO: Initial altitude should be related to Ground Station altitude
          */
         for (size_t i = 1; i <= 922; i++) {
           delta = 0.0001 * std::exp ((i - 1) / 100.0);

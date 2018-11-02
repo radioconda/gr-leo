@@ -35,8 +35,8 @@ namespace gr
       {
 
       public:
-        precipitation_itu_impl (float rainfall_rate,
-                                float tracker_lontitude, float tracker_latitude,
+        precipitation_itu_impl (float rainfall_rate, float tracker_lontitude,
+                                float tracker_latitude, float tracker_altitude,
                                 precipitation_attenuation_t mode);
 
         ~precipitation_itu_impl ();
@@ -49,6 +49,7 @@ namespace gr
         float d_rainfall_rate;
         float d_tracker_lontitude;
         float d_tracker_latitude;
+        float d_tracker_altitude;
         float d_hs;
         float d_isotherm_height;
         precipitation_attenuation_t d_mode;

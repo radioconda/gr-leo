@@ -168,7 +168,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>3</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -235,7 +235,7 @@
     </param>
     <param>
       <key>polarization</key>
-      <value>0</value>
+      <value>3</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -420,11 +420,11 @@
     </param>
     <param>
       <key>precipitation_attenuation</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>rainfall_rate</key>
-      <value>25</value>
+      <value>90</value>
     </param>
     <param>
       <key>surface_watervap_density</key>
@@ -502,7 +502,7 @@
     <key>variable_tracker</key>
     <param>
       <key>gs_alt</key>
-      <value>39</value>
+      <value>1.5</value>
     </param>
     <param>
       <key>comment</key>
