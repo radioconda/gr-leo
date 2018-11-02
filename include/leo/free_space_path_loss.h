@@ -39,7 +39,7 @@ namespace gr
       public:
 
         static generic_attenuation::generic_attenuation_sptr
-        make ();
+        make (float rx_antenna_gain, float tx_antenna_gain);
 
       };
     } // namespace attenuation

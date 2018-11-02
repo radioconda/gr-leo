@@ -35,7 +35,7 @@ namespace gr
       {
 
       public:
-        free_space_path_loss_impl ();
+        free_space_path_loss_impl (float rx_antenna_gain, float tx_antenna_gain);
 
         ~free_space_path_loss_impl ();
 
@@ -43,7 +43,8 @@ namespace gr
         get_attenuation ();
 
       private:
-
+        float d_rx_antenna_gain;
+        float d_tx_antenna_gain;
       };
     } // namespace attenuation
   } // namespace leo

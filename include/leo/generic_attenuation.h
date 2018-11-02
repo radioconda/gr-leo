@@ -52,6 +52,9 @@ namespace gr
       set_frequency (float freq);
 
       static void
+      set_slant_range (float range);
+
+      static void
       set_polarization (uint8_t polar);
 
       static void
@@ -70,6 +73,7 @@ namespace gr
     protected:
       static float frequency;
       static float elevation_angle;
+      static float slant_range;
       static uint8_t polarization;
     };
 

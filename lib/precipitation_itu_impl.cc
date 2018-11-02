@@ -185,6 +185,8 @@ namespace gr
                     * std::cos (2 * utils::degrees_to_radians (tilt)))
                 / (2 * k);
             break;
+          default:
+            throw std::runtime_error("Invalid antenna polarization!");
           }
 
         gammar = k * std::pow (d_rainfall_rate, a);

@@ -118,11 +118,13 @@ namespace gr
     generic_model::orbit_update ()
     {
       float elevation_radians = d_tracker->get_elevation_radians ();
-      uint8_t polarization = get_tracker_antenna_gain ();
+      double range = d_tracker->get_slant_range();
+      uint8_t polarization = get_polarization();
 
       generic_attenuation::set_elevation_angle (elevation_radians);
       generic_attenuation::set_frequency (get_frequency ());
       generic_attenuation::set_polarization (polarization);
+      generic_attenuation::set_slant_range (range);
     }
 
   } /* namespace leo */

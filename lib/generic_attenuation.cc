@@ -32,6 +32,7 @@ namespace gr
 
     float generic_attenuation::frequency = 0;
     float generic_attenuation::elevation_angle = 0;
+    float generic_attenuation::slant_range = 0;
     uint8_t generic_attenuation::polarization = 0;
 
     generic_attenuation::generic_attenuation_sptr
@@ -52,6 +53,12 @@ namespace gr
     generic_attenuation::set_frequency (float freq)
     {
       frequency = freq / 1e9;
+    }
+
+    void
+    generic_attenuation::set_slant_range (float range)
+    {
+      slant_range = range;
     }
 
     void
