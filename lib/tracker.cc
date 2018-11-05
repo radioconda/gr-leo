@@ -23,6 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
+#include <leo/log.h>
 #include <leo/tracker.h>
 #include <chrono>
 #include <ctime>
@@ -100,28 +101,6 @@ namespace gr
       }
 
       my_id = base_unique_id++;
-
-      d_passlist = generate_passlist (d_observer, d_sgp4, d_obs_start,
-                                      d_obs_end, 180);
-
-      if (d_passlist.begin () == d_passlist.end ()) {
-        std::cout << "No passes found" << std::endl;
-      }
-      else {
-        std::stringstream ss;
-
-        ss << std::right << std::setprecision (1) << std::fixed;
-
-        std::vector<pass_details_t>::const_iterator itr = d_passlist.begin ();
-        do {
-          ss << "AOS: " << itr->aos << ", LOS: " << itr->los << ", Max El: "
-              << std::setw (4) << Util::RadiansToDegrees (itr->max_elevation)
-              << ", Duration: " << (itr->los - itr->aos) << std::endl;
-        }
-        while (++itr != d_passlist.end ());
-
-        std::cout << ss.str ();
-      }
 
     }
 

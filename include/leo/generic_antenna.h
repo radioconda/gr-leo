@@ -65,12 +65,6 @@ namespace gr
       int
       unique_id ();
 
-      std::string
-      alias ()
-      {
-        return (boost::format ("%s%d") % d_type % unique_id ()).str ();
-      }
-
       /*!
        * \brief Get the frequency of the antenna.
        * \return the frequency in Hz.
@@ -109,14 +103,6 @@ namespace gr
       get_beamwidth () = 0;
 
       typedef boost::shared_ptr<generic_antenna> generic_antenna_sptr;
-
-      static generic_antenna::generic_antenna_sptr
-      make (uint8_t type, float frequency, int polarization);
-
-      generic_antenna (void)
-      {
-      }
-      ;
 
       virtual
       ~generic_antenna ();

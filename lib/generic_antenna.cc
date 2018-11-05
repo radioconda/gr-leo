@@ -30,12 +30,6 @@ namespace gr
   namespace leo
   {
 
-    generic_antenna::generic_antenna_sptr
-    generic_antenna::make (uint8_t type, float frequency, int polarization)
-    {
-      return generic_antenna::generic_antenna_sptr ();
-    }
-
     generic_antenna::generic_antenna (uint8_t type, float frequency, int polarization) :
             d_type (type),
             d_frequency (frequency),
