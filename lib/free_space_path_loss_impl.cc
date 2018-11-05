@@ -57,7 +57,7 @@ namespace gr
         float attenuation = 0;
         float path_loss = 0;
 
-        path_loss = 22.0 + 20 * std::log10 (slant_range * frequency);
+        path_loss = 92.45 + 20 * std::log10 (slant_range * (frequency/1e9));
         attenuation = path_loss - (d_rx_antenna_gain + d_tx_antenna_gain);
 
         return attenuation;
