@@ -30,7 +30,9 @@ namespace gr
   {
     namespace attenuation
     {
-
+      /*
+       * Calculate Free-Space path-loss based on ITU R-REC-P.619
+       */
       class LEO_API free_space_path_loss_impl : public free_space_path_loss
       {
 
