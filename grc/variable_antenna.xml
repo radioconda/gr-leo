@@ -19,7 +19,21 @@ print "Invalid antenna type"
 raise RuntimeError
 #end if 
   </var_make>
-  <var_value>leo.generic_antenna_make($type, $frequency, $polarization)</var_value>
+  <var_value>\
+#if int($type())==0
+leo.yagi_antenna_make($type, $frequency, $polarization, $boom_length)
+#else if int($type())==1
+leo.helix_antenna_make($type, $frequency, $polarization, $turns,\
+                                    $turn_spacing, $circumference)
+#else if int($type())==2
+leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $diameter,\
+									$aperture_efficiency)
+#else if int($type())==3
+leo.custom_antenna_make($type, $frequency, $polarization, $gain, $beamwidth)
+#else
+print "Invalid antenna type"
+raise RuntimeError
+#end if </var_value>
   <make></make>
   
   <param>
