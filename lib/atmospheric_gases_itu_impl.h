@@ -146,12 +146,24 @@ namespace gr
             { 970.315022, 9.009, 1.919, 25.5, 0.64, 4.94, 0.67 },
             { 987.926764, 134.6, 0.257, 29.85, 0.68, 4.55, 0.9 } };
 
+        /*!
+         * \brief Get the temperature at a specific altitude in the atmosphere
+         * \return The temperature in Kelvin
+         */
         double
         get_temperature (float alt);
 
+        /*!
+         * \brief Get the dry air pressure at a specific altitude in the atmosphere
+         * \return The pressure in hPa
+         */
         double
         get_pressure (float alt);
 
+        /*!
+         * \brief Get the water-vapour pressure at a specific altitude in the atmosphere
+         * \return The pressure in hPa
+         */
         double
         get_water_vapour_pressure (float alt);
 

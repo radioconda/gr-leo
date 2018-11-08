@@ -1,7 +1,10 @@
 /*!
- * \defgroup block GNU Radio LEO C++ Signal Processing Blocks
+ * \defgroup block GNU Radio LEO C++ Blocks
  * \brief All C++ blocks that can be used from the LEO GNU Radio
  *        module are listed here or in the subcategories below.
  *
  */
 
+/*! \defgroup antenna Antenna Variable Blocks */
+/*! \defgroup model Channel Models */
+/*! \defgroup attenuation Sources of Attenuation */

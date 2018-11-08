@@ -36,12 +36,11 @@ namespace gr
                      const std::string& tle_2, const float freq_uplink,
                      const float freq_downlink,
                      generic_antenna::generic_antenna_sptr uplink_antenna,
-                     generic_antenna::generic_antenna_sptr downlink_antenna,
-                     const std::string& name)
+                     generic_antenna::generic_antenna_sptr downlink_antenna)
     {
       return satellite::satellite_sptr (
           new satellite (tle_title, tle_1, tle_2, freq_uplink, freq_downlink,
-                         uplink_antenna, downlink_antenna, name));
+                         uplink_antenna, downlink_antenna));
     }
 
     satellite::satellite (
@@ -49,8 +48,7 @@ namespace gr
         const std::string& tle_2, const float comm_freq_uplink,
         const float comm_freq_downlink,
         generic_antenna::generic_antenna_sptr uplink_antenna,
-        generic_antenna::generic_antenna_sptr downlink_antenna,
-        const std::string& name) :
+        generic_antenna::generic_antenna_sptr downlink_antenna) :
             d_tle_title (tle_title),
             d_tle_1 (tle_1),
             d_tle_2 (tle_2),

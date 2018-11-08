@@ -32,15 +32,31 @@ namespace gr
     namespace antenna
     {
       /*!
-       * \brief Custom antenna
+       * \brief Class that represents a custom antenna.
+       *
+       * \details
+       *
+       * The custom_antenna class extends the generic_antenna class
+       * to simulate the behavior of a custom antenna.
        */
       class LEO_API custom_antenna : virtual public generic_antenna
       {
 
       public:
 
+        /*!
+         * \param type The enumeration that defines the type of the antenna
+         * \param frequency The frequency of the antenna in Hz
+         * \param polarization The enumeration that defines the antenna
+         * polarization
+         * \param gain The gain of the antenna in dBiC.
+         * \param beamwidth The beamwidth of the antenna.
+         *
+         * \return a boost::shared_ptr to the constructed tracker object.
+         */
         static generic_antenna::generic_antenna_sptr
-        make (uint8_t type, float frequency, int polarization, float gain, float beamwidth);
+        make (uint8_t type, float frequency, int polarization, float gain,
+              float beamwidth);
 
       };
     } // namespace antenna

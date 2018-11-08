@@ -34,20 +34,20 @@ namespace gr
   {
 
     /*!
-     * \brief Parent class for LEO_API model objects.
+     * \brief Parent class for model objects.
      *
      * \details
      *
-     * Parent of a model variable class for LEO_API that will fit
-     * into the gr::leo::model block to handle channel simulation.
+     * Parent of a channel impairment model class that will fit as a
+     * parameter into the gr::leo::channel_model block.
      *
-     * We create objects from LEO_API-derived classes to go into the
-     * actual GNU Radio channel model block. Each object contains its own
-     * state and so there should be a one-to-one mapping of an LEO_API
-     * object and a GR channel model block.
+     * We create objects from derived classes to go into the
+     * actual GNU Radio channel_model block. Each object describes a different
+     * telecommunication channel and must implement the pure virtual function generic_work,
+     * in which the input signal is attenuated and transformed appropriately.
      *
-     * This is a pure virtual class and must be derived from by a
-     * child class.
+     * A derived model class may declare various gr::leo::generic_attenuation objects
+     * that can be used inside the generic_work, in order to estimate different type of losses.
      *
      * \sa gr::fec::model::leo_model
      */
@@ -62,6 +62,17 @@ namespace gr
 
       friend class channel_model;
 
+      /*!
+       * \brief Pure virtual function that must be implemented by every
+       * derived class and is responsible to apply all the appropriate
+       * transformations and attenuations to the input signal, as they
+       * are described by the corresponding channel model.
+       *
+       * \param inbuffer Pointer to the complex input signal
+       * \param outbuffer Pointer to the complex input signal
+       * \param noutput_items The number of available input samples to
+       * process
+       */
       virtual void
       generic_work (const gr_complex *inbuffer, gr_complex *outbuffer,
                     int noutput_items) = 0;
@@ -83,15 +94,36 @@ namespace gr
 
       typedef boost::shared_ptr<generic_model> generic_model_sptr;
 
+      /*!
+       * \brief The constructor of generic_model class
+       *
+       * \param name The name of the channel model
+       * \param tracker A boost::shared_ptr to the constructed tracker object
+       * \param mode The transmission mode
+       *
+       * \return a boost::shared_ptr to the constructed tracker object
+       */
       generic_model (std::string name, tracker::tracker_sptr tracker,
                      const uint8_t mode);
 
+      /*!
+       * \brief Get the tracker object
+       * \return a boost::shared_ptr to the constructed tracker object
+       */
       tracker::tracker_sptr
       get_tracker ();
 
+      /*!
+       * \brief Get the correct operating frequency based on the transmission mode
+       * \return the frequency in Hz
+       */
       float
       get_frequency ();
 
+      /*!
+       * \brief Get the correct polarization based on the transmission mode
+       * \return the polarization enumeration
+       */
       uint8_t
       get_polarization ();
 
@@ -111,13 +143,20 @@ namespace gr
       float
       get_tracker_antenna_gain ();
 
+      /*!
+       * \brief This functions retrieves periodically orbit information from the tracker
+       * and updates the corresponding static variables of the generic_attenuation class.
+       */
       void
-      orbit_update();
+      orbit_update ();
 
       virtual
       ~generic_model ();
 
     protected:
+      /*!
+       * \brief Represents the uplink or downlink transmission mode
+       */
       const uint8_t d_mode;
       tracker::tracker_sptr d_tracker;
 

@@ -39,7 +39,7 @@ namespace gr
   {
 
     /**
-     * @brief Tracker represents an Earth ground station that observes an orbiting
+     * \brief Tracker represents an Earth ground station that observes an orbiting
      * satellite.
      *
      * Tracker holds all the information related to the observer such as the Geocentric
@@ -76,7 +76,10 @@ namespace gr
        * \param obs_end The ending time of the observation in ISO-8601 UTC.
        * \param time_resolution_us The resolution of the observation in
        *        microseconds.
-       * \param name The name of the GNURadio block.
+       * \param comm_freq_uplink The operating uplink frequency
+       * \param comm_freq_downlink The operating downlink frequency
+       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
+       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
        *
        * \return a boost::shared_ptr to the constructed tracker object.
        */
@@ -87,20 +90,51 @@ namespace gr
             const float time_resolution_us, const float comm_freq_uplink,
             const float comm_freq_downlink,
             generic_antenna::generic_antenna_sptr uplink_antenna,
-            generic_antenna::generic_antenna_sptr downlink_antenna,
-            const std::string& name);
+            generic_antenna::generic_antenna_sptr downlink_antenna);
 
       ~tracker ();
 
+      /*!
+       * \brief The constructor of tracker class
+       *
+       * \param satellite_info Satellite object. Holds the information
+       *        related to an orbiting satellite.
+       * \param gs_lat The latitude of the ground station.
+       * \param gs_lon The longitude of the ground station.
+       * \param gs_alt The altitude of the ground station.
+       * \param obs_start The starting time of the observation in ISO-8601 UTC.
+       * \param obs_end The ending time of the observation in ISO-8601 UTC.
+       * \param time_resolution_us The resolution of the observation in
+       *        microseconds.
+       * \param comm_freq_uplink The operating uplink frequency
+       * \param comm_freq_downlink The operating downlink frequency
+       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
+       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
+       *
+       * \return a boost::shared_ptr to the constructed tracker object.
+       */
       tracker (satellite::satellite_sptr satellite_info, const float gs_lat,
                const float gs_lon, const float gs_alt,
                const std::string& obs_start, const std::string& obs_end,
                const float time_resolution_us, const float comm_freq_uplink,
                const float comm_freq_downlink,
                generic_antenna::generic_antenna_sptr uplink_antenna,
-               generic_antenna::generic_antenna_sptr downlink_antenna,
-               const std::string& name);
+               generic_antenna::generic_antenna_sptr downlink_antenna);
 
+      /*!
+       * \brief The constructor of tracker class
+       *
+       * \param tle_title The title segment of TLE
+       * \param tle_1 The first line of TLE
+       * \param tle_2 The second line of TLE
+       * \param gs_lat The latitude of the ground station.
+       * \param gs_lon The longitude of the ground station.
+       * \param gs_alt The altitude of the ground station.
+       * \param obs_start The starting time of the observation in ISO-8601 UTC.
+       * \param obs_end The ending time of the observation in ISO-8601 UTC.
+       *
+       * \return a boost::shared_ptr to the constructed tracker object.
+       */
       tracker (const std::string& tle_title, const std::string& tle_1,
                const std::string& tle_2, const float gs_lat, const float gs_lon,
                const float gs_alt, const std::string& obs_start,
@@ -204,12 +238,24 @@ namespace gr
       const float
       get_comm_freq_uplink () const;
 
+      /*!
+       * Returns the altitude of the ground station.
+       * @return the altitude in km.
+       */
       const float
       get_altitude () const;
 
+      /*!
+       * Returns the latitude of the ground station.
+       * @return the latitude in degrees.
+       */
       const float
       get_latitude () const;
 
+      /*!
+       * Returns the longitude of the ground station.
+       * @return the longitude in degrees.
+       */
       const float
       get_lontitude () const;
 
@@ -247,6 +293,9 @@ namespace gr
       const float d_comm_freq_uplink;
       const float d_comm_freq_downlink;
 
+      /**
+       * The
+       */
       const float d_gs_lat;
       const float d_gs_alt;
       const float d_gs_lon;
