@@ -24,7 +24,7 @@
 #define INCLUDED_LEO_API_H
 
 #include <gnuradio/attributes.h>
-
+#include <string>
 
 #ifdef gnuradio_leo_EXPORTS
 #  define LEO_API __GR_ATTR_EXPORT
@@ -33,13 +33,24 @@
 #endif
 
 #ifndef DATA_PATH
-    #error "Path for data files must be defined"
+#error "Path for data files must be defined"
 #endif
 
 /**
  * Speed of light in m/s
  */
 #define LIGHT_SPEED                     299792458
+
+/*!
+ * A struct that contains information about the acquisition of signal (AOS),
+ * the loss of signal (LOS) and max elevation of a satellite pass.
+ */
+typedef struct
+{
+  std::string aos;
+  std::string los;
+  double max_elevation;
+} pass_details_t;
 
 enum atmo_gases_attenuation_t
 {

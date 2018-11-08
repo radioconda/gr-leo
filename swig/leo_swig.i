@@ -13,7 +13,6 @@
 %nodefaultctor gr::leo::satellite;
 %template(satellite_sptr) boost::shared_ptr<gr::leo::satellite>;
 
-%nodefaultctor gr::leo::tracker;
 %template(tracker_sptr) boost::shared_ptr<gr::leo::tracker>;
 
 %nodefaultctor gr::leo::generic_attenuation;
