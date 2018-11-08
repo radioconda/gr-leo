@@ -59,23 +59,11 @@ namespace gr
     public:
       static int base_unique_id;
 
-      /*!
-       * A struct that contains information about the acquisition of signal (AOS),
-       * the loss of signal (LOS) and max elevation of a satellite pass.
-       */
-      typedef struct
-      {
-        DateTime aos;
-        DateTime los;
-        double max_elevation;
-      } pass_details_t;
-
       int my_id;
 
       int
       unique_id ();
 
-    public:
       typedef boost::shared_ptr<tracker> tracker_sptr;
 
       /*!
@@ -104,15 +92,27 @@ namespace gr
 
       ~tracker ();
 
+      tracker (satellite::satellite_sptr satellite_info, const float gs_lat,
+               const float gs_lon, const float gs_alt,
+               const std::string& obs_start, const std::string& obs_end,
+               const float time_resolution_us, const float comm_freq_uplink,
+               const float comm_freq_downlink,
+               generic_antenna::generic_antenna_sptr uplink_antenna,
+               generic_antenna::generic_antenna_sptr downlink_antenna,
+               const std::string& name);
+
+      tracker (const std::string& tle_title, const std::string& tle_1,
+               const std::string& tle_2, const float gs_lat, const float gs_lon,
+               const float gs_alt, const std::string& obs_start,
+               const std::string& obs_end);
+
       /*!
        * Generates a list of all the passes predictions for a specific triplet consisting
        * of a satellite, a ground station and an observation timeframe.
        * @return a std::vector of pass_details_t satellite passes.
        */
       std::vector<pass_details_t>
-      generate_passlist (Observer& observer, SGP4& sgp4,
-                         const DateTime& start_time, const DateTime& end_time,
-                         const int time_step);
+      generate_passlist (const int time_step);
 
       /*!
        * Get the observed satellite.
@@ -204,7 +204,6 @@ namespace gr
       const float
       get_comm_freq_uplink () const;
 
-
       const float
       get_altitude () const;
 
@@ -233,6 +232,10 @@ namespace gr
       Observer d_observer;
       satellite::satellite_sptr d_satellite;
 
+      std::string d_tle_title;
+      std::string d_tle_1;
+      std::string d_tle_2;
+
       Tle d_tle;
       SGP4 d_sgp4;
 
@@ -250,15 +253,6 @@ namespace gr
 
       generic_antenna::generic_antenna_sptr d_uplink_antenna;
       generic_antenna::generic_antenna_sptr d_downlink_antenna;
-
-      tracker (satellite::satellite_sptr satellite_info, const float gs_lat,
-               const float gs_lon, const float gs_alt,
-               const std::string& obs_start, const std::string& obs_end,
-               const float time_resolution_us, const float comm_freq_uplink,
-               const float comm_freq_downlink,
-               generic_antenna::generic_antenna_sptr uplink_antenna,
-               generic_antenna::generic_antenna_sptr downlink_antenna,
-               const std::string& name);
 
       /*!
        * Converts an ISO-8601 UTC timestamp into a libSGP4 DateTime object.
