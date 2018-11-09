@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "channel_model_impl.h"
 #include <iostream>
+#include <string>
 
 namespace gr
 {
@@ -53,6 +54,7 @@ namespace gr
       d_time_resolution_us = d_model->get_tracker()->get_time_resolution_us ();
       d_time_resolution_samples = (d_sample_rate * d_time_resolution_us) / 1e6;
       set_output_multiple (d_time_resolution_samples);
+      message_port_register_out (pmt::mp ("csv"));
     }
 
     /*
@@ -70,6 +72,8 @@ namespace gr
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
+      pmt::pmt_t csv_log;
+
       for (size_t t = 0; t < noutput_items / d_time_resolution_samples; t++) {
         if (d_model->get_tracker()->is_observation_over ()) {
           return WORK_DONE;
@@ -77,6 +81,7 @@ namespace gr
         d_model->generic_work (&in[d_time_resolution_samples * t],
                                &out[d_time_resolution_samples * t],
                                d_time_resolution_samples);
+        message_port_pub (pmt::mp ("csv"), pmt::string_to_symbol(d_model->get_csv_log()));
       }
 
       return noutput_items;

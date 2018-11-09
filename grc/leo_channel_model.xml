@@ -36,4 +36,9 @@
     <type>complex</type>
   </source>
   
+  <source>
+	<name>csv</name>
+	<type>message</type> 
+  </source>
+  
 </block>

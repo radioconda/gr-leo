@@ -30,7 +30,7 @@
 #include <sys/syscall.h>
 
 #define LEO_MESSAGES 1
-#define LEO_DEBUG_MESSAGES 1
+#define LEO_DEBUG_MESSAGES 0
 
 #if LEO_MESSAGES
 #define LEO_LOG_CLASS_INFO(CLASS_DEBUG_ENABLE, M, ...)                               \
