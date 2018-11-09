@@ -28,13 +28,13 @@
   </param>
 
   <param>
-    <name>Longtitude</name>
+    <name>Longtitude (Degrees)</name>
     <key>gs_lon</key>
     <type>float</type>
   </param>
   
   <param>
-    <name>Latitude</name>
+    <name>Latitude (Degrees)</name>
     <key>gs_lat</key>
     <type>float</type>
   </param>
@@ -72,13 +72,13 @@
   </param>
   
   <param>
-    <name>Observation Start Time</name>
+    <name>Observation Start Time (ISO-8601 UTC)</name>
     <key>obs_start</key>
     <type>string</type>
   </param>
   
    <param>
-    <name>Observation End Time</name>
+    <name>Observation End Time (ISO-8601 UTC)</name>
     <key>obs_end</key>
     <type>string</type>
   </param>

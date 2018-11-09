@@ -54,7 +54,7 @@ namespace gr
         float d_water_pressure;
         float d_surface_watervap_density;
 
-        /**
+        /*!
          * Spectroscopic data for oxygen attenuation
          * Rec. ITU-R P.676-11
          */
@@ -105,7 +105,7 @@ namespace gr
             { 773.83949, 572.3, 0.141, 16.2, 0, 0, 0 },
             { 834.145546, 183.1, 0.145, 14.7, 0, 0, 0 } };
 
-        /**
+        /*!
          * Spectroscopic data for water-vapour attenuation
          * Rec. ITU-R P.676-11
          */

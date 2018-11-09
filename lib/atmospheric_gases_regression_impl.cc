@@ -103,28 +103,29 @@ namespace gr
           b_f = std::get<2> ((*coeff_table)[0]);
           c_f = std::get<3> ((*coeff_table)[0]);
         }
-
-        for (size_t i = 0; i < coeff_table->size (); i++) {
-          if (std::get<0> ((*coeff_table)[i]) == frequency) {
-            a_f = std::get<1> ((*coeff_table)[i]);
-            b_f = std::get<2> ((*coeff_table)[i]);
-            c_f = std::get<3> ((*coeff_table)[i]);
-            break;
-          }
-          else if (std::get<0> ((*coeff_table)[i]) > frequency) {
-            a_f = calc_coeff (std::get<1> ((*coeff_table)[i - 1]),
-                              std::get<1> ((*coeff_table)[i]),
-                              std::get<0> ((*coeff_table)[i - 1]),
-                              std::get<0> ((*coeff_table)[i]), frequency);
-            b_f = calc_coeff (std::get<2> ((*coeff_table)[i - 1]),
-                              std::get<2> ((*coeff_table)[i]),
-                              std::get<0> ((*coeff_table)[i - 1]),
-                              std::get<0> ((*coeff_table)[i]), frequency);
-            c_f = calc_coeff (std::get<3> ((*coeff_table)[i - 1]),
-                              std::get<3> ((*coeff_table)[i]),
-                              std::get<0> ((*coeff_table)[i - 1]),
-                              std::get<0> ((*coeff_table)[i]), frequency);
-            break;
+        else {
+          for (size_t i = 0; i < coeff_table->size (); i++) {
+            if (std::get<0> ((*coeff_table)[i]) == frequency) {
+              a_f = std::get<1> ((*coeff_table)[i]);
+              b_f = std::get<2> ((*coeff_table)[i]);
+              c_f = std::get<3> ((*coeff_table)[i]);
+              break;
+            }
+            else if (std::get<0> ((*coeff_table)[i]) > frequency) {
+              a_f = calc_coeff (std::get<1> ((*coeff_table)[i - 1]),
+                                std::get<1> ((*coeff_table)[i]),
+                                std::get<0> ((*coeff_table)[i - 1]),
+                                std::get<0> ((*coeff_table)[i]), frequency);
+              b_f = calc_coeff (std::get<2> ((*coeff_table)[i - 1]),
+                                std::get<2> ((*coeff_table)[i]),
+                                std::get<0> ((*coeff_table)[i - 1]),
+                                std::get<0> ((*coeff_table)[i]), frequency);
+              c_f = calc_coeff (std::get<3> ((*coeff_table)[i - 1]),
+                                std::get<3> ((*coeff_table)[i]),
+                                std::get<0> ((*coeff_table)[i - 1]),
+                                std::get<0> ((*coeff_table)[i]), frequency);
+              break;
+            }
           }
         }
 

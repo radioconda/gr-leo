@@ -34,7 +34,7 @@ namespace gr
 
     /**
      * \brief Satellite represents a satellite in orbit.
-     *
+     * \ingroup satellite
      * Satellite holds all the information related to the satellite orbiting the Earth, such the
      * Two-Line Element (TLE), the operating frequencies and the antenna setup.
      *

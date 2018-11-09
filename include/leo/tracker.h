@@ -41,7 +41,7 @@ namespace gr
     /**
      * \brief Tracker represents an Earth ground station that observes an orbiting
      * satellite.
-     *
+     * \ingroup tracker
      * Tracker holds all the information related to the observer such as the Geocentric
      * coordinates of the ground station and antenna setup. Also stores the observation
      * specific information such as the observed satellite, the observation timeframe

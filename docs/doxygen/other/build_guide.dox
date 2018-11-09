@@ -33,9 +33,9 @@ first. Most recent systems have these packages available.
 \subsection dep_docs docs: Building the documentation
 \li doxygen (>= 1.5) http://www.stack.nl/~dimitri/doxygen/download.html
 
-\section build_gr_cmake Getting and Building gr-leo
+\section build_gr_cmake Getting and Building 
 
-GNU Radio is built using the CMake build system
+Gr-leo is built using the CMake build system
 (http://www.cmake.org/). The standard build method is as follows:
 
 \code
