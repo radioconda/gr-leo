@@ -67,7 +67,11 @@ namespace gr
               d_atmo_gases_enum ((atmo_gases_attenuation_t) atmo_gases_enum),
               d_surface_watervap_density (surface_watervap_density),
               d_temperature (temperature),
-              d_rainfall_rate (rainfall_rate)
+              d_rainfall_rate (rainfall_rate),
+              d_write_csv_header (true),
+              d_atmo_attenuation (0),
+              d_rainfall_attenuation (0),
+              d_pathloss_attenuation (0)
       {
         d_nco.set_freq (0);
 
@@ -97,7 +101,7 @@ namespace gr
           case PRECIPITATION_CUSTOM:
             d_precipitation_attenuation = attenuation::precipitation_itu::make (
                 d_rainfall_rate, d_tracker->get_lontitude (),
-                d_tracker->get_latitude (), d_tracker->get_altitude(),
+                d_tracker->get_latitude (), d_tracker->get_altitude (),
                 (precipitation_attenuation_t) precipitation_enum);
             break;
           case PRECIPITATION_NONE:
@@ -125,33 +129,53 @@ namespace gr
       leo_model_impl::calculate_total_attenuation ()
       {
         float total_attenuation = 0;
-        float atmo_attenuation = 0;
-        float fspl_attenuation = 0;
-        float rainfall_attenuation = 0;
 
         orbit_update ();
 
         if (d_atmo_gases_attenuation) {
-          atmo_attenuation = d_atmo_gases_attenuation->get_attenuation ();
-          total_attenuation += atmo_attenuation;
+          d_atmo_attenuation = d_atmo_gases_attenuation->get_attenuation ();
+          total_attenuation += d_atmo_attenuation;
         }
         if (d_precipitation_attenuation) {
-          rainfall_attenuation =
+          d_rainfall_attenuation =
               d_precipitation_attenuation->get_attenuation ();
-          total_attenuation += rainfall_attenuation;
+          total_attenuation += d_rainfall_attenuation;
         }
         if (d_fspl_attenuation) {
-          fspl_attenuation = d_fspl_attenuation->get_attenuation ();
-          total_attenuation += fspl_attenuation;
+          d_pathloss_attenuation = d_fspl_attenuation->get_attenuation ();
+          total_attenuation += d_pathloss_attenuation;
         }
 
-        LEO_LOG_INFO(
+        generate_csv_log();
+
+        LEO_DEBUG(
             "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Rainfall Loss (dB): %f | Doppler (Hz): %f",
             d_tracker->get_elapsed_time ().ToString ().c_str (), d_slant_range,
-            d_tracker->get_elevation_degrees (), fspl_attenuation,
-            atmo_attenuation, rainfall_attenuation, d_doppler_shift);
+            d_tracker->get_elevation_degrees (), d_pathloss_attenuation,
+            d_atmo_attenuation, d_rainfall_attenuation, d_doppler_shift);
 
         return total_attenuation;
+      }
+
+      void
+      leo_model_impl::generate_csv_log ()
+      {
+        std::ostringstream stringStream;
+        if (d_write_csv_header) {
+          stringStream << "Elapsed Time (us)" << "," << "Slant Range (km)"
+              << "," << "Elevation (degrees)" << "," << "Path Loss (dB)" << ","
+              << "Atmospheric Loss (dB)" << "," << "Rainfall Loss (dB)" << ","
+              << "Doppler Shift (Hz)";
+          d_write_csv_header = false;
+        }
+        else {
+          stringStream << d_tracker->get_elapsed_time ().ToString ().c_str ()
+              << "," << d_slant_range << ","
+              << d_tracker->get_elevation_degrees () << ","
+              << d_pathloss_attenuation << "," << d_atmo_attenuation << ","
+              << d_rainfall_attenuation << "," << d_doppler_shift;
+        }
+        d_csv_log = stringStream.str ();
       }
 
       void

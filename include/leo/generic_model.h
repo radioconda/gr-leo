@@ -150,6 +150,16 @@ namespace gr
       void
       orbit_update ();
 
+      /*!
+       * \brief Get the model's log as a CSV formatted string.
+       * \return the string log
+       */
+      std::string
+      get_csv_log ();
+
+      virtual void
+      generate_csv_log () = 0;
+
       virtual
       ~generic_model ();
 
@@ -158,6 +168,7 @@ namespace gr
        * \brief Represents the uplink or downlink transmission mode
        */
       const uint8_t d_mode;
+      std::string d_csv_log;
       tracker::tracker_sptr d_tracker;
 
     };

@@ -114,12 +114,18 @@ namespace gr
       return my_id;
     }
 
+    std::string
+    generic_model::get_csv_log ()
+    {
+      return d_csv_log;
+    }
+
     void
     generic_model::orbit_update ()
     {
       float elevation_radians = d_tracker->get_elevation_radians ();
-      double range = d_tracker->get_slant_range();
-      uint8_t polarization = get_polarization();
+      double range = d_tracker->get_slant_range ();
+      uint8_t polarization = get_polarization ();
 
       generic_attenuation::set_elevation_angle (elevation_radians);
       generic_attenuation::set_frequency (get_frequency ());
