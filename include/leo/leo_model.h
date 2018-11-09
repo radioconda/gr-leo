@@ -33,7 +33,7 @@ namespace gr
 
       /*!
        * \brief Low Earth orbit (LEO) channel model.
-       *
+       * \ingroup model
        * \details
        * It accepts a complex input signal and appropriately
        * applies free-space path-loss attenuation, Doppler frequency shift

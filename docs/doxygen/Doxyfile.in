@@ -713,7 +713,8 @@ EXCLUDE_PATTERNS       = */.deps/* \
                          */__init__.py \
                          */qa_*.cc \
                          */qa_*.h \
-                         */qa_*.py
+                         */qa_*.py \
+                         */libsgp4/*
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -766,7 +767,7 @@ EXAMPLE_RECURSIVE      = NO
 # directories that contain image that are included in the documentation (see
 # the \image command).
 
-IMAGE_PATH             =
+IMAGE_PATH             = @abs_top_srcdir@/docs/doxygen/images/
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program

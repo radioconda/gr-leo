@@ -54,7 +54,7 @@ namespace gr
         float d_water_pressure;
         float d_surface_watervap_density;
 
-        /**
+        /*!
          * Spectroscopic data for oxygen attenuation
          * Rec. ITU-R P.676-11
          */
@@ -105,7 +105,7 @@ namespace gr
             { 773.83949, 572.3, 0.141, 16.2, 0, 0, 0 },
             { 834.145546, 183.1, 0.145, 14.7, 0, 0, 0 } };
 
-        /**
+        /*!
          * Spectroscopic data for water-vapour attenuation
          * Rec. ITU-R P.676-11
          */
@@ -146,12 +146,24 @@ namespace gr
             { 970.315022, 9.009, 1.919, 25.5, 0.64, 4.94, 0.67 },
             { 987.926764, 134.6, 0.257, 29.85, 0.68, 4.55, 0.9 } };
 
+        /*!
+         * \brief Get the temperature at a specific altitude in the atmosphere
+         * \return The temperature in Kelvin
+         */
         double
         get_temperature (float alt);
 
+        /*!
+         * \brief Get the dry air pressure at a specific altitude in the atmosphere
+         * \return The pressure in hPa
+         */
         double
         get_pressure (float alt);
 
+        /*!
+         * \brief Get the water-vapour pressure at a specific altitude in the atmosphere
+         * \return The pressure in hPa
+         */
         double
         get_water_vapour_pressure (float alt);
 

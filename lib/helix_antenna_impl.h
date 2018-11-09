@@ -30,20 +30,49 @@ namespace gr
   {
     namespace antenna
     {
-
+      /*!
+       * \brief Class that represents a Helix antenna.
+       * \ingroup antenna
+       * \details
+       *
+       * The helix_antenna class extends the generic_antenna class
+       * to simulate the behavior of a helix antenna.
+       */
       class LEO_API helix_antenna_impl : public helix_antenna
       {
 
       public:
+        /*!
+         * \brief The constructor of helix_antenna class
+         *
+         * \param type The enumeration that defines the type of the antenna
+         * \param frequency The frequency of the antenna in Hz
+         * \param polarization The enumeration that defines the antenna
+         * polarization
+         * \param turns The number of turns
+         * \param turn_spacing The spacing of the turns
+         * \param circumference The circumference
+         *
+         */
         helix_antenna_impl (uint8_t type, float frequency, int polarization,
                             size_t turns, float turn_spacing,
                             float circumference);
 
         ~helix_antenna_impl ();
 
+        /*!
+         * \brief Get the gain of the helix antenna. This is the implementation
+         * of the parent's pure virtual function for the helix antenna.
+         * \return the gain in dBiC.
+         */
         float
         get_gain ();
 
+        /*!
+         * \brief Get the beamwidth of the helix antenna. This is the implementation
+         * of the parent's pure virtual function for the helix antenna.
+         * \return the beamwidth.
+         */
         float
         get_beamwidth ();
 

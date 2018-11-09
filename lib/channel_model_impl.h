@@ -31,10 +31,26 @@ namespace gr
     class channel_model_impl : public channel_model
     {
     private:
+      /*!
+       * \brief The sampling rate
+       */
       const float d_sample_rate;
+
+      /*!
+       * \brief The interval between every orbit calculation that is
+       * done by tracker in microseconds.
+       */
       float d_time_resolution_us;
 
+      /*!
+       * \brief The interval between every orbit calculation that is
+       * done by tracker in samples.
+       */
       size_t d_time_resolution_samples;
+
+      /*!
+       * \brief A shared pointer to the variable model
+       */
       generic_model::generic_model_sptr d_model;
 
     public:
@@ -42,7 +58,6 @@ namespace gr
                           generic_model::generic_model_sptr model);
 
       ~channel_model_impl ();
-
 
       int
       work (int noutput_items, gr_vector_const_void_star &input_items,

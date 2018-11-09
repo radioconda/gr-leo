@@ -33,10 +33,10 @@ namespace gr
   {
 
     /**
-     * @brief Satellite represents a satellite in orbit.
-     *
+     * \brief Satellite represents a satellite in orbit.
+     * \ingroup satellite
      * Satellite holds all the information related to the satellite orbiting the Earth, such the
-     * Two-Line Element (TLE) and the operating frequencies.
+     * Two-Line Element (TLE), the operating frequencies and the antenna setup.
      *
      * In order to parse the TLE and extract its information, the Satellite constructor
      * calls appropriately the API of <a href="https://www.danrw.com/sgp4">C++ SGP4</a>.
@@ -54,20 +54,42 @@ namespace gr
     public:
       typedef boost::shared_ptr<satellite> satellite_sptr;
 
+      /*!
+       * \param tle_title The title segment of TLE
+       * \param tle_1 The first line of TLE
+       * \param tle_2 The second line of TLE
+       * \param comm_freq_uplink The operating uplink frequency
+       * \param comm_freq_downlink The operating downlink frequency
+       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
+       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
+       *
+       * \return a boost::shared_ptr to the constructed tracker object.
+       */
       static satellite_sptr
       make (const std::string& tle_title, const std::string& tle_1,
             const std::string& tle_2, const float comm_freq_uplink,
             const float comm_freq_downlink,
             generic_antenna::generic_antenna_sptr uplink_antenna,
-            generic_antenna::generic_antenna_sptr downlink_antenna,
-            const std::string& name);
+            generic_antenna::generic_antenna_sptr downlink_antenna);
 
+      /*!
+       * \brief The constructor of satellite class
+       *
+       * \param tle_title The title segment of TLE
+       * \param tle_1 The first line of TLE
+       * \param tle_2 The second line of TLE
+       * \param comm_freq_uplink The operating uplink frequency
+       * \param comm_freq_downlink The operating downlink frequency
+       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
+       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
+       *
+       * \return a boost::shared_ptr to the constructed tracker object.
+       */
       satellite (const std::string& tle_title, const std::string& tle_1,
                  const std::string& tle_2, const float comm_freq_uplink,
                  const float comm_freq_downlink,
                  generic_antenna::generic_antenna_sptr uplink_antenna,
-                 generic_antenna::generic_antenna_sptr downlink_antenna,
-                 const std::string& name);
+                 generic_antenna::generic_antenna_sptr downlink_antenna);
 
       ~satellite ();
 
@@ -85,12 +107,24 @@ namespace gr
       const float
       get_comm_freq_uplink () const;
 
+      /*!
+       * Returns the first line of the TLE.
+       * @return a std::string representing the first line of the TLE
+       */
       const std::string&
       get_tle_1 () const;
 
+      /*!
+       * Returns the second line of the TLE.
+       * @return a std::string representing the second line of the TLE
+       */
       const std::string&
       get_tle_2 () const;
 
+      /*!
+       * Returns the title segment of the TLE.
+       * @return a std::string representing the TLE title
+       */
       const std::string&
       get_tle_title () const;
 

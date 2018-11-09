@@ -31,18 +31,46 @@ namespace gr
     namespace antenna
     {
 
+      /*!
+       * \brief Class that represents a custom antenna.
+       * \ingroup antenna
+       * \details
+       *
+       * The custom_antenna class extends the generic_antenna class
+       * to simulate the behavior of a custom antenna.
+       */
       class LEO_API custom_antenna_impl : public custom_antenna
       {
 
       public:
+        /*!
+         * \brief The constructor of custom_antenna class
+         *
+         * \param type The enumeration that defines the type of the antenna
+         * \param frequency The frequency of the antenna in Hz
+         * \param polarization The enumeration that defines the antenna
+         * polarization
+         * \param gain The gain of the antenna in dBiC.
+         * \param beamwidth The beamwidth of the antenna.
+         */
         custom_antenna_impl (uint8_t type, float frequency, int polarization,
                              float gain, float beamwidth);
 
         ~custom_antenna_impl ();
 
+        /*!
+         * \brief Get the gain of the custom antenna. This is the implementation
+         * of the parent's pure virtual function for the custom antenna.
+         * \return the gain in dBiC.
+         */
         float
         get_gain ();
 
+        /*!
+         * \brief Get the beamwidth of the custom antenna. This is the implementation
+         * of the parent's pure virtual function for the custom antenna.
+         * \return the beamwodth.
+         */
         float
         get_beamwidth ();
 
