@@ -36,15 +36,18 @@ namespace gr
 
       generic_antenna::generic_antenna_sptr
       yagi_antenna::make (uint8_t type, float frequency, int polarization,
-                          float boom_length)
+                          float pointing_error, float boom_length)
       {
         return generic_antenna::generic_antenna_sptr (
-            new yagi_antenna_impl (type, frequency, polarization, boom_length));
+            new yagi_antenna_impl (type, frequency, polarization,
+                                   pointing_error, boom_length));
       }
 
       yagi_antenna_impl::yagi_antenna_impl (uint8_t type, float frequency,
-                                            int polarization, float boom_length) :
-              generic_antenna (YAGI, frequency, polarization),
+                                            int polarization,
+                                            float pointing_error,
+                                            float boom_length) :
+              generic_antenna (YAGI, frequency, polarization, pointing_error),
               d_boom_length (boom_length)
       {
         d_optimum_elements = find_optimum_elements ();

@@ -35,26 +35,28 @@ namespace gr
 
       generic_antenna::generic_antenna_sptr
       helix_antenna::make (uint8_t type, float frequency, int polarization,
-                           size_t turns, float turn_spacing,
-                           float circumference)
+                           float pointing_error, size_t turns,
+                           float turn_spacing, float circumference)
       {
         return generic_antenna::generic_antenna_sptr (
-            new helix_antenna_impl (type, frequency, polarization, turns,
-                                    turn_spacing, circumference));
+            new helix_antenna_impl (type, frequency, polarization,
+                                    pointing_error, turns, turn_spacing,
+                                    circumference));
       }
 
       helix_antenna_impl::helix_antenna_impl (uint8_t type, float frequency,
-                                              int polarization, size_t turns,
-                                              float turn_spacing,
+                                              int polarization,
+                                              float pointing_error,
+                                              size_t turns, float turn_spacing,
                                               float circumference) :
-              generic_antenna (HELIX, frequency, polarization),
+              generic_antenna (HELIX, frequency, polarization, pointing_error),
               d_turns (turns),
               d_turn_spacing (turn_spacing),
               d_circumference (circumference)
       {
         LEO_DEBUG("HELIX");
-        LEO_DEBUG("Maximum Gain: %f", get_gain());
-        LEO_DEBUG("Beamwidth: %f", get_beamwidth());
+        LEO_DEBUG("Maximum Gain: %f", get_gain ());
+        LEO_DEBUG("Beamwidth: %f", get_beamwidth ());
       }
 
       helix_antenna_impl::~helix_antenna_impl ()
@@ -72,7 +74,7 @@ namespace gr
       float
       helix_antenna_impl::get_beamwidth ()
       {
-        return 52.2/(d_circumference*std::sqrt(d_turns*d_turn_spacing));
+        return 52.2 / (d_circumference * std::sqrt (d_turns * d_turn_spacing));
       }
 
     } /* namespace antenna */

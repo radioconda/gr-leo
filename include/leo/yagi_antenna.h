@@ -49,12 +49,13 @@ namespace gr
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
+         * \param pointing_error The pointing error of the antenna in degrees.
          * \param boom_length The length of the antenna boom in meters
          *
          * \return a boost::shared_ptr to the constructed tracker object.
          */
         static generic_antenna::generic_antenna_sptr
-        make (uint8_t type, float frequency, int polarization,
+        make (uint8_t type, float frequency, int polarization, float pointing_error,
               float boom_length);
 
       };

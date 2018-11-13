@@ -50,13 +50,19 @@ namespace gr
        */
       enum antenna_t
       {
-        YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM,
-        MONOPOLE, DIPOLE
+        YAGI,
+        HELIX,
+        PARABOLIC_REFLECTOR,
+        CANTED_TURNSTYLE,
+        CUSTOM,
+        MONOPOLE,
+        DIPOLE
       };
 
       uint8_t d_type;
 
       float d_frequency;
+      float d_pointing_error;
 
       int d_polarization;
       int my_id;
@@ -70,6 +76,20 @@ namespace gr
        */
       float
       get_frequency ();
+
+      /*!
+       * \brief Set the pointing error of the antenna.
+       * \param the pointing error in degrees.
+       */
+      void
+      set_pointing_error (float error);
+
+      /*!
+       * \brief Get the pointing error of the antenna.
+       * \return the pointing error in degrees.
+       */
+      float
+      get_pointing_error ();
 
       /*!
        * \brief Get the polarization of the antenna.
@@ -116,7 +136,8 @@ namespace gr
        *
        * \return a boost::shared_ptr to the constructed tracker object.
        */
-      generic_antenna (uint8_t type, float frequency, int polarization);
+      generic_antenna (uint8_t type, float frequency, int polarization,
+                       float pointing_error);
 
     };
   } // namespace leo

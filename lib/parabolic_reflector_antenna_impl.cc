@@ -35,19 +35,19 @@ namespace gr
 
       generic_antenna::generic_antenna_sptr
       parabolic_reflector_antenna::make (uint8_t type, float frequency,
-                                         int polarization, float diameter,
+                                         int polarization, float pointing_error, float diameter,
                                          float aperture_efficiency)
       {
         return generic_antenna::generic_antenna_sptr (
-            new parabolic_reflector_antenna_impl (type, frequency, polarization,
+            new parabolic_reflector_antenna_impl (type, frequency, polarization, pointing_error,
                                                   diameter,
                                                   aperture_efficiency));
       }
 
       parabolic_reflector_antenna_impl::parabolic_reflector_antenna_impl (
-          uint8_t type, float frequency, int polarization, float diameter,
+          uint8_t type, float frequency, int polarization, float pointing_error, float diameter,
           float aperture_efficiency) :
-              generic_antenna (PARABOLIC_REFLECTOR, frequency, polarization),
+              generic_antenna (PARABOLIC_REFLECTOR, frequency, polarization, pointing_error),
               d_diameter (diameter),
               d_aperture_efficiency (aperture_efficiency)
 

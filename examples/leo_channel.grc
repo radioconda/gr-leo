@@ -152,7 +152,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(151, 514)</value>
+      <value>(207, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -165,6 +165,10 @@
     <param>
       <key>id</key>
       <value>satellite_downlink_antenna</value>
+    </param>
+    <param>
+      <key>pointing_error</key>
+      <value>0</value>
     </param>
     <param>
       <key>polarization</key>
@@ -234,6 +238,10 @@
       <value>satellite_uplink_antenna</value>
     </param>
     <param>
+      <key>pointing_error</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>polarization</key>
       <value>3</value>
     </param>
@@ -254,19 +262,19 @@
     <key>variable_antenna</key>
     <param>
       <key>aperture_efficiency</key>
-      <value>55</value>
+      <value>0</value>
     </param>
     <param>
       <key>beamwidth</key>
-      <value>50</value>
+      <value>0</value>
     </param>
     <param>
       <key>boom_length</key>
-      <value>3.5</value>
+      <value>0</value>
     </param>
     <param>
       <key>circumference</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>comment</key>
@@ -274,11 +282,11 @@
     </param>
     <param>
       <key>diameter</key>
-      <value>5.4</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>frequency</key>
@@ -286,7 +294,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(438, 514)</value>
+      <value>(558, 522)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -294,27 +302,31 @@
     </param>
     <param>
       <key>gain</key>
-      <value>14</value>
+      <value>0</value>
     </param>
     <param>
       <key>id</key>
       <value>tracker_downlink_antenna</value>
     </param>
     <param>
-      <key>polarization</key>
+      <key>pointing_error</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>polarization</key>
+      <value>2</value>
     </param>
     <param>
       <key>turn_spacing</key>
-      <value>0.25</value>
+      <value>0</value>
     </param>
     <param>
       <key>turns</key>
-      <value>10</value>
+      <value>0</value>
     </param>
     <param>
       <key>type</key>
-      <value>0</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -353,7 +365,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(295, 514)</value>
+      <value>(398, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -366,6 +378,10 @@
     <param>
       <key>id</key>
       <value>tracker_uplink_antenna</value>
+    </param>
+    <param>
+      <key>pointing_error</key>
+      <value>0</value>
     </param>
     <param>
       <key>polarization</key>
@@ -1361,12 +1377,6 @@
     <sink_block_id>qtgui_waterfall_sink_x_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>leo_channel_model_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>csv</source_key>
-    <sink_key>print</sink_key>
   </connection>
   <connection>
     <source_block_id>leo_channel_model_0</source_block_id>

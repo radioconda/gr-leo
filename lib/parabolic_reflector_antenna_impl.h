@@ -49,13 +49,14 @@ namespace gr
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
+         * \param pointing_error The pointing error of the antenna in degrees.
          * \param diameter The diameter of the antenna in meters.
          * \param aperture_efficiency The aperture_efficiency efficiency.
          *
          */
       public:
         parabolic_reflector_antenna_impl (uint8_t type, float frequency,
-                                          int polarization, float diameter,
+                                          int polarization, float pointing_error, float diameter,
                                           float aperture_efficiency);
 
         ~parabolic_reflector_antenna_impl ();

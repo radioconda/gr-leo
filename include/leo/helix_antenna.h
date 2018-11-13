@@ -48,6 +48,7 @@ namespace gr
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
+         * \param pointing_error The pointing error of the antenna in degrees.
          * \param turns The number of turns
          * \param turn_spacing The turn spacing
          * \param circumference The circumference
@@ -55,8 +56,9 @@ namespace gr
          * \return a boost::shared_ptr to the constructed tracker object.
          */
         static generic_antenna::generic_antenna_sptr
-        make (uint8_t type, float frequency, int polarization, size_t turns,
-              float turn_spacing, float circumference);
+        make (uint8_t type, float frequency, int polarization,
+              float pointing_error, size_t turns, float turn_spacing,
+              float circumference);
 
       };
     } // namespace antenna

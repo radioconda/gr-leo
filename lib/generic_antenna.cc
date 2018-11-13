@@ -30,10 +30,11 @@ namespace gr
   namespace leo
   {
 
-    generic_antenna::generic_antenna (uint8_t type, float frequency, int polarization) :
+    generic_antenna::generic_antenna (uint8_t type, float frequency, int polarization, float pointing_error) :
             d_type (type),
             d_frequency (frequency),
-            d_polarization (polarization)
+            d_polarization (polarization),
+            d_pointing_error(pointing_error)
     {
       my_id = base_unique_id++;
     }
@@ -46,6 +47,18 @@ namespace gr
     generic_antenna::get_frequency ()
     {
       return d_frequency;
+    }
+
+    float
+    generic_antenna::get_pointing_error ()
+    {
+      return d_pointing_error;
+    }
+
+    void
+    generic_antenna::set_pointing_error (float error)
+    {
+      d_pointing_error = error;
     }
 
     float

@@ -34,19 +34,23 @@ namespace gr
     {
 
       generic_antenna::generic_antenna_sptr
-      monopole_antenna::make (uint8_t type, float frequency, int polarization)
+      monopole_antenna::make (uint8_t type, float frequency, int polarization,
+                              float pointing_error)
       {
         return generic_antenna::generic_antenna_sptr (
-            new monopole_antenna_impl (type, frequency, polarization));
+            new monopole_antenna_impl (type, frequency, polarization,
+                                       pointing_error));
       }
 
-      monopole_antenna_impl::monopole_antenna_impl (uint8_t type, float frequency,
-                                              int polarization) :
-              generic_antenna (HELIX, frequency, polarization)
+      monopole_antenna_impl::monopole_antenna_impl (uint8_t type,
+                                                    float frequency,
+                                                    int polarization,
+                                                    float pointing_error) :
+              generic_antenna (HELIX, frequency, polarization, pointing_error)
       {
         LEO_DEBUG("MONOPOLE");
-        LEO_DEBUG("Maximum Gain: %f", get_gain());
-        LEO_DEBUG("Beamwidth: %f", get_beamwidth());
+        LEO_DEBUG("Maximum Gain: %f", get_gain ());
+        LEO_DEBUG("Beamwidth: %f", get_beamwidth ());
       }
 
       monopole_antenna_impl::~monopole_antenna_impl ()

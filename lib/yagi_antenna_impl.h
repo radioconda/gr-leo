@@ -50,11 +50,12 @@ namespace gr
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
+         * \param pointing_error The pointing error of the antenna in degrees.
          * \param boom_length The length of the antenna boom in meters
          *
          */
         yagi_antenna_impl (uint8_t type, float frequency, int polarization,
-                           float boom_length);
+                           float pointing_error, float boom_length);
 
         ~yagi_antenna_impl ();
 
@@ -84,16 +85,32 @@ namespace gr
          * Τhe triplet refers to (boom length, elements number, maximum gain)
          */
         std::vector<yagi_preformance_t> d_yagi_performance
-          { yagi_preformance_t (0.35, 3, 9.65), yagi_preformance_t (0.55, 4, 10.86),
-            yagi_preformance_t (0.80, 5, 11.85), yagi_preformance_t (1.15, 6, 12.45),
-            yagi_preformance_t (1.45, 7, 13.45), yagi_preformance_t (1.80, 8, 14.05),
-            yagi_preformance_t (2.10, 9, 14.40), yagi_preformance_t (2.45, 10, 15.25),
-            yagi_preformance_t (2.80, 11, 15.95), yagi_preformance_t (3.15, 12, 16.30),
-            yagi_preformance_t (3.55, 13, 16.95), yagi_preformance_t (4.00, 14, 17.45),
-            yagi_preformance_t (4.40, 15, 18.15), yagi_preformance_t (4.75, 16, 18.65),
-            yagi_preformance_t (5.20, 17, 19.35), yagi_preformance_t (5.55, 18, 19.85),
-            yagi_preformance_t (6.00, 19, 20.25), yagi_preformance_t (6.50, 20, 20.75),
-            yagi_preformance_t (7.00, 21, 21.35), yagi_preformance_t (7.50, 22, 21.65)};
+          { yagi_preformance_t (0.35, 3, 9.65), yagi_preformance_t (0.55, 4,
+                                                                    10.86),
+              yagi_preformance_t (0.80, 5, 11.85), yagi_preformance_t (1.15, 6,
+                                                                       12.45),
+              yagi_preformance_t (1.45, 7, 13.45), yagi_preformance_t (1.80, 8,
+                                                                       14.05),
+              yagi_preformance_t (2.10, 9, 14.40), yagi_preformance_t (2.45, 10,
+                                                                       15.25),
+              yagi_preformance_t (2.80, 11, 15.95), yagi_preformance_t (3.15,
+                                                                        12,
+                                                                        16.30),
+              yagi_preformance_t (3.55, 13, 16.95), yagi_preformance_t (4.00,
+                                                                        14,
+                                                                        17.45),
+              yagi_preformance_t (4.40, 15, 18.15), yagi_preformance_t (4.75,
+                                                                        16,
+                                                                        18.65),
+              yagi_preformance_t (5.20, 17, 19.35), yagi_preformance_t (5.55,
+                                                                        18,
+                                                                        19.85),
+              yagi_preformance_t (6.00, 19, 20.25), yagi_preformance_t (6.50,
+                                                                        20,
+                                                                        20.75),
+              yagi_preformance_t (7.00, 21, 21.35), yagi_preformance_t (7.50,
+                                                                        22,
+                                                                        21.65) };
 
         float d_boom_length;
         size_t d_optimum_elements;

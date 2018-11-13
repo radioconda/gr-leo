@@ -50,11 +50,12 @@ namespace gr
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
+         * \param pointing_error The pointing error of the antenna in degrees.
          * \param gain The gain of the antenna in dBiC.
          * \param beamwidth The beamwidth of the antenna.
          */
         custom_antenna_impl (uint8_t type, float frequency, int polarization,
-                             float gain, float beamwidth);
+                             float pointing_error, float gain, float beamwidth);
 
         ~custom_antenna_impl ();
 

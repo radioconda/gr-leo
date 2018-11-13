@@ -5,17 +5,17 @@
   <import>import leo</import>
   <var_make>
 #if int($type())==0 #
-self.$(id) = $(id) = leo.yagi_antenna_make($type, $frequency, $polarization, $boom_length)
+self.$(id) = $(id) = leo.yagi_antenna_make($type, $frequency, $polarization, $pointing_error, $boom_length)
 #else if int($type())==1#
-self.$(id) = $(id) = leo.helix_antenna_make($type, $frequency, $polarization, $turns,
+self.$(id) = $(id) = leo.helix_antenna_make($type, $frequency, $polarization, $pointing_error, $turns,
                                     $turn_spacing, $circumference)
 #else if int($type())==2#
-self.$(id) = $(id) = leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $diameter,
+self.$(id) = $(id) = leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $pointing_error, $diameter,
 									$aperture_efficiency)
 #else if int($type())==3#
-self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $gain, $beamwidth)
+self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth)
 #else if int($type())==4#
-self.$(id) = $(id) = leo.monopole_antenna_make($type, $frequency, $polarization)
+self.$(id) = $(id) = leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else #
 print "Invalid antenna type"
 raise RuntimeError
@@ -23,17 +23,17 @@ raise RuntimeError
   </var_make>
   <var_value>\
 #if int($type())==0
-leo.yagi_antenna_make($type, $frequency, $polarization, $boom_length)
+leo.yagi_antenna_make($type, $frequency, $polarization, $pointing_error, $boom_length)
 #else if int($type())==1
-leo.helix_antenna_make($type, $frequency, $polarization, $turns,\
+leo.helix_antenna_make($type, $frequency, $polarization, $pointing_error, $turns,\
                                     $turn_spacing, $circumference)
 #else if int($type())==2
-leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $diameter,\
+leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, pointing_error, $diameter,\
 									$aperture_efficiency)
 #else if int($type())==3
-leo.custom_antenna_make($type, $frequency, $polarization, $gain, $beamwidth)
+leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth)
 #else if int($type())==4
-leo.monopole_antenna_make($type, $frequency, $polarization)
+leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else
 print "Invalid antenna type"
 raise RuntimeError
@@ -99,6 +99,13 @@ raise RuntimeError
         <key>3</key>
     </option>
     </param>
+    
+  <param>
+    <name>Pointing Error (Degrees)</name>
+    <key>pointing_error</key>
+    <value>0</value>
+    <type>float</type>
+  </param>
   
   <param>
     <name>Boom length (m)</name>
