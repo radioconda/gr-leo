@@ -50,7 +50,8 @@ namespace gr
        */
       enum antenna_t
       {
-        YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM
+        YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM,
+        MONOPOLE, DIPOLE
       };
 
       uint8_t d_type;

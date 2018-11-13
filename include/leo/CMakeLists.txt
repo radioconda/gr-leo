@@ -31,6 +31,7 @@ install(FILES
     helix_antenna.h
     parabolic_reflector_antenna.h
     custom_antenna.h
+    monopole_antenna.h
     tracker.h
     generic_attenuation.h
     free_space_path_loss.h

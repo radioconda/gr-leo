@@ -171,15 +171,14 @@ namespace gr
 
         switch (polarization)
           {
-          case VERTICAL:
+          case LINEAR_VERTICAL:
             k = std::pow (10, logkv);
             a = av;
             break;
-          case HORIZONTAL:
+          case LINEAR_HORIZONTAL:
             k = std::pow (10, logkh);
             a = ah;
             break;
-          case LINEAR:
           case LHCP:
           case RHCP:
             k = (std::pow (10, logkh) + std::pow (10, logkv)

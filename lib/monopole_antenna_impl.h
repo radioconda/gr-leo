@@ -18,10 +18,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_HELIX_ANTENNA_IMPL_H
-#define INCLUDED_LEO_HELIX_ANTENNA_IMPL_H
+#ifndef INCLUDED_LEO_MONOPOLE_ANTENNA_IMPL_H
+#define INCLUDED_LEO_MONOPOLE_ANTENNA_IMPL_H
 
-#include "../include/leo/helix_antenna.h"
+#include "../include/leo/monopole_antenna.h"
 #include <vector>
 
 namespace gr
@@ -31,37 +31,32 @@ namespace gr
     namespace antenna
     {
       /*!
-       * \brief Class that represents a Helix antenna.
+       * \brief Class that represents a Monopole antenna.
        * \ingroup antenna
        * \details
        *
-       * The helix_antenna class extends the generic_antenna class
-       * to simulate the behavior of a helix antenna.
+       * The monopole_antenna class extends the generic_antenna class
+       * to simulate the behavior of a monopole antenna.
        */
-      class LEO_API helix_antenna_impl : public helix_antenna
+      class LEO_API monopole_antenna_impl : public monopole_antenna
       {
 
       public:
         /*!
-         * \brief The constructor of helix_antenna class
+         * \brief The constructor of monopole_antenna class
          *
          * \param type The enumeration that defines the type of the antenna
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
-         * \param turns The number of turns
-         * \param turn_spacing The spacing of the turns
-         * \param circumference The circumference
          *
          */
-        helix_antenna_impl (uint8_t type, float frequency, int polarization,
-                            size_t turns, float turn_spacing,
-                            float circumference);
+        monopole_antenna_impl (uint8_t type, float frequency, int polarization);
 
-        ~helix_antenna_impl ();
+        ~monopole_antenna_impl ();
 
         /*!
-         * \brief Get the gain of the helix antenna. This is the implementation
+         * \brief Get the gain of the monopole antenna. This is the implementation
          * of the parent's pure virtual function for the helix antenna.
          * \return the gain in dBiC.
          */
@@ -69,18 +64,13 @@ namespace gr
         get_gain ();
 
         /*!
-         * \brief Get the beamwidth of the helix antenna. This is the implementation
-         * of the parent's pure virtual function for the helix antenna.
+         * \brief Get the beamwidth of the monopole antenna. This is the implementation
+         * of the parent's pure virtual function for the monopole antenna.
          * \return the beamwidth.
          */
         float
         get_beamwidth ();
 
-      private:
-
-        size_t d_turns;
-        float d_turn_spacing;
-        float d_circumference;
 
       };
     } // namespace antenna

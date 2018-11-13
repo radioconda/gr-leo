@@ -36,6 +36,7 @@ list(APPEND leo_sources
 	helix_antenna_impl.cc
 	parabolic_reflector_antenna_impl.cc
 	custom_antenna_impl.cc
+	monopole_antenna_impl.cc
 	satellite.cc
 	tracker.cc
 	generic_attenuation.cc
