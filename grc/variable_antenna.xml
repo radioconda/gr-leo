@@ -13,7 +13,7 @@ self.$(id) = $(id) = leo.helix_antenna_make($type, $frequency, $polarization, $p
 self.$(id) = $(id) = leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $pointing_error, $diameter,
 									$aperture_efficiency)
 #else if int($type())==3#
-self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth)
+self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth, $rolloff_gain)
 #else if int($type())==4#
 self.$(id) = $(id) = leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else #
@@ -31,7 +31,7 @@ leo.helix_antenna_make($type, $frequency, $polarization, $pointing_error, $turns
 leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, pointing_error, $diameter,\
 									$aperture_efficiency)
 #else if int($type())==3
-leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth)
+leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth, $rolloff_gain)
 #else if int($type())==4
 leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else
@@ -39,7 +39,7 @@ print "Invalid antenna type"
 raise RuntimeError
 #end if </var_value>
   <make></make>
-  
+  <callback>set_pointing_error($pointing_error)</callback>
   <param>
     <name>Type</name>
     <key>type</key>
@@ -162,6 +162,15 @@ raise RuntimeError
     <type>float</type>
     <hide>#if int($type())==3 then 'none' else 'all'#</hide>
   </param> 
+
+  <param>
+    <name>Roll-Off Gain (dB)</name>
+    <key>rolloff_gain</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==3 then 'none' else 'all'#</hide>
+  </param> 
+
 
   <param>
     <name>Beamwidth (degrees)</name>

@@ -77,6 +77,14 @@ namespace gr
         float
         get_beamwidth ();
 
+        /*!
+         * \brief Get the the gain roll-off of the antenna.
+         * \param pointing_error The antenna pointing error in radians
+         * \return the gain roll-off in dB.
+         */
+        float
+        get_gain_rolloff (float pointing_error);
+
       private:
 
         float d_diameter;

@@ -121,6 +121,14 @@ namespace gr
       virtual float
       get_beamwidth () = 0;
 
+      /*!
+       * \brief Get the the gain roll-off of the antenna.
+       * \param pointing_error The antenna pointing error in radians
+       * \return the gain roll-off in dB.
+       */
+      virtual float
+      get_gain_rolloff (float pointing_error) = 0;
+
       typedef boost::shared_ptr<generic_antenna> generic_antenna_sptr;
 
       virtual

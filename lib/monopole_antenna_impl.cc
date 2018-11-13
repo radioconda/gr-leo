@@ -24,6 +24,7 @@
 
 #include "monopole_antenna_impl.h"
 #include <leo/log.h>
+#include <leo/utils/helper.h>
 #include <cmath>
 
 namespace gr
@@ -61,6 +62,19 @@ namespace gr
       monopole_antenna_impl::get_gain ()
       {
         return 2.15;
+      }
+
+      float
+      monopole_antenna_impl::get_gain_rolloff (float pointing_error)
+      {
+        float error_deg = utils::radians_to_degrees (pointing_error);
+        if (error_deg < 100) {
+          return -10 * std::log10 (std::cos (90 - error_deg));
+        }
+        else {
+          LEO_WARN("No signal. Monopole antenna's pointing error > 100");
+          return 0;
+        }
       }
 
       float

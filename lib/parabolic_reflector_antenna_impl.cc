@@ -23,6 +23,7 @@
 #endif
 
 #include "parabolic_reflector_antenna_impl.h"
+#include <leo/utils/helper.h>
 #include <leo/log.h>
 #include <cmath>
 
@@ -67,6 +68,15 @@ namespace gr
         return 20.4 + 20 * std::log10 (d_diameter)
             + 20 * std::log10 (d_frequency / 1e6 / 1000)
             + 10 * std::log10 (d_aperture_efficiency / 100);
+      }
+
+
+      float
+      parabolic_reflector_antenna_impl::get_gain_rolloff (float pointing_error)
+      {
+        float error_deg = utils::radians_to_degrees (pointing_error);
+        float tmp = 2*(error_deg*(79.76/get_beamwidth()));
+        return -10 * std::log10 (3282.1 * (std::pow(std::sin (tmp),2)/std::pow(tmp,2)));
       }
 
       float

@@ -175,6 +175,10 @@
       <value>3</value>
     </param>
     <param>
+      <key>rolloff_gain</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>turn_spacing</key>
       <value>0.25</value>
     </param>
@@ -239,11 +243,15 @@
     </param>
     <param>
       <key>pointing_error</key>
-      <value>0</value>
+      <value>variable_qtgui_range_0</value>
     </param>
     <param>
       <key>polarization</key>
       <value>3</value>
+    </param>
+    <param>
+      <key>rolloff_gain</key>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -294,7 +302,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(558, 522)</value>
+      <value>(574, 522)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -317,6 +325,10 @@
       <value>2</value>
     </param>
     <param>
+      <key>rolloff_gain</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>turn_spacing</key>
       <value>0</value>
     </param>
@@ -326,7 +338,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>4</value>
+      <value>3</value>
     </param>
   </block>
   <block>
@@ -381,10 +393,14 @@
     </param>
     <param>
       <key>pointing_error</key>
-      <value>0</value>
+      <value>variable_qtgui_range_0</value>
     </param>
     <param>
       <key>polarization</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>rolloff_gain</key>
       <value>0</value>
     </param>
     <param>
@@ -453,6 +469,69 @@
     <param>
       <key>tracker</key>
       <value>variable_tracker_0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>50</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(853, 482)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>variable_qtgui_range_0</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>100</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
     </param>
   </block>
   <block>

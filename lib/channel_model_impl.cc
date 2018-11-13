@@ -73,7 +73,6 @@ namespace gr
       gr_complex *out = (gr_complex *) output_items[0];
 
       pmt::pmt_t csv_log;
-
       for (size_t t = 0; t < noutput_items / d_time_resolution_samples; t++) {
         if (d_model->get_tracker()->is_observation_over ()) {
           return WORK_DONE;

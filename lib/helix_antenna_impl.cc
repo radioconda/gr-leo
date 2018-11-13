@@ -72,6 +72,11 @@ namespace gr
       }
 
       float
+      helix_antenna_impl::get_gain_rolloff (float pointing_error) {
+        return -1.5*(-(4-10*std::log10(1.256*(1+std::cos(pointing_error)))));
+      }
+
+      float
       helix_antenna_impl::get_beamwidth ()
       {
         return 52.2 / (d_circumference * std::sqrt (d_turns * d_turn_spacing));

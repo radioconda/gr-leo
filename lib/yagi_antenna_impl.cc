@@ -23,6 +23,7 @@
 #endif
 
 #include "yagi_antenna_impl.h"
+#include <leo/utils/helper.h>
 #include <leo/log.h>
 #include <cmath>
 #include <algorithm>
@@ -69,6 +70,11 @@ namespace gr
           }
         }
         throw std::runtime_error ("Invalid Yagi boom length");
+      }
+
+      float
+      yagi_antenna_impl::get_gain_rolloff (float pointing_error) {
+        return 2*utils::radians_to_degrees(pointing_error)*get_beamwidth();
       }
 
       float

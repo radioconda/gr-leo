@@ -53,9 +53,11 @@ namespace gr
          * \param pointing_error The pointing error of the antenna in degrees.
          * \param gain The gain of the antenna in dBiC.
          * \param beamwidth The beamwidth of the antenna.
+         * \param rolloff_gain The rolloff gain of the antenna.
          */
         custom_antenna_impl (uint8_t type, float frequency, int polarization,
-                             float pointing_error, float gain, float beamwidth);
+                             float pointing_error, float gain, float beamwidth,
+                             float rolloff_gain);
 
         ~custom_antenna_impl ();
 
@@ -66,6 +68,14 @@ namespace gr
          */
         float
         get_gain ();
+
+        /*!
+         * \brief Get the the gain roll-off of the antenna.
+         * \param pointing_error The antenna pointing error in radians
+         * \return the gain roll-off in dB.
+         */
+        float
+        get_gain_rolloff (float pointing_error);
 
         /*!
          * \brief Get the beamwidth of the custom antenna. This is the implementation
@@ -79,6 +89,7 @@ namespace gr
 
         float d_gain;
         float d_beamwidth;
+        float d_rolloff_gain;
 
       };
     } // namespace antenna
