@@ -44,6 +44,7 @@ list(APPEND leo_sources
 	atmospheric_gases_itu_impl.cc
 	atmospheric_gases_regression_impl.cc
 	precipitation_itu_impl.cc
+	antenna_pointing_loss_impl.cc
 	generic_model.cc
 	leo_model_impl.cc
 	channel_model_impl.cc

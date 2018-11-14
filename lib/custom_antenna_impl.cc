@@ -67,7 +67,7 @@ namespace gr
       }
 
       float
-      custom_antenna_impl::get_gain_rolloff (float pointing_error)
+      custom_antenna_impl::get_gain_rolloff ()
       {
         return d_rolloff_gain;
       }

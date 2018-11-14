@@ -38,6 +38,7 @@ install(FILES
     atmospheric_gases_itu.h
     atmospheric_gases_regression.h
     precipitation_itu.h
+    antenna_pointing_loss.h
     generic_model.h
     leo_model.h
     channel_model.h

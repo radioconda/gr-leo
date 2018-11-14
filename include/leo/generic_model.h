@@ -136,12 +136,28 @@ namespace gr
       get_satellite_antenna_gain ();
 
       /*!
+       * \brief Get the appropriate satellite antenna for the cases of uplink and
+       * downlink mode.
+       * \return a boost::shared_ptr to the satellite antenna.
+       */
+      generic_antenna::generic_antenna_sptr
+      get_tracker_antenna ();
+
+      /*!
        * \brief Get the appropriate tracker antenna gain for the cases of uplink and
        * downlink mode.
        * \return the tracker antenna gain in dBiC.
        */
       float
       get_tracker_antenna_gain ();
+
+      /*!
+       * \brief Get the appropriate tracker antenna for the cases of uplink and
+       * downlink mode.
+       * \return a boost::shared_ptr to the tracker antenna.
+       */
+      generic_antenna::generic_antenna_sptr
+      get_satellite_antenna ();
 
       /*!
        * \brief This functions retrieves periodically orbit information from the tracker

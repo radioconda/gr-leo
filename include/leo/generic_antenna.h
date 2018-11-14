@@ -79,7 +79,7 @@ namespace gr
 
       /*!
        * \brief Set the pointing error of the antenna.
-       * \param the pointing error in degrees.
+       * \param error the pointing error in degrees.
        */
       void
       set_pointing_error (float error);
@@ -123,11 +123,10 @@ namespace gr
 
       /*!
        * \brief Get the the gain roll-off of the antenna.
-       * \param pointing_error The antenna pointing error in radians
        * \return the gain roll-off in dB.
        */
       virtual float
-      get_gain_rolloff (float pointing_error) = 0;
+      get_gain_rolloff () = 0;
 
       typedef boost::shared_ptr<generic_antenna> generic_antenna_sptr;
 

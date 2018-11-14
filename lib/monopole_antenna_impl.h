@@ -66,11 +66,10 @@ namespace gr
 
         /*!
          * \brief Get the the gain roll-off of the antenna.
-         * \param pointing_error The antenna pointing error in radians
          * \return the gain roll-off in dB.
          */
         float
-        get_gain_rolloff (float pointing_error);
+        get_gain_rolloff ();
 
         /*!
          * \brief Get the beamwidth of the monopole antenna. This is the implementation

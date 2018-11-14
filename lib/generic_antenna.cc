@@ -23,6 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
+#include <leo/utils/helper.h>
 #include <leo/generic_antenna.h>
 
 namespace gr
@@ -34,7 +35,7 @@ namespace gr
             d_type (type),
             d_frequency (frequency),
             d_polarization (polarization),
-            d_pointing_error(pointing_error)
+            d_pointing_error(utils::degrees_to_radians(pointing_error))
     {
       my_id = base_unique_id++;
     }
@@ -58,7 +59,7 @@ namespace gr
     void
     generic_antenna::set_pointing_error (float error)
     {
-      d_pointing_error = error;
+      d_pointing_error = utils::degrees_to_radians(error);
     }
 
     float
