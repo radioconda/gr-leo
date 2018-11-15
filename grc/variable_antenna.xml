@@ -16,6 +16,8 @@ self.$(id) = $(id) = leo.parabolic_reflector_antenna_make($type, $frequency, $po
 self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth, $rolloff_gain)
 #else if int($type())==4#
 self.$(id) = $(id) = leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==5#
+self.$(id) = $(id) = leo.dipole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else #
 print "Invalid antenna type"
 raise RuntimeError
@@ -34,6 +36,8 @@ leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, pointing_
 leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth, $rolloff_gain)
 #else if int($type())==4
 leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==5
+leo.dipole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else
 print "Invalid antenna type"
 raise RuntimeError

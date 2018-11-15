@@ -23,6 +23,7 @@
 #endif
 
 #include "helix_antenna_impl.h"
+#include <leo/utils/helper.h>
 #include <leo/log.h>
 #include <cmath>
 
@@ -72,14 +73,26 @@ namespace gr
       }
 
       float
-      helix_antenna_impl::get_gain_rolloff () {
-        return -1.5*(-(4-10*std::log10(1.256*(1+std::cos(d_pointing_error)))));
+      helix_antenna_impl::get_gain_rolloff ()
+      {
+        float error_deg = utils::radians_to_degrees (d_pointing_error);
+        float tmp = 2 * error_deg * (79.76 / get_beamwidth ());
+        if (error_deg > 0) {
+          return -10
+              * std::log10 (
+                  3282.81
+                      * std::pow (std::sin (utils::degrees_to_radians (tmp)), 2)
+                      / std::pow (tmp, 2));
+        }
+        else {
+          return 0;
+        }
       }
 
       float
       helix_antenna_impl::get_beamwidth ()
       {
-        return 52.2 / (d_circumference * std::sqrt (d_turns * d_turn_spacing));
+        return 115 / (d_circumference * std::sqrt (d_turns * d_turn_spacing));
       }
 
     } /* namespace antenna */

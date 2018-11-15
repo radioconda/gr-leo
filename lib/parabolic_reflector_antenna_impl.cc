@@ -76,7 +76,12 @@ namespace gr
       {
         float error_deg = utils::radians_to_degrees (d_pointing_error);
         float tmp = 2*(error_deg*(79.76/get_beamwidth()));
-        return -10 * std::log10 (3282.1 * (std::pow(std::sin (tmp),2)/std::pow(tmp,2)));
+        if (!error_deg) {
+          return 0;
+        }
+        else {
+          return -10 * std::log10 (3282.1 * (std::pow(std::sin (utils::degrees_to_radians (tmp)),2)/std::pow(tmp,2)));
+        }
       }
 
       float

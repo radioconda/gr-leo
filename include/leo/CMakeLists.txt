@@ -32,6 +32,7 @@ install(FILES
     parabolic_reflector_antenna.h
     custom_antenna.h
     monopole_antenna.h
+    dipole_antenna.h
     tracker.h
     generic_attenuation.h
     free_space_path_loss.h
