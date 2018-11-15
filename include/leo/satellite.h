@@ -58,19 +58,19 @@ namespace gr
        * \param tle_title The title segment of TLE
        * \param tle_1 The first line of TLE
        * \param tle_2 The second line of TLE
-       * \param comm_freq_uplink The operating uplink frequency
-       * \param comm_freq_downlink The operating downlink frequency
-       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
-       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
+       * \param comm_freq_tx The operating tx frequency
+       * \param comm_freq_rx The operating rx frequency
+       * \param tx_antenna A boost::shared_ptr to the tx antenna
+       * \param rx_antenna A boost::shared_ptr to the rx antenna
        *
        * \return a boost::shared_ptr to the constructed tracker object.
        */
       static satellite_sptr
       make (const std::string& tle_title, const std::string& tle_1,
-            const std::string& tle_2, const float comm_freq_uplink,
-            const float comm_freq_downlink,
-            generic_antenna::generic_antenna_sptr uplink_antenna,
-            generic_antenna::generic_antenna_sptr downlink_antenna);
+            const std::string& tle_2, const float comm_freq_tx,
+            const float comm_freq_rx,
+            generic_antenna::generic_antenna_sptr tx_antenna,
+            generic_antenna::generic_antenna_sptr rx_antenna);
 
       /*!
        * \brief The constructor of satellite class
@@ -78,34 +78,34 @@ namespace gr
        * \param tle_title The title segment of TLE
        * \param tle_1 The first line of TLE
        * \param tle_2 The second line of TLE
-       * \param comm_freq_uplink The operating uplink frequency
-       * \param comm_freq_downlink The operating downlink frequency
-       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
-       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
+       * \param comm_freq_tx The operating TX frequency
+       * \param comm_freq_rx The operating RX frequency
+       * \param tx_antenna A boost::shared_ptr to the TX antenna
+       * \param rx_antenna A boost::shared_ptr to the RX antenna
        *
        * \return a boost::shared_ptr to the constructed tracker object.
        */
       satellite (const std::string& tle_title, const std::string& tle_1,
-                 const std::string& tle_2, const float comm_freq_uplink,
-                 const float comm_freq_downlink,
-                 generic_antenna::generic_antenna_sptr uplink_antenna,
-                 generic_antenna::generic_antenna_sptr downlink_antenna);
+                 const std::string& tle_2, const float comm_freq_tx,
+                 const float comm_freq_rx,
+                 generic_antenna::generic_antenna_sptr tx_antenna,
+                 generic_antenna::generic_antenna_sptr rx_antenna);
 
       ~satellite ();
 
       /*!
-       * Returns the downlink frequency of the satellite's COMM system.
+       * Returns the RX frequency of the satellite's COMM system.
        * @return the frequency in Hz.
        */
       const float
-      get_comm_freq_downlink () const;
+      get_comm_freq_rx () const;
 
       /*!
-       * Returns the uplink frequency of the satellite's COMM system.
+       * Returns the TX frequency of the satellite's COMM system.
        * @return the frequency in Hz.
        */
       const float
-      get_comm_freq_uplink () const;
+      get_comm_freq_tx () const;
 
       /*!
        * Returns the first line of the TLE.
@@ -129,29 +129,29 @@ namespace gr
       get_tle_title () const;
 
       /*!
-       * Returns the antenna that is used from the satellite's uplink COMM system.
+       * Returns the antenna that is used from the satellite's TX COMM system.
        * @return a boost::shared_ptr to the antenna.
        */
       generic_antenna::generic_antenna_sptr
-      get_uplink_antenna ();
+      get_tx_antenna ();
 
       /*!
-       * Returns the antenna that is used from the satellite's downlink COMM system.
+       * Returns the antenna that is used from the satellite's RX COMM system.
        * @return a boost::shared_ptr to the antenna.
        */
       generic_antenna::generic_antenna_sptr
-      get_downlink_antenna ();
+      get_rx_antenna ();
 
     private:
       std::string d_tle_title;
       std::string d_tle_1;
       std::string d_tle_2;
 
-      const float d_comm_freq_uplink;
-      const float d_comm_freq_downlink;
+      const float d_comm_freq_tx;
+      const float d_comm_freq_rx;
 
-      generic_antenna::generic_antenna_sptr d_uplink_antenna;
-      generic_antenna::generic_antenna_sptr d_downlink_antenna;
+      generic_antenna::generic_antenna_sptr d_tx_antenna;
+      generic_antenna::generic_antenna_sptr d_rx_antenna;
 
     };
 

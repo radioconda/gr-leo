@@ -37,15 +37,15 @@ namespace gr
     tracker::make (satellite::satellite_sptr satellite_info, const float gs_lat,
                    const float gs_lon, const float gs_alt,
                    const std::string& obs_start, const std::string& obs_end,
-                   const float time_resolution_us, const float comm_freq_uplink,
-                   const float comm_freq_downlink,
-                   generic_antenna::generic_antenna_sptr uplink_antenna,
-                   generic_antenna::generic_antenna_sptr downlink_antenna)
+                   const float time_resolution_us, const float comm_freq_tx,
+                   const float comm_freq_rx,
+                   generic_antenna::generic_antenna_sptr tx_antenna,
+                   generic_antenna::generic_antenna_sptr rx_antenna)
     {
       return tracker::tracker_sptr (
           new tracker (satellite_info, gs_lat, gs_lon, gs_alt, obs_start,
-                       obs_end, time_resolution_us, comm_freq_uplink,
-                       comm_freq_downlink, uplink_antenna, downlink_antenna));
+                       obs_end, time_resolution_us, comm_freq_tx,
+                       comm_freq_rx, tx_antenna, rx_antenna));
     }
 
     /**
@@ -71,10 +71,10 @@ namespace gr
                       const float gs_alt, const std::string& obs_start,
                       const std::string& obs_end,
                       const float time_resolution_us,
-                      const float comm_freq_uplink,
-                      const float comm_freq_downlink,
-                      generic_antenna::generic_antenna_sptr uplink_antenna,
-                      generic_antenna::generic_antenna_sptr downlink_antenna) :
+                      const float comm_freq_tx,
+                      const float comm_freq_rx,
+                      generic_antenna::generic_antenna_sptr tx_antenna,
+                      generic_antenna::generic_antenna_sptr rx_antenna) :
             d_time_resolution_us (time_resolution_us),
             d_observer (gs_lat, gs_lon, gs_alt),
             d_satellite (satellite_info),
@@ -85,10 +85,10 @@ namespace gr
             d_obs_start (parse_ISO_8601_UTC (obs_start)),
             d_obs_end (parse_ISO_8601_UTC (obs_end)),
             d_obs_elapsed (d_obs_start),
-            d_comm_freq_uplink (comm_freq_uplink),
-            d_comm_freq_downlink (comm_freq_downlink),
-            d_uplink_antenna (uplink_antenna),
-            d_downlink_antenna (downlink_antenna),
+            d_comm_freq_tx (comm_freq_tx),
+            d_comm_freq_rx (comm_freq_rx),
+            d_tx_antenna (tx_antenna),
+            d_rx_antenna (rx_antenna),
             d_gs_alt (gs_alt),
             d_gs_lat (gs_lat),
             d_gs_lon (gs_lon)
@@ -115,8 +115,8 @@ namespace gr
             d_obs_start (parse_ISO_8601_UTC (obs_start)),
             d_obs_end (parse_ISO_8601_UTC (obs_end)),
             d_obs_elapsed (d_obs_start),
-            d_comm_freq_uplink (0),
-            d_comm_freq_downlink (0),
+            d_comm_freq_tx (0),
+            d_comm_freq_rx (0),
             d_gs_alt (gs_alt),
             d_gs_lat (gs_lat),
             d_gs_lon (gs_lon)
@@ -502,15 +502,15 @@ namespace gr
     }
 
     const float
-    tracker::get_comm_freq_downlink () const
+    tracker::get_comm_freq_rx () const
     {
-      return d_comm_freq_downlink;
+      return d_comm_freq_rx;
     }
 
     const float
-    tracker::get_comm_freq_uplink () const
+    tracker::get_comm_freq_tx () const
     {
-      return d_comm_freq_uplink;
+      return d_comm_freq_tx;
     }
 
     const float
@@ -532,15 +532,15 @@ namespace gr
     }
 
     generic_antenna::generic_antenna_sptr
-    tracker::get_uplink_antenna ()
+    tracker::get_tx_antenna ()
     {
-      return d_uplink_antenna;
+      return d_tx_antenna;
     }
 
     generic_antenna::generic_antenna_sptr
-    tracker::get_downlink_antenna ()
+    tracker::get_rx_antenna ()
     {
-      return d_downlink_antenna;
+      return d_rx_antenna;
     }
 
     void
