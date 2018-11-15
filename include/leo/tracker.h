@@ -76,10 +76,10 @@ namespace gr
        * \param obs_end The ending time of the observation in ISO-8601 UTC.
        * \param time_resolution_us The resolution of the observation in
        *        microseconds.
-       * \param comm_freq_uplink The operating uplink frequency
-       * \param comm_freq_downlink The operating downlink frequency
-       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
-       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
+       * \param comm_freq_tx The operating TX frequency
+       * \param comm_freq_rx The operating RX frequency
+       * \param tx_antenna A boost::shared_ptr to the TX antenna
+       * \param rx_antenna A boost::shared_ptr to the RX antenna
        *
        * \return a boost::shared_ptr to the constructed tracker object.
        */
@@ -87,10 +87,10 @@ namespace gr
       make (satellite::satellite_sptr satellite_info, const float gs_lat,
             const float gs_lon, const float gs_alt,
             const std::string& obs_start, const std::string& obs_end,
-            const float time_resolution_us, const float comm_freq_uplink,
-            const float comm_freq_downlink,
-            generic_antenna::generic_antenna_sptr uplink_antenna,
-            generic_antenna::generic_antenna_sptr downlink_antenna);
+            const float time_resolution_us, const float comm_freq_tx,
+            const float comm_freq_rx,
+            generic_antenna::generic_antenna_sptr tx_antenna,
+            generic_antenna::generic_antenna_sptr rx_antenna);
 
       ~tracker ();
 
@@ -106,20 +106,20 @@ namespace gr
        * \param obs_end The ending time of the observation in ISO-8601 UTC.
        * \param time_resolution_us The resolution of the observation in
        *        microseconds.
-       * \param comm_freq_uplink The operating uplink frequency
-       * \param comm_freq_downlink The operating downlink frequency
-       * \param uplink_antenna A boost::shared_ptr to the uplink antenna
-       * \param downlink_antenna A boost::shared_ptr to the downlink antenna
+       * \param comm_freq_tx The operating TX frequency
+       * \param comm_freq_rx The operating RX frequency
+       * \param tx_antenna A boost::shared_ptr to the TX antenna
+       * \param rx_antenna A boost::shared_ptr to the RX antenna
        *
        * \return a boost::shared_ptr to the constructed tracker object.
        */
       tracker (satellite::satellite_sptr satellite_info, const float gs_lat,
                const float gs_lon, const float gs_alt,
                const std::string& obs_start, const std::string& obs_end,
-               const float time_resolution_us, const float comm_freq_uplink,
-               const float comm_freq_downlink,
-               generic_antenna::generic_antenna_sptr uplink_antenna,
-               generic_antenna::generic_antenna_sptr downlink_antenna);
+               const float time_resolution_us, const float comm_freq_tx,
+               const float comm_freq_rx,
+               generic_antenna::generic_antenna_sptr tx_antenna,
+               generic_antenna::generic_antenna_sptr rx_antenna);
 
       /*!
        * \brief The constructor of tracker class
@@ -225,18 +225,18 @@ namespace gr
       get_elapsed_time ();
 
       /*!
-       * Returns the downlink frequency of the tracker's COMM system.
+       * Returns the RX frequency of the tracker's COMM system.
        * @return the frequency in Hz.
        */
       const float
-      get_comm_freq_downlink () const;
+      get_comm_freq_rx () const;
 
       /*!
-       * Returns the uplink frequency of the tracker's COMM system.
+       * Returns the TX frequency of the tracker's COMM system.
        * @return the frequency in Hz.
        */
       const float
-      get_comm_freq_uplink () const;
+      get_comm_freq_tx () const;
 
       /*!
        * Returns the altitude of the ground station.
@@ -260,18 +260,18 @@ namespace gr
       get_lontitude () const;
 
       /*!
-       * Returns the antenna that is used from the tracker's uplink COMM system.
+       * Returns the antenna that is used from the tracker's TX COMM system.
        * @return a boost::shared_ptr to the antenna.
        */
       generic_antenna::generic_antenna_sptr
-      get_uplink_antenna ();
+      get_tx_antenna ();
 
       /*!
-       * Returns the antenna that is used from the tracker's downlink COMM system.
+       * Returns the antenna that is used from the tracker's RX COMM system.
        * @return a boost::shared_ptr to the antenna.
        */
       generic_antenna::generic_antenna_sptr
-      get_downlink_antenna ();
+      get_rx_antenna ();
 
     private:
       std::vector<pass_details_t> d_passlist;
@@ -290,8 +290,8 @@ namespace gr
       DateTime d_obs_elapsed;
 
       const float d_time_resolution_us;
-      const float d_comm_freq_uplink;
-      const float d_comm_freq_downlink;
+      const float d_comm_freq_tx;
+      const float d_comm_freq_rx;
 
       /**
        * The
@@ -300,8 +300,8 @@ namespace gr
       const float d_gs_alt;
       const float d_gs_lon;
 
-      generic_antenna::generic_antenna_sptr d_uplink_antenna;
-      generic_antenna::generic_antenna_sptr d_downlink_antenna;
+      generic_antenna::generic_antenna_sptr d_tx_antenna;
+      generic_antenna::generic_antenna_sptr d_rx_antenna;
 
       /*!
        * Converts an ISO-8601 UTC timestamp into a libSGP4 DateTime object.
