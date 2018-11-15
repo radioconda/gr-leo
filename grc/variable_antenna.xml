@@ -5,15 +5,21 @@
   <import>import leo</import>
   <var_make>
 #if int($type())==0 #
-self.$(id) = $(id) = leo.yagi_antenna_make($type, $frequency, $polarization, $boom_length)
+self.$(id) = $(id) = leo.yagi_antenna_make($type, $frequency, $polarization, $pointing_error, $boom_length)
 #else if int($type())==1#
-self.$(id) = $(id) = leo.helix_antenna_make($type, $frequency, $polarization, $turns,
+self.$(id) = $(id) = leo.helix_antenna_make($type, $frequency, $polarization, $pointing_error, $turns,
                                     $turn_spacing, $circumference)
 #else if int($type())==2#
-self.$(id) = $(id) = leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $diameter,
+self.$(id) = $(id) = leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $pointing_error, $diameter,
 									$aperture_efficiency)
 #else if int($type())==3#
-self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $gain, $beamwidth)
+self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth, $rolloff_gain)
+#else if int($type())==4#
+self.$(id) = $(id) = leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==5#
+self.$(id) = $(id) = leo.dipole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==6#
+self.$(id) = $(id) = leo.quadrifilar_helix_antenna_make($type, $frequency, $polarization, $pointing_error, $loop)
 #else #
 print "Invalid antenna type"
 raise RuntimeError
@@ -21,21 +27,27 @@ raise RuntimeError
   </var_make>
   <var_value>\
 #if int($type())==0
-leo.yagi_antenna_make($type, $frequency, $polarization, $boom_length)
+leo.yagi_antenna_make($type, $frequency, $polarization, $pointing_error, $boom_length)
 #else if int($type())==1
-leo.helix_antenna_make($type, $frequency, $polarization, $turns,\
+leo.helix_antenna_make($type, $frequency, $polarization, $pointing_error, $turns,\
                                     $turn_spacing, $circumference)
 #else if int($type())==2
-leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, $diameter,\
+leo.parabolic_reflector_antenna_make($type, $frequency, $polarization, pointing_error, $diameter,\
 									$aperture_efficiency)
 #else if int($type())==3
-leo.custom_antenna_make($type, $frequency, $polarization, $gain, $beamwidth)
+leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain, $beamwidth, $rolloff_gain)
+#else if int($type())==4
+leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==5
+leo.dipole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==6
+leo.quadrifilar_helix_antenna_make($type, $frequency, $polarization, $pointing_error, $loop)
 #else
 print "Invalid antenna type"
 raise RuntimeError
 #end if </var_value>
   <make></make>
-  
+  <callback>set_pointing_error($pointing_error)</callback>
   <param>
     <name>Type</name>
     <key>type</key>
@@ -56,6 +68,18 @@ raise RuntimeError
     <option>
         <name>Custom</name>
         <key>3</key>
+    </option>
+    <option>
+        <name>Monopole</name>
+        <key>4</key>
+    </option>
+    <option>
+        <name>Dipole</name>
+        <key>5</key>
+    </option>
+    <option>
+        <name>Quadrifilar Helix</name>
+        <key>6</key>
     </option>
     </param>
   
@@ -79,19 +103,15 @@ raise RuntimeError
         <key>1</key>
     </option>
     <option>
-        <name>LINEAR</name>
+        <name>LINEAR VERTICAL</name>
         <key>2</key>
     </option>
     <option>
-        <name>VERTICAL</name>
+        <name>LINEAR HORIZONTAL</name>
         <key>3</key>
     </option>
-    <option>
-        <name>HORIZONTAL</name>
-        <key>4</key>
-    </option>
     </param>
-  
+    
   <param>
     <name>Boom length (m)</name>
     <key>boom_length</key>
@@ -139,6 +159,14 @@ raise RuntimeError
     <type>float</type>
     <hide>#if int($type())==2 then 'none' else 'all'#</hide>
   </param> 
+  
+  <param>
+    <name>Loop (m)</name>
+    <key>loop</key>
+    <value>0.5</value>
+    <type>float</type>
+    <hide>#if int($type())==6 then 'none' else 'all'#</hide>
+  </param>
 
   <param>
     <name>Gain (dBiC)</name>
@@ -149,11 +177,27 @@ raise RuntimeError
   </param> 
 
   <param>
+    <name>Roll-Off Gain (dB)</name>
+    <key>rolloff_gain</key>
+    <value>0</value>
+    <type>float</type>
+    <hide>#if int($type())==3 then 'none' else 'all'#</hide>
+  </param> 
+
+
+  <param>
     <name>Beamwidth (degrees)</name>
     <key>beamwidth</key>
     <value>0</value>
     <type>float</type>
     <hide>#if int($type())==3 then 'none' else 'all'#</hide>
   </param> 
+  
+  <param>
+    <name>Pointing Error (Degrees)</name>
+    <key>pointing_error</key>
+    <value>0</value>
+    <type>float</type>
+  </param>
     
 </block>

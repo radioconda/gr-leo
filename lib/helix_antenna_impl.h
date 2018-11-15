@@ -49,14 +49,15 @@ namespace gr
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
+         * \param pointing_error The pointing error of the antenna in degrees.
          * \param turns The number of turns
          * \param turn_spacing The spacing of the turns
          * \param circumference The circumference
          *
          */
         helix_antenna_impl (uint8_t type, float frequency, int polarization,
-                            size_t turns, float turn_spacing,
-                            float circumference);
+                            float pointing_error, size_t turns,
+                            float turn_spacing, float circumference);
 
         ~helix_antenna_impl ();
 
@@ -67,6 +68,13 @@ namespace gr
          */
         float
         get_gain ();
+
+        /*!
+         * \brief Get the the gain roll-off of the antenna.
+         * \return the gain roll-off in dB.
+         */
+        float
+        get_gain_rolloff ();
 
         /*!
          * \brief Get the beamwidth of the helix antenna. This is the implementation
@@ -87,5 +95,5 @@ namespace gr
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_YAGI_ANTENNA_IMPL_H */
+#endif /* INCLUDED_LEO_HELIX_ANTENNA_IMPL_H */
 

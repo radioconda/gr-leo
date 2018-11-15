@@ -64,7 +64,7 @@ enum precipitation_attenuation_t
 
 enum polarization_t
 {
-  RHCP = 0, LHCP, LINEAR, VERTICAL, HORIZONTAL
+  RHCP = 0, LHCP, LINEAR_VERTICAL, LINEAR_HORIZONTAL
 };
 
 /**

@@ -90,6 +90,69 @@
     </param>
   </block>
   <block>
+    <key>variable_qtgui_range</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>90</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(175, 131)</value>
+    </param>
+    <param>
+      <key>gui_hint</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pointing_error</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>min_len</key>
+      <value>200</value>
+    </param>
+    <param>
+      <key>orient</key>
+      <value>Qt.Horizontal</value>
+    </param>
+    <param>
+      <key>start</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>step</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>stop</key>
+      <value>90</value>
+    </param>
+    <param>
+      <key>rangeType</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>widget</key>
+      <value>counter_slider</value>
+    </param>
+  </block>
+  <block>
     <key>variable</key>
     <param>
       <key>comment</key>
@@ -152,7 +215,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(151, 514)</value>
+      <value>(207, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -167,8 +230,16 @@
       <value>satellite_downlink_antenna</value>
     </param>
     <param>
+      <key>pointing_error</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>polarization</key>
       <value>3</value>
+    </param>
+    <param>
+      <key>rolloff_gain</key>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -234,8 +305,16 @@
       <value>satellite_uplink_antenna</value>
     </param>
     <param>
+      <key>pointing_error</key>
+      <value>pointing_error</value>
+    </param>
+    <param>
       <key>polarization</key>
       <value>3</value>
+    </param>
+    <param>
+      <key>rolloff_gain</key>
+      <value>0</value>
     </param>
     <param>
       <key>turn_spacing</key>
@@ -247,7 +326,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>0</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -286,7 +365,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(438, 514)</value>
+      <value>(574, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -301,7 +380,15 @@
       <value>tracker_downlink_antenna</value>
     </param>
     <param>
+      <key>pointing_error</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>polarization</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>rolloff_gain</key>
       <value>0</value>
     </param>
     <param>
@@ -353,7 +440,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(295, 514)</value>
+      <value>(406, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -368,7 +455,15 @@
       <value>tracker_uplink_antenna</value>
     </param>
     <param>
+      <key>pointing_error</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>polarization</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>rolloff_gain</key>
       <value>0</value>
     </param>
     <param>
@@ -381,7 +476,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>0</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -589,7 +684,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(702, 331)</value>
+      <value>(606, 418)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -624,7 +719,7 @@
     <key>analog_sig_source_x</key>
     <param>
       <key>amp</key>
-      <value>100</value>
+      <value>1000</value>
     </param>
     <param>
       <key>alias</key>
@@ -648,7 +743,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(478, 227)</value>
+      <value>(438, 315)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -703,7 +798,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(917, 319)</value>
+      <value>(893, 335)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -754,7 +849,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1037, 47)</value>
+      <value>(869, 446)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -789,7 +884,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(694, 251)</value>
+      <value>(598, 335)</value>
     </param>
     <param>
       <key>_rotation</key>

@@ -18,8 +18,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_HELIX_ANTENNA_H
-#define INCLUDED_LEO_HELIX_ANTENNA_H
+#ifndef INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_H
+#define INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_H
 
 #include <leo/api.h>
 #include <leo/generic_antenna.h>
@@ -32,13 +32,13 @@ namespace gr
     namespace antenna
     {
       /*!
-       * \brief Class that represents a helix antenna.
+       * \brief Class that represents a quadrifilar helix antenna.
        * \details
        *
        * The helix_antenna class extends the generic_antenna class
-       * to simulate the behavior of a helix antenna.
+       * to simulate the behavior of a quadrifilar helix antenna.
        */
-      class LEO_API helix_antenna : virtual public generic_antenna
+      class LEO_API quadrifilar_helix_antenna : virtual public generic_antenna
       {
 
       public:
@@ -49,21 +49,18 @@ namespace gr
          * \param polarization The enumeration that defines the antenna
          * polarization
          * \param pointing_error The pointing error of the antenna in degrees.
-         * \param turns The number of turns
-         * \param turn_spacing The turn spacing
-         * \param circumference The circumference
+         * \param loop The loop of the quadrifilar helix antenna
          *
          * \return a boost::shared_ptr to the constructed tracker object.
          */
         static generic_antenna::generic_antenna_sptr
         make (uint8_t type, float frequency, int polarization,
-              float pointing_error, size_t turns, float turn_spacing,
-              float circumference);
+              float pointing_error, float loop);
 
       };
     } // namespace antenna
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_HELIX_ANTENNA_H */
+#endif /* INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_H */
 

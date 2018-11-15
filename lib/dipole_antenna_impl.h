@@ -18,10 +18,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_CUSTOM_ANTENNA_IMPL_H
-#define INCLUDED_LEO_CUSTOM_ANTENNA_IMPL_H
+#ifndef INCLUDED_LEO_DIPOLE_ANTENNA_IMPL_H
+#define INCLUDED_LEO_DIPOLE_ANTENNA_IMPL_H
 
-#include "../include/leo/custom_antenna.h"
+#include "../include/leo/dipole_antenna.h"
 #include <vector>
 
 namespace gr
@@ -30,40 +30,35 @@ namespace gr
   {
     namespace antenna
     {
-
       /*!
-       * \brief Class that represents a custom antenna.
+       * \brief Class that represents a dipole antenna.
        * \ingroup antenna
        * \details
        *
-       * The custom_antenna class extends the generic_antenna class
-       * to simulate the behavior of a custom antenna.
+       * The dipole_antenna class extends the generic_antenna class
+       * to simulate the behavior of a dipole antenna.
        */
-      class LEO_API custom_antenna_impl : public custom_antenna
+      class LEO_API dipole_antenna_impl : public dipole_antenna
       {
 
       public:
         /*!
-         * \brief The constructor of custom_antenna class
+         * \brief The constructor of dipole_antenna class
          *
          * \param type The enumeration that defines the type of the antenna
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
          * \param pointing_error The pointing error of the antenna in degrees.
-         * \param gain The gain of the antenna in dBiC.
-         * \param beamwidth The beamwidth of the antenna.
-         * \param rolloff_gain The rolloff gain of the antenna.
          */
-        custom_antenna_impl (uint8_t type, float frequency, int polarization,
-                             float pointing_error, float gain, float beamwidth,
-                             float rolloff_gain);
+        dipole_antenna_impl (uint8_t type, float frequency, int polarization,
+                               float pointing_error);
 
-        ~custom_antenna_impl ();
+        ~dipole_antenna_impl ();
 
         /*!
-         * \brief Get the gain of the custom antenna. This is the implementation
-         * of the parent's pure virtual function for the custom antenna.
+         * \brief Get the gain of the dipole antenna. This is the implementation
+         * of the parent's pure virtual function for the helix antenna.
          * \return the gain in dBiC.
          */
         float
@@ -77,23 +72,17 @@ namespace gr
         get_gain_rolloff ();
 
         /*!
-         * \brief Get the beamwidth of the custom antenna. This is the implementation
-         * of the parent's pure virtual function for the custom antenna.
-         * \return the beamwodth.
+         * \brief Get the beamwidth of the dipole antenna. This is the implementation
+         * of the parent's pure virtual function for the dipole antenna.
+         * \return the beamwidth.
          */
         float
         get_beamwidth ();
-
-      private:
-
-        float d_gain;
-        float d_beamwidth;
-        float d_rolloff_gain;
 
       };
     } // namespace antenna
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_CUSTOM_ANTENNA_IMPL_H */
+#endif /* INCLUDED_LEO_DIPOLE_ANTENNA_IMPL_H */
 

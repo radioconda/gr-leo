@@ -22,9 +22,11 @@
 #include "config.h"
 #endif
 
-#include "custom_antenna_impl.h"
+#include "dipole_antenna_impl.h"
 #include <leo/log.h>
+#include <leo/utils/helper.h>
 #include <cmath>
+#include <limits>
 
 namespace gr
 {
@@ -34,48 +36,54 @@ namespace gr
     {
 
       generic_antenna::generic_antenna_sptr
-      custom_antenna::make (uint8_t type, float frequency, int polarization,
-                            float pointing_error, float gain, float beamwidth, float rolloff_gain)
+      dipole_antenna::make (uint8_t type, float frequency, int polarization,
+                              float pointing_error)
       {
         return generic_antenna::generic_antenna_sptr (
-            new custom_antenna_impl (type, frequency, polarization,
-                                     pointing_error, gain, beamwidth, rolloff_gain));
+            new dipole_antenna_impl (type, frequency, polarization,
+                                       pointing_error));
       }
 
-      custom_antenna_impl::custom_antenna_impl (uint8_t type, float frequency,
-                                                int polarization,
-                                                float pointing_error,
-                                                float gain, float beamwidth, float rolloff_gain) :
-              generic_antenna (CUSTOM, frequency, polarization, pointing_error),
-              d_gain (gain),
-              d_beamwidth (beamwidth),
-              d_rolloff_gain (rolloff_gain)
+      dipole_antenna_impl::dipole_antenna_impl (uint8_t type,
+                                                    float frequency,
+                                                    int polarization,
+                                                    float pointing_error) :
+              generic_antenna (DIPOLE, frequency, polarization, pointing_error)
       {
-        LEO_DEBUG("CUSTOM");
+        LEO_DEBUG("DIPOLE");
         LEO_DEBUG("Maximum Gain: %f", get_gain ());
         LEO_DEBUG("Beamwidth: %f", get_beamwidth ());
       }
 
-      custom_antenna_impl::~custom_antenna_impl ()
+      dipole_antenna_impl::~dipole_antenna_impl ()
       {
       }
 
       float
-      custom_antenna_impl::get_gain ()
+      dipole_antenna_impl::get_gain ()
       {
-        return d_gain;
+        return 2.15;
       }
 
       float
-      custom_antenna_impl::get_gain_rolloff ()
+      dipole_antenna_impl::get_gain_rolloff ()
       {
-        return d_rolloff_gain;
+        float error_deg = utils::radians_to_degrees (d_pointing_error);
+        if (error_deg < 90) {
+          if (!error_deg) {
+            return 0;
+          }
+          return -10 * std::log10 (std::cos (utils::degrees_to_radians(error_deg)));
+        }
+        else {
+          return -10*log10(-std::cos(utils::degrees_to_radians(error_deg)));
+        }
       }
 
       float
-      custom_antenna_impl::get_beamwidth ()
+      dipole_antenna_impl::get_beamwidth ()
       {
-        return d_beamwidth;
+        return 156.2;
       }
 
     } /* namespace antenna */

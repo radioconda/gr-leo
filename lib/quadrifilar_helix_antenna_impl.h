@@ -18,10 +18,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_CUSTOM_ANTENNA_IMPL_H
-#define INCLUDED_LEO_CUSTOM_ANTENNA_IMPL_H
+#ifndef INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H
+#define INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H
 
-#include "../include/leo/custom_antenna.h"
+#include "../include/leo/quadrifilar_helix_antenna.h"
 #include <vector>
 
 namespace gr
@@ -30,40 +30,36 @@ namespace gr
   {
     namespace antenna
     {
-
       /*!
-       * \brief Class that represents a custom antenna.
+       * \brief Class that represents a Quadrifilar Helix antenna.
        * \ingroup antenna
        * \details
        *
-       * The custom_antenna class extends the generic_antenna class
-       * to simulate the behavior of a custom antenna.
+       * The helix_antenna class extends the generic_antenna class
+       * to simulate the behavior of a quadrifilar helix antenna.
        */
-      class LEO_API custom_antenna_impl : public custom_antenna
+      class LEO_API quadrifilar_helix_antenna_impl : public quadrifilar_helix_antenna
       {
 
       public:
         /*!
-         * \brief The constructor of custom_antenna class
+         * \brief The constructor of quadrifilar_helix_antenna class
          *
          * \param type The enumeration that defines the type of the antenna
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
          * \param pointing_error The pointing error of the antenna in degrees.
-         * \param gain The gain of the antenna in dBiC.
-         * \param beamwidth The beamwidth of the antenna.
-         * \param rolloff_gain The rolloff gain of the antenna.
+         * \param loop The loop of the quadrifilar helix antenna
          */
-        custom_antenna_impl (uint8_t type, float frequency, int polarization,
-                             float pointing_error, float gain, float beamwidth,
-                             float rolloff_gain);
+        quadrifilar_helix_antenna_impl (uint8_t type, float frequency, int polarization,
+                            float pointing_error, float loop);
 
-        ~custom_antenna_impl ();
+        ~quadrifilar_helix_antenna_impl ();
 
         /*!
-         * \brief Get the gain of the custom antenna. This is the implementation
-         * of the parent's pure virtual function for the custom antenna.
+         * \brief Get the gain of the quadrifilar helix antenna. This is the implementation
+         * of the parent's pure virtual function for the quadrifilar helix antenna.
          * \return the gain in dBiC.
          */
         float
@@ -77,23 +73,21 @@ namespace gr
         get_gain_rolloff ();
 
         /*!
-         * \brief Get the beamwidth of the custom antenna. This is the implementation
-         * of the parent's pure virtual function for the custom antenna.
-         * \return the beamwodth.
+         * \brief Get the beamwidth of the quadrifilar helix antenna. This is the implementation
+         * of the parent's pure virtual function for the quadrifilar helix antenna.
+         * \return the beamwidth.
          */
         float
         get_beamwidth ();
 
       private:
 
-        float d_gain;
-        float d_beamwidth;
-        float d_rolloff_gain;
+        float d_loop;
 
       };
     } // namespace antenna
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_CUSTOM_ANTENNA_IMPL_H */
+#endif /* INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H */
 

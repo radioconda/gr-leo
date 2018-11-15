@@ -28,6 +28,7 @@
 #include <leo/atmospheric_gases_itu.h>
 #include <leo/atmospheric_gases_regression.h>
 #include <leo/precipitation_itu.h>
+#include <leo/antenna_pointing_loss.h>
 #include <leo/utils/helper.h>
 #include <leo/log.h>
 #include <volk/volk.h>
@@ -113,6 +114,8 @@ namespace gr
         d_fspl_attenuation = attenuation::free_space_path_loss::make (
             get_tracker_antenna_gain (), get_satellite_antenna_gain ());
 
+        d_pointing_loss_attenuation = attenuation::antenna_pointing_loss::make (get_tracker_antenna(), get_satellite_antenna());
+
       }
 
       leo_model_impl::~leo_model_impl ()
@@ -145,14 +148,20 @@ namespace gr
           d_pathloss_attenuation = d_fspl_attenuation->get_attenuation ();
           total_attenuation += d_pathloss_attenuation;
         }
+        if (d_pointing_loss_attenuation) {
+          d_pointing_attenuation =
+              d_pointing_loss_attenuation->get_attenuation ();
+          total_attenuation += d_pointing_attenuation;
+        }
 
-        generate_csv_log();
+        generate_csv_log ();
 
         LEO_DEBUG(
-            "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Rainfall Loss (dB): %f | Doppler (Hz): %f",
+            "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | Path Loss (dB): %f | Atmospheric Loss (dB): %f | Rainfall Loss (dB): %f | Pointing Loss (dB): %f |  Doppler (Hz): %f",
             d_tracker->get_elapsed_time ().ToString ().c_str (), d_slant_range,
             d_tracker->get_elevation_degrees (), d_pathloss_attenuation,
-            d_atmo_attenuation, d_rainfall_attenuation, d_doppler_shift);
+            d_atmo_attenuation, d_rainfall_attenuation, d_pointing_attenuation,
+            d_doppler_shift);
 
         return total_attenuation;
       }
@@ -165,7 +174,7 @@ namespace gr
           stringStream << "Elapsed Time (us)" << "," << "Slant Range (km)"
               << "," << "Elevation (degrees)" << "," << "Path Loss (dB)" << ","
               << "Atmospheric Loss (dB)" << "," << "Rainfall Loss (dB)" << ","
-              << "Doppler Shift (Hz)";
+              << "Pointing Loss (dB)" << "," << "Doppler Shift (Hz)";
           d_write_csv_header = false;
         }
         else {
@@ -173,7 +182,8 @@ namespace gr
               << "," << d_slant_range << ","
               << d_tracker->get_elevation_degrees () << ","
               << d_pathloss_attenuation << "," << d_atmo_attenuation << ","
-              << d_rainfall_attenuation << "," << d_doppler_shift;
+              << d_rainfall_attenuation << "," << d_pointing_attenuation << ","
+              << d_doppler_shift;
         }
         d_csv_log = stringStream.str ();
       }
