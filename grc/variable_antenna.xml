@@ -18,6 +18,8 @@ self.$(id) = $(id) = leo.custom_antenna_make($type, $frequency, $polarization, $
 self.$(id) = $(id) = leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else if int($type())==5#
 self.$(id) = $(id) = leo.dipole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==6#
+self.$(id) = $(id) = leo.quadrifilar_helix_antenna_make($type, $frequency, $polarization, $pointing_error, $loop)
 #else #
 print "Invalid antenna type"
 raise RuntimeError
@@ -38,6 +40,8 @@ leo.custom_antenna_make($type, $frequency, $polarization, $pointing_error, $gain
 leo.monopole_antenna_make($type, $frequency, $polarization, $pointing_error)
 #else if int($type())==5
 leo.dipole_antenna_make($type, $frequency, $polarization, $pointing_error)
+#else if int($type())==6
+leo.quadrifilar_helix_antenna_make($type, $frequency, $polarization, $pointing_error, $loop)
 #else
 print "Invalid antenna type"
 raise RuntimeError
@@ -73,6 +77,10 @@ raise RuntimeError
         <name>Dipole</name>
         <key>5</key>
     </option>
+    <option>
+        <name>Quadrifilar Helix</name>
+        <key>6</key>
+    </option>
     </param>
   
   <param>
@@ -104,13 +112,6 @@ raise RuntimeError
     </option>
     </param>
     
-  <param>
-    <name>Pointing Error (Degrees)</name>
-    <key>pointing_error</key>
-    <value>0</value>
-    <type>float</type>
-  </param>
-  
   <param>
     <name>Boom length (m)</name>
     <key>boom_length</key>
@@ -158,6 +159,14 @@ raise RuntimeError
     <type>float</type>
     <hide>#if int($type())==2 then 'none' else 'all'#</hide>
   </param> 
+  
+  <param>
+    <name>Loop (m)</name>
+    <key>loop</key>
+    <value>0.5</value>
+    <type>float</type>
+    <hide>#if int($type())==6 then 'none' else 'all'#</hide>
+  </param>
 
   <param>
     <name>Gain (dBiC)</name>
@@ -183,5 +192,12 @@ raise RuntimeError
     <type>float</type>
     <hide>#if int($type())==3 then 'none' else 'all'#</hide>
   </param> 
+  
+  <param>
+    <name>Pointing Error (Degrees)</name>
+    <key>pointing_error</key>
+    <value>0</value>
+    <type>float</type>
+  </param>
     
 </block>

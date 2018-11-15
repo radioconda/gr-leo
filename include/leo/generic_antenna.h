@@ -56,7 +56,8 @@ namespace gr
         CANTED_TURNSTYLE,
         CUSTOM,
         MONOPOLE,
-        DIPOLE
+        DIPOLE,
+        QUADRIFILAR_HELIX
       };
 
       uint8_t d_type;

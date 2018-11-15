@@ -38,6 +38,7 @@ list(APPEND leo_sources
 	custom_antenna_impl.cc
 	monopole_antenna_impl.cc
 	dipole_antenna_impl.cc
+	quadrifilar_helix_antenna_impl.cc
 	satellite.cc
 	tracker.cc
 	generic_attenuation.cc

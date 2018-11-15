@@ -18,10 +18,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_HELIX_ANTENNA_IMPL_H
-#define INCLUDED_LEO_HELIX_ANTENNA_IMPL_H
+#ifndef INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H
+#define INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H
 
-#include "../include/leo/helix_antenna.h"
+#include "../include/leo/quadrifilar_helix_antenna.h"
 #include <vector>
 
 namespace gr
@@ -31,39 +31,35 @@ namespace gr
     namespace antenna
     {
       /*!
-       * \brief Class that represents a Helix antenna.
+       * \brief Class that represents a Quadrifilar Helix antenna.
        * \ingroup antenna
        * \details
        *
        * The helix_antenna class extends the generic_antenna class
-       * to simulate the behavior of a helix antenna.
+       * to simulate the behavior of a quadrifilar helix antenna.
        */
-      class LEO_API helix_antenna_impl : public helix_antenna
+      class LEO_API quadrifilar_helix_antenna_impl : public quadrifilar_helix_antenna
       {
 
       public:
         /*!
-         * \brief The constructor of helix_antenna class
+         * \brief The constructor of quadrifilar_helix_antenna class
          *
          * \param type The enumeration that defines the type of the antenna
          * \param frequency The frequency of the antenna in Hz
          * \param polarization The enumeration that defines the antenna
          * polarization
          * \param pointing_error The pointing error of the antenna in degrees.
-         * \param turns The number of turns
-         * \param turn_spacing The spacing of the turns
-         * \param circumference The circumference
-         *
+         * \param loop The loop of the quadrifilar helix antenna
          */
-        helix_antenna_impl (uint8_t type, float frequency, int polarization,
-                            float pointing_error, size_t turns,
-                            float turn_spacing, float circumference);
+        quadrifilar_helix_antenna_impl (uint8_t type, float frequency, int polarization,
+                            float pointing_error, float loop);
 
-        ~helix_antenna_impl ();
+        ~quadrifilar_helix_antenna_impl ();
 
         /*!
-         * \brief Get the gain of the helix antenna. This is the implementation
-         * of the parent's pure virtual function for the helix antenna.
+         * \brief Get the gain of the quadrifilar helix antenna. This is the implementation
+         * of the parent's pure virtual function for the quadrifilar helix antenna.
          * \return the gain in dBiC.
          */
         float
@@ -77,8 +73,8 @@ namespace gr
         get_gain_rolloff ();
 
         /*!
-         * \brief Get the beamwidth of the helix antenna. This is the implementation
-         * of the parent's pure virtual function for the helix antenna.
+         * \brief Get the beamwidth of the quadrifilar helix antenna. This is the implementation
+         * of the parent's pure virtual function for the quadrifilar helix antenna.
          * \return the beamwidth.
          */
         float
@@ -86,14 +82,12 @@ namespace gr
 
       private:
 
-        size_t d_turns;
-        float d_turn_spacing;
-        float d_circumference;
+        float d_loop;
 
       };
     } // namespace antenna
   } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_HELIX_ANTENNA_IMPL_H */
+#endif /* INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H */
 

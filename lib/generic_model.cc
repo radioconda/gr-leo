@@ -110,10 +110,10 @@ namespace gr
     generic_model::get_satellite_antenna_gain ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_satellite_info ()->get_uplink_antenna ()->get_gain ();
+        return d_tracker->get_satellite_info ()->get_downlink_antenna ()->get_gain ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_satellite_info ()->get_downlink_antenna ()->get_gain ();
+        return d_tracker->get_satellite_info ()->get_uplink_antenna ()->get_gain ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
@@ -124,10 +124,10 @@ namespace gr
     generic_model::get_satellite_antenna ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_satellite_info ()->get_uplink_antenna ();
+        return d_tracker->get_satellite_info ()->get_downlink_antenna ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_satellite_info ()->get_downlink_antenna ();
+        return d_tracker->get_satellite_info ()->get_uplink_antenna ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
