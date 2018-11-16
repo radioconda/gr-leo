@@ -24,6 +24,10 @@
 cmake_minimum_required(VERSION 2.6)
 project(gr-leo CXX C)
 
+##
+# TODO: Link C++11
+##
+
 #install to PyBOMBS target prefix if defined
 if(DEFINED ENV{PYBOMBS_PREFIX})
 #IGNORE     set(CMAKE_INSTALL_PREFIX $ENV{PYBOMBS_PREFIX})

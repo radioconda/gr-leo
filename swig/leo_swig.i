@@ -13,7 +13,6 @@
 %nodefaultctor gr::leo::satellite;
 %template(satellite_sptr) boost::shared_ptr<gr::leo::satellite>;
 
-%nodefaultctor gr::leo::tracker;
 %template(tracker_sptr) boost::shared_ptr<gr::leo::tracker>;
 
 %nodefaultctor gr::leo::generic_attenuation;
@@ -30,11 +29,15 @@
 #include "leo/helix_antenna.h"
 #include "leo/parabolic_reflector_antenna.h"
 #include "leo/custom_antenna.h"
+#include "leo/monopole_antenna.h"
+#include "leo/dipole_antenna.h"
+#include "leo/quadrifilar_helix_antenna.h"
 #include "leo/satellite.h"
 #include "leo/tracker.h"
 #include "leo/generic_attenuation.h"
 #include "leo/free_space_path_loss.h"
 #include "leo/atmospheric_gases_itu.h"
+#include "leo/antenna_pointing_loss.h"
 #include "leo/generic_model.h"
 #include "leo/leo_model.h"
 #include "leo/channel_model.h"
@@ -45,11 +48,15 @@
 %include "leo/helix_antenna.h"
 %include "leo/parabolic_reflector_antenna.h"
 %include "leo/custom_antenna.h"
+%include "leo/monopole_antenna.h"
+%include "leo/dipole_antenna.h"
+%include "leo/quadrifilar_helix_antenna.h"
 %include "leo/satellite.h"
 %include "leo/tracker.h"
 %include "leo/generic_attenuation.h"
 %include "leo/free_space_path_loss.h"
 %include "leo/atmospheric_gases_itu.h"
+%include "leo/antenna_pointing_loss.h"
 %include "leo/generic_model.h"
 %include "leo/leo_model.h"
 %include "leo/channel_model.h"

@@ -3,14 +3,14 @@
   <name>Tracker</name>
   <key>variable_tracker</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $comm_freq_uplink,
-            $comm_freq_downlink,
-            $uplink_antenna,
-            $downlink_antenna, $name)</var_make>
-  <var_value>leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $comm_freq_uplink,
-            $comm_freq_downlink,
-            $uplink_antenna,
-            $downlink_antenna, $name)</var_value>
+  <var_make>self.$(id) = $(id) = leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $comm_freq_tx,
+            $comm_freq_rx,
+            $tx_antenna,
+            $rx_antenna)</var_make>
+  <var_value>leo.tracker_make($satellite_info, $gs_lat, $gs_lon, $gs_alt, $obs_start, $obs_end, $time_resolution_us, $comm_freq_tx,
+            $comm_freq_rx,
+            $tx_antenna,
+            $rx_antenna)</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>
@@ -19,14 +19,7 @@
       <type>raw</type>
       <hide>all</hide>
   </param>
-  
-  <param>
-    <name>Name</name>
-    <key>name</key>
-    <type>string</type>
-    <hide>all</hide>
-  </param>
-  
+
   <param>
     <name>Satellite</name>
     <key>satellite_info</key>
@@ -35,13 +28,13 @@
   </param>
 
   <param>
-    <name>Longtitude</name>
+    <name>Longtitude (Degrees)</name>
     <key>gs_lon</key>
     <type>float</type>
   </param>
   
   <param>
-    <name>Latitude</name>
+    <name>Latitude (Degrees)</name>
     <key>gs_lat</key>
     <type>float</type>
   </param>
@@ -53,39 +46,39 @@
   </param>
   
   <param>
-  	<name>Uplink Frequency (Hz)</name>
-  	<key>comm_freq_uplink</key>
+  	<name>Frequency TX (Hz)</name>
+  	<key>comm_freq_tx</key>
   	<type>float</type>
   </param>
   
   <param>
-    <name>Uplink Antenna</name>
-    <key>uplink_antenna</key>
+    <name>Antenna TX</name>
+    <key>tx_antenna</key>
     <value>antenna_variable</value>
     <type>raw</type>
   </param>
   
   <param>
-  	<name>Downlink Frequency (Hz)</name>
-  	<key>comm_freq_downlink</key>
+  	<name>Frequency RX (Hz)</name>
+  	<key>comm_freq_rx</key>
   	<type>float</type>
   </param>
   
   <param>
-    <name>Downlink Antenna</name>
-    <key>downlink_antenna</key>
+    <name>Antenna RX</name>
+    <key>rx_antenna</key>
     <value>antenna_variable</value>
     <type>raw</type>
   </param>
   
   <param>
-    <name>Observation Start Time</name>
+    <name>Observation Start Time (ISO-8601 UTC)</name>
     <key>obs_start</key>
     <type>string</type>
   </param>
   
    <param>
-    <name>Observation End Time</name>
+    <name>Observation End Time (ISO-8601 UTC)</name>
     <key>obs_end</key>
     <type>string</type>
   </param>

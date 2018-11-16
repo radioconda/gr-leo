@@ -67,7 +67,7 @@
   </param>
   
   <param>
-      <name>Surface Temperature (degress Celcius)</name>
+      <name>Surface Temperature (Celsius)</name>
       <key>temperature</key>
       <value>0</value>
       <type>float</type>

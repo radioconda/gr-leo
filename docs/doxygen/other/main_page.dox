@@ -1,10 +1,29 @@
 /*! \mainpage
 
-Welcome to the GNU Radio LEO Block
+<H1> Welcome to gr-leo! </H1>
+Gr-leo is a GNU Radio Out-of-Tree module that simulates the telecommunication channel between orbiting satellites and ground stations.
 
-This is the intro page for the Doxygen manual generated for the LEO
-block (docs/doxygen/other/main_page.dox). Edit it to add more detailed
-documentation about the new GNU Radio modules contained in this
-project.
 
+
+LEO is implemented in the scope of <a href="https://sdrmaker.space//" target="_blank"><b>SDR Makerspace</b></a>, 
+an initiative of the <a href="https://esa.int" target="_blank"><b>European Space Agency</b></a> and 
+<a href="https://libre.space" target="_blank"><b>Libre Space Foundation</b></a>. 
+
+<table class="tg">
+  <tr>
+    <th class="tg-73oq">\image html sdrmakerspace.png</th>
+    <th class="tg-73oq">\image html esa.gif </th>
+    <th class="tg-73oq">\image html lsf.png </th>
+  </tr>
+</table>
+
+The complete source code is available at <a href="https://gitlab.com/librespacefoundation/gr-leo/" target="_blank"><b>Gitlab</b></a> under the GPLv3 license.
+
+
+<H3> Documentation License </H3>
+
+The Free Software Foundation gives permission to use and distribute
+the program source documentation strings, after processing them
+through Doxygen or some comparable program, under the GNU Free
+Documentation License, version 1.3 or later.
 */

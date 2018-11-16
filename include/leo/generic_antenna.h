@@ -32,17 +32,12 @@ namespace gr
   {
 
     /*!
-     * \brief Parent class for LEO_API antenna objects.
-     *
+     * \brief Parent class for antenna objects.
+     * \ingroup antenna
      * \details
      *
-     * Parent of a antenna variable class for LEO_API that will fit
-     * into the gr::leo::generic_antenna block to handle antenna simulation.
-     *
-     * We create objects from LEO_API-derived classes to go into the
-     * actual GNU Radio antenna block. Each object contains its own
-     * state and so there should be a one-to-one mapping of an LEO_API
-     * object and a GR antenna.
+     * Parent of an antenna class that will simulate different types
+     * of antennas.
      */
     class LEO_API generic_antenna
     {
@@ -50,14 +45,25 @@ namespace gr
     public:
       static int base_unique_id;
 
-      enum Antennas
+      /*!
+       * The enumeration that defines the type of the antenna
+       */
+      enum antenna_t
       {
-        YAGI, HELIX, PARABOLIC_REFLECTOR, CANTED_TURNSTYLE, CUSTOM
+        YAGI,
+        HELIX,
+        PARABOLIC_REFLECTOR,
+        CANTED_TURNSTYLE,
+        CUSTOM,
+        MONOPOLE,
+        DIPOLE,
+        QUADRIFILAR_HELIX
       };
 
       uint8_t d_type;
 
       float d_frequency;
+      float d_pointing_error;
 
       int d_polarization;
       int my_id;
@@ -71,6 +77,20 @@ namespace gr
        */
       float
       get_frequency ();
+
+      /*!
+       * \brief Set the pointing error of the antenna.
+       * \param error the pointing error in degrees.
+       */
+      void
+      set_pointing_error (float error);
+
+      /*!
+       * \brief Get the pointing error of the antenna.
+       * \return the pointing error in degrees.
+       */
+      float
+      get_pointing_error ();
 
       /*!
        * \brief Get the polarization of the antenna.
@@ -102,12 +122,30 @@ namespace gr
       virtual float
       get_beamwidth () = 0;
 
+      /*!
+       * \brief Get the the gain roll-off of the antenna.
+       * \return the gain roll-off in dB.
+       */
+      virtual float
+      get_gain_rolloff () = 0;
+
       typedef boost::shared_ptr<generic_antenna> generic_antenna_sptr;
 
       virtual
       ~generic_antenna ();
 
-      generic_antenna (uint8_t type, float frequency, int polarization);
+      /*!
+       * \brief The constructor of generic_antenna class
+       *
+       * \param type The enumeration that defines the type of the antenna
+       * \param frequency The frequency of the antenna in Hz
+       * \param polarization The enumeration that defines the antenna
+       * polarization
+       *
+       * \return a boost::shared_ptr to the constructed tracker object.
+       */
+      generic_antenna (uint8_t type, float frequency, int polarization,
+                       float pointing_error);
 
     };
   } // namespace leo

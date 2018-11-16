@@ -40,13 +40,19 @@ namespace gr
         float d_temperature;
         float d_rainfall_rate;
         float d_doppler_shift;
+        float d_atmo_attenuation;
+        float d_rainfall_attenuation;
+        float d_pathloss_attenuation;
+        float d_pointing_attenuation;
         double d_slant_range;
+        bool d_write_csv_header;
 
         atmo_gases_attenuation_t d_atmo_gases_enum;
 
         generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
         generic_attenuation::generic_attenuation_sptr d_precipitation_attenuation;
         generic_attenuation::generic_attenuation_sptr d_fspl_attenuation;
+        generic_attenuation::generic_attenuation_sptr d_pointing_loss_attenuation;
 
       public:
         leo_model_impl (tracker::tracker_sptr tracker, const uint8_t mode,
@@ -83,6 +89,9 @@ namespace gr
 
         float
         calculate_total_attenuation ();
+
+        void
+        generate_csv_log();
 
       };
     } // namespace model

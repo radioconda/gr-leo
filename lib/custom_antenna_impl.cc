@@ -35,22 +35,25 @@ namespace gr
 
       generic_antenna::generic_antenna_sptr
       custom_antenna::make (uint8_t type, float frequency, int polarization,
-                           float gain,
-                           float beamwidth)
+                            float pointing_error, float gain, float beamwidth, float rolloff_gain)
       {
         return generic_antenna::generic_antenna_sptr (
-            new custom_antenna_impl (type, frequency, polarization, gain, beamwidth));
+            new custom_antenna_impl (type, frequency, polarization,
+                                     pointing_error, gain, beamwidth, rolloff_gain));
       }
 
       custom_antenna_impl::custom_antenna_impl (uint8_t type, float frequency,
-                                              int polarization, float gain, float beamwidth) :
-              generic_antenna (CUSTOM, frequency, polarization),
-              d_gain(gain),
-              d_beamwidth(beamwidth)
+                                                int polarization,
+                                                float pointing_error,
+                                                float gain, float beamwidth, float rolloff_gain) :
+              generic_antenna (CUSTOM, frequency, polarization, pointing_error),
+              d_gain (gain),
+              d_beamwidth (beamwidth),
+              d_rolloff_gain (rolloff_gain)
       {
         LEO_DEBUG("CUSTOM");
-        LEO_DEBUG("Maximum Gain: %f", get_gain());
-        LEO_DEBUG("Beamwidth: %f", get_beamwidth());
+        LEO_DEBUG("Maximum Gain: %f", get_gain ());
+        LEO_DEBUG("Beamwidth: %f", get_beamwidth ());
       }
 
       custom_antenna_impl::~custom_antenna_impl ()
@@ -61,6 +64,12 @@ namespace gr
       custom_antenna_impl::get_gain ()
       {
         return d_gain;
+      }
+
+      float
+      custom_antenna_impl::get_gain_rolloff ()
+      {
+        return d_rolloff_gain;
       }
 
       float

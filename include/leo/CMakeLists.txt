@@ -31,12 +31,16 @@ install(FILES
     helix_antenna.h
     parabolic_reflector_antenna.h
     custom_antenna.h
+    monopole_antenna.h
+    dipole_antenna.h
+    quadrifilar_helix_antenna.h
     tracker.h
     generic_attenuation.h
     free_space_path_loss.h
     atmospheric_gases_itu.h
     atmospheric_gases_regression.h
     precipitation_itu.h
+    antenna_pointing_loss.h
     generic_model.h
     leo_model.h
     channel_model.h

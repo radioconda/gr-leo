@@ -21,6 +21,6 @@
 include(GrPython)
 
 GR_PYTHON_INSTALL(
-    PROGRAMS
+    PROGRAMS leo_passpredict.py
     DESTINATION bin
 )

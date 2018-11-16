@@ -32,15 +32,32 @@ namespace gr
     namespace antenna
     {
       /*!
-       * \brief Parabolic antenna
+       * \brief Class that represents a parabolic reflector antenna.
+       *
+       * \details
+       *
+       * The parabolic_reflector_antenna class extends the generic_antenna class
+       * to simulate the behavior of a parabolic reflector antenna.
        */
       class LEO_API parabolic_reflector_antenna : virtual public generic_antenna
       {
 
       public:
 
+        /*!
+         * \param type The enumeration that defines the type of the antenna
+         * \param frequency The frequency of the antenna in Hz
+         * \param polarization The enumeration that defines the antenna
+         * polarization
+         * \param pointing_error The pointing error of the antenna in degrees.
+         * \param diameter The diameter of the antenna in meters.
+         * \param aperture_efficiency The aperture_efficiency efficiency.
+         *
+         * \return a boost::shared_ptr to the constructed tracker object.
+         */
         static generic_antenna::generic_antenna_sptr
-        make (uint8_t type, float frequency, int polarization, float diameter, float aperture_efficiency);
+        make (uint8_t type, float frequency, int polarization, float pointing_error, float diameter,
+              float aperture_efficiency);
 
       };
     } // namespace antenna

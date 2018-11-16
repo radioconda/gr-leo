@@ -23,6 +23,7 @@
 #endif
 
 #include "yagi_antenna_impl.h"
+#include <leo/utils/helper.h>
 #include <leo/log.h>
 #include <cmath>
 #include <algorithm>
@@ -36,15 +37,18 @@ namespace gr
 
       generic_antenna::generic_antenna_sptr
       yagi_antenna::make (uint8_t type, float frequency, int polarization,
-                          float boom_length)
+                          float pointing_error, float boom_length)
       {
         return generic_antenna::generic_antenna_sptr (
-            new yagi_antenna_impl (type, frequency, polarization, boom_length));
+            new yagi_antenna_impl (type, frequency, polarization,
+                                   pointing_error, boom_length));
       }
 
       yagi_antenna_impl::yagi_antenna_impl (uint8_t type, float frequency,
-                                            int polarization, float boom_length) :
-              generic_antenna (YAGI, frequency, polarization),
+                                            int polarization,
+                                            float pointing_error,
+                                            float boom_length) :
+              generic_antenna (YAGI, frequency, polarization, pointing_error),
               d_boom_length (boom_length)
       {
         d_optimum_elements = find_optimum_elements ();
@@ -66,6 +70,23 @@ namespace gr
           }
         }
         throw std::runtime_error ("Invalid Yagi boom length");
+      }
+
+      float
+      yagi_antenna_impl::get_gain_rolloff ()
+      {
+        float error_deg = utils::radians_to_degrees (d_pointing_error);
+        float tmp = 2 * error_deg * (79.76 / get_beamwidth ());
+        if (error_deg > 0) {
+          return -10
+              * std::log10 (
+                  3282.81
+                      * std::pow (std::sin (utils::degrees_to_radians (tmp)), 2)
+                      / std::pow (tmp, 2));
+        }
+        else {
+          return 0;
+        }
       }
 
       float

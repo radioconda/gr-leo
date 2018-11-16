@@ -39,9 +39,7 @@ namespace gr
      * \details
      * This block uses a model variable object (derived from
      * gr::leo::generic_model) to simulate different space channels in a
-     * flowgraph. This block interacts with the general LEO_API
-     * architecture to handle all passing input and output data in
-     * a flowgraph. The model variable takes the incoming signal and
+     * flowgraph. The model variable takes the incoming signal and
      * applies the appropriate signal effects and attenuation according
      * to the described channel.
      */
@@ -51,10 +49,9 @@ namespace gr
       typedef boost::shared_ptr<channel_model> sptr;
       /*!
        * \brief Return a shared_ptr to a new instance of leo::channel_model.
-       * \param sample_rate. The sampling rate of the block.
-       * \param model An LEO_API model object (See gr::leo::generic_model).
-       * \param tracker. A boost::shared_ptr to the tracker object.
-       * \param mode. The transmission mode.
+       *
+       * \param sample_rate The sampling rate of the block
+       * \param model An LEO_API model object (See gr::leo::generic_model)
        */
       static sptr
       make (const float sample_rate, generic_model::generic_model_sptr model);

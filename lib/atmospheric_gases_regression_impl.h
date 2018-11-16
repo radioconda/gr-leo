@@ -52,8 +52,8 @@ namespace gr
 
         typedef std::tuple<float, float, float, float> atmo_coefficients_t;
 
-        /**
-         * Data taken from Ippolito - Radiowave Propagation in Satellite Communications
+        /*!
+         * \brief Data taken from Ippolito - Radiowave Propagation in Satellite Communications
          * Table 3-1  Coefficients for the Calculation of specific attenuation due
          * to gaseous absorption.
          */
@@ -63,8 +63,8 @@ namespace gr
               atmo_coefficients_t (6, 0.00824, 0.000300, 0.0000895),
               atmo_coefficients_t (12, 0.00898, 0.00137, 0.000108) };
 
-        /**
-         * Data taken from Ippolito - Radiowave Propagation in Satellite Communications
+        /*!
+         * \brief Data taken from Ippolito - Radiowave Propagation in Satellite Communications
          * Table 3-2  Coefficients for the Calculation of Total Zenith Atmospheric Attenuation.
          */
         std::vector<atmo_coefficients_t> d_atmo_gases_coeff_zenith

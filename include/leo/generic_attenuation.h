@@ -32,7 +32,17 @@ namespace gr
   {
 
     /*!
-     * \brief Parent class for LEO_API attenuation objects.
+     * \brief Parent class for attenuation objects.
+     *
+     * \details This is an abstract class that must be derived by
+     * other classes in order to simulate a specific type of attenuation.
+     * Holds information, in the form of static variables, about the operating frequency,
+     * the elevation angle, the slant range and the polarization of the tracker
+     * at a specific time instance.
+     *
+     * Each derived class must implement the pure virtual function get_attenuation
+     * according to the attenuation it describes, using the static variables of the
+     * parent class.
      *
      */
     class LEO_API generic_attenuation
@@ -48,15 +58,31 @@ namespace gr
       virtual float
       get_attenuation () = 0;
 
+      /*!
+       * \brief Set frequency static variable
+       * \param freq The frequency in Hz
+       */
       static void
       set_frequency (float freq);
 
+      /*!
+       * \brief Set slant range static variable
+       * \param range The range in km
+       */
       static void
       set_slant_range (float range);
 
+      /*!
+       * \brief Set polarization static variable
+       * \param polar The polarization enumeration
+       */
       static void
       set_polarization (uint8_t polar);
 
+      /*!
+       * \brief Set elevation angle static variable
+       * \param elev_angle The elevation angle in radians
+       */
       static void
       set_elevation_angle (float elev_angle);
 
@@ -76,7 +102,6 @@ namespace gr
       static float slant_range;
       static uint8_t polarization;
     };
-
 
   } // namespace leo
 } // namespace gr

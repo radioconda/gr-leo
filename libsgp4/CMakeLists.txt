@@ -4,6 +4,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(SGP4)
 
+set(enable_html_docs NO)
+set(enable_latex_docs NO)
+set(enable_xml_docs NO)
+
 # Select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")

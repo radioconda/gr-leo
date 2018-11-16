@@ -54,10 +54,10 @@ namespace gr
     generic_model::get_frequency ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_comm_freq_uplink ();
+        return d_tracker->get_comm_freq_tx ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_comm_freq_downlink ();
+        return d_tracker->get_comm_freq_rx ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
@@ -68,10 +68,10 @@ namespace gr
     generic_model::get_polarization ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_uplink_antenna ()->get_polarization ();
+        return d_tracker->get_tx_antenna ()->get_polarization ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_downlink_antenna ()->get_polarization ();
+        return d_tracker->get_rx_antenna ()->get_polarization ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
@@ -82,10 +82,24 @@ namespace gr
     generic_model::get_tracker_antenna_gain ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_uplink_antenna ()->get_gain ();
+        return d_tracker->get_tx_antenna ()->get_gain ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_downlink_antenna ()->get_gain ();
+        return d_tracker->get_rx_antenna ()->get_gain ();
+      }
+      else {
+        throw std::runtime_error ("Invalid transmission mode");
+      }
+    }
+
+    generic_antenna::generic_antenna_sptr
+    generic_model::get_tracker_antenna ()
+    {
+      if (d_mode == UPLINK) {
+        return d_tracker->get_tx_antenna ();
+      }
+      else if (d_mode == DOWNLINK) {
+        return d_tracker->get_rx_antenna ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
@@ -96,10 +110,24 @@ namespace gr
     generic_model::get_satellite_antenna_gain ()
     {
       if (d_mode == UPLINK) {
-        return d_tracker->get_satellite_info ()->get_uplink_antenna ()->get_gain ();
+        return d_tracker->get_satellite_info ()->get_rx_antenna ()->get_gain ();
       }
       else if (d_mode == DOWNLINK) {
-        return d_tracker->get_satellite_info ()->get_downlink_antenna ()->get_gain ();
+        return d_tracker->get_satellite_info ()->get_tx_antenna ()->get_gain ();
+      }
+      else {
+        throw std::runtime_error ("Invalid transmission mode");
+      }
+    }
+
+    generic_antenna::generic_antenna_sptr
+    generic_model::get_satellite_antenna ()
+    {
+      if (d_mode == UPLINK) {
+        return d_tracker->get_satellite_info ()->get_rx_antenna ();
+      }
+      else if (d_mode == DOWNLINK) {
+        return d_tracker->get_satellite_info ()->get_tx_antenna ();
       }
       else {
         throw std::runtime_error ("Invalid transmission mode");
@@ -114,12 +142,18 @@ namespace gr
       return my_id;
     }
 
+    std::string
+    generic_model::get_csv_log ()
+    {
+      return d_csv_log;
+    }
+
     void
     generic_model::orbit_update ()
     {
       float elevation_radians = d_tracker->get_elevation_radians ();
-      double range = d_tracker->get_slant_range();
-      uint8_t polarization = get_polarization();
+      double range = d_tracker->get_slant_range ();
+      uint8_t polarization = get_polarization ();
 
       generic_attenuation::set_elevation_angle (elevation_radians);
       generic_attenuation::set_frequency (get_frequency ());
