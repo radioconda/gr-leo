@@ -1,0 +1,19 @@
+stages:
+  - opensuse_build
+  
+
+opensuse_build:
+  image: opensuse/tumbleweed
+
+  before_script:
+      - zypper in -y libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc gnuradio gnuradio-devel
+
+  stage: opensuse_build
+  script:
+        - mkdir -p build
+        - cd build
+        - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+        - make
+        - cd ..
+
+
