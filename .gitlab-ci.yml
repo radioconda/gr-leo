@@ -1,5 +1,6 @@
 stages:
   - opensuse_build
+  - deploy_dox
   
 
 opensuse_build:
@@ -16,4 +17,22 @@ opensuse_build:
         - make
         - cd ..
 
+opensuse_build:
+  image: opensuse/tumbleweed
 
+  before_script:
+      - zypper in -y libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc doxygen gnuradio gnuradio-devel
+
+  stage: deploy_dox
+  script:
+      - mkdir -p build
+      - cd build
+      - cmake  .. 
+      - make doxygen_target
+      - rm -rf public/*
+      - mv docs/doxygen/html/ ../public/  
+  artifacts:
+      paths:
+      - public
+  only:
+  - master
