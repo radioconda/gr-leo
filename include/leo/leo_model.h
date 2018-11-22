@@ -52,6 +52,8 @@ namespace gr
               const float temperature = 0,
               const float rainfall_rate = 25);
 
+        leo_model(){};
+
       };
 
     } //namespace
