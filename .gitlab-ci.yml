@@ -1,7 +1,6 @@
 stages:
-  - opensuse_build
-  - deploy_dox
-  
+  - ubuntu_build
+  - opensuse_build  
 
 opensuse_build:
   image: opensuse/tumbleweed
@@ -17,22 +16,15 @@ opensuse_build:
         - make
         - cd ..
 
-opensuse_build:
-  image: opensuse/tumbleweed
-
-  before_script:
-      - zypper in -y libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc doxygen gnuradio gnuradio-devel
-
-  stage: deploy_dox
+ubuntu_build:
+  image: ubuntu:16.04
+  
+  before_script: 
+        - apt-get update -qq -y && apt-get install -q -y libboost-all-dev libcppunit-dev swig cmake gcc gnuradio gnuradio-dev libconfig++-dev git 
+  stage: ubuntu_build
   script:
-      - mkdir -p build
-      - cd build
-      - cmake  .. 
-      - make doxygen_target
-      - rm -rf public/*
-      - mv docs/doxygen/html/ ../public/  
-  artifacts:
-      paths:
-      - public
-  only:
-  - master
+        - mkdir -p build
+        - cd build
+        - cmake  ..
+        - make
+
