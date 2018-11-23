@@ -37,7 +37,7 @@ namespace gr
       public:
         precipitation_itu_impl (float rainfall_rate, float tracker_lontitude,
                                 float tracker_latitude, float tracker_altitude,
-                                precipitation_attenuation_t mode);
+                                impairment_enum_t mode);
 
         ~precipitation_itu_impl ();
 
@@ -52,7 +52,7 @@ namespace gr
         float d_tracker_altitude;
         float d_hs;
         float d_isotherm_height;
-        precipitation_attenuation_t d_mode;
+        impairment_enum_t d_mode;
 
         /**
          * Coefficient kH

@@ -42,13 +42,18 @@ namespace gr
 
       generic_model::generic_model_sptr
       leo_model::make (tracker::tracker_sptr tracker, const uint8_t mode,
+                       const uint8_t fspl_attenuation_enum,
+                       const uint8_t pointing_attenuation_enum,
+                       const uint8_t doppler_shift_enum,
                        const uint8_t atmo_gases_attenuation,
                        const uint8_t precipitation_attenuation,
                        const float surface_watervap_density,
                        const float temperature, const float rainfall_rate)
       {
         return generic_model::generic_model_sptr (
-            new leo_model_impl (tracker, mode, atmo_gases_attenuation,
+            new leo_model_impl (tracker, mode, fspl_attenuation_enum,
+                                pointing_attenuation_enum, doppler_shift_enum,
+                                atmo_gases_attenuation,
                                 precipitation_attenuation,
                                 surface_watervap_density, temperature,
                                 rainfall_rate));
@@ -56,6 +61,9 @@ namespace gr
 
       leo_model_impl::leo_model_impl (tracker::tracker_sptr tracker,
                                       const uint8_t mode,
+                                      const uint8_t fspl_attenuation_enum,
+                                      const uint8_t pointing_attenuation_enum,
+                                      const uint8_t doppler_shift_enum,
                                       const uint8_t atmo_gases_enum,
                                       const uint8_t precipitation_enum,
                                       const float surface_watervap_density,
@@ -65,7 +73,7 @@ namespace gr
               d_nco (),
               d_slant_range (0),
               d_doppler_shift (0),
-              d_atmo_gases_enum ((atmo_gases_attenuation_t) atmo_gases_enum),
+              d_doppler_shift_enum ((impairment_enum_t) doppler_shift_enum),
               d_surface_watervap_density (surface_watervap_density),
               d_temperature (temperature),
               d_rainfall_rate (rainfall_rate),
@@ -90,7 +98,7 @@ namespace gr
                 attenuation::atmospheric_gases_regression::make (
                     d_surface_watervap_density, d_temperature);
             break;
-          case ATMO_GASES_NONE:
+          case IMPAIRMENT_NONE:
             break;
           default:
             throw std::runtime_error ("Invalid atmospheric gases attenuation!");
@@ -103,19 +111,40 @@ namespace gr
             d_precipitation_attenuation = attenuation::precipitation_itu::make (
                 d_rainfall_rate, d_tracker->get_lontitude (),
                 d_tracker->get_latitude (), d_tracker->get_altitude (),
-                (precipitation_attenuation_t) precipitation_enum);
+                (impairment_enum_t) precipitation_enum);
             break;
-          case PRECIPITATION_NONE:
+          case IMPAIRMENT_NONE:
             break;
           default:
             throw std::runtime_error ("Invalid precipitation attenuation!");
           }
 
-        d_fspl_attenuation = attenuation::free_space_path_loss::make (
-            get_tracker_antenna_gain (), get_satellite_antenna_gain ());
+        switch (fspl_attenuation_enum)
+          {
+          case FREE_SPACE_PATH_LOSS:
+            d_fspl_attenuation = attenuation::free_space_path_loss::make (
+                get_tracker_antenna_gain (), get_satellite_antenna_gain ());
+            break;
+          case IMPAIRMENT_NONE:
+            break;
+          default:
+            throw std::runtime_error (
+                "Invalid free-space path loss enumeration!");
+          }
 
-        d_pointing_loss_attenuation = attenuation::antenna_pointing_loss::make (get_tracker_antenna(), get_satellite_antenna());
-
+        switch (pointing_attenuation_enum)
+          {
+          case ANTENNA_POINTING_LOSS:
+            d_pointing_loss_attenuation =
+                attenuation::antenna_pointing_loss::make (
+                    get_tracker_antenna (), get_satellite_antenna ());
+            break;
+          case IMPAIRMENT_NONE:
+            break;
+          default:
+            throw std::runtime_error (
+                "Invalid antenna pointing loss enumeration!");
+          }
       }
 
       leo_model_impl::~leo_model_impl ()
@@ -211,13 +240,23 @@ namespace gr
         d_slant_range = d_tracker->get_slant_range ();
 
         if (d_slant_range) {
-          d_doppler_shift = calculate_doppler_shift (
-              d_tracker->get_velocity ());
+          switch (d_doppler_shift_enum)
+            {
+            case DOPPLER_SHIFT:
+              d_doppler_shift = calculate_doppler_shift (
+                  d_tracker->get_velocity ());
 
-          d_nco.set_freq (
-              2 * M_PI * d_doppler_shift
-                  / ((1e6 * noutput_items)
-                      / d_tracker->get_time_resolution_us ()));
+              d_nco.set_freq (
+                  2 * M_PI * d_doppler_shift
+                      / ((1e6 * noutput_items)
+                          / d_tracker->get_time_resolution_us ()));
+              break;
+            case IMPAIRMENT_NONE:
+              d_nco.set_freq (0);
+              break;
+            default:
+              throw std::runtime_error ("Invalid doppler shift enumeration!");
+            }
           d_nco.sincos (tmp, noutput_items, 1.0);
           volk_32fc_x2_multiply_32fc (tmp, tmp, inbuffer, noutput_items);
 

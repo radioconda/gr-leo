@@ -38,7 +38,7 @@ namespace gr
       generic_attenuation::generic_attenuation_sptr
       precipitation_itu::make (float rainfall_rate, float tracker_lontitude,
                                float tracker_latitude, float tracker_altitude,
-                               precipitation_attenuation_t mode)
+                               impairment_enum_t mode)
       {
         return generic_attenuation::generic_attenuation_sptr (
             new precipitation_itu_impl (rainfall_rate, tracker_lontitude,
@@ -48,7 +48,7 @@ namespace gr
 
       precipitation_itu_impl::precipitation_itu_impl (
           float rainfall_rate, float tracker_lontitude, float tracker_latitude,
-          float tracker_altitude, precipitation_attenuation_t mode) :
+          float tracker_altitude, impairment_enum_t mode) :
               generic_attenuation (),
               d_rainfall_rate (rainfall_rate),
               d_tracker_lontitude (tracker_lontitude),
