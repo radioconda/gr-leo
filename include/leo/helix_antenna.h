@@ -60,6 +60,8 @@ namespace gr
               float pointing_error, size_t turns, float turn_spacing,
               float circumference);
 
+        helix_antenna (){};
+
       };
     } // namespace antenna
   } // namespace leo

@@ -27,6 +27,8 @@ project(gr-leo CXX C)
 ##
 # TODO: Link C++11
 ##
+set (CMAKE_CXX_STANDARD 11)
+add_definitions(-std=c++11)
 
 #install to PyBOMBS target prefix if defined
 if(DEFINED ENV{PYBOMBS_PREFIX})

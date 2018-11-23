@@ -55,6 +55,8 @@ namespace gr
         static generic_antenna::generic_antenna_sptr
         make (uint8_t type, float frequency, int polarization, float pointing_error);
 
+        dipole_antenna(){};
+
       };
     } // namespace antenna
   } // namespace leo

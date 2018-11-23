@@ -61,6 +61,8 @@ namespace gr
               float pointing_error, float gain, float beamwidth,
               float rolloff_gain);
 
+        custom_antenna(){};
+
       };
     } // namespace antenna
   } // namespace leo

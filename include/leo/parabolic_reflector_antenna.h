@@ -59,6 +59,8 @@ namespace gr
         make (uint8_t type, float frequency, int polarization, float pointing_error, float diameter,
               float aperture_efficiency);
 
+        parabolic_reflector_antenna(){};
+
       };
     } // namespace antenna
   } // namespace leo
