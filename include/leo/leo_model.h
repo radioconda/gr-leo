@@ -46,11 +46,18 @@ namespace gr
       public:
         static generic_model::generic_model_sptr
         make (tracker::tracker_sptr tracker, const uint8_t mode,
+              const uint8_t fspl_attenuation_enum,
+              const uint8_t pointing_attenuation_enum,
+              const uint8_t doppler_shift_enum,
               const uint8_t atmo_gases_attenuation,
               const uint8_t precipitation_attenuation,
               const float surface_watervap_density = 7.5,
-              const float temperature = 0,
-              const float rainfall_rate = 25);
+              const float temperature = 0, const float rainfall_rate = 25);
+
+        leo_model ()
+        {
+        }
+        ;
 
       };
 

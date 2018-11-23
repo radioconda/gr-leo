@@ -498,6 +498,10 @@
   <block>
     <key>variable_leo_model_def</key>
     <param>
+      <key>pointing_attenuation_enum</key>
+      <value>6</value>
+    </param>
+    <param>
       <key>atmo_gases_attenuation</key>
       <value>1</value>
     </param>
@@ -506,12 +510,20 @@
       <value></value>
     </param>
     <param>
+      <key>doppler_shift_enum</key>
+      <value>7</value>
+    </param>
+    <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
+      <key>fspl_attenuation_enum</key>
+      <value>5</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(638, 91)</value>
+      <value>(622, 59)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -531,7 +543,7 @@
     </param>
     <param>
       <key>precipitation_attenuation</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>rainfall_rate</key>

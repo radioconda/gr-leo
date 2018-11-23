@@ -1,7 +1,7 @@
 stages:
-  - opensuse_build
+  - ubuntu_build
+  - opensuse_build  
   - deploy_dox
-  
 
 opensuse_build:
   image: opensuse/tumbleweed
@@ -17,7 +17,22 @@ opensuse_build:
         - make
         - cd ..
 
-opensuse_build:
+ubuntu_build:
+  image: ubuntu:18.04
+  
+  variables:
+        DEBIAN_FRONTEND: "noninteractive"
+
+  before_script: 
+        - apt-get update -qq -y && apt-get install -q -y libboost-all-dev swig cmake g++ gcc gnuradio gnuradio-dev git 
+  stage: ubuntu_build
+  script:
+        - mkdir -p build
+        - cd build
+        - cmake  ..
+        - make
+
+pages:
   image: opensuse/tumbleweed
 
   before_script:
@@ -27,10 +42,12 @@ opensuse_build:
   script:
       - mkdir -p build
       - cd build
+      - rm -rf *
       - cmake  .. 
       - make doxygen_target
+      - cd ..
       - rm -rf public/*
-      - mv docs/doxygen/html/ ../public/  
+      - mv build/docs/doxygen/html public/  
   artifacts:
       paths:
       - public

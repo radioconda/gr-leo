@@ -57,6 +57,8 @@ namespace gr
         make (uint8_t type, float frequency, int polarization,
               float pointing_error, float loop);
 
+        quadrifilar_helix_antenna(){};
+
       };
     } // namespace antenna
   } // namespace leo

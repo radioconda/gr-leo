@@ -52,14 +52,16 @@ typedef struct
   double max_elevation;
 } pass_details_t;
 
-enum atmo_gases_attenuation_t
+enum impairment_enum_t
 {
-  ATMO_GASES_NONE = 0, ATMO_GASES_ITU, ATMO_GASES_REGRESSION
-};
-
-enum precipitation_attenuation_t
-{
-  PRECIPITATION_NONE = 0, PRECIPITATION_ITU, PRECIPITATION_CUSTOM
+  IMPAIRMENT_NONE = 0,
+  ATMO_GASES_ITU,
+  ATMO_GASES_REGRESSION,
+  PRECIPITATION_ITU,
+  PRECIPITATION_CUSTOM,
+  FREE_SPACE_PATH_LOSS,
+  ANTENNA_POINTING_LOSS,
+  DOPPLER_SHIFT
 };
 
 enum polarization_t
