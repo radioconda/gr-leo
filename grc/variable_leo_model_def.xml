@@ -3,10 +3,13 @@
   <name>LEO Model Definition</name>
   <key>variable_leo_model_def</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.leo_model_make($tracker, $mode, $atmo_gases_attenuation, $precipitation_attenuation,
+  <var_make>self.$(id) = $(id) = leo.leo_model_make($tracker, $mode, $fspl_attenuation_enum, 
+  													$pointing_attenuation_enum, $doppler_shift_enum,
+  													$atmo_gases_attenuation, $precipitation_attenuation,
   													$surface_watervap_density, $temperature, $rainfall_rate)</var_make>
-  <var_value>leo.leo_model_make($tracker, $mode, $atmo_gases_attenuation, $precipitation_attenuation, 
-  								$surface_watervap_density, $temperature, $rainfall_rate)</var_value>
+  <var_value>leo.leo_model_make($tracker, $mode, $fspl_attenuation_enum, 
+  								$pointing_attenuation_enum, $doppler_shift_enum, $atmo_gases_attenuation, 
+  								$precipitation_attenuation, $surface_watervap_density, $temperature, $rainfall_rate)</var_value>
   <make></make>
   
   <param>
@@ -37,6 +40,51 @@
         <name>Downlink</name>
         <key>1</key>
     </option>
+  </param>
+  
+  <param>
+	<name>Free-space path Loss</name>
+	<key>fspl_attenuation_enum</key>
+	<value>5</value>
+	<type>enum</type>
+	<option>
+		<name>No</name>
+		<key>0</key>
+	</option>
+	<option>
+		<name>Yes</name>
+		<key>5</key>
+	</option>
+  </param>
+  
+  <param>
+	<name>Doppler frequency shift</name>
+	<key>doppler_shift_enum</key>
+	<value>7</value>
+	<type>enum</type>
+	<option>
+		<name>No</name>
+		<key>0</key>
+	</option>
+	<option>
+		<name>Yes</name>
+		<key>7</key>
+	</option>
+  </param>
+  
+  <param>
+	<name>Antenna pointing loss</name>
+	<key>pointing_attenuation_enum</key>
+	<value>6</value>
+	<type>enum</type>
+	<option>
+		<name>No</name>
+		<key>0</key>
+	</option>
+	<option>
+		<name>Yes</name>
+		<key>6</key>
+	</option>
   </param>
   
   <param>
@@ -85,11 +133,11 @@
 	</option>
 	<option>
 		<name>ITU Recommendation</name>
-		<key>1</key>
+		<key>3</key>
 	</option>
 	<option>
 		<name>Local Measurement</name>
-		<key>2</key>
+		<key>4</key>
 	</option>
   </param>
   
