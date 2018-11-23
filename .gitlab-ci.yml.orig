@@ -1,7 +1,12 @@
 stages:
+<<<<<<< HEAD
   - ubuntu_build
   - opensuse_build  
+=======
+  - opensuse_build
   - deploy_dox
+  
+>>>>>>> Update Gitlab CI configuration to support pages
 
 opensuse_build:
   image: opensuse/tumbleweed
@@ -17,6 +22,7 @@ opensuse_build:
         - make
         - cd ..
 
+<<<<<<< HEAD
 ubuntu_build:
   image: ubuntu:18.04
   
@@ -31,9 +37,10 @@ ubuntu_build:
         - cd build
         - cmake  ..
         - make
-
-pages:
+=======
+opensuse_build:
   image: opensuse/tumbleweed
+>>>>>>> Update Gitlab CI configuration to support pages
 
   before_script:
       - zypper in -y libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc doxygen gnuradio gnuradio-devel
@@ -42,14 +49,11 @@ pages:
   script:
       - mkdir -p build
       - cd build
-      - rm -rf *
       - cmake  .. 
       - make doxygen_target
       - cd ..
       - rm -rf public/*
-      - mv build/docs/doxygen/html public/  
+      - mv build/docs/doxygen/html public  
   artifacts:
       paths:
       - public
-  only:
-  - master
