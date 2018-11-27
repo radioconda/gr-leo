@@ -22,6 +22,9 @@
 #define INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
 
 #include <leo/channel_model.h>
+#include <leo/generic_noise.h>
+#include <leo/white_gaussian_noise.h>
+
 
 namespace gr
 {
@@ -53,9 +56,17 @@ namespace gr
        */
       generic_model::generic_model_sptr d_model;
 
+
+      uint8_t d_noise_type;
+
+
+      float d_snr;
+
+      generic_noise::generic_noise_sptr d_noise;
+
     public:
       channel_model_impl (const float sample_rate,
-                          generic_model::generic_model_sptr model);
+                          generic_model::generic_model_sptr model, const uint8_t noise_type, float snr=0);
 
       ~channel_model_impl ();
 
