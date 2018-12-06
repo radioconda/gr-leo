@@ -29,7 +29,7 @@
 #include <string.h>
 #include <sys/syscall.h>
 
-#define LEO_MESSAGES 1
+#define LEO_MESSAGES 0
 #define LEO_DEBUG_MESSAGES 0
 
 #if LEO_MESSAGES

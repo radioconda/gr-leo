@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(807, 515)</value>
+      <value>(718, 514)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -176,7 +176,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1e6</value>
+      <value>80e3</value>
     </param>
   </block>
   <block>
@@ -215,7 +215,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(231, 515)</value>
+      <value>(191, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -373,7 +373,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(623, 515)</value>
+      <value>(542, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -452,7 +452,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(447, 515)</value>
+      <value>(382, 514)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -499,11 +499,11 @@
     <key>variable_leo_model_def</key>
     <param>
       <key>pointing_attenuation_enum</key>
-      <value>6</value>
+      <value>0</value>
     </param>
     <param>
       <key>atmo_gases_attenuation</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>comment</key>
@@ -523,7 +523,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(622, 59)</value>
+      <value>(829, 450)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -543,7 +543,7 @@
     </param>
     <param>
       <key>precipitation_attenuation</key>
-      <value>0</value>
+      <value>4</value>
     </param>
     <param>
       <key>rainfall_rate</key>
@@ -712,7 +712,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(702, 331)</value>
+      <value>(678, 267)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -771,7 +771,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(478, 227)</value>
+      <value>(462, 147)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -826,7 +826,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(917, 319)</value>
+      <value>(901, 255)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -873,11 +873,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1037, 47)</value>
+      <value>(1005, 47)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -912,7 +912,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(694, 251)</value>
+      <value>(638, 175)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -971,7 +971,7 @@
     </param>
     <param>
       <key>ctrlpanel</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>affinity</key>
@@ -983,11 +983,11 @@
     </param>
     <param>
       <key>fftsize</key>
-      <value>1024</value>
+      <value>4096</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1021, 339)</value>
+      <value>(1005, 251)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1270,11 +1270,11 @@
     </param>
     <param>
       <key>fftsize</key>
-      <value>1024</value>
+      <value>4096</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1021, 235)</value>
+      <value>(1005, 163)</value>
     </param>
     <param>
       <key>gui_hint</key>
