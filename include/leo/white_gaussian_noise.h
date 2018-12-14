@@ -47,7 +47,7 @@ namespace gr
 
         void
         add_noise (gr_complex* outbuf, const gr_complex* inbuf, size_t num,
-                   float snr);
+                   float snr, float imp);
 
       private:
         gr::random d_rng;

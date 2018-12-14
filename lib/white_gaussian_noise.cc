@@ -50,7 +50,7 @@ namespace gr
 
       void
       white_gaussian_noise::add_noise (gr_complex* outbuf, const gr_complex* inbuf,
-                                       size_t num, float snr)
+                                       size_t num, float snr, float imp)
       {
         gr_complex ns;
         float snr_linear;
@@ -61,7 +61,7 @@ namespace gr
         snr_linear = 1000 * pow (10, snr / 10) ;
         
         for (size_t i = 0; i < num; i++) {
-          ns = sqrt (snr_linear / 2)
+          ns = sqrt ((imp*snr_linear) / 2)
               * gr_complex (d_rng.gasdev (), d_rng.gasdev ());
           outbuf[i] = inbuf[i] + ns;
         }

@@ -35,10 +35,10 @@ namespace gr
     channel_model::sptr
     channel_model::make (const float sample_rate,
                          generic_model::generic_model_sptr model,
-                         const uint8_t noise_type, float snr)
+                         const uint8_t noise_type, float snr, float imp)
     {
       return gnuradio::get_initial_sptr (
-          new channel_model_impl (sample_rate, model, noise_type, snr));
+          new channel_model_impl (sample_rate, model, noise_type, snr, imp));
     }
 
     /*
@@ -46,14 +46,15 @@ namespace gr
      */
     channel_model_impl::channel_model_impl (
         const float sample_rate, generic_model::generic_model_sptr model,
-        const uint8_t noise_type, float snr) :
+        const uint8_t noise_type, float snr, float imp) :
             gr::sync_block ("channel_model",
                             gr::io_signature::make (1, 1, sizeof(gr_complex)),
                             gr::io_signature::make (1, 1, sizeof(gr_complex))),
             d_sample_rate (sample_rate),
             d_model (model),
             d_noise_type (noise_type),
-            d_snr (snr)
+            d_snr (snr),
+            d_imp (imp)
     {
       d_time_resolution_us = d_model->get_tracker ()->get_time_resolution_us ();
       d_time_resolution_samples = (d_sample_rate * d_time_resolution_us) / 1e6;
@@ -98,8 +99,7 @@ namespace gr
                                d_time_resolution_samples);
           d_noise->add_noise(&out[d_time_resolution_samples * t],
                              &out[d_time_resolution_samples * t],
-                             d_time_resolution_samples,
-                             d_snr);
+                             d_time_resolution_samples, d_snr, d_imp);
         }
         else {
         d_model->generic_work (&in[d_time_resolution_samples * t],
