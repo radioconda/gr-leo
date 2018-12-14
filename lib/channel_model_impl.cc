@@ -93,15 +93,19 @@ namespace gr
         }
 
         if (d_noise_type != NOISE_NONE) {
+          d_model->generic_work (&in[d_time_resolution_samples * t],
+                               &out[d_time_resolution_samples * t],
+                               d_time_resolution_samples);
           d_noise->add_noise(&out[d_time_resolution_samples * t],
-                             &in[d_time_resolution_samples * t],
+                             &out[d_time_resolution_samples * t],
                              d_time_resolution_samples,
                              d_snr);
         }
-        d_model->generic_work (&out[d_time_resolution_samples * t],
+        else {
+        d_model->generic_work (&in[d_time_resolution_samples * t],
                                &out[d_time_resolution_samples * t],
                                d_time_resolution_samples);
-
+        }
         message_port_pub (pmt::mp ("csv"),
                           pmt::string_to_symbol (d_model->get_csv_log ()));
       }

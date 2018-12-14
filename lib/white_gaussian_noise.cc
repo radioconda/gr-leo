@@ -57,13 +57,15 @@ namespace gr
         float measured;
 
         measured = measure_signal_power (inbuf, num);
-        snr_linear = pow (10, (snr / 20));
+
+        snr_linear = 1000 * pow (10, snr / 10) ;
+        
         for (size_t i = 0; i < num; i++) {
-          ns = sqrt (measured / (2 * snr_linear))
+          ns = sqrt (snr_linear / 2)
               * gr_complex (d_rng.gasdev (), d_rng.gasdev ());
           outbuf[i] = inbuf[i] + ns;
         }
-
+        
       }
     } // namespace noise
   } /* namespace leo */

@@ -42,7 +42,7 @@
   </param>
   
   <param>
-    <name>SNR (dB)</name>
+    <name>Noise-floor (dBW)</name>
     <key>snr</key>
     <value>10</value>
     <type>float</type>
