@@ -503,7 +503,11 @@
     </param>
     <param>
       <key>atmo_gases_attenuation</key>
+<<<<<<< HEAD
       <value>2</value>
+=======
+      <value>0</value>
+>>>>>>> Introduce support for noise addition.
     </param>
     <param>
       <key>comment</key>
@@ -689,6 +693,7 @@
     </param>
   </block>
   <block>
+<<<<<<< HEAD
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
@@ -744,6 +749,8 @@
     </param>
   </block>
   <block>
+=======
+>>>>>>> Introduce support for noise addition.
     <key>analog_sig_source_x</key>
     <param>
       <key>amp</key>
@@ -771,7 +778,11 @@
     </param>
     <param>
       <key>_coordinate</key>
+<<<<<<< HEAD
       <value>(462, 147)</value>
+=======
+      <value>(431, 155)</value>
+>>>>>>> Introduce support for noise addition.
     </param>
     <param>
       <key>_rotation</key>
@@ -807,6 +818,7 @@
     </param>
   </block>
   <block>
+<<<<<<< HEAD
     <key>blocks_add_xx</key>
     <param>
       <key>alias</key>
@@ -858,6 +870,8 @@
     </param>
   </block>
   <block>
+=======
+>>>>>>> Introduce support for noise addition.
     <key>blocks_message_debug</key>
     <param>
       <key>alias</key>
@@ -873,6 +887,7 @@
     </param>
     <param>
       <key>_enabled</key>
+<<<<<<< HEAD
       <value>1</value>
     </param>
     <param>
@@ -884,6 +899,19 @@
       <value>0</value>
     </param>
     <param>
+=======
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1005, 47)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+>>>>>>> Introduce support for noise addition.
       <key>id</key>
       <value>blocks_message_debug_0</value>
     </param>
@@ -912,7 +940,11 @@
     </param>
     <param>
       <key>_coordinate</key>
+<<<<<<< HEAD
       <value>(638, 175)</value>
+=======
+      <value>(623, 163)</value>
+>>>>>>> Introduce support for noise addition.
     </param>
     <param>
       <key>_rotation</key>
@@ -927,6 +959,10 @@
       <value>'fine'</value>
     </param>
     <param>
+      <key>imp</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
@@ -935,6 +971,17 @@
       <value>0</value>
     </param>
     <param>
+<<<<<<< HEAD
+=======
+      <key>noise_type</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>snr</key>
+      <value>-110</value>
+    </param>
+    <param>
+>>>>>>> Introduce support for noise addition.
       <key>sample_rate</key>
       <value>samp_rate</value>
     </param>
@@ -1274,7 +1321,11 @@
     </param>
     <param>
       <key>_coordinate</key>
+<<<<<<< HEAD
       <value>(1005, 163)</value>
+=======
+      <value>(1007, 155)</value>
+>>>>>>> Introduce support for noise addition.
     </param>
     <param>
       <key>gui_hint</key>
@@ -1462,18 +1513,22 @@
     </param>
   </block>
   <connection>
+<<<<<<< HEAD
     <source_block_id>analog_noise_source_x_0</source_block_id>
     <sink_block_id>blocks_add_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
   <connection>
+=======
+>>>>>>> Introduce support for noise addition.
     <source_block_id>analog_sig_source_x_1</source_block_id>
     <sink_block_id>leo_channel_model_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+<<<<<<< HEAD
     <source_block_id>blocks_add_xx_0</source_block_id>
     <sink_block_id>qtgui_freq_sink_x_0</sink_block_id>
     <source_key>0</source_key>
@@ -1486,6 +1541,8 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
+=======
+>>>>>>> Introduce support for noise addition.
     <source_block_id>leo_channel_model_0</source_block_id>
     <sink_block_id>blocks_message_debug_0</sink_block_id>
     <source_key>csv</source_key>
@@ -1493,7 +1550,17 @@
   </connection>
   <connection>
     <source_block_id>leo_channel_model_0</source_block_id>
+<<<<<<< HEAD
     <sink_block_id>blocks_add_xx_0</sink_block_id>
+=======
+    <sink_block_id>qtgui_freq_sink_x_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>leo_channel_model_0</source_block_id>
+    <sink_block_id>qtgui_waterfall_sink_x_0</sink_block_id>
+>>>>>>> Introduce support for noise addition.
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

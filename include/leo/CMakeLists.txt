@@ -25,6 +25,8 @@ install(FILES
 	utils/helper.h
     api.h
     log.h
+    generic_noise.h
+    white_gaussian_noise.h
     satellite.h
     generic_antenna.h
     yagi_antenna.h

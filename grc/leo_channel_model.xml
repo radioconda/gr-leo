@@ -3,7 +3,7 @@
   <name>Channel Model</name>
   <key>leo_channel_model</key>
   <import>import leo</import>
-  <make>leo.channel_model($sample_rate, $model)</make>
+  <make>leo.channel_model($sample_rate, $model, $noise_type, $snr, $imp)</make>
   
   <param>
       <name>Ignore Me</name>
@@ -25,7 +25,38 @@
     <value>model_variable</value>
     <type>raw</type>
   </param>
-  	 
+  
+  <param>
+    <name>Noise</name>
+    <key>noise_type</key>
+    <value>1</value>
+    <type>enum</type>
+    <option>
+        <name>None</name>
+        <key>0</key>
+    </option>
+    <option>
+        <name>White Gaussian</name>
+        <key>1</key>
+    </option>
+  </param>
+  
+  <param>
+    <name>Noise-floor (dBW)</name>
+    <key>snr</key>
+    <value>10</value>
+    <type>float</type>
+        <hide>#if int($noise_type())==0 then 'all' else 'none'#</hide>
+  </param>
+
+  <param>
+    <name>Load Impedance (Ohms)</name>
+    <key>imp</key>
+    <value>1</value>
+    <type>float</type>
+        <hide>#if int($noise_type())==0 then 'all' else 'none'#</hide>
+  </param>	
+    
   <sink>
     <name>in</name>
     <type>complex</type>
