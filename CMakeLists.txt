@@ -24,9 +24,6 @@
 cmake_minimum_required(VERSION 2.6)
 project(gr-leo CXX C)
 
-##
-# TODO: Link C++11
-##
 set (CMAKE_CXX_STANDARD 11)
 add_definitions(-std=c++11)
 

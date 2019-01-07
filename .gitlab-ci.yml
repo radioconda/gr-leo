@@ -1,5 +1,6 @@
 stages:
-  - ubuntu_build
+  - ubuntu_1604_build
+  - ubuntu_1804_build
   - opensuse_build  
   - deploy_dox
 
@@ -15,9 +16,28 @@ opensuse_build:
         - cd build
         - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
         - make
-        - cd ..
+        - make install
+        - python -c "import leo"
 
-ubuntu_build:
+ubuntu_1604_build:
+  image: ubuntu:16.04
+  
+  variables:
+        DEBIAN_FRONTEND: "noninteractive"
+
+  before_script: 
+        - apt-get update -qq -y && apt-get install -q -y libboost-all-dev swig cmake g++ gcc gnuradio gnuradio-dev git 
+  stage: ubuntu_1604_build
+  script:
+        - mkdir -p build
+        - cd build
+        - cmake  ..
+        - make
+        - make install
+        - ldconfig
+        - python -c "import leo"
+
+ubuntu_1804_build:
   image: ubuntu:18.04
   
   variables:
@@ -25,12 +45,15 @@ ubuntu_build:
 
   before_script: 
         - apt-get update -qq -y && apt-get install -q -y libboost-all-dev swig cmake g++ gcc gnuradio gnuradio-dev git 
-  stage: ubuntu_build
+  stage: ubuntu_1804_build
   script:
         - mkdir -p build
         - cd build
         - cmake  ..
         - make
+        - make install
+        - ldconfig
+        - python -c "import leo"
 
 pages:
   image: opensuse/tumbleweed

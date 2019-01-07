@@ -146,7 +146,8 @@ namespace gr
        */
       generic_antenna (uint8_t type, float frequency, int polarization,
                        float pointing_error);
-
+                       
+      generic_antenna(void) {};
     };
   } // namespace leo
 } // namespace gr

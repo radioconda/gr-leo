@@ -58,8 +58,6 @@ namespace gr
         make (uint8_t type, float frequency, int polarization, float pointing_error,
               float boom_length);
 
-        yagi_antenna(){};
-
       };
     } // namespace antenna
   } // namespace leo
