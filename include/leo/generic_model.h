@@ -106,6 +106,8 @@ namespace gr
       generic_model (std::string name, tracker::tracker_sptr tracker,
                      const uint8_t mode);
 
+      generic_model(void) {};
+
       /*!
        * \brief Get the tracker object
        * \return a boost::shared_ptr to the constructed tracker object
@@ -183,7 +185,7 @@ namespace gr
       /*!
        * \brief Represents the uplink or downlink transmission mode
        */
-      const uint8_t d_mode;
+      uint8_t d_mode;
       std::string d_csv_log;
       tracker::tracker_sptr d_tracker;
 
