@@ -10,7 +10,7 @@ opensuse_build:
   before_script:
       - zypper in -y libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc gnuradio gnuradio-devel
 
-  stage: opensuse_build
+  stage: ubuntu_1604_build
   script:
         - mkdir -p build
         - cd build
@@ -45,7 +45,7 @@ ubuntu_1804_build:
 
   before_script: 
         - apt-get update -qq -y && apt-get install -q -y libboost-all-dev swig cmake g++ gcc gnuradio gnuradio-dev git 
-  stage: ubuntu_1804_build
+  stage: ubuntu_1604_build
   script:
         - mkdir -p build
         - cd build
