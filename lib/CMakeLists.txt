@@ -35,12 +35,12 @@ list(APPEND leo_sources
 	white_gaussian_noise.cc
     generic_antenna.cc
 	yagi_antenna_impl.cc
-	# helix_antenna_impl.cc
-	# parabolic_reflector_antenna_impl.cc
-	# custom_antenna_impl.cc
-	# monopole_antenna_impl.cc
-	# dipole_antenna_impl.cc
-	# quadrifilar_helix_antenna_impl.cc
+	helix_antenna_impl.cc
+	parabolic_reflector_antenna_impl.cc
+	custom_antenna_impl.cc
+	monopole_antenna_impl.cc
+	dipole_antenna_impl.cc
+	quadrifilar_helix_antenna_impl.cc
 	satellite.cc
 	tracker.cc
 	generic_attenuation.cc
