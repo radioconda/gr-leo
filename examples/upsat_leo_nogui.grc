@@ -1055,37 +1055,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_message_debug</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1180, 462)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_message_debug_0</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_multiply_const_vxx</key>
     <param>
       <key>alias</key>
@@ -1446,6 +1415,53 @@
     </param>
   </block>
   <block>
+    <key>satnogs_multi_format_msg_sink</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>filename</key>
+      <value>/home/ctriant/test.txt</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1125, 482)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>satnogs_multi_format_msg_sink_0</value>
+    </param>
+    <param>
+      <key>outstream</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>timestamp</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>format</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>satnogs_upsat_fsk_frame_encoder</key>
     <param>
       <key>append_crc</key>
@@ -1564,9 +1580,9 @@
   </connection>
   <connection>
     <source_block_id>leo_channel_model_0</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
+    <sink_block_id>satnogs_multi_format_msg_sink_0</sink_block_id>
     <source_key>csv</source_key>
-    <sink_key>print</sink_key>
+    <sink_key>in</sink_key>
   </connection>
   <connection>
     <source_block_id>leo_channel_model_0</source_block_id>

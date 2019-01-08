@@ -107,7 +107,7 @@ namespace gr
                                d_time_resolution_samples);
         }
         message_port_pub (pmt::mp ("csv"),
-                          pmt::string_to_symbol (d_model->get_csv_log ()));
+                          pmt::make_blob(d_model->get_csv_log ().c_str(), d_model->get_csv_log ().length()));
       }
 
       return noutput_items;
