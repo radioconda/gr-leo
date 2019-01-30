@@ -7,6 +7,9 @@
 //load generated python docstrings
 %include "leo_swig_doc.i"
 
+%nodefaultctor gr::leo::generic_noise;
+%template(generic_noise_sptr) boost::shared_ptr<gr::leo::generic_noise>;
+
 %nodefaultctor gr::leo::generic_antenna;
 %template(generic_antenna_sptr) boost::shared_ptr<gr::leo::generic_antenna>;
 
@@ -24,7 +27,9 @@
 
 
 %{
+#include "leo/generic_noise.h"
 #include "leo/generic_antenna.h"
+#include "leo/white_gaussian_noise.h"
 #include "leo/yagi_antenna.h"
 #include "leo/helix_antenna.h"
 #include "leo/parabolic_reflector_antenna.h"
@@ -43,7 +48,9 @@
 #include "leo/channel_model.h"
 %}
 
+%include "leo/generic_noise.h"
 %include "leo/generic_antenna.h"
+%include "leo/white_gaussian_noise.h"
 %include "leo/yagi_antenna.h"
 %include "leo/helix_antenna.h"
 %include "leo/parabolic_reflector_antenna.h"

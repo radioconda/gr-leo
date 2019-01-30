@@ -31,6 +31,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
 	utils/helper.cc
+	generic_noise.cc
+	white_gaussian_noise.cc
     generic_antenna.cc
 	yagi_antenna_impl.cc
 	helix_antenna_impl.cc

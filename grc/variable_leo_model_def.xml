@@ -146,7 +146,7 @@
       <key>rainfall_rate</key>
       <value>25</value>
       <type>float</type>
-      <hide>#if int($precipitation_attenuation())==2 then 'none' else 'all'#</hide>
+      <hide>#if int($precipitation_attenuation())==4 then 'none' else 'all'#</hide>
   </param>
   
 </block>

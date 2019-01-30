@@ -13,7 +13,7 @@ A GNU Radio Out-of-Tree module that simulates the telecommunication channel betw
 
 1. `git clone https://gitlab.com/librespacefoundation/gr-leo`
 2. `cd gr-leo`
-3. `mkdir build`
+3. `mkdir build & cd build`
 4. `cmake ..`
 5. `make`
 6. `sudo make install`

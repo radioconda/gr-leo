@@ -64,6 +64,12 @@ enum impairment_enum_t
   DOPPLER_SHIFT
 };
 
+enum noise_t
+{
+  NOISE_NONE = 0,
+  WHITE_GAUSSIAN
+};
+
 enum polarization_t
 {
   RHCP = 0, LHCP, LINEAR_VERTICAL, LINEAR_HORIZONTAL
