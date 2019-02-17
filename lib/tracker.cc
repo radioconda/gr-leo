@@ -485,14 +485,8 @@ namespace gr
     {
       std::tm tm;
       strptime (datetime.c_str (), "%Y-%m-%dT%H:%M:%S", &tm);
-      std::chrono::system_clock::time_point tp =
-          std::chrono::system_clock::from_time_t (std::mktime (&tm));
-
-      std::time_t t = std::chrono::system_clock::to_time_t (tp);
-      std::tm utc_tm = *localtime (&t);
-
-      return DateTime (utc_tm.tm_year + 1900, utc_tm.tm_mon + 1, utc_tm.tm_mday,
-                       utc_tm.tm_hour, utc_tm.tm_min, utc_tm.tm_sec);
+      return DateTime (tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+                       tm.tm_hour, tm.tm_min, tm.tm_sec);
     }
 
     float
