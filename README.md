@@ -6,6 +6,7 @@ A GNU Radio Out-of-Tree module that simulates the telecommunication channel betw
 * GNU Radio ( > 3.7.7 )
 * CMake ( > 2.6)
 * G++ (with C++11 support)
+* Boost C++ Libraries ( > 1.35.0 )
 * VOLK
 * [C++ SGP4 Satellite Library](https://github.com/dnwrnr/sgp4) (will be automatically installed if not present)
 
@@ -13,7 +14,7 @@ A GNU Radio Out-of-Tree module that simulates the telecommunication channel betw
 
 1. `git clone https://gitlab.com/librespacefoundation/gr-leo`
 2. `cd gr-leo`
-3. `mkdir build & cd build`
+3. `mkdir build && cd build`
 4. `cmake ..`
 5. `make`
 6. `sudo make install`
