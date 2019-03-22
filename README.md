@@ -8,6 +8,7 @@ A GNU Radio Out-of-Tree module that simulates the telecommunication channel betw
 * G++ (with C++11 support)
 * Boost C++ Libraries ( > 1.35.0 )
 * VOLK
+* SWIG
 * [C++ SGP4 Satellite Library](https://github.com/dnwrnr/sgp4) (will be automatically installed if not present)
 
 ## Installation
