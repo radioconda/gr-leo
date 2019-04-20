@@ -23,9 +23,9 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 			
-include_directories(
-    ${SGP4_INCLUDE_DIRS}
-)
+#include_directories(
+#    ${SGP4_INCLUDE_DIRS}
+#)
 		
 link_directories(${Boost_LIBRARY_DIRS})
 
@@ -65,8 +65,7 @@ add_dependencies(gnuradio-leo sgp4)
 
 target_link_libraries(gnuradio-leo 
 					  ${Boost_LIBRARIES} 
-					  ${GNURADIO_ALL_LIBRARIES}
-					  ${SGP4_LIBRARIES})
+					  ${GNURADIO_ALL_LIBRARIES})
 
 
 set_target_properties(gnuradio-leo PROPERTIES DEFINE_SYMBOL "gnuradio_leo_EXPORTS")

@@ -142,45 +142,25 @@ find_package(Doxygen)
 # Search for the libfec if it is already installed in the system
 # If not, install the internal one.
 ########################################################################
+find_package(Git)
 find_package(SGP4)
 if(NOT SGP4_FOUND)
     message(WARNING "libsgp4 is not installed. The internal libsgp4 will be automatically build and install.")
-    include(ExternalProject)
+	if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+	# Update submodules as needed
+		message(STATUS "Submodule update")
+		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+						RESULT_VARIABLE GIT_SUBMOD_RESULT)
+		if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+			message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+		endif()						        
+	endif()
 	
-    ExternalProject_Add(SGP4_EXTERNAL
-    	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/libsgp4
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4
-        BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/libsgp4
-        CMAKE_ARGS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-                   "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}"
-        INSTALL_COMMAND ${CMAKE_COMMAND} -E echo Skipping installation of libsgp4
-    )
-    
-    ExternalProject_Get_Property(SGP4_EXTERNAL binary_dir)
-    
-    add_library(sgp4 SHARED IMPORTED)
-
-    set_property(TARGET sgp4 PROPERTY IMPORTED_LOCATION ${binary_dir}/libsgp4.so)
-    
-    add_dependencies(sgp4 SGP4_EXTERNAL)
- 
-    set(SGP4_LIBRARIES "${binary_dir}/libsgp4.so")
-    set(SGP4_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/libsgp4")
-    
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsgp4/libsgp4.so 
-			DESTINATION lib${LIB_SUFFIX})
-			
-#	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/libsgp4/ 
-#			DESTINATION include/sgp4 
-#			FILES_MATCHING
-#    		PATTERN "*.h"
-#    		PATTERN "*cmake*" EXCLUDE)
-    		
-    install(DIRECTORY ${SGP4_INCLUDE_DIRS}
-			DESTINATION include)
-    		
-else()
-    add_library(sgp4 INTERFACE)
+	if(NOT EXISTS "${PROJECT_SOURCE_DIR}/sgp4/CMakeLists.txt")
+	    message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+	endif()
+    add_subdirectory(sgp4)
 endif()
 
 
@@ -215,6 +195,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_BINARY_DIR}/lib
     ${CMAKE_BINARY_DIR}/include
+    ${CMAKE_SOURCE_DIR}/sgp4
     ${Boost_INCLUDE_DIRS}
     ${CPPUNIT_INCLUDE_DIRS}
     ${GNURADIO_ALL_INCLUDE_DIRS}

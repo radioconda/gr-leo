@@ -1,0 +1,3 @@
+[submodule "sgp4"]
+	path = sgp4
+	url = https://github.com/dnwrnr/sgp4

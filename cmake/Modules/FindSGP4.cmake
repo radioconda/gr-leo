@@ -12,7 +12,7 @@ FIND_PATH(
 
 FIND_LIBRARY(
     SGP4_LIBRARIES
-    NAMES SGP4
+    NAMES sgp4s
     HINTS $ENV{SGP4_DIR}/lib
         ${PC_SGP4_LIBDIR}
     PATHS /usr/local/lib
