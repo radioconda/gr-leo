@@ -1,10 +1,9 @@
 INCLUDE(FindPkgConfig)
-PKG_CHECK_MODULES(PC_SGP4 sgp4)
 
 FIND_PATH(
     SGP4_INCLUDE_DIRS
     NAMES SGP4
-    HINTS $ENV{SGP4_DIR}/include/sgp4/
+    HINTS $ENV{SGP4_DIR}/include/SGP4/
         ${PC_SGP4_INCLUDEDIR}
     PATHS /usr/local/include
           /usr/include

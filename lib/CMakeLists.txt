@@ -61,11 +61,12 @@ if(NOT leo_sources)
 endif(NOT leo_sources)
 
 add_library(gnuradio-leo SHARED ${leo_sources})
-add_dependencies(gnuradio-leo sgp4)
+add_dependencies(gnuradio-leo SGP4)
 
 target_link_libraries(gnuradio-leo 
 					  ${Boost_LIBRARIES} 
-					  ${GNURADIO_ALL_LIBRARIES})
+					  ${GNURADIO_ALL_LIBRARIES}
+					  sgp4s)
 
 
 set_target_properties(gnuradio-leo PROPERTIES DEFINE_SYMBOL "gnuradio_leo_EXPORTS")
