@@ -1,8 +1,6 @@
 stages:
-  - ubuntu_1604_build
-  - ubuntu_1804_build
-  - opensuse_build  
-  - deploy_dox
+  - building
+  - documentation
 
 opensuse_build:
   image: opensuse/tumbleweed
@@ -10,7 +8,7 @@ opensuse_build:
   before_script:
       - zypper in -y git libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc gnuradio gnuradio-devel
 
-  stage: ubuntu_1604_build
+  stage: building
   script:
         - mkdir -p build
         - cd build
@@ -27,7 +25,7 @@ ubuntu_1604_build:
 
   before_script: 
         - apt-get update -qq -y && apt-get install -q -y git libboost-all-dev swig cmake g++ gcc gnuradio gnuradio-dev git 
-  stage: ubuntu_1604_build
+  stage: building
   script:
         - mkdir -p build
         - cd build
@@ -45,7 +43,7 @@ ubuntu_1804_build:
 
   before_script: 
         - apt-get update -qq -y && apt-get install -q -y git libboost-all-dev swig cmake g++ gcc gnuradio gnuradio-dev git 
-  stage: ubuntu_1604_build
+  stage: building
   script:
         - mkdir -p build
         - cd build
@@ -59,9 +57,9 @@ pages:
   image: opensuse/tumbleweed
 
   before_script:
-      - zypper in -y libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc doxygen gnuradio gnuradio-devel
+      - zypper in -y git libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc doxygen gnuradio gnuradio-devel
 
-  stage: deploy_dox
+  stage: documentation
   script:
       - mkdir -p build
       - cd build
