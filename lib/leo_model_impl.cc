@@ -154,7 +154,7 @@ namespace gr
       float
       leo_model_impl::calculate_doppler_shift (double velocity)
       {
-        return (1e3 * velocity * get_frequency ()) / LIGHT_SPEED;
+        return (-1e3 * velocity * get_frequency ()) / LIGHT_SPEED;
       }
 
       float
