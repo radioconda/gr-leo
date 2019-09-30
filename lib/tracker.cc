@@ -103,7 +103,7 @@ tracker::tracker(const std::string &tle_title, const std::string &tle_1,
                  const std::string &tle_2, const float gs_lat,
                  const float gs_lon, const float gs_alt,
                  const std::string &obs_start, const std::string &obs_end) :
-  d_time_resolution_us(0),
+            d_time_resolution_us (300e3),
   d_observer(gs_lat, gs_lon, gs_alt),
   d_tle_title(tle_title),
   d_tle_1(tle_1),

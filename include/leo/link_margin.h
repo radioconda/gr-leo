@@ -18,32 +18,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H
-#define INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H
+#ifndef INCLUDED_LEO_LINK_MARGIN_H
+#define INCLUDED_LEO_LINK_MARGIN_H
 
-#include "../include/leo/free_space_path_loss.h"
-#include <vector>
+#include <leo/api.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/format.hpp>
 
-namespace gr {
-namespace leo {
-namespace attenuation {
-/*
- * Calculate Free-Space path-loss based on ITU R-REC-P.619
- */
-class LEO_API free_space_path_loss_impl : public free_space_path_loss {
+namespace gr
+{
+  namespace leo
+  {
 
-public:
-        free_space_path_loss_impl ();
+    class LEO_API link_margin
+    {
 
-  ~free_space_path_loss_impl();
+    public:
 
-  float
-  get_attenuation();
+      ~link_margin ();
 
-};
-} // namespace attenuation
-} // namespace leo
+      typedef boost::shared_ptr<link_margin> link_margin_sptr;
+
+      static link_margin::link_margin_sptr
+      make ();
+
+      float
+      calc_link_margin (float total_loss_db, float satellite_antenna_gain,
+                        float tracker_antenna_gain,
+                        float transmission_power_dbw, float gs_receiver_bw);
+
+    };
+  } // namespace leo
 } // namespace gr
 
-#endif /* INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H */
+#endif /* INCLUDED_LEO_LINK_MARGIN_H */
 

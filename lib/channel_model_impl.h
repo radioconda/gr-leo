@@ -53,9 +53,7 @@ private:
    */
   generic_model::generic_model_sptr d_model;
 
-
   uint8_t d_noise_type;
-
 
   float d_snr;
   float d_imp;

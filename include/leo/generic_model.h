@@ -24,6 +24,7 @@
 #include <leo/api.h>
 #include <leo/tracker.h>
 #include <leo/generic_attenuation.h>
+#include <leo/link_margin.h>
 #include <gnuradio/runtime_types.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/format.hpp>
@@ -102,7 +103,7 @@ public:
   generic_model(std::string name, tracker::tracker_sptr tracker,
                 const uint8_t mode);
 
-  generic_model(void) {};
+  generic_model (void){};
 
   /*!
    * \brief Get the tracker object
@@ -172,6 +173,9 @@ public:
   get_csv_log();
 
   virtual void
+      estimate_link_margin () = 0;
+
+      virtual void
   generate_csv_log() = 0;
 
   virtual
@@ -184,6 +188,13 @@ protected:
   uint8_t d_mode;
   std::string d_csv_log;
   tracker::tracker_sptr d_tracker;
+
+      /*!
+       * \brief A shared pointer to the link margin class
+       */
+      link_margin::link_margin_sptr d_link_margin;
+
+      float d_link_margin_db;
 
 };
 

@@ -42,13 +42,10 @@ public:
   /*!
    * \brief Return a shared_ptr to a gr::leo::generic_attenuation
    *
-   * \param rx_antenna_gain The RX gain in dBiC
-   * \param tx_antenna_gain The TX gain in dBiC
-   *
    * \return a boost::shared_ptr<generic_attenuation> pointer
    */
   static generic_attenuation::generic_attenuation_sptr
-  make(float rx_antenna_gain, float tx_antenna_gain);
+  make();
 
 };
 } // namespace attenuation

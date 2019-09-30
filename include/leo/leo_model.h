@@ -47,6 +47,7 @@ public:
        const uint8_t doppler_shift_enum,
        const uint8_t atmo_gases_attenuation,
        const uint8_t precipitation_attenuation,
+              const uint8_t enable_link_margin,
        const float surface_watervap_density = 7.5,
        const float temperature = 0, const float rainfall_rate = 25);
 

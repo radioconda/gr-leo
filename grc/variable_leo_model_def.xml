@@ -5,11 +5,13 @@
   <import>import leo</import>
   <var_make>self.$(id) = $(id) = leo.leo_model_make($tracker, $mode, $fspl_attenuation_enum, 
   													$pointing_attenuation_enum, $doppler_shift_enum,
-  													$atmo_gases_attenuation, $precipitation_attenuation,
+  													$atmo_gases_attenuation, $precipitation_attenuation, $enable_link_margin,
   													$surface_watervap_density, $temperature, $rainfall_rate)</var_make>
   <var_value>leo.leo_model_make($tracker, $mode, $fspl_attenuation_enum, 
-  								$pointing_attenuation_enum, $doppler_shift_enum, $atmo_gases_attenuation, 
-  								$precipitation_attenuation, $surface_watervap_density, $temperature, $rainfall_rate)</var_value>
+  								$pointing_attenuation_enum, $doppler_shift_enum,
+  								$atmo_gases_attenuation, $precipitation_attenuation,
+  								$enable_link_margin, $surface_watervap_density,
+  								$temperature, $rainfall_rate)</var_value>
   <make></make>
   
   <param>
@@ -147,6 +149,21 @@
       <value>25</value>
       <type>float</type>
       <hide>#if int($precipitation_attenuation())==4 then 'none' else 'all'#</hide>
+  </param>
+  
+   <param>
+	<name>Link Margin Calculation</name>
+	<key>enable_link_margin</key>
+	<value>true</value>
+	<type>bool</type>
+	<option>
+		<name>False</name>
+		<key>False</key>
+	</option>
+	<option>
+		<name>True</name>
+		<key>True</key>
+	</option>
   </param>
   
 </block>

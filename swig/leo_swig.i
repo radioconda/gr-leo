@@ -21,6 +21,9 @@
 %nodefaultctor gr::leo::generic_attenuation;
 %template(generic_attenuation_sptr) boost::shared_ptr<gr::leo::generic_attenuation>;
 
+%nodefaultctor gr::leo::link_margin;
+%template(link_margin_sptr) boost::shared_ptr<gr::leo::link_margin>;
+
 %nodefaultctor gr::leo::generic_model;
 %template(generic_model_sptr) boost::shared_ptr<gr::leo::generic_model>;
 
@@ -43,6 +46,7 @@
 #include "leo/free_space_path_loss.h"
 #include "leo/atmospheric_gases_itu.h"
 #include "leo/antenna_pointing_loss.h"
+#include "leo/link_margin.h"
 #include "leo/generic_model.h"
 #include "leo/leo_model.h"
 #include "leo/channel_model.h"
@@ -64,6 +68,7 @@
 %include "leo/free_space_path_loss.h"
 %include "leo/atmospheric_gases_itu.h"
 %include "leo/antenna_pointing_loss.h"
+%include "leo/link_margin.h"
 %include "leo/generic_model.h"
 %include "leo/leo_model.h"
 %include "leo/channel_model.h"
