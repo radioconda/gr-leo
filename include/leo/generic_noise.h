@@ -23,33 +23,30 @@
 
 #include <leo/api.h>
 
-namespace gr
-{
-  namespace leo
-  {
+namespace gr {
+namespace leo {
 
-    class LEO_API generic_noise
-    {
+class LEO_API generic_noise {
 
-    public:
+public:
 
-      typedef boost::shared_ptr<generic_noise> generic_noise_sptr;
+  typedef boost::shared_ptr<generic_noise> generic_noise_sptr;
 
-      generic_noise ();
+  generic_noise();
 
-      virtual
-      ~generic_noise ();
+  virtual
+  ~generic_noise();
 
-      virtual void
-      add_noise (gr_complex* outbuf, const gr_complex* inbuf, size_t num,
-                 float snr, float imp) = 0;
+  virtual void
+  add_noise(gr_complex *outbuf, const gr_complex *inbuf, size_t num,
+            float snr, float imp) = 0;
 
-      float
-      measure_signal_power (const gr_complex* inbuf, size_t num);
+  float
+  measure_signal_power(const gr_complex *inbuf, size_t num);
 
-    };
+};
 
-  } // namespace leo
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_GENERIC_NOISE_H */

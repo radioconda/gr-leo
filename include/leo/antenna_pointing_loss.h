@@ -25,36 +25,32 @@
 #include <leo/tracker.h>
 #include <leo/generic_attenuation.h>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace attenuation
-    {
-      /*!
-       * \brief
-       *
-       * \ingroup attenuation
-       */
-      class LEO_API antenna_pointing_loss : virtual public generic_attenuation
-      {
+namespace gr {
+namespace leo {
+namespace attenuation {
+/*!
+ * \brief
+ *
+ * \ingroup attenuation
+ */
+class LEO_API antenna_pointing_loss : virtual public generic_attenuation {
 
-      public:
-        /*!
-         * \brief Return a shared_ptr to a gr::leo::generic_attenuation
-         *
-         * \param tracker_antenna a boost::shared_ptr to the tracker's antenna
-         * \param satellite_antenna a boost::shared_ptr to the satellite's antenna
-         *
-         * \return a boost::shared_ptr<generic_attenuation> pointer
-         */
-        static generic_attenuation::generic_attenuation_sptr
-        make (generic_antenna::generic_antenna_sptr tracker_antenna,
-              generic_antenna::generic_antenna_sptr satellite_antenna);
+public:
+  /*!
+   * \brief Return a shared_ptr to a gr::leo::generic_attenuation
+   *
+   * \param tracker_antenna a boost::shared_ptr to the tracker's antenna
+   * \param satellite_antenna a boost::shared_ptr to the satellite's antenna
+   *
+   * \return a boost::shared_ptr<generic_attenuation> pointer
+   */
+  static generic_attenuation::generic_attenuation_sptr
+  make(generic_antenna::generic_antenna_sptr tracker_antenna,
+       generic_antenna::generic_antenna_sptr satellite_antenna);
 
-      };
-    } // namespace attenuation
-  } // namespace leo
+};
+} // namespace attenuation
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_ANTENNA_POINTING_LOSS_H */

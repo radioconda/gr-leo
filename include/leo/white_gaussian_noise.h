@@ -25,36 +25,32 @@
 #include <gnuradio/random.h>
 #include <include/leo/generic_noise.h>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace noise
-    {
+namespace gr {
+namespace leo {
+namespace noise {
 
-      class LEO_API white_gaussian_noise : virtual public generic_noise
-      {
+class LEO_API white_gaussian_noise : virtual public generic_noise {
 
-      public:
+public:
 
-        static generic_noise_sptr
-        make ();
+  static generic_noise_sptr
+  make();
 
-        white_gaussian_noise ();
+  white_gaussian_noise();
 
-        virtual
-        ~white_gaussian_noise ();
+  virtual
+  ~white_gaussian_noise();
 
-        void
-        add_noise (gr_complex* outbuf, const gr_complex* inbuf, size_t num,
-                   float snr, float imp);
+  void
+  add_noise(gr_complex *outbuf, const gr_complex *inbuf, size_t num,
+            float snr, float imp);
 
-      private:
-        gr::random d_rng;
+private:
+  gr::random d_rng;
 
-      };
-    } // namespace noise
-  } // namespace leo
+};
+} // namespace noise
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_WHITE_GAUSSIAN_NOISE_H */

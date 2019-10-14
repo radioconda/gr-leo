@@ -26,94 +26,92 @@
 #include <leo/satellite.h>
 #include <iostream>
 
-namespace gr
+namespace gr {
+namespace leo {
+
+satellite::satellite_sptr
+satellite::make(const std::string &tle_title, const std::string &tle_1,
+                const std::string &tle_2, const float freq_tx,
+                const float freq_rx,
+                generic_antenna::generic_antenna_sptr tx_antenna,
+                generic_antenna::generic_antenna_sptr rx_antenna)
 {
-  namespace leo
-  {
-
-    satellite::satellite_sptr
-    satellite::make (const std::string& tle_title, const std::string& tle_1,
-                     const std::string& tle_2, const float freq_tx,
-                     const float freq_rx,
-                     generic_antenna::generic_antenna_sptr tx_antenna,
-                     generic_antenna::generic_antenna_sptr rx_antenna)
-    {
-      return satellite::satellite_sptr (
-          new satellite (tle_title, tle_1, tle_2, freq_tx, freq_rx,
+  return satellite::satellite_sptr(
+           new satellite(tle_title, tle_1, tle_2, freq_tx, freq_rx,
                          tx_antenna, rx_antenna));
-    }
+}
 
-    satellite::satellite (
-        const std::string& tle_title, const std::string& tle_1,
-        const std::string& tle_2, const float comm_freq_tx,
-        const float comm_freq_rx,
-        generic_antenna::generic_antenna_sptr tx_antenna,
-        generic_antenna::generic_antenna_sptr rx_antenna) :
-            d_tle_title (tle_title),
-            d_tle_1 (tle_1),
-            d_tle_2 (tle_2),
-            d_comm_freq_tx (comm_freq_tx),
-            d_comm_freq_rx (comm_freq_rx),
-            d_tx_antenna (tx_antenna),
-            d_rx_antenna (rx_antenna)
-    {
+satellite::satellite(
+  const std::string &tle_title, const std::string &tle_1,
+  const std::string &tle_2, const float comm_freq_tx,
+  const float comm_freq_rx,
+  generic_antenna::generic_antenna_sptr tx_antenna,
+  generic_antenna::generic_antenna_sptr rx_antenna) :
+  d_tle_title(tle_title),
+  d_tle_1(tle_1),
+  d_tle_2(tle_2),
+  d_comm_freq_tx(comm_freq_tx),
+  d_comm_freq_rx(comm_freq_rx),
+  d_tx_antenna(tx_antenna),
+  d_rx_antenna(rx_antenna)
+{
 
-      my_id = base_unique_id++;
-    }
+  my_id = base_unique_id++;
+}
 
-    satellite::~satellite ()
-    {
-    }
+satellite::~satellite()
+{
+}
 
-    int satellite::base_unique_id = 1;
+int satellite::base_unique_id = 1;
 
-    int
-    satellite::unique_id ()
-    {
-      return my_id;
-    }
+int
+satellite::unique_id()
+{
+  return my_id;
+}
 
-    const float
-    satellite::get_comm_freq_rx () const
-    {
-      return d_comm_freq_rx;
-    }
+const float
+satellite::get_comm_freq_rx() const
+{
+  return d_comm_freq_rx;
+}
 
-    const float
-    satellite::get_comm_freq_tx () const
-    {
-      return d_comm_freq_tx;
-    }
+const float
+satellite::get_comm_freq_tx() const
+{
+  return d_comm_freq_tx;
+}
 
-    const std::string&
-    satellite::get_tle_1 () const
-    {
-      return d_tle_1;
-    }
+const std::string &
+satellite::get_tle_1() const
+{
+  return d_tle_1;
+}
 
-    const std::string&
-    satellite::get_tle_2 () const
-    {
-      return d_tle_2;
-    }
+const std::string &
+satellite::get_tle_2() const
+{
+  return d_tle_2;
+}
 
-    const std::string&
-    satellite::get_tle_title () const
-    {
-      return d_tle_title;
-    }
+const std::string &
+satellite::get_tle_title() const
+{
+  return d_tle_title;
+}
 
-    generic_antenna::generic_antenna_sptr
-    satellite::get_tx_antenna ()
-    {
-      return d_tx_antenna;
-    }
+generic_antenna::generic_antenna_sptr
+satellite::get_tx_antenna()
+{
+  return d_tx_antenna;
+}
 
-    generic_antenna::generic_antenna_sptr
-    satellite::get_rx_antenna ()
-    {
-      return d_rx_antenna;
-    }
+generic_antenna::generic_antenna_sptr
+satellite::get_rx_antenna()
+{
+  return d_rx_antenna;
+}
 
-  } /* namespace leo */
+} /* namespace leo */
 } /* namespace gr */

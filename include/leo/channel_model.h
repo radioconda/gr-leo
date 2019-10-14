@@ -26,40 +26,37 @@
 #include <gnuradio/sync_block.h>
 #include <string>
 
-namespace gr
-{
-  namespace leo
-  {
+namespace gr {
+namespace leo {
 
-    /*!
-     * \brief General channel model block that takes in a model
-     * variable object (derived from gr::leo::general_model) for use
-     * in a flowgraph.
-     *
-     * \details
-     * This block uses a model variable object (derived from
-     * gr::leo::generic_model) to simulate different space channels in a
-     * flowgraph. The model variable takes the incoming signal and
-     * applies the appropriate signal effects and attenuation according
-     * to the described channel.
-     */
-    class LEO_API channel_model : virtual public gr::sync_block
-    {
-    public:
-      typedef boost::shared_ptr<channel_model> sptr;
-      /*!
-       * \brief Return a shared_ptr to a new instance of leo::channel_model.
-       *
-       * \param sample_rate The sampling rate of the block
-       * \param model An LEO_API model object (See gr::leo::generic_model)
-       */
-      static sptr
-      make (const float sample_rate, generic_model::generic_model_sptr model,
-            const uint8_t noise_type, float snr = 0, float imp=1);
+/*!
+ * \brief General channel model block that takes in a model
+ * variable object (derived from gr::leo::general_model) for use
+ * in a flowgraph.
+ *
+ * \details
+ * This block uses a model variable object (derived from
+ * gr::leo::generic_model) to simulate different space channels in a
+ * flowgraph. The model variable takes the incoming signal and
+ * applies the appropriate signal effects and attenuation according
+ * to the described channel.
+ */
+class LEO_API channel_model : virtual public gr::sync_block {
+public:
+  typedef boost::shared_ptr<channel_model> sptr;
+  /*!
+   * \brief Return a shared_ptr to a new instance of leo::channel_model.
+   *
+   * \param sample_rate The sampling rate of the block
+   * \param model An LEO_API model object (See gr::leo::generic_model)
+   */
+  static sptr
+  make(const float sample_rate, generic_model::generic_model_sptr model,
+       const uint8_t noise_type, float snr = 0, float imp = 1);
 
-    };
+};
 
-  } // namespace leo
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_CHANNEL_MODEL_H */

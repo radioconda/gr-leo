@@ -25,29 +25,27 @@
 #include <gnuradio/io_signature.h>
 #include <include/leo/generic_noise.h>
 
-namespace gr
+namespace gr {
+namespace leo {
+
+generic_noise::generic_noise()
 {
-  namespace leo
-  {
+}
 
-    generic_noise::generic_noise ()
-    {
-    }
+generic_noise::~generic_noise()
+{
+}
 
-    generic_noise::~generic_noise ()
-    {
-    }
+float
+generic_noise::measure_signal_power(const gr_complex *inbuf, size_t num)
+{
+  float sum = 0;
 
-    float
-    generic_noise::measure_signal_power (const gr_complex* inbuf, size_t num)
-    {
-      float sum = 0;
+  for (size_t i = 0; i < num; i++) {
+    sum += pow(abs(inbuf[i]), 2);
+  }
+  return sum / num;
+}
 
-      for (size_t i = 0; i < num; i++) {
-        sum += pow (abs (inbuf[i]), 2);
-      }
-      return sum / num;
-    }
-
-  } /* namespace leo */
+} /* namespace leo */
 } /* namespace gr */

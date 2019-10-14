@@ -25,38 +25,35 @@
 #include <leo/generic_attenuation.h>
 #include <string>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace attenuation
-    {
-      /*!
-       * \brief Atmospheric gas following the method described in
-       * Radiowave Propagation in Satellite Communications,
-       * Louis J. Ippolito Jr, 1986. The method is
-       * valid for the frequency range 1-350 GHz.
-       *
-       * \ingroup attenuation
-       */
-      class LEO_API atmospheric_gases_regression : virtual public generic_attenuation
-      {
+namespace gr {
+namespace leo {
+namespace attenuation {
+/*!
+ * \brief Atmospheric gas following the method described in
+ * Radiowave Propagation in Satellite Communications,
+ * Louis J. Ippolito Jr, 1986. The method is
+ * valid for the frequency range 1-350 GHz.
+ *
+ * \ingroup attenuation
+ */
+class LEO_API atmospheric_gases_regression : virtual public
+  generic_attenuation {
 
-      public:
-        /*!
-         * \brief Return a shared_ptr to a gr::leo::generic_attenuation
-         *
-         * \param watervap Water vapour density in g/m3
-         * \param temperature Surface temperature in Celsius
-         *
-         * \return a boost::shared_ptr<generic_attenuation> pointer
-         */
-        static generic_attenuation::generic_attenuation_sptr
-        make (float watervap, float temperature);
+public:
+  /*!
+   * \brief Return a shared_ptr to a gr::leo::generic_attenuation
+   *
+   * \param watervap Water vapour density in g/m3
+   * \param temperature Surface temperature in Celsius
+   *
+   * \return a boost::shared_ptr<generic_attenuation> pointer
+   */
+  static generic_attenuation::generic_attenuation_sptr
+  make(float watervap, float temperature);
 
-      };
-    } // namespace attenuation
-  } // namespace leo
+};
+} // namespace attenuation
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_ATMOSPHERIC_GASES_REGRESSION_H */

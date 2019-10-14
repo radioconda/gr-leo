@@ -24,28 +24,24 @@
 #include <leo/api.h>
 #include <leo/generic_attenuation.h>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace attenuation
-    {
-      /*!
-       * \brief Precipitation loss following the ITU P.618 recommendation
-       */
-      class LEO_API precipitation_itu : virtual public generic_attenuation
-      {
+namespace gr {
+namespace leo {
+namespace attenuation {
+/*!
+ * \brief Precipitation loss following the ITU P.618 recommendation
+ */
+class LEO_API precipitation_itu : virtual public generic_attenuation {
 
-      public:
+public:
 
-        static generic_attenuation::generic_attenuation_sptr
-        make (float rainfall_rate, float tracker_lontitude,
-              float tracker_latitude, float tracker_altitude,
-              impairment_enum_t mode);
+  static generic_attenuation::generic_attenuation_sptr
+  make(float rainfall_rate, float tracker_lontitude,
+       float tracker_latitude, float tracker_altitude,
+       impairment_enum_t mode);
 
-      };
-    } // namespace attenuation
-  } // namespace leo
+};
+} // namespace attenuation
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEOPRECIPITATION_ITU_H */

@@ -1,0 +1,18 @@
+# gr-leo astyle parameters
+--errors-to-stdout
+--lineend=linux
+--preserve-date
+--suffix=none
+--style=stroustrup
+--convert-tabs
+--indent=spaces=2
+--align-pointer=name
+--align-reference=name
+--pad-header
+--add-braces
+--unpad-paren
+--pad-oper
+--pad-comma
+--convert-tabs
+--max-code-length=80
+

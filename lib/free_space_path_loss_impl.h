@@ -24,32 +24,28 @@
 #include "../include/leo/free_space_path_loss.h"
 #include <vector>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace attenuation
-    {
-      /*
-       * Calculate Free-Space path-loss based on ITU R-REC-P.619
-       */
-      class LEO_API free_space_path_loss_impl : public free_space_path_loss
-      {
+namespace gr {
+namespace leo {
+namespace attenuation {
+/*
+ * Calculate Free-Space path-loss based on ITU R-REC-P.619
+ */
+class LEO_API free_space_path_loss_impl : public free_space_path_loss {
 
-      public:
-        free_space_path_loss_impl (float rx_antenna_gain, float tx_antenna_gain);
+public:
+  free_space_path_loss_impl(float rx_antenna_gain, float tx_antenna_gain);
 
-        ~free_space_path_loss_impl ();
+  ~free_space_path_loss_impl();
 
-        float
-        get_attenuation ();
+  float
+  get_attenuation();
 
-      private:
-        float d_rx_antenna_gain;
-        float d_tx_antenna_gain;
-      };
-    } // namespace attenuation
-  } // namespace leo
+private:
+  float d_rx_antenna_gain;
+  float d_tx_antenna_gain;
+};
+} // namespace attenuation
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H */

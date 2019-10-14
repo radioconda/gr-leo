@@ -26,58 +26,56 @@
 #include <leo/white_gaussian_noise.h>
 
 
-namespace gr
-{
-  namespace leo
-  {
+namespace gr {
+namespace leo {
 
-    class channel_model_impl : public channel_model
-    {
-    private:
-      /*!
-       * \brief The sampling rate
-       */
-      const float d_sample_rate;
+class channel_model_impl : public channel_model {
+private:
+  /*!
+   * \brief The sampling rate
+   */
+  const float d_sample_rate;
 
-      /*!
-       * \brief The interval between every orbit calculation that is
-       * done by tracker in microseconds.
-       */
-      float d_time_resolution_us;
+  /*!
+   * \brief The interval between every orbit calculation that is
+   * done by tracker in microseconds.
+   */
+  float d_time_resolution_us;
 
-      /*!
-       * \brief The interval between every orbit calculation that is
-       * done by tracker in samples.
-       */
-      size_t d_time_resolution_samples;
+  /*!
+   * \brief The interval between every orbit calculation that is
+   * done by tracker in samples.
+   */
+  size_t d_time_resolution_samples;
 
-      /*!
-       * \brief A shared pointer to the variable model
-       */
-      generic_model::generic_model_sptr d_model;
+  /*!
+   * \brief A shared pointer to the variable model
+   */
+  generic_model::generic_model_sptr d_model;
 
 
-      uint8_t d_noise_type;
+  uint8_t d_noise_type;
 
 
-      float d_snr;
-      float d_imp;
+  float d_snr;
+  float d_imp;
 
-      generic_noise::generic_noise_sptr d_noise;
+  generic_noise::generic_noise_sptr d_noise;
 
-    public:
-      channel_model_impl (const float sample_rate,
-                          generic_model::generic_model_sptr model, const uint8_t noise_type, float snr=0,
-                          float imp=1);
+public:
+  channel_model_impl(const float sample_rate,
+                     generic_model::generic_model_sptr model, const uint8_t noise_type,
+                     float snr = 0,
+                     float imp = 1);
 
-      ~channel_model_impl ();
+  ~channel_model_impl();
 
-      int
-      work (int noutput_items, gr_vector_const_void_star &input_items,
-            gr_vector_void_star &output_items);
-    };
+  int
+  work(int noutput_items, gr_vector_const_void_star &input_items,
+       gr_vector_void_star &output_items);
+};
 
-  } // namespace leo
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_CHANNEL_MODEL_IMPL_H */

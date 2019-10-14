@@ -45,15 +45,13 @@
  * A struct that contains information about the acquisition of signal (AOS),
  * the loss of signal (LOS) and max elevation of a satellite pass.
  */
-typedef struct
-{
+typedef struct {
   std::string aos;
   std::string los;
   double max_elevation;
 } pass_details_t;
 
-enum impairment_enum_t
-{
+enum impairment_enum_t {
   IMPAIRMENT_NONE = 0,
   ATMO_GASES_ITU,
   ATMO_GASES_REGRESSION,
@@ -64,14 +62,12 @@ enum impairment_enum_t
   DOPPLER_SHIFT
 };
 
-enum noise_t
-{
+enum noise_t {
   NOISE_NONE = 0,
   WHITE_GAUSSIAN
 };
 
-enum polarization_t
-{
+enum polarization_t {
   RHCP = 0, LHCP, LINEAR_VERTICAL, LINEAR_HORIZONTAL
 };
 

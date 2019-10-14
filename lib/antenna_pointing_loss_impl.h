@@ -23,32 +23,29 @@
 
 #include "../include/leo/antenna_pointing_loss.h"
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace attenuation
-    {
+namespace gr {
+namespace leo {
+namespace attenuation {
 
-      class LEO_API antenna_pointing_loss_impl : public antenna_pointing_loss
-      {
+class LEO_API antenna_pointing_loss_impl : public antenna_pointing_loss {
 
-      public:
-        antenna_pointing_loss_impl (generic_antenna::generic_antenna_sptr tracker_antenna,
-                                    generic_antenna::generic_antenna_sptr satellite_antenna);
+public:
+  antenna_pointing_loss_impl(generic_antenna::generic_antenna_sptr
+                             tracker_antenna,
+                             generic_antenna::generic_antenna_sptr satellite_antenna);
 
-        ~antenna_pointing_loss_impl ();
+  ~antenna_pointing_loss_impl();
 
-        float
-        get_attenuation ();
+  float
+  get_attenuation();
 
-      private:
-        generic_antenna::generic_antenna_sptr d_tracker_antenna;
-        generic_antenna::generic_antenna_sptr d_satellite_antenna;
+private:
+  generic_antenna::generic_antenna_sptr d_tracker_antenna;
+  generic_antenna::generic_antenna_sptr d_satellite_antenna;
 
-      };
-    } // namespace attenuation
-  } // namespace leo
+};
+} // namespace attenuation
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_ANTENNA_POINTING_LOSS_IMPL_H */

@@ -26,84 +26,81 @@
 #include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
 
-namespace gr
-{
-  namespace leo
-  {
+namespace gr {
+namespace leo {
 
-    /*!
-     * \brief Parent class for attenuation objects.
-     *
-     * \details This is an abstract class that must be derived by
-     * other classes in order to simulate a specific type of attenuation.
-     * Holds information, in the form of static variables, about the operating frequency,
-     * the elevation angle, the slant range and the polarization of the tracker
-     * at a specific time instance.
-     *
-     * Each derived class must implement the pure virtual function get_attenuation
-     * according to the attenuation it describes, using the static variables of the
-     * parent class.
-     *
-     */
-    class LEO_API generic_attenuation
-    {
+/*!
+ * \brief Parent class for attenuation objects.
+ *
+ * \details This is an abstract class that must be derived by
+ * other classes in order to simulate a specific type of attenuation.
+ * Holds information, in the form of static variables, about the operating frequency,
+ * the elevation angle, the slant range and the polarization of the tracker
+ * at a specific time instance.
+ *
+ * Each derived class must implement the pure virtual function get_attenuation
+ * according to the attenuation it describes, using the static variables of the
+ * parent class.
+ *
+ */
+class LEO_API generic_attenuation {
 
-    public:
+public:
 
-      /*!
-       * \brief Get the estimated attenuation. This pure virtual
-       * function MUST be implemented by every derived class.
-       * \return the attenuation in dB.
-       */
-      virtual float
-      get_attenuation () = 0;
+  /*!
+   * \brief Get the estimated attenuation. This pure virtual
+   * function MUST be implemented by every derived class.
+   * \return the attenuation in dB.
+   */
+  virtual float
+  get_attenuation() = 0;
 
-      /*!
-       * \brief Set frequency static variable
-       * \param freq The frequency in Hz
-       */
-      static void
-      set_frequency (float freq);
+  /*!
+   * \brief Set frequency static variable
+   * \param freq The frequency in Hz
+   */
+  static void
+  set_frequency(float freq);
 
-      /*!
-       * \brief Set slant range static variable
-       * \param range The range in km
-       */
-      static void
-      set_slant_range (float range);
+  /*!
+   * \brief Set slant range static variable
+   * \param range The range in km
+   */
+  static void
+  set_slant_range(float range);
 
-      /*!
-       * \brief Set polarization static variable
-       * \param polar The polarization enumeration
-       */
-      static void
-      set_polarization (uint8_t polar);
+  /*!
+   * \brief Set polarization static variable
+   * \param polar The polarization enumeration
+   */
+  static void
+  set_polarization(uint8_t polar);
 
-      /*!
-       * \brief Set elevation angle static variable
-       * \param elev_angle The elevation angle in radians
-       */
-      static void
-      set_elevation_angle (float elev_angle);
+  /*!
+   * \brief Set elevation angle static variable
+   * \param elev_angle The elevation angle in radians
+   */
+  static void
+  set_elevation_angle(float elev_angle);
 
-      typedef boost::shared_ptr<generic_attenuation> generic_attenuation_sptr;
+  typedef boost::shared_ptr<generic_attenuation> generic_attenuation_sptr;
 
-      static generic_attenuation::generic_attenuation_sptr
-      make ();
+  static generic_attenuation::generic_attenuation_sptr
+  make();
 
-      generic_attenuation ();
+  generic_attenuation();
 
-      virtual
-      ~generic_attenuation ();
+  virtual
+  ~generic_attenuation();
 
-    protected:
-      static float frequency;
-      static float elevation_angle;
-      static float slant_range;
-      static uint8_t polarization;
-    };
+protected:
+  static float frequency;
+  static float elevation_angle;
+  static float slant_range;
+  static uint8_t polarization;
+};
 
-  } // namespace leo
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_GENERIC_ATTENUATION_H */

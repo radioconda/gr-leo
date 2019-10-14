@@ -24,49 +24,45 @@
 #include <leo/api.h>
 #include <leo/generic_attenuation.h>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace attenuation
-    {
-      /*!
-       * \brief This class represents the attenuation induced by
-       * atmospheric gases along the slant path between the ground station and the
-       * orbiting satellite.
-       *
-       * \ingroup attenuation
-       *
-       * \details The implementation follows the method described in the
-       * Annex 1 of the ITU P.676 recommendation, that provides an estimate of gaseous
-       * attenuation computed by a summation of individual absorption lines. The method is
-       * valid for the frequency range 1-1000 GHz.
-       *
-       * A reference standard atmosphere as described in ITU P.835-6 is used in order
-       * to calculate the pressure, temperature and water-vapour pressure along the
-       * atmospheric path.
-       *
-       * Also ITU P.435 is used to extract the atmospheric radio refractive index using
-       * the reference standard atmosphere.
-       */
-      class LEO_API atmospheric_gases_itu : virtual public generic_attenuation
-      {
+namespace gr {
+namespace leo {
+namespace attenuation {
+/*!
+ * \brief This class represents the attenuation induced by
+ * atmospheric gases along the slant path between the ground station and the
+ * orbiting satellite.
+ *
+ * \ingroup attenuation
+ *
+ * \details The implementation follows the method described in the
+ * Annex 1 of the ITU P.676 recommendation, that provides an estimate of gaseous
+ * attenuation computed by a summation of individual absorption lines. The method is
+ * valid for the frequency range 1-1000 GHz.
+ *
+ * A reference standard atmosphere as described in ITU P.835-6 is used in order
+ * to calculate the pressure, temperature and water-vapour pressure along the
+ * atmospheric path.
+ *
+ * Also ITU P.435 is used to extract the atmospheric radio refractive index using
+ * the reference standard atmosphere.
+ */
+class LEO_API atmospheric_gases_itu : virtual public generic_attenuation {
 
-      public:
+public:
 
-        /*!
-         * \brief Return a shared_ptr to a gr::leo::generic_attenuation
-         *
-         * \param surface_watervap_density Water vapour density in g/m3
-         *
-         * \return a boost::shared_ptr<generic_attenuation> pointer
-         */
-        static generic_attenuation::generic_attenuation_sptr
-        make (float surface_watervap_density);
+  /*!
+   * \brief Return a shared_ptr to a gr::leo::generic_attenuation
+   *
+   * \param surface_watervap_density Water vapour density in g/m3
+   *
+   * \return a boost::shared_ptr<generic_attenuation> pointer
+   */
+  static generic_attenuation::generic_attenuation_sptr
+  make(float surface_watervap_density);
 
-      };
-    } // namespace attenuation
-  } // namespace leo
+};
+} // namespace attenuation
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_ATMOSPHERIC_GASES_ITU_H */

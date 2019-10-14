@@ -24,39 +24,35 @@
 #include <leo/api.h>
 #include <leo/generic_attenuation.h>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace attenuation
-    {
-      /*!
-       * \brief This class represents the attenuation of a signal due to the
-       * Free Space path-loss. The attenuation depends only on the path length
-       * measured in km and on the frequency in GHz, as it described in the
-       * ITU P.619 recommendation. The formula also takes into consideration the
-       * RX and TX antenna gains.
-       *
-       * \ingroup attenuation
-       */
-      class LEO_API free_space_path_loss : virtual public generic_attenuation
-      {
+namespace gr {
+namespace leo {
+namespace attenuation {
+/*!
+ * \brief This class represents the attenuation of a signal due to the
+ * Free Space path-loss. The attenuation depends only on the path length
+ * measured in km and on the frequency in GHz, as it described in the
+ * ITU P.619 recommendation. The formula also takes into consideration the
+ * RX and TX antenna gains.
+ *
+ * \ingroup attenuation
+ */
+class LEO_API free_space_path_loss : virtual public generic_attenuation {
 
-      public:
-        /*!
-         * \brief Return a shared_ptr to a gr::leo::generic_attenuation
-         *
-         * \param rx_antenna_gain The RX gain in dBiC
-         * \param tx_antenna_gain The TX gain in dBiC
-         *
-         * \return a boost::shared_ptr<generic_attenuation> pointer
-         */
-        static generic_attenuation::generic_attenuation_sptr
-        make (float rx_antenna_gain, float tx_antenna_gain);
+public:
+  /*!
+   * \brief Return a shared_ptr to a gr::leo::generic_attenuation
+   *
+   * \param rx_antenna_gain The RX gain in dBiC
+   * \param tx_antenna_gain The TX gain in dBiC
+   *
+   * \return a boost::shared_ptr<generic_attenuation> pointer
+   */
+  static generic_attenuation::generic_attenuation_sptr
+  make(float rx_antenna_gain, float tx_antenna_gain);
 
-      };
-    } // namespace attenuation
-  } // namespace leo
+};
+} // namespace attenuation
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_FREE_SPACE_PATH_LOSS_H */

@@ -27,135 +27,132 @@
 #include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
 
-namespace gr
-{
-  namespace leo
-  {
+namespace gr {
+namespace leo {
 
-    /**
-     * \brief Satellite represents a satellite in orbit.
-     * \ingroup satellite
-     * Satellite holds all the information related to the satellite orbiting the Earth, such the
-     * Two-Line Element (TLE), the operating frequencies and the antenna setup.
-     *
-     * In order to parse the TLE and extract its information, the Satellite constructor
-     * calls appropriately the API of <a href="https://www.danrw.com/sgp4">C++ SGP4</a>.
-     */
-    class LEO_API satellite
-    {
-    public:
-      static int base_unique_id;
+/**
+ * \brief Satellite represents a satellite in orbit.
+ * \ingroup satellite
+ * Satellite holds all the information related to the satellite orbiting the Earth, such the
+ * Two-Line Element (TLE), the operating frequencies and the antenna setup.
+ *
+ * In order to parse the TLE and extract its information, the Satellite constructor
+ * calls appropriately the API of <a href="https://www.danrw.com/sgp4">C++ SGP4</a>.
+ */
+class LEO_API satellite {
+public:
+  static int base_unique_id;
 
-      int my_id;
+  int my_id;
 
-      int
-      unique_id ();
+  int
+  unique_id();
 
-    public:
-      typedef boost::shared_ptr<satellite> satellite_sptr;
+public:
+  typedef boost::shared_ptr<satellite> satellite_sptr;
 
-      /*!
-       * \param tle_title The title segment of TLE
-       * \param tle_1 The first line of TLE
-       * \param tle_2 The second line of TLE
-       * \param comm_freq_tx The operating tx frequency
-       * \param comm_freq_rx The operating rx frequency
-       * \param tx_antenna A boost::shared_ptr to the tx antenna
-       * \param rx_antenna A boost::shared_ptr to the rx antenna
-       *
-       * \return a boost::shared_ptr to the constructed tracker object.
-       */
-      static satellite_sptr
-      make (const std::string& tle_title, const std::string& tle_1,
-            const std::string& tle_2, const float comm_freq_tx,
+  /*!
+   * \param tle_title The title segment of TLE
+   * \param tle_1 The first line of TLE
+   * \param tle_2 The second line of TLE
+   * \param comm_freq_tx The operating tx frequency
+   * \param comm_freq_rx The operating rx frequency
+   * \param tx_antenna A boost::shared_ptr to the tx antenna
+   * \param rx_antenna A boost::shared_ptr to the rx antenna
+   *
+   * \return a boost::shared_ptr to the constructed tracker object.
+   */
+  static satellite_sptr
+  make(const std::string &tle_title, const std::string &tle_1,
+       const std::string &tle_2, const float comm_freq_tx,
+       const float comm_freq_rx,
+       generic_antenna::generic_antenna_sptr tx_antenna,
+       generic_antenna::generic_antenna_sptr rx_antenna);
+
+  /*!
+   * \brief The constructor of satellite class
+   *
+   * \param tle_title The title segment of TLE
+   * \param tle_1 The first line of TLE
+   * \param tle_2 The second line of TLE
+   * \param comm_freq_tx The operating TX frequency
+   * \param comm_freq_rx The operating RX frequency
+   * \param tx_antenna A boost::shared_ptr to the TX antenna
+   * \param rx_antenna A boost::shared_ptr to the RX antenna
+   *
+   * \return a boost::shared_ptr to the constructed tracker object.
+   */
+  satellite(const std::string &tle_title, const std::string &tle_1,
+            const std::string &tle_2, const float comm_freq_tx,
             const float comm_freq_rx,
             generic_antenna::generic_antenna_sptr tx_antenna,
             generic_antenna::generic_antenna_sptr rx_antenna);
 
-      /*!
-       * \brief The constructor of satellite class
-       *
-       * \param tle_title The title segment of TLE
-       * \param tle_1 The first line of TLE
-       * \param tle_2 The second line of TLE
-       * \param comm_freq_tx The operating TX frequency
-       * \param comm_freq_rx The operating RX frequency
-       * \param tx_antenna A boost::shared_ptr to the TX antenna
-       * \param rx_antenna A boost::shared_ptr to the RX antenna
-       *
-       * \return a boost::shared_ptr to the constructed tracker object.
-       */
-      satellite (const std::string& tle_title, const std::string& tle_1,
-                 const std::string& tle_2, const float comm_freq_tx,
-                 const float comm_freq_rx,
-                 generic_antenna::generic_antenna_sptr tx_antenna,
-                 generic_antenna::generic_antenna_sptr rx_antenna);
+  ~satellite();
 
-      ~satellite ();
+  /*!
+   * Returns the RX frequency of the satellite's COMM system.
+   * @return the frequency in Hz.
+   */
+  const float
+  get_comm_freq_rx() const;
 
-      /*!
-       * Returns the RX frequency of the satellite's COMM system.
-       * @return the frequency in Hz.
-       */
-      const float
-      get_comm_freq_rx () const;
+  /*!
+   * Returns the TX frequency of the satellite's COMM system.
+   * @return the frequency in Hz.
+   */
+  const float
+  get_comm_freq_tx() const;
 
-      /*!
-       * Returns the TX frequency of the satellite's COMM system.
-       * @return the frequency in Hz.
-       */
-      const float
-      get_comm_freq_tx () const;
+  /*!
+   * Returns the first line of the TLE.
+   * @return a std::string representing the first line of the TLE
+   */
+  const std::string &
+  get_tle_1() const;
 
-      /*!
-       * Returns the first line of the TLE.
-       * @return a std::string representing the first line of the TLE
-       */
-      const std::string&
-      get_tle_1 () const;
+  /*!
+   * Returns the second line of the TLE.
+   * @return a std::string representing the second line of the TLE
+   */
+  const std::string &
+  get_tle_2() const;
 
-      /*!
-       * Returns the second line of the TLE.
-       * @return a std::string representing the second line of the TLE
-       */
-      const std::string&
-      get_tle_2 () const;
+  /*!
+   * Returns the title segment of the TLE.
+   * @return a std::string representing the TLE title
+   */
+  const std::string &
+  get_tle_title() const;
 
-      /*!
-       * Returns the title segment of the TLE.
-       * @return a std::string representing the TLE title
-       */
-      const std::string&
-      get_tle_title () const;
+  /*!
+   * Returns the antenna that is used from the satellite's TX COMM system.
+   * @return a boost::shared_ptr to the antenna.
+   */
+  generic_antenna::generic_antenna_sptr
+  get_tx_antenna();
 
-      /*!
-       * Returns the antenna that is used from the satellite's TX COMM system.
-       * @return a boost::shared_ptr to the antenna.
-       */
-      generic_antenna::generic_antenna_sptr
-      get_tx_antenna ();
+  /*!
+   * Returns the antenna that is used from the satellite's RX COMM system.
+   * @return a boost::shared_ptr to the antenna.
+   */
+  generic_antenna::generic_antenna_sptr
+  get_rx_antenna();
 
-      /*!
-       * Returns the antenna that is used from the satellite's RX COMM system.
-       * @return a boost::shared_ptr to the antenna.
-       */
-      generic_antenna::generic_antenna_sptr
-      get_rx_antenna ();
+private:
+  std::string d_tle_title;
+  std::string d_tle_1;
+  std::string d_tle_2;
 
-    private:
-      std::string d_tle_title;
-      std::string d_tle_1;
-      std::string d_tle_2;
+  const float d_comm_freq_tx;
+  const float d_comm_freq_rx;
 
-      const float d_comm_freq_tx;
-      const float d_comm_freq_rx;
+  generic_antenna::generic_antenna_sptr d_tx_antenna;
+  generic_antenna::generic_antenna_sptr d_rx_antenna;
 
-      generic_antenna::generic_antenna_sptr d_tx_antenna;
-      generic_antenna::generic_antenna_sptr d_rx_antenna;
+};
 
-    };
-
-  } // namespace leo
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_SATELLITE_H */

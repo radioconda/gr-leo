@@ -28,66 +28,63 @@
 #include <cmath>
 #include <limits>
 
-namespace gr
+namespace gr {
+namespace leo {
+namespace antenna {
+
+generic_antenna::generic_antenna_sptr
+monopole_antenna::make(uint8_t type, float frequency, int polarization,
+                       float pointing_error)
 {
-  namespace leo
-  {
-    namespace antenna
-    {
+  return generic_antenna::generic_antenna_sptr(
+           new monopole_antenna_impl(type, frequency, polarization,
+                                     pointing_error));
+}
 
-      generic_antenna::generic_antenna_sptr
-      monopole_antenna::make (uint8_t type, float frequency, int polarization,
-                              float pointing_error)
-      {
-        return generic_antenna::generic_antenna_sptr (
-            new monopole_antenna_impl (type, frequency, polarization,
-                                       pointing_error));
-      }
+monopole_antenna_impl::monopole_antenna_impl(uint8_t type,
+    float frequency,
+    int polarization,
+    float pointing_error) :
+  generic_antenna(MONOPOLE, frequency, polarization, pointing_error)
+{
+  LEO_DEBUG("MONOPOLE");
+  LEO_DEBUG("Maximum Gain: %f", get_gain());
+  LEO_DEBUG("Beamwidth: %f", get_beamwidth());
+}
 
-      monopole_antenna_impl::monopole_antenna_impl (uint8_t type,
-                                                    float frequency,
-                                                    int polarization,
-                                                    float pointing_error) :
-              generic_antenna (MONOPOLE, frequency, polarization, pointing_error)
-      {
-        LEO_DEBUG("MONOPOLE");
-        LEO_DEBUG("Maximum Gain: %f", get_gain ());
-        LEO_DEBUG("Beamwidth: %f", get_beamwidth ());
-      }
+monopole_antenna_impl::~monopole_antenna_impl()
+{
+}
 
-      monopole_antenna_impl::~monopole_antenna_impl ()
-      {
-      }
+float
+monopole_antenna_impl::get_gain()
+{
+  return 2.15;
+}
 
-      float
-      monopole_antenna_impl::get_gain ()
-      {
-        return 2.15;
-      }
+float
+monopole_antenna_impl::get_gain_rolloff()
+{
+  float error_deg = utils::radians_to_degrees(d_pointing_error);
+  if (error_deg < 100) {
+    if (!error_deg) {
+      return 162.1;
+    }
+    return -10 * std::log10(std::cos(utils::degrees_to_radians(90 - error_deg)));
+  }
+  else {
+    LEO_WARN("No signal. Monopole antenna's pointing error > 100");
+    return std::numeric_limits<double>::infinity();
+  }
+}
 
-      float
-      monopole_antenna_impl::get_gain_rolloff ()
-      {
-        float error_deg = utils::radians_to_degrees (d_pointing_error);
-        if (error_deg < 100) {
-          if (!error_deg) {
-            return 162.1;
-          }
-          return -10 * std::log10 (std::cos (utils::degrees_to_radians(90 - error_deg)));
-        }
-        else {
-          LEO_WARN("No signal. Monopole antenna's pointing error > 100");
-          return std::numeric_limits<double>::infinity();
-        }
-      }
+float
+monopole_antenna_impl::get_beamwidth()
+{
+  return 156.2;
+}
 
-      float
-      monopole_antenna_impl::get_beamwidth ()
-      {
-        return 156.2;
-      }
-
-    } /* namespace antenna */
-  } /* namespace leo */
+} /* namespace antenna */
+} /* namespace leo */
 } /* namespace gr */
 

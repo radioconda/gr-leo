@@ -25,48 +25,45 @@
 #include <gnuradio/io_signature.h>
 #include <include/leo/white_gaussian_noise.h>
 
-namespace gr
+namespace gr {
+namespace leo {
+namespace noise {
+
+generic_noise::generic_noise_sptr
+white_gaussian_noise::make()
 {
-  namespace leo
-  {
-    namespace noise
-    {
+  return generic_noise::generic_noise_sptr(
+           new white_gaussian_noise());
+}
 
-      generic_noise::generic_noise_sptr
-      white_gaussian_noise::make ()
-      {
-        return generic_noise::generic_noise_sptr (
-            new white_gaussian_noise ());
-      }
+white_gaussian_noise::white_gaussian_noise() :
+  generic_noise()
+{
+}
 
-      white_gaussian_noise::white_gaussian_noise () :
-              generic_noise ()
-      {
-      }
+white_gaussian_noise::~white_gaussian_noise()
+{
+}
 
-      white_gaussian_noise::~white_gaussian_noise ()
-      {
-      }
+void
+white_gaussian_noise::add_noise(gr_complex *outbuf, const gr_complex *inbuf,
+                                size_t num, float snr, float imp)
+{
+  gr_complex ns;
+  float snr_linear;
+  float measured;
 
-      void
-      white_gaussian_noise::add_noise (gr_complex* outbuf, const gr_complex* inbuf,
-                                       size_t num, float snr, float imp)
-      {
-        gr_complex ns;
-        float snr_linear;
-        float measured;
+  measured = measure_signal_power(inbuf, num);
 
-        measured = measure_signal_power (inbuf, num);
+  snr_linear = 1000 * pow(10, snr / 10) ;
 
-        snr_linear = 1000 * pow (10, snr / 10) ;
-        
-        for (size_t i = 0; i < num; i++) {
-          ns = gr_complex(sqrt ((imp*snr_linear) / 2))
-              * gr_complex (d_rng.gasdev (), d_rng.gasdev ());
-          outbuf[i] = inbuf[i] + ns;
-        }
-        
-      }
-    } // namespace noise
-  } /* namespace leo */
+  for (size_t i = 0; i < num; i++) {
+    ns = gr_complex(sqrt((imp * snr_linear) / 2))
+         * gr_complex(d_rng.gasdev(), d_rng.gasdev());
+    outbuf[i] = inbuf[i] + ns;
+  }
+
+}
+} // namespace noise
+} /* namespace leo */
 } /* namespace gr */

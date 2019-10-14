@@ -25,41 +25,37 @@
 #include <leo/generic_antenna.h>
 #include <string>
 
-namespace gr
-{
-  namespace leo
-  {
-    namespace antenna
-    {
-      /*!
-       * \brief Class that represents a dipole antenna.
-       * \details
-       *
-       * The monopole_antenna class extends the generic_antenna class
-       * to simulate the behavior of a dipole antenna.
-       */
-      class LEO_API dipole_antenna : virtual public generic_antenna
-      {
+namespace gr {
+namespace leo {
+namespace antenna {
+/*!
+ * \brief Class that represents a dipole antenna.
+ * \details
+ *
+ * The monopole_antenna class extends the generic_antenna class
+ * to simulate the behavior of a dipole antenna.
+ */
+class LEO_API dipole_antenna : virtual public generic_antenna {
 
-      public:
+public:
 
-        /*!
-         * \param type The enumeration that defines the type of the antenna
-         * \param frequency The frequency of the antenna in Hz
-         * \param polarization The enumeration that defines the antenna
-         * polarization
-         * \param pointing_error The pointing error of the antenna in degrees.
-         *
-         * \return a boost::shared_ptr to the constructed tracker object.
-         */
-        static generic_antenna::generic_antenna_sptr
-        make (uint8_t type, float frequency, int polarization, float pointing_error);
+  /*!
+   * \param type The enumeration that defines the type of the antenna
+   * \param frequency The frequency of the antenna in Hz
+   * \param polarization The enumeration that defines the antenna
+   * polarization
+   * \param pointing_error The pointing error of the antenna in degrees.
+   *
+   * \return a boost::shared_ptr to the constructed tracker object.
+   */
+  static generic_antenna::generic_antenna_sptr
+  make(uint8_t type, float frequency, int polarization, float pointing_error);
 
-        dipole_antenna(){};
+  dipole_antenna() {};
 
-      };
-    } // namespace antenna
-  } // namespace leo
+};
+} // namespace antenna
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_DIPOLE_ANTENNA_H */

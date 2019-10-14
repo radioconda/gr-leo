@@ -25,43 +25,42 @@
 #include "antenna_pointing_loss_impl.h"
 #include <leo/log.h>
 
-namespace gr
+namespace gr {
+namespace leo {
+namespace attenuation {
+
+generic_attenuation::generic_attenuation_sptr
+antenna_pointing_loss::make(generic_antenna::generic_antenna_sptr
+                            tracker_antenna,
+                            generic_antenna::generic_antenna_sptr satellite_antenna)
 {
-  namespace leo
-  {
-    namespace attenuation
-    {
+  return generic_attenuation::generic_attenuation_sptr(
+           new antenna_pointing_loss_impl(tracker_antenna, satellite_antenna));
+}
 
-      generic_attenuation::generic_attenuation_sptr
-      antenna_pointing_loss::make (generic_antenna::generic_antenna_sptr tracker_antenna,
-                                   generic_antenna::generic_antenna_sptr satellite_antenna)
-      {
-        return generic_attenuation::generic_attenuation_sptr (
-            new antenna_pointing_loss_impl (tracker_antenna, satellite_antenna));
-      }
+antenna_pointing_loss_impl::antenna_pointing_loss_impl(
+  generic_antenna::generic_antenna_sptr tracker_antenna,
+  generic_antenna::generic_antenna_sptr satellite_antenna) :
+  d_tracker_antenna(tracker_antenna),
+  d_satellite_antenna(satellite_antenna),
+  generic_attenuation()
+{
+}
 
-      antenna_pointing_loss_impl::antenna_pointing_loss_impl (generic_antenna::generic_antenna_sptr tracker_antenna,
-                                                              generic_antenna::generic_antenna_sptr satellite_antenna) :
-              d_tracker_antenna (tracker_antenna),
-              d_satellite_antenna (satellite_antenna),
-              generic_attenuation ()
-      {
-      }
+antenna_pointing_loss_impl::~antenna_pointing_loss_impl()
+{
+}
 
-      antenna_pointing_loss_impl::~antenna_pointing_loss_impl ()
-      {
-      }
-
-      float
-      antenna_pointing_loss_impl::get_attenuation ()
-      {
-        float attenuation = 0;
+float
+antenna_pointing_loss_impl::get_attenuation()
+{
+  float attenuation = 0;
 //        attenuation += d_tracker_antenna->get_gain_rolloff();
-        attenuation += d_satellite_antenna->get_gain_rolloff();
-        return attenuation;
-      }
+  attenuation += d_satellite_antenna->get_gain_rolloff();
+  return attenuation;
+}
 
-    } /* namespace attenuation */
-  } /* namespace leo */
+} /* namespace attenuation */
+} /* namespace leo */
 } /* namespace gr */
 

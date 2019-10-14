@@ -28,170 +28,166 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/format.hpp>
 
-namespace gr
-{
-  namespace leo
+namespace gr {
+namespace leo {
+
+/*!
+ * \brief Parent class for model objects.
+ *
+ * \details
+ *
+ * Parent of a channel impairment model class that will fit as a
+ * parameter into the gr::leo::channel_model block.
+ *
+ * We create objects from derived classes to go into the
+ * actual GNU Radio channel_model block. Each object describes a different
+ * telecommunication channel and must implement the pure virtual function generic_work,
+ * in which the input signal is attenuated and transformed appropriately.
+ *
+ * A derived model class may declare various gr::leo::generic_attenuation objects
+ * that can be used inside the generic_work, in order to estimate different type of losses.
+ *
+ * \sa gr::fec::model::leo_model
+ */
+class LEO_API generic_model {
+public:
+
+  enum Mode {
+    UPLINK, DOWNLINK
+  };
+
+  friend class channel_model;
+
+  /*!
+   * \brief Pure virtual function that must be implemented by every
+   * derived class and is responsible to apply all the appropriate
+   * transformations and attenuations to the input signal, as they
+   * are described by the corresponding channel model.
+   *
+   * \param inbuffer Pointer to the complex input signal
+   * \param outbuffer Pointer to the complex input signal
+   * \param noutput_items The number of available input samples to
+   * process
+   */
+  virtual void
+  generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
+               int noutput_items) = 0;
+
+  static int base_unique_id;
+
+  std::string d_name;
+
+  int my_id;
+
+  int
+  unique_id();
+
+  std::string
+  alias()
   {
+    return (boost::format("%s%d") % d_name % unique_id()).str();
+  }
 
-    /*!
-     * \brief Parent class for model objects.
-     *
-     * \details
-     *
-     * Parent of a channel impairment model class that will fit as a
-     * parameter into the gr::leo::channel_model block.
-     *
-     * We create objects from derived classes to go into the
-     * actual GNU Radio channel_model block. Each object describes a different
-     * telecommunication channel and must implement the pure virtual function generic_work,
-     * in which the input signal is attenuated and transformed appropriately.
-     *
-     * A derived model class may declare various gr::leo::generic_attenuation objects
-     * that can be used inside the generic_work, in order to estimate different type of losses.
-     *
-     * \sa gr::fec::model::leo_model
-     */
-    class LEO_API generic_model
-    {
-    public:
+  typedef boost::shared_ptr<generic_model> generic_model_sptr;
 
-      enum Mode
-      {
-        UPLINK, DOWNLINK
-      };
+  /*!
+   * \brief The constructor of generic_model class
+   *
+   * \param name The name of the channel model
+   * \param tracker A boost::shared_ptr to the constructed tracker object
+   * \param mode The transmission mode
+   *
+   * \return a boost::shared_ptr to the constructed tracker object
+   */
+  generic_model(std::string name, tracker::tracker_sptr tracker,
+                const uint8_t mode);
 
-      friend class channel_model;
+  generic_model(void) {};
 
-      /*!
-       * \brief Pure virtual function that must be implemented by every
-       * derived class and is responsible to apply all the appropriate
-       * transformations and attenuations to the input signal, as they
-       * are described by the corresponding channel model.
-       *
-       * \param inbuffer Pointer to the complex input signal
-       * \param outbuffer Pointer to the complex input signal
-       * \param noutput_items The number of available input samples to
-       * process
-       */
-      virtual void
-      generic_work (const gr_complex *inbuffer, gr_complex *outbuffer,
-                    int noutput_items) = 0;
+  /*!
+   * \brief Get the tracker object
+   * \return a boost::shared_ptr to the constructed tracker object
+   */
+  tracker::tracker_sptr
+  get_tracker();
 
-      static int base_unique_id;
+  /*!
+   * \brief Get the correct operating frequency based on the transmission mode
+   * \return the frequency in Hz
+   */
+  float
+  get_frequency();
 
-      std::string d_name;
+  /*!
+   * \brief Get the correct polarization based on the transmission mode
+   * \return the polarization enumeration
+   */
+  uint8_t
+  get_polarization();
 
-      int my_id;
+  /*!
+   * \brief Get the appropriate satellite antenna gain for the cases of uplink and
+   * downlink mode.
+   * \return the satellite antenna gain in dBiC.
+   */
+  float
+  get_satellite_antenna_gain();
 
-      int
-      unique_id ();
+  /*!
+   * \brief Get the appropriate satellite antenna for the cases of uplink and
+   * downlink mode.
+   * \return a boost::shared_ptr to the satellite antenna.
+   */
+  generic_antenna::generic_antenna_sptr
+  get_tracker_antenna();
 
-      std::string
-      alias ()
-      {
-        return (boost::format ("%s%d") % d_name % unique_id ()).str ();
-      }
+  /*!
+   * \brief Get the appropriate tracker antenna gain for the cases of uplink and
+   * downlink mode.
+   * \return the tracker antenna gain in dBiC.
+   */
+  float
+  get_tracker_antenna_gain();
 
-      typedef boost::shared_ptr<generic_model> generic_model_sptr;
+  /*!
+   * \brief Get the appropriate tracker antenna for the cases of uplink and
+   * downlink mode.
+   * \return a boost::shared_ptr to the tracker antenna.
+   */
+  generic_antenna::generic_antenna_sptr
+  get_satellite_antenna();
 
-      /*!
-       * \brief The constructor of generic_model class
-       *
-       * \param name The name of the channel model
-       * \param tracker A boost::shared_ptr to the constructed tracker object
-       * \param mode The transmission mode
-       *
-       * \return a boost::shared_ptr to the constructed tracker object
-       */
-      generic_model (std::string name, tracker::tracker_sptr tracker,
-                     const uint8_t mode);
+  /*!
+   * \brief This functions retrieves periodically orbit information from the tracker
+   * and updates the corresponding static variables of the generic_attenuation class.
+   */
+  void
+  orbit_update();
 
-      generic_model(void) {};
+  /*!
+   * \brief Get the model's log as a CSV formatted string.
+   * \return the string log
+   */
+  std::string
+  get_csv_log();
 
-      /*!
-       * \brief Get the tracker object
-       * \return a boost::shared_ptr to the constructed tracker object
-       */
-      tracker::tracker_sptr
-      get_tracker ();
+  virtual void
+  generate_csv_log() = 0;
 
-      /*!
-       * \brief Get the correct operating frequency based on the transmission mode
-       * \return the frequency in Hz
-       */
-      float
-      get_frequency ();
+  virtual
+  ~generic_model();
 
-      /*!
-       * \brief Get the correct polarization based on the transmission mode
-       * \return the polarization enumeration
-       */
-      uint8_t
-      get_polarization ();
+protected:
+  /*!
+   * \brief Represents the uplink or downlink transmission mode
+   */
+  uint8_t d_mode;
+  std::string d_csv_log;
+  tracker::tracker_sptr d_tracker;
 
-      /*!
-       * \brief Get the appropriate satellite antenna gain for the cases of uplink and
-       * downlink mode.
-       * \return the satellite antenna gain in dBiC.
-       */
-      float
-      get_satellite_antenna_gain ();
+};
 
-      /*!
-       * \brief Get the appropriate satellite antenna for the cases of uplink and
-       * downlink mode.
-       * \return a boost::shared_ptr to the satellite antenna.
-       */
-      generic_antenna::generic_antenna_sptr
-      get_tracker_antenna ();
-
-      /*!
-       * \brief Get the appropriate tracker antenna gain for the cases of uplink and
-       * downlink mode.
-       * \return the tracker antenna gain in dBiC.
-       */
-      float
-      get_tracker_antenna_gain ();
-
-      /*!
-       * \brief Get the appropriate tracker antenna for the cases of uplink and
-       * downlink mode.
-       * \return a boost::shared_ptr to the tracker antenna.
-       */
-      generic_antenna::generic_antenna_sptr
-      get_satellite_antenna ();
-
-      /*!
-       * \brief This functions retrieves periodically orbit information from the tracker
-       * and updates the corresponding static variables of the generic_attenuation class.
-       */
-      void
-      orbit_update ();
-
-      /*!
-       * \brief Get the model's log as a CSV formatted string.
-       * \return the string log
-       */
-      std::string
-      get_csv_log ();
-
-      virtual void
-      generate_csv_log () = 0;
-
-      virtual
-      ~generic_model ();
-
-    protected:
-      /*!
-       * \brief Represents the uplink or downlink transmission mode
-       */
-      uint8_t d_mode;
-      std::string d_csv_log;
-      tracker::tracker_sptr d_tracker;
-
-    };
-
-  } // namespace leo
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_GENERIC_MODEL_H */
