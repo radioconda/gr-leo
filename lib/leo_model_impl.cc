@@ -44,7 +44,7 @@ leo_model::make(tracker::tracker_sptr tracker, const uint8_t mode,
                 const uint8_t doppler_shift_enum,
                 const uint8_t atmo_gases_attenuation,
                 const uint8_t precipitation_attenuation,
-                       const uint8_t enable_link_margin,
+                const uint8_t enable_link_margin,
                 const float surface_watervap_density,
                 const float temperature, const float rainfall_rate)
 {
@@ -53,7 +53,7 @@ leo_model::make(tracker::tracker_sptr tracker, const uint8_t mode,
                               pointing_attenuation_enum, doppler_shift_enum,
                               atmo_gases_attenuation,
                               precipitation_attenuation,
-                                enable_link_margin,
+                              enable_link_margin,
                               surface_watervap_density, temperature,
                               rainfall_rate));
 }
@@ -65,7 +65,7 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
                                const uint8_t doppler_shift_enum,
                                const uint8_t atmo_gases_enum,
                                const uint8_t precipitation_enum,
-                                      const uint8_t enable_link_margin,
+                               const uint8_t enable_link_margin,
                                const float surface_watervap_density,
                                const float temperature,
                                const float rainfall_rate) :
@@ -80,26 +80,25 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
   d_write_csv_header(true),
   d_atmo_attenuation(0),
   d_rainfall_attenuation(0),
-              d_pathloss_attenuation (0),
-              d_total_attenuation (0)
+  d_pathloss_attenuation(0),
+  d_total_attenuation(0)
 {
   d_nco.set_freq(0);
 
   orbit_update();
 
-        switch (enable_link_margin)
-          {
-          case true:
-            d_link_margin = link_margin::make ();
-            d_link_margin_db = std::numeric_limits<double>::infinity ();
-            break;
-          case false:
-            break;
-          default:
-            throw std::runtime_error ("Invalid atmospheric gases attenuation!");
-          }
+  switch (enable_link_margin) {
+  case true:
+    d_link_margin = link_margin::make();
+    d_link_margin_db = std::numeric_limits<double>::infinity();
+    break;
+  case false:
+    break;
+  default:
+    throw std::runtime_error("Invalid atmospheric gases attenuation!");
+  }
 
-switch (atmo_gases_enum) {
+  switch (atmo_gases_enum) {
   case ATMO_GASES_ITU:
     d_atmo_gases_attenuation =
       attenuation::atmospheric_gases_itu::make(
@@ -132,7 +131,7 @@ switch (atmo_gases_enum) {
 
   switch (fspl_attenuation_enum) {
   case FREE_SPACE_PATH_LOSS:
-            d_fspl_attenuation = attenuation::free_space_path_loss::make ();
+    d_fspl_attenuation = attenuation::free_space_path_loss::make();
     break;
   case IMPAIRMENT_NONE:
     break;
@@ -168,57 +167,58 @@ leo_model_impl::calculate_doppler_shift(double velocity)
 float
 leo_model_impl::calculate_total_attenuation()
 {
-        d_total_attenuation = 0;
+  d_total_attenuation = 0;
 
   orbit_update();
 
   if (d_atmo_gases_attenuation) {
     d_atmo_attenuation = d_atmo_gases_attenuation->get_attenuation();
-          d_total_attenuation += d_atmo_attenuation;
+    d_total_attenuation += d_atmo_attenuation;
   }
   if (d_precipitation_attenuation) {
     d_rainfall_attenuation =
       d_precipitation_attenuation->get_attenuation();
-          d_total_attenuation += d_rainfall_attenuation;
+    d_total_attenuation += d_rainfall_attenuation;
   }
   if (d_fspl_attenuation) {
     d_pathloss_attenuation = d_fspl_attenuation->get_attenuation();
-          d_total_attenuation += d_pathloss_attenuation;
+    d_total_attenuation += d_pathloss_attenuation;
   }
   if (d_pointing_loss_attenuation) {
     d_pointing_attenuation =
       d_pointing_loss_attenuation->get_attenuation();
-          d_total_attenuation += d_pointing_attenuation;
-        }
-        if (d_link_margin) {
-          estimate_link_margin ();
+    d_total_attenuation += d_pointing_attenuation;
+  }
+  if (d_link_margin) {
+    estimate_link_margin();
   }
 
   generate_csv_log();
 
   LEO_DEBUG(
-            "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | \
+    "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | \
 			Path Loss (dB): %f | Atmospheric Loss (dB): %f | Rainfall Loss\
 			(dB): %f | Pointing Loss (dB): %f |  Doppler (Hz): %f | \
 			Link Margin (dB): %f",
     d_tracker->get_elapsed_time().ToString().c_str(), d_slant_range,
     d_tracker->get_elevation_degrees(), d_pathloss_attenuation,
     d_atmo_attenuation, d_rainfall_attenuation, d_pointing_attenuation,
-            d_doppler_shift, d_link_margin_db);
+    d_doppler_shift, d_link_margin_db);
 
-        return d_total_attenuation;
-      }
+  return d_total_attenuation;
+}
 
-      void
-      leo_model_impl::estimate_link_margin ()
-      {
-        /**
-         * TODO: Fix hardcoded TX power and bandwidth. Also caution because losses
-         * should be negative.
-         */
-        d_link_margin_db = d_link_margin->calc_link_margin (
-            d_total_attenuation, get_satellite_antenna_gain (),
-            get_tracker_antenna_gain (), -3, 19.2e3);
+void
+leo_model_impl::estimate_link_margin()
+{
+  /**
+   * TODO: Fix hardcoded TX power and bandwidth. Also caution because losses
+   * should be negative.
+   */
+  d_link_margin_db = d_link_margin->calc_link_margin(
+                       d_total_attenuation, get_satellite_antenna_gain(),
+                       get_tracker_antenna_gain(), get_tx_power_dbm() - 30,
+                       19.2e3);
 }
 
 void
@@ -229,8 +229,8 @@ leo_model_impl::generate_csv_log()
     stringStream << "Elapsed Time (us)" << "," << "Slant Range (km)"
                  << "," << "Elevation (degrees)" << "," << "Path Loss (dB)" << ","
                  << "Atmospheric Loss (dB)" << "," << "Rainfall Loss (dB)" << ","
-              << "Pointing Loss (dB)" << "," << "Doppler Shift (Hz)" << ","
-              << "Link Margin (dB)";
+                 << "Pointing Loss (dB)" << "," << "Doppler Shift (Hz)" << ","
+                 << "Link Margin (dB)";
     d_write_csv_header = false;
   }
   else {
@@ -239,7 +239,7 @@ leo_model_impl::generate_csv_log()
                  << d_tracker->get_elevation_degrees() << ","
                  << d_pathloss_attenuation << "," << d_atmo_attenuation << ","
                  << d_rainfall_attenuation << "," << d_pointing_attenuation << ","
-              << d_doppler_shift << "," << d_link_margin_db;
+                 << d_doppler_shift << "," << d_link_margin_db;
   }
   d_csv_log = stringStream.str();
 }

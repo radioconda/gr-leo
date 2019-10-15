@@ -59,6 +59,7 @@ public:
    * \param comm_freq_rx The operating rx frequency
    * \param tx_antenna A boost::shared_ptr to the tx antenna
    * \param rx_antenna A boost::shared_ptr to the rx antenna
+   * \param tx_power_dbm The TX power of the satellite in dBm
    *
    * \return a boost::shared_ptr to the constructed tracker object.
    */
@@ -66,6 +67,7 @@ public:
   make(const std::string &tle_title, const std::string &tle_1,
        const std::string &tle_2, const float comm_freq_tx,
        const float comm_freq_rx,
+       const float tx_power_dbm,
        generic_antenna::generic_antenna_sptr tx_antenna,
        generic_antenna::generic_antenna_sptr rx_antenna);
 
@@ -79,12 +81,14 @@ public:
    * \param comm_freq_rx The operating RX frequency
    * \param tx_antenna A boost::shared_ptr to the TX antenna
    * \param rx_antenna A boost::shared_ptr to the RX antenna
+   * \param tx_power_dbm The TX power of the satellite in dBm
    *
    * \return a boost::shared_ptr to the constructed tracker object.
    */
   satellite(const std::string &tle_title, const std::string &tle_1,
             const std::string &tle_2, const float comm_freq_tx,
             const float comm_freq_rx,
+            const float tx_power_dbm,
             generic_antenna::generic_antenna_sptr tx_antenna,
             generic_antenna::generic_antenna_sptr rx_antenna);
 
@@ -139,6 +143,13 @@ public:
   generic_antenna::generic_antenna_sptr
   get_rx_antenna();
 
+  /*!
+   * Returns the TX power of the satellite's COMM system.
+   * @return the TX power in dBm.
+   */
+  const float
+  get_tx_power_dbm() const;
+
 private:
   std::string d_tle_title;
   std::string d_tle_1;
@@ -146,9 +157,11 @@ private:
 
   const float d_comm_freq_tx;
   const float d_comm_freq_rx;
+  const float d_tx_power_dbm;
 
   generic_antenna::generic_antenna_sptr d_tx_antenna;
   generic_antenna::generic_antenna_sptr d_rx_antenna;
+
 
 };
 

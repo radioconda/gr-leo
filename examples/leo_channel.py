@@ -73,31 +73,34 @@ class leo_channel(gr.top_block, Qt.QWidget):
 
 
 
-        self.satellite_rx_antenna = satellite_rx_antenna = leo.quadrifilar_helix_antenna_make(6, 435e6, 3, pointing_error, 0.5)
+        self.satellite_rx_antenna = satellite_rx_antenna = leo.helix_antenna_make(1, 435e6, 3, pointing_error, 10,
+                                            0.25, 1)
 
-        self.variable_satellite_0 = variable_satellite_0 = leo.satellite_make('QB2020', '1 84001U          20001.00000000  .00000000  00000-0  50000-4 0    08', '2 84001  97.0000 156.0000 0001497   0.0000 124.0000 15.90816786    02', 435e6, 435e6, satellite_tx_antenna, satellite_rx_antenna)
+        self.variable_satellite_0 = variable_satellite_0 = leo.satellite_make('QUBIK', '1 84001U          20001.00000000  .00000000  00000-0  50000-4 0    08', '2 84001  97.0000 156.0000 0001497   0.0000 124.0000 15.90816786    02', 435e6, 435e6, 27, satellite_tx_antenna, satellite_rx_antenna)
 
 
         self.tracker_tx_antenna = tracker_tx_antenna = leo.dipole_antenna_make(5, 145.8e6, 0, pointing_error)
 
 
 
-        self.tracker_rx_antenna = tracker_rx_antenna = leo.quadrifilar_helix_antenna_make(6, 435e6, 3, 0, 0.5)
+        self.tracker_rx_antenna = tracker_rx_antenna = leo.helix_antenna_make(1, 435e6, 3, pointing_error, 10,
+                                            0.25, 1)
 
-        self.variable_tracker_0 = variable_tracker_0 = leo.tracker_make(variable_satellite_0, 35.3333, 25.1833, 1, '2020-01-02T13:47:47.0000000Z', '2020-01-02T13:56:14.0000000Z', 100000, 435E6,
+        self.variable_tracker_0 = variable_tracker_0 = leo.tracker_make(variable_satellite_0, 37.158136, 22.893258, 1, '2020-01-06T01:50:41.0000000Z', '2020-01-06T01:59:13.0000000Z', 1000000, 435E6,
                     435e6,
+                    37,
                     tracker_tx_antenna,
                     tracker_rx_antenna)
-        self.variable_leo_model_def_0 = variable_leo_model_def_0 = leo.leo_model_make(variable_tracker_0, 0, 5,
-          													6, 7,
-          													1, 3, False,
+        self.variable_leo_model_def_0 = variable_leo_model_def_0 = leo.leo_model_make(variable_tracker_0, 1, 5,
+          													0, 7,
+          													1, 3, True,
           													7.5, 20, 90)
         self.samp_rate = samp_rate = 80e3
 
         ##################################################
         # Blocks
         ##################################################
-        self.satnogs_multi_format_msg_sink_0 = satnogs.multi_format_msg_sink(0, False, False, '/home/ctriant/margin.csv')
+        self.satnogs_multi_format_msg_sink_0 = satnogs.multi_format_msg_sink(0, False, False, '/home/ctriant/qubik_link_margin_27dbm_helix.csv')
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
         	4096, #size
         	firdes.WIN_BLACKMAN_hARRIS, #wintype
@@ -167,6 +170,7 @@ class leo_channel(gr.top_block, Qt.QWidget):
     def set_pointing_error(self, pointing_error):
         self.pointing_error = pointing_error
         self.tracker_tx_antenna.set_pointing_error(self.pointing_error)
+        self.tracker_rx_antenna.set_pointing_error(self.pointing_error)
         self.satellite_tx_antenna.set_pointing_error(self.pointing_error)
         self.satellite_rx_antenna.set_pointing_error(self.pointing_error)
 
@@ -202,7 +206,7 @@ class leo_channel(gr.top_block, Qt.QWidget):
 
     def set_tracker_rx_antenna(self, tracker_rx_antenna):
         self.tracker_rx_antenna = tracker_rx_antenna
-        self.tracker_rx_antenna.set_pointing_error(0)
+        self.tracker_rx_antenna.set_pointing_error(self.pointing_error)
 
     def get_variable_tracker_0(self):
         return self.variable_tracker_0

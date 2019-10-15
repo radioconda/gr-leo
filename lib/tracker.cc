@@ -37,13 +37,14 @@ tracker::make(satellite::satellite_sptr satellite_info, const float gs_lat,
               const std::string &obs_start, const std::string &obs_end,
               const float time_resolution_us, const float comm_freq_tx,
               const float comm_freq_rx,
+              const float tx_power_dbm,
               generic_antenna::generic_antenna_sptr tx_antenna,
               generic_antenna::generic_antenna_sptr rx_antenna)
 {
   return tracker::tracker_sptr(
            new tracker(satellite_info, gs_lat, gs_lon, gs_alt, obs_start,
-                       obs_end, time_resolution_us, comm_freq_tx,
-                       comm_freq_rx, tx_antenna, rx_antenna));
+                       obs_end, time_resolution_us, comm_freq_tx, comm_freq_rx,
+                       tx_power_dbm, tx_antenna, rx_antenna));
 }
 
 /**
@@ -71,6 +72,7 @@ tracker::tracker(satellite::satellite_sptr satellite_info,
                  const float time_resolution_us,
                  const float comm_freq_tx,
                  const float comm_freq_rx,
+                 const float tx_power_dbm,
                  generic_antenna::generic_antenna_sptr tx_antenna,
                  generic_antenna::generic_antenna_sptr rx_antenna) :
   d_time_resolution_us(time_resolution_us),
@@ -89,7 +91,8 @@ tracker::tracker(satellite::satellite_sptr satellite_info,
   d_rx_antenna(rx_antenna),
   d_gs_alt(gs_alt),
   d_gs_lat(gs_lat),
-  d_gs_lon(gs_lon)
+  d_gs_lon(gs_lon),
+  d_tx_power_dbm(tx_power_dbm)
 {
   if (d_obs_end <= d_obs_start) {
     throw std::runtime_error("Invalid observation timeframe");
@@ -103,7 +106,7 @@ tracker::tracker(const std::string &tle_title, const std::string &tle_1,
                  const std::string &tle_2, const float gs_lat,
                  const float gs_lon, const float gs_alt,
                  const std::string &obs_start, const std::string &obs_end) :
-            d_time_resolution_us (300e3),
+  d_time_resolution_us(300e3),
   d_observer(gs_lat, gs_lon, gs_alt),
   d_tle_title(tle_title),
   d_tle_1(tle_1),
@@ -115,6 +118,7 @@ tracker::tracker(const std::string &tle_title, const std::string &tle_1,
   d_obs_elapsed(d_obs_start),
   d_comm_freq_tx(0),
   d_comm_freq_rx(0),
+  d_tx_power_dbm(0),
   d_gs_alt(gs_alt),
   d_gs_lat(gs_lat),
   d_gs_lon(gs_lon)
@@ -535,6 +539,12 @@ generic_antenna::generic_antenna_sptr
 tracker::get_rx_antenna()
 {
   return d_rx_antenna;
+}
+
+const float
+tracker::get_tx_power_dbm() const
+{
+  return d_tx_power_dbm;
 }
 
 void

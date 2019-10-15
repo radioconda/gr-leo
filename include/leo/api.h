@@ -46,12 +46,12 @@
 /**
 * Boltzman's constant dBW/KHz
 */
-#define BOLTZMANS_CONST					-228.6
+#define BOLTZMANS_CONST         -228.6
 
 /**
 * Ground station effective noise temperature in K
 */
-#define GS_NOISE_TEMP					510
+#define GS_NOISE_TEMP         510
 
 /*!
  * A struct that contains information about the acquisition of signal (AOS),

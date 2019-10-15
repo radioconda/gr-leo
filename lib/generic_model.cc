@@ -51,14 +51,26 @@ generic_model::get_tracker()
 float
 generic_model::get_frequency()
 {
+  float freq_rx;
+  float freq_tx;
+
   if (d_mode == UPLINK) {
-    return d_tracker->get_comm_freq_tx();
+    freq_rx = d_tracker->get_satellite_info()->get_comm_freq_rx();
+    freq_tx = d_tracker->get_comm_freq_tx();
   }
   else if (d_mode == DOWNLINK) {
-    return d_tracker->get_comm_freq_rx();
+    freq_tx = d_tracker->get_satellite_info()->get_comm_freq_tx();
+    freq_rx = d_tracker->get_comm_freq_rx();
   }
   else {
     throw std::runtime_error("Invalid transmission mode");
+  }
+
+  if (freq_tx == freq_rx) {
+    return freq_tx;
+  }
+  else {
+    throw std::runtime_error("RX and TX frequencies not aligned");
   }
 }
 
@@ -112,6 +124,20 @@ generic_model::get_satellite_antenna_gain()
   }
   else if (d_mode == DOWNLINK) {
     return d_tracker->get_satellite_info()->get_tx_antenna()->get_gain();
+  }
+  else {
+    throw std::runtime_error("Invalid transmission mode");
+  }
+}
+
+float
+generic_model::get_tx_power_dbm()
+{
+  if (d_mode == UPLINK) {
+    return d_tracker->get_tx_power_dbm();
+  }
+  else if (d_mode == DOWNLINK) {
+    return d_tracker->get_satellite_info()->get_tx_power_dbm();
   }
   else {
     throw std::runtime_error("Invalid transmission mode");

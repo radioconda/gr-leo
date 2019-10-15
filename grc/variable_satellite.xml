@@ -3,8 +3,8 @@
   <name>Satellite</name>
   <key>variable_satellite</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_antenna, $rx_antenna)</var_make>
-  <var_value>leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_antenna, $rx_antenna)</var_value>
+  <var_make>self.$(id) = $(id) = leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_power_dbm, $tx_antenna, $rx_antenna)</var_make>
+  <var_value>leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_power_dbm, $tx_antenna, $rx_antenna)</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>
@@ -56,6 +56,12 @@
     <key>rx_antenna</key>
     <value>antenna_variable</value>
     <type>raw</type>
+  </param>
+
+  <param>
+  	<name>TX power (dBm)</name>
+  	<key>tx_power_dbm</key>
+  	<type>float</type>
   </param>
 
 </block>

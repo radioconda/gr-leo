@@ -33,7 +33,7 @@ namespace attenuation {
 class LEO_API free_space_path_loss_impl : public free_space_path_loss {
 
 public:
-        free_space_path_loss_impl ();
+  free_space_path_loss_impl();
 
   ~free_space_path_loss_impl();
 

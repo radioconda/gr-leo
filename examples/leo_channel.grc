@@ -594,7 +594,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(0, 131)</value>
+      <value>(0, 115)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -619,6 +619,10 @@
     <param>
       <key>tle_title</key>
       <value>QUBIK</value>
+    </param>
+    <param>
+      <key>tx_power_dbm</key>
+      <value>27</value>
     </param>
   </block>
   <block>
@@ -686,6 +690,10 @@
     <param>
       <key>satellite_info</key>
       <value>variable_satellite_0</value>
+    </param>
+    <param>
+      <key>tx_power_dbm</key>
+      <value>37</value>
     </param>
     <param>
       <key>time_resolution_us</key>

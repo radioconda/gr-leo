@@ -33,18 +33,20 @@ satellite::satellite_sptr
 satellite::make(const std::string &tle_title, const std::string &tle_1,
                 const std::string &tle_2, const float freq_tx,
                 const float freq_rx,
+                float tx_power_dbm,
                 generic_antenna::generic_antenna_sptr tx_antenna,
                 generic_antenna::generic_antenna_sptr rx_antenna)
 {
   return satellite::satellite_sptr(
            new satellite(tle_title, tle_1, tle_2, freq_tx, freq_rx,
-                         tx_antenna, rx_antenna));
+                         tx_power_dbm, tx_antenna, rx_antenna));
 }
 
 satellite::satellite(
   const std::string &tle_title, const std::string &tle_1,
   const std::string &tle_2, const float comm_freq_tx,
   const float comm_freq_rx,
+  float tx_power_dbm,
   generic_antenna::generic_antenna_sptr tx_antenna,
   generic_antenna::generic_antenna_sptr rx_antenna) :
   d_tle_title(tle_title),
@@ -53,7 +55,8 @@ satellite::satellite(
   d_comm_freq_tx(comm_freq_tx),
   d_comm_freq_rx(comm_freq_rx),
   d_tx_antenna(tx_antenna),
-  d_rx_antenna(rx_antenna)
+  d_rx_antenna(rx_antenna),
+  d_tx_power_dbm(tx_power_dbm)
 {
 
   my_id = base_unique_id++;
@@ -111,6 +114,12 @@ generic_antenna::generic_antenna_sptr
 satellite::get_rx_antenna()
 {
   return d_rx_antenna;
+}
+
+const float
+satellite::get_tx_power_dbm() const
+{
+  return d_tx_power_dbm;
 }
 
 } /* namespace leo */

@@ -25,30 +25,27 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/format.hpp>
 
-namespace gr
-{
-  namespace leo
-  {
+namespace gr {
+namespace leo {
 
-    class LEO_API link_margin
-    {
+class LEO_API link_margin {
 
-    public:
+public:
 
-      ~link_margin ();
+  ~link_margin();
 
-      typedef boost::shared_ptr<link_margin> link_margin_sptr;
+  typedef boost::shared_ptr<link_margin> link_margin_sptr;
 
-      static link_margin::link_margin_sptr
-      make ();
+  static link_margin::link_margin_sptr
+  make();
 
-      float
-      calc_link_margin (float total_loss_db, float satellite_antenna_gain,
-                        float tracker_antenna_gain,
-                        float transmission_power_dbw, float gs_receiver_bw);
+  float
+  calc_link_margin(float total_loss_db, float satellite_antenna_gain,
+                   float tracker_antenna_gain,
+                   float transmission_power_dbw, float gs_receiver_bw);
 
-    };
-  } // namespace leo
+};
+} // namespace leo
 } // namespace gr
 
 #endif /* INCLUDED_LEO_LINK_MARGIN_H */

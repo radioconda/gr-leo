@@ -103,7 +103,7 @@ public:
   generic_model(std::string name, tracker::tracker_sptr tracker,
                 const uint8_t mode);
 
-  generic_model (void){};
+  generic_model(void) {};
 
   /*!
    * \brief Get the tracker object
@@ -133,6 +133,14 @@ public:
    */
   float
   get_satellite_antenna_gain();
+
+  /*!
+   * \brief Get the appropriate TX power for the cases of uplink and
+   * downlink mode.
+   * \return the TX power in dBm.
+   */
+  float
+  get_tx_power_dbm();
 
   /*!
    * \brief Get the appropriate satellite antenna for the cases of uplink and
@@ -173,9 +181,9 @@ public:
   get_csv_log();
 
   virtual void
-      estimate_link_margin () = 0;
+  estimate_link_margin() = 0;
 
-      virtual void
+  virtual void
   generate_csv_log() = 0;
 
   virtual
@@ -189,12 +197,12 @@ protected:
   std::string d_csv_log;
   tracker::tracker_sptr d_tracker;
 
-      /*!
-       * \brief A shared pointer to the link margin class
-       */
-      link_margin::link_margin_sptr d_link_margin;
+  /*!
+   * \brief A shared pointer to the link margin class
+   */
+  link_margin::link_margin_sptr d_link_margin;
 
-      float d_link_margin_db;
+  float d_link_margin_db;
 
 };
 
