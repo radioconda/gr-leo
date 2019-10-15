@@ -3,8 +3,8 @@
   <name>Satellite</name>
   <key>variable_satellite</key>
   <import>import leo</import>
-  <var_make>self.$(id) = $(id) = leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_power_dbm, $tx_antenna, $rx_antenna)</var_make>
-  <var_value>leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_power_dbm, $tx_antenna, $rx_antenna)</var_value>
+  <var_make>self.$(id) = $(id) = leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_power_dbm, $tx_antenna, $rx_antenna, $noise_figure, $noise_temp, $rx_bw)</var_make>
+  <var_value>leo.satellite_make($tle_title, $tle_1, $tle_2, $comm_freq_tx, $comm_freq_rx, $tx_power_dbm, $tx_antenna, $rx_antenna, $noise_figure, $noise_temp, $rx_bw)</var_value>
   <make></make>
   <param>
       <name>Ignore Me</name>
@@ -59,8 +59,26 @@
   </param>
 
   <param>
-  	<name>TX power (dBm)</name>
+  	<name>TX Power (dBm)</name>
   	<key>tx_power_dbm</key>
+  	<type>float</type>
+  </param>
+
+  <param>
+  	<name>Noise Figure (dB)</name>
+  	<key>noise_figure</key>
+  	<type>float</type>
+  </param>
+
+  <param>
+  	<name>Effective Noise Temperature (K)</name>
+  	<key>noise_temp</key>
+  	<type>float</type>
+  </param>
+
+  <param>
+  	<name>Receiver Bandwidth (Hz)</name>
+  	<key>rx_bw</key>
   	<type>float</type>
   </param>
 

@@ -142,6 +142,15 @@ public:
   float
   get_tx_power_dbm();
 
+  float
+  get_receiver_bandwidth();
+
+  float
+  get_noise_temperature();
+
+  float
+  get_noise_figure();
+
   /*!
    * \brief Get the appropriate satellite antenna for the cases of uplink and
    * downlink mode.
@@ -182,6 +191,9 @@ public:
 
   virtual void
   estimate_link_margin() = 0;
+
+  virtual float
+  calculate_noise_floor() = 0;
 
   virtual void
   generate_csv_log() = 0;

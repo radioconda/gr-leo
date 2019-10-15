@@ -76,7 +76,7 @@ class leo_channel(gr.top_block, Qt.QWidget):
         self.satellite_rx_antenna = satellite_rx_antenna = leo.helix_antenna_make(1, 435e6, 3, pointing_error, 10,
                                             0.25, 1)
 
-        self.variable_satellite_0 = variable_satellite_0 = leo.satellite_make('QUBIK', '1 84001U          20001.00000000  .00000000  00000-0  50000-4 0    08', '2 84001  97.0000 156.0000 0001497   0.0000 124.0000 15.90816786    02', 435e6, 435e6, 27, satellite_tx_antenna, satellite_rx_antenna)
+        self.variable_satellite_0 = variable_satellite_0 = leo.satellite_make('QUBIK', '1 84001U          20001.00000000  .00000000  00000-0  50000-4 0    08', '2 84001  97.0000 156.0000 0001497   0.0000 124.0000 15.90816786    02', 435e6, 435e6, 27, satellite_tx_antenna, satellite_rx_antenna, 1)
 
 
         self.tracker_tx_antenna = tracker_tx_antenna = leo.dipole_antenna_make(5, 145.8e6, 0, pointing_error)
@@ -90,7 +90,8 @@ class leo_channel(gr.top_block, Qt.QWidget):
                     435e6,
                     37,
                     tracker_tx_antenna,
-                    tracker_rx_antenna)
+                    tracker_rx_antenna,
+                    1)
         self.variable_leo_model_def_0 = variable_leo_model_def_0 = leo.leo_model_make(variable_tracker_0, 1, 5,
           													0, 7,
           													1, 3, True,
@@ -147,7 +148,7 @@ class leo_channel(gr.top_block, Qt.QWidget):
         self._pointing_error_range = Range(0, 90, 1, 1, 200)
         self._pointing_error_win = RangeWidget(self._pointing_error_range, self.set_pointing_error, "pointing_error", "counter_slider", float)
         self.top_grid_layout.addWidget(self._pointing_error_win)
-        self.leo_channel_model_0 = leo.channel_model(samp_rate, variable_leo_model_def_0, 1, -100, 1)
+        self.leo_channel_model_0 = leo.channel_model(samp_rate, variable_leo_model_def_0, 0)
         self.analog_sig_source_x_1 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 1000, 1380.384265, 0)
 
 

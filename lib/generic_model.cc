@@ -144,6 +144,48 @@ generic_model::get_tx_power_dbm()
   }
 }
 
+float
+generic_model::get_noise_figure()
+{
+  if (d_mode == UPLINK) {
+    return d_tracker->get_noise_figure();
+  }
+  else if (d_mode == DOWNLINK) {
+    return d_tracker->get_satellite_info()->get_noise_figure();
+  }
+  else {
+    throw std::runtime_error("Invalid transmission mode");
+  }
+}
+
+float
+generic_model::get_noise_temperature()
+{
+  if (d_mode == UPLINK) {
+    return d_tracker->get_noise_temperature();
+  }
+  else if (d_mode == DOWNLINK) {
+    return d_tracker->get_satellite_info()->get_noise_temperature();
+  }
+  else {
+    throw std::runtime_error("Invalid transmission mode");
+  }
+}
+
+float
+generic_model::get_receiver_bandwidth()
+{
+  if (d_mode == UPLINK) {
+    return d_tracker->get_rx_bandwidth();
+  }
+  else if (d_mode == DOWNLINK) {
+    return d_tracker->get_satellite_info()->get_rx_bandwidth();
+  }
+  else {
+    throw std::runtime_error("Invalid transmission mode");
+  }
+}
+
 generic_antenna::generic_antenna_sptr
 generic_model::get_satellite_antenna()
 {

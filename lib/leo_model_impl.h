@@ -94,6 +94,9 @@ public:
   void
   estimate_link_margin();
 
+  float
+  calculate_noise_floor();
+
   void
   generate_csv_log();
 

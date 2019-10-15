@@ -218,7 +218,15 @@ leo_model_impl::estimate_link_margin()
   d_link_margin_db = d_link_margin->calc_link_margin(
                        d_total_attenuation, get_satellite_antenna_gain(),
                        get_tracker_antenna_gain(), get_tx_power_dbm() - 30,
-                       19.2e3);
+                       calculate_noise_floor());
+}
+
+float
+leo_model_impl::calculate_noise_floor()
+{
+
+  return 10 * log10(BOLTZMANS_CONST + get_noise_temperature() * 1e3) +
+         get_noise_figure() + 10 * log10(get_receiver_bandwidth());
 }
 
 void

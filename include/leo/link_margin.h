@@ -42,7 +42,7 @@ public:
   float
   calc_link_margin(float total_loss_db, float satellite_antenna_gain,
                    float tracker_antenna_gain,
-                   float transmission_power_dbw, float gs_receiver_bw);
+                   float transmission_power_dbw, float noise_floor);
 
 };
 } // namespace leo

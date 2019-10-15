@@ -57,9 +57,12 @@ public:
    * \param tle_2 The second line of TLE
    * \param comm_freq_tx The operating tx frequency
    * \param comm_freq_rx The operating rx frequency
+   * \param tx_power_dbm The TX power of the satellite in dBm
    * \param tx_antenna A boost::shared_ptr to the tx antenna
    * \param rx_antenna A boost::shared_ptr to the rx antenna
-   * \param tx_power_dbm The TX power of the satellite in dBm
+   * \param noise_figure The noise figure of the satellite's receiver
+   * \param noise_figure The effective noise temperature of the satellite's receiver
+   * \param noise_figure The bandwidth of the satellite's receiver
    *
    * \return a boost::shared_ptr to the constructed tracker object.
    */
@@ -69,7 +72,10 @@ public:
        const float comm_freq_rx,
        const float tx_power_dbm,
        generic_antenna::generic_antenna_sptr tx_antenna,
-       generic_antenna::generic_antenna_sptr rx_antenna);
+       generic_antenna::generic_antenna_sptr rx_antenna,
+       const float noise_figure,
+       const float noise_temp,
+       const float rx_bw);
 
   /*!
    * \brief The constructor of satellite class
@@ -82,6 +88,9 @@ public:
    * \param tx_antenna A boost::shared_ptr to the TX antenna
    * \param rx_antenna A boost::shared_ptr to the RX antenna
    * \param tx_power_dbm The TX power of the satellite in dBm
+   * \param noise_figure The noise figure of the satellite's receiver
+   * \param noise_figure The effective noise temperature of the satellite's receiver
+   * \param noise_figure The bandwidth of the satellite's receiver
    *
    * \return a boost::shared_ptr to the constructed tracker object.
    */
@@ -90,7 +99,10 @@ public:
             const float comm_freq_rx,
             const float tx_power_dbm,
             generic_antenna::generic_antenna_sptr tx_antenna,
-            generic_antenna::generic_antenna_sptr rx_antenna);
+            generic_antenna::generic_antenna_sptr rx_antenna,
+            const float noise_figure,
+            const float noise_temp,
+            const float rx_bw);
 
   ~satellite();
 
@@ -150,6 +162,27 @@ public:
   const float
   get_tx_power_dbm() const;
 
+  /*!
+   * Returns the noise figure of the satellite's COMM system.
+   * @return the noise figure in dB.
+   */
+  const float
+  get_noise_figure() const;
+
+  /*!
+   * Returns the effective noise temperature of the satellite's COMM system.
+   * @return the noise temperature in K.
+   */
+  const float
+  get_noise_temperature() const;
+
+  /*!
+   * Returns the receiver bandwidth of the satellite's COMM system.
+   * @return the bandwidth in Hz.
+   */
+  const float
+  get_rx_bandwidth() const;
+
 private:
   std::string d_tle_title;
   std::string d_tle_1;
@@ -158,10 +191,12 @@ private:
   const float d_comm_freq_tx;
   const float d_comm_freq_rx;
   const float d_tx_power_dbm;
+  const float d_noise_figure;
+  const float d_noise_temp;
+  const float d_rx_bw;
 
   generic_antenna::generic_antenna_sptr d_tx_antenna;
   generic_antenna::generic_antenna_sptr d_rx_antenna;
-
 
 };
 

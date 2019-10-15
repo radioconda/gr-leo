@@ -55,16 +55,12 @@ private:
 
   uint8_t d_noise_type;
 
-  float d_snr;
-  float d_imp;
-
   generic_noise::generic_noise_sptr d_noise;
 
 public:
   channel_model_impl(const float sample_rate,
-                     generic_model::generic_model_sptr model, const uint8_t noise_type,
-                     float snr = 0,
-                     float imp = 1);
+                     generic_model::generic_model_sptr model,
+                     const uint8_t noise_type);
 
   ~channel_model_impl();
 

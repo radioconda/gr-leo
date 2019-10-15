@@ -39,12 +39,16 @@ tracker::make(satellite::satellite_sptr satellite_info, const float gs_lat,
               const float comm_freq_rx,
               const float tx_power_dbm,
               generic_antenna::generic_antenna_sptr tx_antenna,
-              generic_antenna::generic_antenna_sptr rx_antenna)
+              generic_antenna::generic_antenna_sptr rx_antenna,
+              const float noise_figure,
+              const float noise_temp,
+              const float rx_bw)
 {
   return tracker::tracker_sptr(
            new tracker(satellite_info, gs_lat, gs_lon, gs_alt, obs_start,
                        obs_end, time_resolution_us, comm_freq_tx, comm_freq_rx,
-                       tx_power_dbm, tx_antenna, rx_antenna));
+                       tx_power_dbm, tx_antenna, rx_antenna, noise_figure,
+                       noise_temp, rx_bw));
 }
 
 /**
@@ -74,7 +78,10 @@ tracker::tracker(satellite::satellite_sptr satellite_info,
                  const float comm_freq_rx,
                  const float tx_power_dbm,
                  generic_antenna::generic_antenna_sptr tx_antenna,
-                 generic_antenna::generic_antenna_sptr rx_antenna) :
+                 generic_antenna::generic_antenna_sptr rx_antenna,
+                 const float noise_figure,
+                 const float noise_temp,
+                 const float rx_bw) :
   d_time_resolution_us(time_resolution_us),
   d_observer(gs_lat, gs_lon, gs_alt),
   d_satellite(satellite_info),
@@ -92,7 +99,11 @@ tracker::tracker(satellite::satellite_sptr satellite_info,
   d_gs_alt(gs_alt),
   d_gs_lat(gs_lat),
   d_gs_lon(gs_lon),
-  d_tx_power_dbm(tx_power_dbm)
+  d_tx_power_dbm(tx_power_dbm),
+  d_noise_figure(noise_figure),
+  d_noise_temp(noise_temp),
+  d_rx_bw(rx_bw)
+
 {
   if (d_obs_end <= d_obs_start) {
     throw std::runtime_error("Invalid observation timeframe");
@@ -119,6 +130,9 @@ tracker::tracker(const std::string &tle_title, const std::string &tle_1,
   d_comm_freq_tx(0),
   d_comm_freq_rx(0),
   d_tx_power_dbm(0),
+  d_noise_figure(0),
+  d_noise_temp(0),
+  d_rx_bw(0),
   d_gs_alt(gs_alt),
   d_gs_lat(gs_lat),
   d_gs_lon(gs_lon)
@@ -545,6 +559,24 @@ const float
 tracker::get_tx_power_dbm() const
 {
   return d_tx_power_dbm;
+}
+
+const float
+tracker::get_noise_figure() const
+{
+  return d_noise_figure;
+}
+
+const float
+tracker::get_noise_temperature() const
+{
+  return d_noise_temp;
+}
+
+const float
+tracker::get_rx_bandwidth() const
+{
+  return d_rx_bw;
 }
 
 void

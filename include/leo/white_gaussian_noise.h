@@ -42,8 +42,7 @@ public:
   ~white_gaussian_noise();
 
   void
-  add_noise(gr_complex *outbuf, const gr_complex *inbuf, size_t num,
-            float snr, float imp);
+  add_noise(gr_complex *outbuf, const gr_complex *inbuf, size_t num, float power);
 
 private:
   gr::random d_rng;
