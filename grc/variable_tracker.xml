@@ -29,96 +29,111 @@
   </param>
 
   <param>
-    <name>Satellite</name>
-    <key>satellite_info</key>
-    <value>satellite_variable</value>
-    <type>raw</type>
-  </param>
-
-  <param>
     <name>Longtitude (Degrees)</name>
     <key>gs_lon</key>
     <type>float</type>
+    <tab>General</tab>
   </param>
   
   <param>
     <name>Latitude (Degrees)</name>
     <key>gs_lat</key>
     <type>float</type>
+    <tab>General</tab>
   </param>
   
   <param>
     <name>Altitude (km)</name>
     <key>gs_alt</key>
     <type>float</type>
+    <tab>General</tab>
   </param>
-  
+
   <param>
-  	<name>Frequency TX (Hz)</name>
-  	<key>comm_freq_tx</key>
-  	<type>float</type>
-  </param>
-  
-  <param>
-    <name>Antenna TX</name>
-    <key>tx_antenna</key>
-    <value>antenna_variable</value>
+    <name>Satellite</name>
+    <key>satellite_info</key>
+    <value>satellite_variable</value>
     <type>raw</type>
-  </param>
-  
-  <param>
-  	<name>Frequency RX (Hz)</name>
-  	<key>comm_freq_rx</key>
-  	<type>float</type>
-  </param>
-  
-  <param>
-    <name>Antenna RX</name>
-    <key>rx_antenna</key>
-    <value>antenna_variable</value>
-    <type>raw</type>
+    <tab>Observation</tab>
   </param>
 
-  <param>
-  	<name>TX Power (dBm)</name>
-  	<key>tx_power_dbm</key>
-  	<type>float</type>
-  </param>
-
-  <param>
-  	<name>Noise Figure (dBm)</name>
-  	<key>noise_figure</key>
-  	<type>float</type>
-  </param>
-
-  <param>
-  	<name>Effective Noise Temperature (K)</name>
-  	<key>noise_temp</key>
-  	<type>float</type>
-  </param>
-
-  <param>
-  	<name>Receiver Bandwidth (Hz)</name>
-  	<key>rx_bw</key>
-  	<type>float</type>
-  </param>
-  
-  <param>
+    <param>
     <name>Observation Start Time (ISO-8601 UTC)</name>
     <key>obs_start</key>
     <type>string</type>
+    <tab>Observation</tab>
   </param>
   
    <param>
     <name>Observation End Time (ISO-8601 UTC)</name>
     <key>obs_end</key>
     <type>string</type>
+    <tab>Observation</tab>
   </param>
   
   <param>
-    <name>Time resolution (us)</name>
+    <name>Observation resolution (us)</name>
     <key>time_resolution_us</key>
     <type>float</type>
+    <tab>Observation</tab>
   </param>	
+  
+  <param>
+  	<name>Frequency TX (Hz)</name>
+  	<key>comm_freq_tx</key>
+  	<type>float</type>
+    <tab>RF Configuration</tab>
+  </param>
+  
+  <param>
+  	<name>Frequency RX (Hz)</name>
+  	<key>comm_freq_rx</key>
+  	<type>float</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+  	<name>TX Power (dBm)</name>
+  	<key>tx_power_dbm</key>
+  	<type>float</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+  	<name>Receiver Noise Figure (dBm)</name>
+  	<key>noise_figure</key>
+  	<type>float</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+  	<name>Receiver Effective Noise Temperature (K)</name>
+  	<key>noise_temp</key>
+  	<type>float</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+  	<name>Receiver Bandwidth (Hz)</name>
+  	<key>rx_bw</key>
+  	<type>float</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+    <name>Antenna RX</name>
+    <key>rx_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+    <name>Antenna TX</name>
+    <key>tx_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
+    <tab>RF Configuration</tab>
+  </param>
 
 </block>

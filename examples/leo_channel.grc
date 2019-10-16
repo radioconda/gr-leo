@@ -413,7 +413,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>1</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -581,10 +581,6 @@
       <value></value>
     </param>
     <param>
-      <key>noise_temp</key>
-      <value>190</value>
-    </param>
-    <param>
       <key>_enabled</key>
       <value>1</value>
     </param>
@@ -613,12 +609,16 @@
       <value>'ok'</value>
     </param>
     <param>
-      <key>noise_figure</key>
-      <value>1</value>
+      <key>rx_bw</key>
+      <value>1200</value>
     </param>
     <param>
-      <key>rx_bw</key>
-      <value>10e3</value>
+      <key>noise_temp</key>
+      <value>190</value>
+    </param>
+    <param>
+      <key>noise_figure</key>
+      <value>12</value>
     </param>
     <param>
       <key>tle_1</key>
@@ -654,10 +654,6 @@
     <param>
       <key>comment</key>
       <value></value>
-    </param>
-    <param>
-      <key>noise_temp</key>
-      <value>210</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -696,10 +692,6 @@
       <value>22.893258</value>
     </param>
     <param>
-      <key>noise_figure</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>obs_end</key>
       <value>2020-01-06T01:59:13.0000000Z</value>
     </param>
@@ -708,8 +700,20 @@
       <value>2020-01-06T01:50:41.0000000Z</value>
     </param>
     <param>
+      <key>time_resolution_us</key>
+      <value>1000000</value>
+    </param>
+    <param>
       <key>rx_bw</key>
-      <value>10e3</value>
+      <value>19200</value>
+    </param>
+    <param>
+      <key>noise_temp</key>
+      <value>210</value>
+    </param>
+    <param>
+      <key>noise_figure</key>
+      <value>1</value>
     </param>
     <param>
       <key>satellite_info</key>
@@ -718,10 +722,6 @@
     <param>
       <key>tx_power_dbm</key>
       <value>37</value>
-    </param>
-    <param>
-      <key>time_resolution_us</key>
-      <value>1000000</value>
     </param>
   </block>
   <block>
@@ -835,7 +835,7 @@
     </param>
     <param>
       <key>noise_type</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>sample_rate</key>

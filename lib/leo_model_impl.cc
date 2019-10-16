@@ -225,8 +225,10 @@ float
 leo_model_impl::calculate_noise_floor()
 {
 
-  return 10 * log10(1.38e-23 * get_noise_temperature() * 1e3) +
-         get_noise_figure() + 10 * log10(get_receiver_bandwidth()) - 30.0;
+  d_noise_floor =  10 * log10(1.38e-23 * get_noise_temperature() * 1e3) +
+                   get_noise_figure() + 10 * log10(get_receiver_bandwidth()) - 30.0;
+
+  return d_noise_floor;
 }
 
 void

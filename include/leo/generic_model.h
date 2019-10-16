@@ -189,6 +189,13 @@ public:
   std::string
   get_csv_log();
 
+  /*!
+   * \brief Get the model's noise-floor.
+   * \return the noise-floor in dBm
+   */
+  float
+  get_noise_floor();
+
   virtual void
   estimate_link_margin() = 0;
 
@@ -208,6 +215,7 @@ protected:
   uint8_t d_mode;
   std::string d_csv_log;
   tracker::tracker_sptr d_tracker;
+  float d_noise_floor;
 
   /*!
    * \brief A shared pointer to the link margin class

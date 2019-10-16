@@ -54,9 +54,10 @@ white_gaussian_noise::add_noise(gr_complex *outbuf, const gr_complex *inbuf,
   float measured;
   float imp = 1;
 
+  std::cout << "Noise floor: " << power << std::endl;
   measured = measure_signal_power(inbuf, num);
 
-  snr_linear = 1000 * pow(10, power / 10) ;
+  snr_linear = 1e3 * pow(10, power / 10) ;
 
   for (size_t i = 0; i < num; i++) {
     ns = gr_complex(sqrt((imp * snr_linear) / 2))

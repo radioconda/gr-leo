@@ -95,7 +95,7 @@ channel_model_impl::work(int noutput_items,
                             d_time_resolution_samples);
       d_noise->add_noise(&out[d_time_resolution_samples * t],
                          &out[d_time_resolution_samples * t],
-                         d_time_resolution_samples, 1);
+                         d_time_resolution_samples, d_model->get_noise_floor());
     }
     else {
       d_model->generic_work(&in[d_time_resolution_samples * t],

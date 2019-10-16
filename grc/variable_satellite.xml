@@ -18,68 +18,79 @@
     <name>TLE Title</name>
     <key>tle_title</key>
     <type>string</type>
+    <tab>General</tab>
   </param>
   
   <param>
     <name>TLE 1</name>
     <key>tle_1</key>
     <type>string</type>
+    <tab>General</tab>
   </param>
 	
   <param>
     <name>TLE 2</name>
     <key>tle_2</key>
     <type>string</type>
+    <tab>General</tab>
   </param>
   
   <param>
   	<name>Frequency TX (Hz)</name>
   	<key>comm_freq_tx</key>
   	<type>float</type>
-  </param>
-  
-  <param>
-    <name>Antenna TX</name>
-    <key>tx_antenna</key>
-    <value>antenna_variable</value>
-    <type>raw</type>
+    <tab>RF Configuration</tab>
   </param>
   
   <param>
   	<name>Frequency RX (Hz)</name>
   	<key>comm_freq_rx</key>
   	<type>float</type>
-  </param>
-  
-  <param>
-    <name>Antenna RX</name>
-    <key>rx_antenna</key>
-    <value>antenna_variable</value>
-    <type>raw</type>
+    <tab>RF Configuration</tab>
   </param>
 
   <param>
   	<name>TX Power (dBm)</name>
   	<key>tx_power_dbm</key>
   	<type>float</type>
+    <tab>RF Configuration</tab>
   </param>
 
   <param>
-  	<name>Noise Figure (dB)</name>
+  	<name>Receiver Noise Figure (dB)</name>
   	<key>noise_figure</key>
   	<type>float</type>
+    <tab>RF Configuration</tab>
   </param>
 
   <param>
-  	<name>Effective Noise Temperature (K)</name>
+  	<name>Receiver Effective Noise Temperature (K)</name>
   	<key>noise_temp</key>
   	<type>float</type>
+    <tab>RF Configuration</tab>
   </param>
 
   <param>
   	<name>Receiver Bandwidth (Hz)</name>
   	<key>rx_bw</key>
   	<type>float</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+    <name>Antenna RX</name>
+    <key>rx_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
+    <tab>RF Configuration</tab>
+  </param>
+
+  <param>
+    <name>Antenna TX</name>
+    <key>tx_antenna</key>
+    <value>antenna_variable</value>
+    <type>raw</type>
+    <tab>RF Configuration</tab>
   </param>
 
 </block>

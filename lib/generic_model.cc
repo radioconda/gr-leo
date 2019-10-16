@@ -33,6 +33,7 @@ generic_model::generic_model(std::string name,
                              const uint8_t mode) :
   d_name(name),
   d_mode(mode),
+  d_noise_floor(0),
   d_tracker(tracker)
 {
   my_id = base_unique_id++;
@@ -206,6 +207,12 @@ int
 generic_model::unique_id()
 {
   return my_id;
+}
+
+float
+generic_model::get_noise_floor()
+{
+  return d_noise_floor;
 }
 
 std::string
