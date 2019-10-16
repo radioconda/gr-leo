@@ -147,10 +147,10 @@ generic_model::get_tx_power_dbm()
 float
 generic_model::get_noise_figure()
 {
-  if (d_mode == UPLINK) {
+  if (d_mode == DOWNLINK) {
     return d_tracker->get_noise_figure();
   }
-  else if (d_mode == DOWNLINK) {
+  else if (d_mode == UPLINK) {
     return d_tracker->get_satellite_info()->get_noise_figure();
   }
   else {
@@ -161,10 +161,10 @@ generic_model::get_noise_figure()
 float
 generic_model::get_noise_temperature()
 {
-  if (d_mode == UPLINK) {
+  if (d_mode == DOWNLINK) {
     return d_tracker->get_noise_temperature();
   }
-  else if (d_mode == DOWNLINK) {
+  else if (d_mode == UPLINK) {
     return d_tracker->get_satellite_info()->get_noise_temperature();
   }
   else {
@@ -175,10 +175,10 @@ generic_model::get_noise_temperature()
 float
 generic_model::get_receiver_bandwidth()
 {
-  if (d_mode == UPLINK) {
+  if (d_mode == DOWNLINK) {
     return d_tracker->get_rx_bandwidth();
   }
-  else if (d_mode == DOWNLINK) {
+  else if (d_mode == UPLINK) {
     return d_tracker->get_satellite_info()->get_rx_bandwidth();
   }
   else {

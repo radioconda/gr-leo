@@ -52,7 +52,6 @@ link_margin::calc_link_margin(float total_loss_db,
 
   // float gs_noise_power = BOLTZMANS_CONST + 10 * log10(GS_NOISE_TEMP)
   //                        + 10 * log10(gs_receiver_bw);
-
   float gs_snr = signal_power_gs_input - noise_floor;
 
   // TODO: Fix dynamic minimum required modulation SNR
