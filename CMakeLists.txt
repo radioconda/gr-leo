@@ -21,7 +21,7 @@
 ########################################################################
 # Project setup
 ########################################################################
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.8)
 project(gr-leo CXX C)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -29,16 +29,16 @@ add_definitions(-std=c++11)
 
 #install to PyBOMBS target prefix if defined
 if(DEFINED ENV{PYBOMBS_PREFIX})
-#IGNORE     set(CMAKE_INSTALL_PREFIX $ENV{PYBOMBS_PREFIX})
+	set(CMAKE_INSTALL_PREFIX $ENV{PYBOMBS_PREFIX})
     message(STATUS "PyBOMBS installed GNU Radio. Setting CMAKE_INSTALL_PREFIX to $ENV{PYBOMBS_PREFIX}")
 endif()
 
 #select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)
-#IGNORE    set(CMAKE_BUILD_TYPE "Release")
+   set(CMAKE_BUILD_TYPE "Release")
    message(STATUS "Build type not specified: defaulting to release.")
 endif(NOT CMAKE_BUILD_TYPE)
-#IGNORE set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
+	set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 
 #make sure our local CMake Modules path comes first
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
@@ -49,30 +49,11 @@ set(VERSION_INFO_API_COMPAT    0)
 set(VERSION_INFO_MINOR_VERSION 0)
 set(VERSION_INFO_MAINT_VERSION git)
 
-# Set cmake policies.
-# This will suppress developer warnings during the cmake process that can occur
-# if a newer cmake version than the minimum is used.
+cmake_policy(SET CMP0011 NEW)
 
-if(POLICY CMP0026)
-    cmake_policy(SET CMP0026 OLD)
-endif()
-if(POLICY CMP0043)
-    cmake_policy(SET CMP0043 OLD)
-endif()
-if(POLICY CMP0045)
-    cmake_policy(SET CMP0045 OLD)
-endif()
-if(POLICY CMP0046)
-    cmake_policy(SET CMP0046 OLD)
-endif()
+# Enable generation of compile_commands.json for code completion engines
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-########################################################################
-# Compiler specific setup
-########################################################################
-#if(CMAKE_COMPILER_IS_GNUCXX AND NOT WIN32)
-#    #http://gcc.gnu.org/wiki/Visibility
-#    add_definitions(-fvisibility=hidden)
-#endif()
 
 ########################################################################
 # Find boost
@@ -95,22 +76,25 @@ if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost required to compile leo")
 endif()
 
+
 ########################################################################
 # Install directories
 ########################################################################
+find_package(Gnuradio "3.8" REQUIRED)
+include(GrVersion)
 include(GrPlatform) #define LIB_SUFFIX
-set(GR_RUNTIME_DIR      bin)
-set(GR_LIBRARY_DIR      lib${LIB_SUFFIX})
+
+if(NOT CMAKE_MODULES_DIR)
+  set(CMAKE_MODULES_DIR lib${LIB_SUFFIX}/cmake)
+endif(NOT CMAKE_MODULES_DIR)
+
 set(GR_INCLUDE_DIR      include/leo)
-set(GR_DATA_DIR         share)
+set(GR_CMAKE_DIR        ${CMAKE_MODULES_DIR}/leo)
 set(GR_PKG_DATA_DIR     ${GR_DATA_DIR}/${CMAKE_PROJECT_NAME})
-set(GR_DOC_DIR          ${GR_DATA_DIR}/doc)
 set(GR_PKG_DOC_DIR      ${GR_DOC_DIR}/${CMAKE_PROJECT_NAME})
-set(GR_CONF_DIR         etc)
 set(GR_PKG_CONF_DIR     ${GR_CONF_DIR}/${CMAKE_PROJECT_NAME}/conf.d)
-set(GR_LIBEXEC_DIR      libexec)
 set(GR_PKG_LIBEXEC_DIR  ${GR_LIBEXEC_DIR}/${CMAKE_PROJECT_NAME})
-set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
+set(GR_DATA_DIR         share)
 
 ########################################################################
 # On Apple only, set install name and use rpath correctly, if not already set
@@ -133,10 +117,14 @@ if(APPLE)
 endif(APPLE)
 
 ########################################################################
-# Find gnuradio build dependencies
+# Setup doxygen option
 ########################################################################
-find_package(CppUnit)
 find_package(Doxygen)
+if(DOXYGEN_FOUND)
+    option(ENABLE_DOXYGEN "Build docs using Doxygen" ON)
+else(DOXYGEN_FOUND)
+    option(ENABLE_DOXYGEN "Build docs using Doxygen" OFF)
+endif(DOXYGEN_FOUND)
 
 ########################################################################
 # Search for the libfec if it is already installed in the system
@@ -162,50 +150,6 @@ if(NOT SGP4_FOUND)
 	endif()
     add_subdirectory(sgp4)
 endif()
-
-
-# Search for GNU Radio and its components and versions. Add any
-# components required to the list of GR_REQUIRED_COMPONENTS (in all
-# caps such as FILTER or FFT) and change the version to the minimum
-# API compatible version required.
-set(GR_REQUIRED_COMPONENTS RUNTIME)
-find_package(Gnuradio "3.7.2" REQUIRED)
-list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
-include(GrVersion)
-
-if(NOT CPPUNIT_FOUND)
-    message(FATAL_ERROR "CppUnit required to compile leo")
-endif()
-
-########################################################################
-# Setup doxygen option
-########################################################################
-if(DOXYGEN_FOUND)
-	option(ENABLE_DOXYGEN "Build docs using Doxygen" ON)
-else(DOXYGEN_FOUND)
-	option(ENABLE_DOXYGEN "Build docs using Doxygen" OFF)
-endif(DOXYGEN_FOUND)
-
-########################################################################
-# Setup the include and linker paths
-########################################################################
-include_directories(
-	${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/lib
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_BINARY_DIR}/lib
-    ${CMAKE_BINARY_DIR}/include
-    ${CMAKE_SOURCE_DIR}/sgp4
-    ${Boost_INCLUDE_DIRS}
-    ${CPPUNIT_INCLUDE_DIRS}
-    ${GNURADIO_ALL_INCLUDE_DIRS}
-)
-
-link_directories(
-    ${Boost_LIBRARY_DIRS}
-    ${CPPUNIT_LIBRARY_DIRS}
-    ${GNURADIO_RUNTIME_LIBRARY_DIRS}
-)
 
 # Set component parameters
 set(GR_LEO_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "" FORCE)
@@ -245,9 +189,6 @@ add_subdirectory(data)
 ########################################################################
 # Install cmake search helper for this library
 ########################################################################
-if(NOT CMAKE_MODULES_DIR)
-  set(CMAKE_MODULES_DIR lib${LIB_SUFFIX}/cmake)
-endif(NOT CMAKE_MODULES_DIR)
 
 install(FILES cmake/Modules/leoConfig.cmake
     DESTINATION ${CMAKE_MODULES_DIR}/leo

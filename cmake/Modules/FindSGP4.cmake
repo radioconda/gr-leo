@@ -7,6 +7,7 @@ FIND_PATH(
         ${PC_SGP4_INCLUDEDIR}
     PATHS /usr/local/include
           /usr/include
+          
 )
 
 FIND_LIBRARY(
@@ -19,6 +20,8 @@ FIND_LIBRARY(
           /usr/lib
           /usr/lib64
 )
+
+message(${CMAKE_BINARY_DIR})
 
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(SGP4 DEFAULT_MSG SGP4_LIBRARIES SGP4_INCLUDE_DIRS)

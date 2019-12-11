@@ -23,7 +23,7 @@
 
 #include <leo/api.h>
 #include <gnuradio/random.h>
-#include <include/leo/generic_noise.h>
+#include <leo/generic_noise.h>
 
 namespace gr {
 namespace leo {

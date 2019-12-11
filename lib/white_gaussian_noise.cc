@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <include/leo/white_gaussian_noise.h>
+#include <leo/white_gaussian_noise.h>
 
 namespace gr {
 namespace leo {
@@ -54,7 +54,6 @@ white_gaussian_noise::add_noise(gr_complex *outbuf, const gr_complex *inbuf,
   float measured;
   float imp = 1;
 
-  std::cout << "Noise floor: " << power << std::endl;
   measured = measure_signal_power(inbuf, num);
 
   snr_linear = 1e3 * pow(10, power / 10) ;

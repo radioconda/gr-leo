@@ -110,8 +110,8 @@ When a satellite orbits the Earth its relative distance from a ground station va
 where $`\Delta f_d`$ is measured in Hz
 
 ## Requirements
-* GNU Radio ( > 3.7.7 )
-* CMake ( > 2.6)
+* GNU Radio ( > 3.8 )
+* CMake ( > 3.8)
 * G++ (with C++11 support)
 * Boost C++ Libraries ( > 1.35.0 )
 * VOLK

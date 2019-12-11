@@ -1,0 +1,40 @@
+id: leo_channel_model
+label: Channel Model
+flags: [show_id]
+
+parameters:
+-   id: value
+    label: Ignore Me
+    dtype: raw
+    default: '''fine'''
+    hide: all
+-   id: sample_rate
+    label: Sampling Rate
+    dtype: float
+-   id: model
+    label: Channel Model
+    dtype: raw
+    default: model_variable
+-   id: noise_type
+    label: Noise
+    dtype: int
+    default: '1'
+    options: ['0', '1']
+    option_labels: [None, White Gaussian]
+
+inputs:
+-   domain: stream
+    dtype: complex
+
+outputs:
+-   domain: stream
+    dtype: complex
+-   domain: message
+    id: csv
+    optional: true
+
+templates:
+    imports: import leo
+    make: leo.channel_model(${sample_rate}, ${model}, ${noise_type})
+
+file_format: 1

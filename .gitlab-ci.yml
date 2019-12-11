@@ -18,7 +18,7 @@ opensuse_build:
   image: opensuse/tumbleweed
 
   before_script:
-      - zypper in -y git libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc gnuradio gnuradio-devel
+      - zypper in -y git libboost* cppunit-devel python python-devel swig cmake gcc-c++ gcc orc liborc* gnuradio gnuradio-devel
 
   stage: building
   script:

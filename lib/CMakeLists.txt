@@ -23,11 +23,11 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 			
+link_directories(${Boost_LIBRARY_DIRS})
+
 #include_directories(
 #    ${SGP4_INCLUDE_DIRS}
 #)
-		
-link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND leo_sources
 	utils/helper.cc
@@ -62,13 +62,20 @@ if(NOT leo_sources)
 endif(NOT leo_sources)
 
 add_library(gnuradio-leo SHARED ${leo_sources})
-add_dependencies(gnuradio-leo SGP4)
 
-target_link_libraries(gnuradio-leo 
-					  ${Boost_LIBRARIES} 
-					  ${GNURADIO_ALL_LIBRARIES}
-					  sgp4s)
-
+if(EXISTS ${SGP4_LIBRARIES})
+	message(${SGP4_LIBRARIES})
+	target_link_libraries(gnuradio-leo gnuradio::gnuradio-runtime ${SGP4_LIBRARIES} ${Boost_LIBRARIES})
+else()
+	target_link_libraries(gnuradio-leo gnuradio::gnuradio-runtime 
+						  ${CMAKE_BINARY_DIR}/sgp4/libsgp4/libsgp4s.so ${Boost_LIBRARIES})
+endif()
+					  
+target_include_directories(gnuradio-leo
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../sgp4>
+    PUBLIC $<INSTALL_INTERFACE:include>
+)
 
 set_target_properties(gnuradio-leo PROPERTIES DEFINE_SYMBOL "gnuradio_leo_EXPORTS")
 
@@ -82,7 +89,7 @@ endif(APPLE)
 # Install built library files
 ########################################################################
 include(GrMiscUtils)
-GR_LIBRARY_FOO(gnuradio-leo RUNTIME_COMPONENT "leo_runtime" DEVEL_COMPONENT "leo_devel")
+GR_LIBRARY_FOO(gnuradio-leo)
 
 
 ########################################################################

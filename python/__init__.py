@@ -25,10 +25,7 @@ description here (python/__init__.py).
 
 # import swig generated symbols into the leo namespace
 try:
-	# this might fail if the module is python-only
-	from leo_swig import *
+    # this might fail if the module is python-only
+    from .leo_swig import *
 except ImportError:
-	pass
-
-# import any pure python here
-#
+    pass

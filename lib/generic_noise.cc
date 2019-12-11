@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <include/leo/generic_noise.h>
+#include <leo/generic_noise.h>
 
 namespace gr {
 namespace leo {

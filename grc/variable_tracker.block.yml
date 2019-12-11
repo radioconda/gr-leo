@@ -1,0 +1,89 @@
+id: variable_tracker
+label: Tracker
+flags: [show_id]
+
+parameters:
+-   id: value
+    label: Ignore Me
+    dtype: raw
+    default: 'fine'
+    hide: all
+-   id: gs_lon
+    label: Longtitude (Degrees)
+    dtype: float
+    category: General
+-   id: gs_lat
+    label: Latitude (Degrees)
+    dtype: float
+    category: General
+-   id: gs_alt
+    label: Altitude (km)
+    dtype: float
+    category: General
+-   id: satellite_info
+    label: Satellite
+    dtype: raw
+    default: satellite_variable
+    category: Observation
+-   id: obs_start
+    label: Observation Start Time (ISO-8601 UTC)
+    dtype: string
+    category: Observation
+-   id: obs_end
+    label: Observation End Time (ISO-8601 UTC)
+    dtype: string
+-   id: time_resolution_us
+    label: Observation Resolution (us)
+    dtype: float
+    category: Observation
+-   id: comm_freq_tx
+    label: Frequency TX (Hz)
+    dtype: float
+    category: RF Configuration
+-   id: comm_freq_rx
+    label: Frequency RX (Hz)
+    dtype: float
+    category: RF Configuration
+-   id: tx_power_dbm
+    label: TX Power (dBm)
+    dtype: float
+    category: RF Configuration
+-   id: noise_figure
+    label: Receiver Noise Figure (dBm)
+    dtype: float
+    category: RF Configuration
+-   id: noise_temp
+    label: Receiver Effective Noise Temperature (K)
+    dtype: float
+    category: RF Configuration
+-   id: rx_bw
+    label: Receiver Bandwidth (Hz)
+    dtype: float
+    category: RF Configuration
+-   id: tx_antenna
+    label: Antenna TX
+    dtype: raw
+    default: antenna_variable
+    category: RF Configuration
+-   id: rx_antenna
+    label: Antenna RX
+    dtype: raw
+    default: antenna_variable
+    category: RF Configuration
+value: "${ leo.tracker_make(satellite_info, gs_lat, gs_lon, gs_alt, obs_start, \
+   \ obs_end, time_resolution_us, comm_freq_tx, comm_freq_rx, tx_power_dbm, tx_antenna, rx_antenna, \
+   \ noise_figure, noise_temp, rx_bw) }"
+   
+templates:
+   imports: import leo
+   var_make: |-
+      self.${id} = ${id} = leo.tracker_make(${satellite_info}, ${gs_lat}, ${gs_lon}, ${gs_alt}, ${obs_start}, \
+      ${obs_end}, ${time_resolution_us}, ${comm_freq_tx}, ${comm_freq_rx}, ${tx_power_dbm}, ${tx_antenna}, ${rx_antenna}, \
+      ${noise_figure}, ${noise_temp}, ${rx_bw})
+   
+file_format: 1   
+   
+   
+   
+    
+    
