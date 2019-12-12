@@ -22,6 +22,7 @@
 # Project setup
 ########################################################################
 cmake_minimum_required(VERSION 3.8)
+include(GNUInstallDirs)
 project(gr-leo CXX C)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -44,38 +45,16 @@ endif(NOT CMAKE_BUILD_TYPE)
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 # Set the version information here
-set(VERSION_INFO_MAJOR_VERSION 1)
-set(VERSION_INFO_API_COMPAT    0)
-set(VERSION_INFO_MINOR_VERSION 0)
-set(VERSION_INFO_MAINT_VERSION git)
+set(VERSION_MAJOR 1)
+set(VERSION_API   0)
+set(VERSION_ABI   0)
+set(VERSION_PATCH git)
+
 
 cmake_policy(SET CMP0011 NEW)
 
 # Enable generation of compile_commands.json for code completion engines
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-
-########################################################################
-# Find boost
-########################################################################
-if(UNIX AND EXISTS "/usr/lib64")
-    list(APPEND BOOST_LIBRARYDIR "/usr/lib64") #fedora 64-bit fix
-endif(UNIX AND EXISTS "/usr/lib64")
-set(Boost_ADDITIONAL_VERSIONS
-    "1.35.0" "1.35" "1.36.0" "1.36" "1.37.0" "1.37" "1.38.0" "1.38" "1.39.0" "1.39"
-    "1.40.0" "1.40" "1.41.0" "1.41" "1.42.0" "1.42" "1.43.0" "1.43" "1.44.0" "1.44"
-    "1.45.0" "1.45" "1.46.0" "1.46" "1.47.0" "1.47" "1.48.0" "1.48" "1.49.0" "1.49"
-    "1.50.0" "1.50" "1.51.0" "1.51" "1.52.0" "1.52" "1.53.0" "1.53" "1.54.0" "1.54"
-    "1.55.0" "1.55" "1.56.0" "1.56" "1.57.0" "1.57" "1.58.0" "1.58" "1.59.0" "1.59"
-    "1.60.0" "1.60" "1.61.0" "1.61" "1.62.0" "1.62" "1.63.0" "1.63" "1.64.0" "1.64"
-    "1.65.0" "1.65" "1.66.0" "1.66" "1.67.0" "1.67" "1.68.0" "1.68" "1.69.0" "1.69"
-)
-find_package(Boost "1.35" COMPONENTS filesystem system regex)
-
-if(NOT Boost_FOUND)
-    message(FATAL_ERROR "Boost required to compile leo")
-endif()
-
 
 ########################################################################
 # Install directories
