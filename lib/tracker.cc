@@ -579,10 +579,11 @@ tracker::get_rx_bandwidth() const
   return d_rx_bw;
 }
 
+
 void
-tracker::add_elapsed_time()
+tracker::advance_time(double us)
 {
-  d_obs_elapsed = d_obs_elapsed.AddTicks(d_time_resolution_us);
+  d_obs_elapsed = d_obs_elapsed.AddMicroseconds(us);
 }
 
 DateTime

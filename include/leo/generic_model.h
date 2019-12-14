@@ -68,11 +68,13 @@ public:
    * \param inbuffer Pointer to the complex input signal
    * \param outbuffer Pointer to the complex input signal
    * \param noutput_items The number of available input samples to
+   * \param samp_rate the sampling rate. Necessary to advance properly
+   * time of simulation
    * process
    */
   virtual void
   generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
-               int noutput_items) = 0;
+               int noutput_items, double samp_rate) = 0;
 
   static int base_unique_id;
 
@@ -204,6 +206,15 @@ public:
 
   virtual void
   generate_csv_log() = 0;
+
+  /*!
+   * \brief Get the resulting frequency with the effect of Doppler.
+   * If the Doppler is not enabled, this will be the uplink or downlink
+   * frequency.
+   * \return the freuency with the effect of Doppler
+   */
+  virtual double
+  get_doppler_freq() = 0;
 
   virtual
   ~generic_model();

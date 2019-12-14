@@ -30,6 +30,7 @@ namespace model {
 class LEO_API leo_model_impl : public leo_model {
 
 private:
+  const impairment_enum_t d_doppler_shift_enum;
   gr::fxpt_nco d_nco;
 
   float d_surface_watervap_density;
@@ -43,8 +44,6 @@ private:
   float d_total_attenuation;
   double d_slant_range;
   bool d_write_csv_header;
-
-  impairment_enum_t d_doppler_shift_enum;
 
   generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;
   generic_attenuation::generic_attenuation_sptr d_precipitation_attenuation;
@@ -67,7 +66,7 @@ public:
 
   void
   generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
-               int noutput_items);
+               int noutput_items, double samp_rate);
 
   /*!
    * Calculate the free-space path-loss attenuation for a
@@ -99,6 +98,9 @@ public:
 
   void
   generate_csv_log();
+
+  double
+  get_doppler_freq();
 
 };
 } // namespace model

@@ -209,6 +209,7 @@ public:
   double
   get_current_elevation();
 
+
   /*!
    * Returns the time resolution of the observation in microseconds.
    * @return a float representing the resolution in time of the observation.
@@ -217,11 +218,12 @@ public:
   get_time_resolution_us();
 
   /*!
-   * Adds d_time_resolution_us microseconds to the elapsed time of the
-   * observation.
+   * Advances the simulation absolute timing by \ref us microseconds
+   * @param us microseconds to advance the absolute timing of the
+   * simulation
    */
   void
-  add_elapsed_time();
+  advance_time(double us);
 
   /*!
    * Checks whether the observation is over.

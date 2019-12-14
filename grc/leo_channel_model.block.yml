@@ -29,8 +29,13 @@ inputs:
 outputs:
 -   domain: stream
     dtype: complex
--   domain: message
-    id: csv
+
+-   id: csv
+    domain: message
+    optional: true
+
+-   id: doppler
+    domain: message
     optional: true
 
 templates:

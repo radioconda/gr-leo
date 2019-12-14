@@ -70,10 +70,10 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
                                const float temperature,
                                const float rainfall_rate) :
   generic_model("leo_model", tracker, mode),
+  d_doppler_shift_enum((const impairment_enum_t) doppler_shift_enum),
   d_nco(),
   d_slant_range(0),
   d_doppler_shift(0),
-  d_doppler_shift_enum((impairment_enum_t) doppler_shift_enum),
   d_surface_watervap_density(surface_watervap_density),
   d_temperature(temperature),
   d_rainfall_rate(rainfall_rate),
@@ -86,6 +86,14 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
   d_nco.set_freq(0);
 
   orbit_update();
+
+  switch (d_doppler_shift_enum) {
+  case DOPPLER_SHIFT:
+  case IMPAIRMENT_NONE:
+    break;
+  default:
+    throw std::runtime_error("Invalid doppler shift enumeration!");
+  }
 
   switch (enable_link_margin) {
   case true:
@@ -254,17 +262,19 @@ leo_model_impl::generate_csv_log()
   d_csv_log = stringStream.str();
 }
 
+double
+leo_model_impl::get_doppler_freq()
+{
+  return d_doppler_shift;
+}
+
 void
 leo_model_impl::generic_work(const gr_complex *inbuffer,
-                             gr_complex *outbuffer, int noutput_items)
+                             gr_complex *outbuffer, int noutput_items,
+                             double samp_rate)
 {
   const gr_complex *in = (const gr_complex *) inbuffer;
   gr_complex *out = (gr_complex *) outbuffer;
-
-  /**
-   * TODO: Allocate a large enough vector at the constructor
-   */
-  gr_complex *tmp = new gr_complex[noutput_items];
 
   float pl_attenuation_db;
   float total_attenuation_db;
@@ -273,28 +283,17 @@ leo_model_impl::generic_work(const gr_complex *inbuffer,
 
   gr_complex attenuation_linear;
 
-  d_tracker->add_elapsed_time();
   d_slant_range = d_tracker->get_slant_range();
 
   if (d_slant_range) {
-    switch (d_doppler_shift_enum) {
-    case DOPPLER_SHIFT:
+    if (d_doppler_shift_enum == DOPPLER_SHIFT) {
       d_doppler_shift = calculate_doppler_shift(
                           d_tracker->get_velocity());
 
-      d_nco.set_freq(
-        2 * M_PI * d_doppler_shift
-        / ((1e6 * noutput_items)
-           / d_tracker->get_time_resolution_us()));
-      break;
-    case IMPAIRMENT_NONE:
-      d_nco.set_freq(0);
-      break;
-    default:
-      throw std::runtime_error("Invalid doppler shift enumeration!");
+      d_nco.set_freq(2 * M_PI * d_doppler_shift / samp_rate);
     }
-    d_nco.sincos(tmp, noutput_items, 1.0);
-    volk_32fc_x2_multiply_32fc(tmp, tmp, inbuffer, noutput_items);
+    d_nco.sincos(outbuffer, noutput_items, 1.0);
+    volk_32fc_x2_multiply_32fc(outbuffer, outbuffer, inbuffer, noutput_items);
 
     /**
      * Get total attenuation in dB, convert it to linear and
@@ -305,14 +304,14 @@ leo_model_impl::generic_work(const gr_complex *inbuffer,
     total_attenuation_db = calculate_total_attenuation();
     attenuation_linear = gr_complex(
                            1.0 / pow(10, (total_attenuation_db / 20)));
-    volk_32fc_s32fc_multiply_32fc(outbuffer, tmp, attenuation_linear,
+    volk_32fc_s32fc_multiply_32fc(outbuffer, outbuffer, attenuation_linear,
                                   noutput_items);
   }
   else {
     memset(outbuffer, 0, noutput_items * sizeof(gr_complex));
   }
 
-  delete tmp;
+  d_tracker->advance_time(1e6 * noutput_items / samp_rate);
 
 }
 } /* namespace model */

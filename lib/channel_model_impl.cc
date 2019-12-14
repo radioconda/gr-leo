@@ -55,7 +55,11 @@ channel_model_impl::channel_model_impl(
   d_time_resolution_us = d_model->get_tracker()->get_time_resolution_us();
   d_time_resolution_samples = (d_sample_rate * d_time_resolution_us) / 1e6;
   set_output_multiple(d_time_resolution_samples);
+  /* We use Volk underneath for complex multiplication */
+  set_alignment(8);
+
   message_port_register_out(pmt::mp("csv"));
+  message_port_register_out(pmt::mp("doppler"));
 
   switch (d_noise_type) {
   case WHITE_GAUSSIAN:
@@ -92,7 +96,7 @@ channel_model_impl::work(int noutput_items,
     if (d_noise_type != NOISE_NONE) {
       d_model->generic_work(&in[d_time_resolution_samples * t],
                             &out[d_time_resolution_samples * t],
-                            d_time_resolution_samples);
+                            d_time_resolution_samples, d_sample_rate);
       d_noise->add_noise(&out[d_time_resolution_samples * t],
                          &out[d_time_resolution_samples * t],
                          d_time_resolution_samples, d_model->get_noise_floor());
@@ -100,11 +104,13 @@ channel_model_impl::work(int noutput_items,
     else {
       d_model->generic_work(&in[d_time_resolution_samples * t],
                             &out[d_time_resolution_samples * t],
-                            d_time_resolution_samples);
+                            d_time_resolution_samples, d_sample_rate);
     }
     message_port_pub(pmt::mp("csv"),
                      pmt::make_blob(d_model->get_csv_log().c_str(),
                                     d_model->get_csv_log().length()));
+    message_port_pub(pmt::mp("doppler"),
+                     pmt::from_double(d_model->get_doppler_freq()));
   }
 
   return noutput_items;
