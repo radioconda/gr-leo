@@ -56,10 +56,68 @@ cmake_policy(SET CMP0011 NEW)
 # Enable generation of compile_commands.json for code completion engines
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#######################################################################
+# Compiler specific setup
+########################################################################
+if((CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR
+    CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    AND NOT WIN32)
+    #http://gcc.gnu.org/wiki/Visibility
+    add_definitions(-fvisibility=hidden)
+endif()
+
+IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    SET(CMAKE_CXX_STANDARD 11)
+ELSEIF(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    SET(CMAKE_CXX_STANDARD 11)
+ELSEIF(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    SET(CMAKE_CXX_STANDARD 11)
+ELSE()
+    message(WARNING "C++ standard could not be set because compiler is not GNU, Clang or MSVC.")
+ENDIF()
+
+IF(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+    SET(CMAKE_C_STANDARD 11)
+ELSEIF(CMAKE_C_COMPILER_ID MATCHES "Clang")
+    SET(CMAKE_C_STANDARD 11)
+ELSEIF(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+    SET(CMAKE_C_STANDARD 11)
+ELSE()
+    message(WARNING "C standard could not be set because compiler is not GNU, Clang or MSVC.")
+ENDIF()
+
+########################################################################
+# External dependencies
+########################################################################
+find_package(Git)
+find_package(Volk REQUIRED)
+find_package(SGP4)
+find_package(Doxygen)
+find_package(Gnuradio "3.8" REQUIRED COMPONENTS runtime blocks pmt)
+
+if(NOT SGP4_FOUND)
+    message(WARNING "libsgp4 is not installed. The internal libsgp4 will be automatically build and install.")
+	if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+	# Update submodules as needed
+		message(STATUS "Submodule update")
+		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+						RESULT_VARIABLE GIT_SUBMOD_RESULT)
+		if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+			message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+		endif()
+	endif()
+
+	if(NOT EXISTS "${PROJECT_SOURCE_DIR}/sgp4/CMakeLists.txt")
+	    message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+	endif()
+    add_subdirectory(sgp4)
+endif()
+
+
 ########################################################################
 # Install directories
 ########################################################################
-find_package(Gnuradio "3.8" REQUIRED)
 include(GrVersion)
 include(GrPlatform) #define LIB_SUFFIX
 
@@ -104,35 +162,6 @@ if(DOXYGEN_FOUND)
 else(DOXYGEN_FOUND)
     option(ENABLE_DOXYGEN "Build docs using Doxygen" OFF)
 endif(DOXYGEN_FOUND)
-
-########################################################################
-# Search for the libfec if it is already installed in the system
-# If not, install the internal one.
-########################################################################
-find_package(Git)
-find_package(SGP4)
-if(NOT SGP4_FOUND)
-    message(WARNING "libsgp4 is not installed. The internal libsgp4 will be automatically build and install.")
-	if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
-	# Update submodules as needed
-		message(STATUS "Submodule update")
-		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
-						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-						RESULT_VARIABLE GIT_SUBMOD_RESULT)
-		if(NOT GIT_SUBMOD_RESULT EQUAL "0")
-			message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
-		endif()						        
-	endif()
-	
-	if(NOT EXISTS "${PROJECT_SOURCE_DIR}/sgp4/CMakeLists.txt")
-	    message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
-	endif()
-    add_subdirectory(sgp4)
-endif()
-
-# Set component parameters
-set(GR_LEO_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "" FORCE)
-set(GR_LEO_SWIG_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/swig CACHE INTERNAL "" FORCE)
 
 ########################################################################
 # Create uninstall target

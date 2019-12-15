@@ -22,12 +22,6 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-			
-link_directories(${Boost_LIBRARY_DIRS})
-
-#include_directories(
-#    ${SGP4_INCLUDE_DIRS}
-#)
 
 list(APPEND leo_sources
 	utils/helper.cc
@@ -65,12 +59,25 @@ add_library(gnuradio-leo SHARED ${leo_sources})
 
 if(EXISTS ${SGP4_LIBRARIES})
 	message(${SGP4_LIBRARIES})
-	target_link_libraries(gnuradio-leo gnuradio::gnuradio-runtime ${SGP4_LIBRARIES} ${Boost_LIBRARIES})
+	target_link_libraries(gnuradio-leo
+		gnuradio::gnuradio-runtime
+		gnuradio::gnuradio-blocks
+		gnuradio::gnuradio-pmt
+		${SGP4_LIBRARIES}
+		${Boost_LIBRARIES}
+		${VOLK_LIBRARIES}
+	)
 else()
-	target_link_libraries(gnuradio-leo gnuradio::gnuradio-runtime 
-						  ${CMAKE_BINARY_DIR}/sgp4/libsgp4/libsgp4s.so ${Boost_LIBRARIES})
+	target_link_libraries(gnuradio-leo
+		gnuradio::gnuradio-runtime
+		gnuradio::gnuradio-blocks
+		gnuradio::gnuradio-pmt
+		${CMAKE_BINARY_DIR}/sgp4/libsgp4/libsgp4s.so
+		${Boost_LIBRARIES}
+		${VOLK_LIBRARIES}
+	)
 endif()
-					  
+
 target_include_directories(gnuradio-leo
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../sgp4>
