@@ -32,6 +32,7 @@ parameters:
 -   id: obs_end
     label: Observation End Time (ISO-8601 UTC)
     dtype: string
+    category: Observation
 -   id: time_resolution_us
     label: Observation Resolution (us)
     dtype: float
