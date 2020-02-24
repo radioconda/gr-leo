@@ -33,8 +33,6 @@ opensuse_build:
           cmake \
           gcc-c++ \
           gcc \
-          soapy-sdr \
-          soapy-sdr-devel \
           gnuradio \
           gnuradio-devel \
           gmp-devel \
@@ -79,7 +77,6 @@ ubuntu_1910_build:
           cmake \
           gcc \
           gnuradio-dev \
-          libsoapysdr-dev \
           libconfig++-dev \
           libgmp-dev \
           liborc-0.4-0 \
@@ -92,7 +89,7 @@ ubuntu_1910_build:
   script:
         - mkdir -p build
         - cd build
-        - cmake  ..
+        - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
         - make
         - make install
         - ldconfig
@@ -124,7 +121,6 @@ ubuntu_1804_build:
           cmake \
           gcc \
           gnuradio-dev \
-          libsoapysdr-dev \
           libconfig++-dev \
           libgmp-dev \
           liborc-0.4-0 \
@@ -137,7 +133,7 @@ ubuntu_1804_build:
   script:
         - mkdir -p build
         - cd build
-        - cmake  ..
+        - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
         - make
         - make install
         - ldconfig
@@ -160,8 +156,6 @@ pages:
           cmake \
           gcc-c++ \
           gcc \
-          soapy-sdr \
-          soapy-sdr-devel \
           gnuradio \
           gnuradio-devel \
           gmp-devel \
