@@ -1,6 +1,6 @@
 stages:
   - style 
-  - building
+  - build
   - documentation
 
 style:
@@ -15,7 +15,7 @@ style:
     - if (test $(astyle --dry-run --options=.astylerc --formatted include/leo/*.h | wc -l) -eq 0); then (exit 0); else (exit 1); fi
 
 opensuse_build:
-  stage: building
+  stage: build
   image: opensuse/tumbleweed
   before_script:
     - |
@@ -43,7 +43,7 @@ opensuse_build:
           git
  
 
-  stage: building
+  stage: build
   script:
         - mkdir -p build
         - cd build
@@ -85,7 +85,7 @@ ubuntu_1910_build:
           git
 
 
-  stage: building
+  stage: build
   script:
         - mkdir -p build
         - cd build
@@ -129,7 +129,7 @@ ubuntu_1804_build:
           git
 
 
-  stage: building
+  stage: build
   script:
         - mkdir -p build
         - cd build
