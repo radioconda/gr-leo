@@ -2,18 +2,14 @@ stages:
   - style
   - build
   - documentation
-
 style:
   stage: style
-
   before_script:
     - apt-get update -qq && apt-get install -y -qq astyle git
-
   script:
     - if (test $(astyle --dry-run --options=.astylerc --formatted lib/*.cc | wc -l) -eq 0); then (exit 0); else (exit 1); fi
     - if (test $(astyle --dry-run --options=.astylerc --formatted lib/*.h | wc -l) -eq 0); then (exit 0); else (exit 1); fi
     - if (test $(astyle --dry-run --options=.astylerc --formatted include/leo/*.h | wc -l) -eq 0); then (exit 0); else (exit 1); fi
-
 opensuse_build:
   stage: build
   image: opensuse/tumbleweed
@@ -41,8 +37,6 @@ opensuse_build:
           orc \
           log4cpp-devel \
           git
-
-
   script:
     - mkdir -p build
     - cd build
@@ -50,13 +44,10 @@ opensuse_build:
     - make
     - make install
     - python3 -c "import leo"
-
 ubuntu_1910_build:
   image: ubuntu:19.10
-
   variables:
     DEBIAN_FRONTEND: "noninteractive"
-
   before_script:
     - apt-get update -qq -y
     - apt-get install software-properties-common -q -y
@@ -82,8 +73,6 @@ ubuntu_1910_build:
           liborc-0.4-dev \
           liborc-0.4-dev-bin \
           git
-
-
   stage: build
   script:
     - mkdir -p build
@@ -93,14 +82,10 @@ ubuntu_1910_build:
     - make install
     - ldconfig
     - python3 -c "import leo"
-
-
 ubuntu_1804_build:
   image: ubuntu:18.04
-
   variables:
     DEBIAN_FRONTEND: "noninteractive"
-
   before_script:
     - apt-get update -qq -y
     - apt-get install software-properties-common -q -y
@@ -126,8 +111,6 @@ ubuntu_1804_build:
           liborc-0.4-dev \
           liborc-0.4-dev-bin \
           git
-
-
   stage: build
   script:
     - mkdir -p build
@@ -137,7 +120,6 @@ ubuntu_1804_build:
     - make install
     - ldconfig
     - python3 -c "import leo"
-
 pages:
   image: opensuse/tumbleweed
 
@@ -166,8 +148,6 @@ pages:
           orc \
           log4cpp-devel \
           git
-
-
   stage: documentation
   script:
     - mkdir -p build
