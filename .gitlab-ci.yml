@@ -43,7 +43,6 @@ opensuse_build:
           git
  
 
-  stage: build
   script:
     - mkdir -p build
     - cd build
