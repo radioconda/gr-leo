@@ -1,5 +1,5 @@
 stages:
-  - style 
+  - style
   - build
   - documentation
 
@@ -41,7 +41,7 @@ opensuse_build:
           orc \
           log4cpp-devel \
           git
- 
+
 
   script:
     - mkdir -p build
@@ -50,10 +50,10 @@ opensuse_build:
     - make
     - make install
     - python3 -c "import leo"
-        
+
 ubuntu_1910_build:
   image: ubuntu:19.10
-  
+
   variables:
     DEBIAN_FRONTEND: "noninteractive"
 
@@ -97,7 +97,7 @@ ubuntu_1910_build:
 
 ubuntu_1804_build:
   image: ubuntu:18.04
-  
+
   variables:
     DEBIAN_FRONTEND: "noninteractive"
 
@@ -173,11 +173,11 @@ pages:
     - mkdir -p build
     - cd build
     - rm -rf *
-    - cmake  .. 
+    - cmake  ..
     - make doxygen_target
     - cd ..
     - rm -rf public/*
-    - mv build/docs/doxygen/html public/  
+    - mv build/docs/doxygen/html public/
   artifacts:
     paths:
       - public
