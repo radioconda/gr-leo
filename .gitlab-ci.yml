@@ -45,18 +45,18 @@ opensuse_build:
 
   stage: build
   script:
-        - mkdir -p build
-        - cd build
-        - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-        - make
-        - make install
-        - python3 -c "import leo"
+    - mkdir -p build
+    - cd build
+    - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+    - make
+    - make install
+    - python3 -c "import leo"
         
 ubuntu_1910_build:
   image: ubuntu:19.10
   
   variables:
-        DEBIAN_FRONTEND: "noninteractive"
+    DEBIAN_FRONTEND: "noninteractive"
 
   before_script:
     - apt-get update -qq -y
@@ -87,20 +87,20 @@ ubuntu_1910_build:
 
   stage: build
   script:
-        - mkdir -p build
-        - cd build
-        - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-        - make
-        - make install
-        - ldconfig
-        - python3 -c "import leo"
+    - mkdir -p build
+    - cd build
+    - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+    - make
+    - make install
+    - ldconfig
+    - python3 -c "import leo"
 
 
 ubuntu_1804_build:
   image: ubuntu:18.04
   
   variables:
-        DEBIAN_FRONTEND: "noninteractive"
+    DEBIAN_FRONTEND: "noninteractive"
 
   before_script:
     - apt-get update -qq -y
@@ -131,13 +131,13 @@ ubuntu_1804_build:
 
   stage: build
   script:
-        - mkdir -p build
-        - cd build
-        - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-        - make
-        - make install
-        - ldconfig
-        - python3 -c "import leo"
+    - mkdir -p build
+    - cd build
+    - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+    - make
+    - make install
+    - ldconfig
+    - python3 -c "import leo"
 
 pages:
   image: opensuse/tumbleweed
@@ -171,14 +171,14 @@ pages:
 
   stage: documentation
   script:
-      - mkdir -p build
-      - cd build
-      - rm -rf *
-      - cmake  .. 
-      - make doxygen_target
-      - cd ..
-      - rm -rf public/*
-      - mv build/docs/doxygen/html public/  
+    - mkdir -p build
+    - cd build
+    - rm -rf *
+    - cmake  .. 
+    - make doxygen_target
+    - cd ..
+    - rm -rf public/*
+    - mv build/docs/doxygen/html public/  
   artifacts:
-      paths:
+    paths:
       - public
