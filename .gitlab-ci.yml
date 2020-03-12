@@ -173,7 +173,7 @@ pages:
     - mkdir -p build
     - cd build
     - rm -rf *
-    - cmake  ..
+    - cmake ..
     - make doxygen_target
     - cd ..
     - rm -rf public/*
