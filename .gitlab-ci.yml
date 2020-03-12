@@ -5,7 +5,8 @@ stages:
 style:
   stage: style
   before_script:
-    - apt-get update -qq && apt-get install -y -qq astyle git
+    - apt-get -q update
+    - apt-get -qy install astyle
   script:
     - 'astyle --dry-run --options=.astylerc --formatted lib/*.cc lib/*.h include/leo/*.h  | sed ''s/^Formatted/ERROR: Unformatted/;T;q1'''
 opensuse_build:
@@ -47,12 +48,12 @@ ubuntu_1910_build:
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
-    - apt-get update -qq -y
-    - apt-get install software-properties-common -q -y
+    - apt-get -q update
+    - apt-get -qy install software-properties-common
     - add-apt-repository ppa:gnuradio/gnuradio-releases
-    - apt-get update -qq -y
+    - apt-get -q update
     - |
-      apt-get install -q -y \
+      apt-get -qy install \
           libboost-dev \
           libboost-date-time-dev \
           libboost-filesystem-dev \
@@ -85,12 +86,12 @@ ubuntu_1804_build:
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
-    - apt-get update -qq -y
-    - apt-get install software-properties-common -q -y
+    - apt-get -q update
+    - apt-get -qy install software-properties-common
     - add-apt-repository ppa:gnuradio/gnuradio-releases
-    - apt-get update -qq -y
+    - apt-get -q update
     - |
-      apt-get install -q -y \
+      apt-get -qy install \
           libboost-dev \
           libboost-date-time-dev \
           libboost-filesystem-dev \
@@ -120,7 +121,6 @@ ubuntu_1804_build:
     - python3 -c "import leo"
 pages:
   image: opensuse/tumbleweed
-
   before_script:
     - |
       zypper in -y \
