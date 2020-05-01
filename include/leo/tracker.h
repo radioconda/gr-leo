@@ -201,14 +201,6 @@ public:
   double
   get_velocity();
 
-  /*!
-   * Returns the elevation of the observed satellite in degrees, at
-   * the specific moment inside the observation.
-   * @return a double representing the current elevation of the satellite.
-   */
-  double
-  get_current_elevation();
-
 
   /*!
    * Returns the time resolution of the observation in microseconds.

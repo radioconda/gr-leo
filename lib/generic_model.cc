@@ -49,6 +49,12 @@ generic_model::get_tracker()
   return d_tracker;
 }
 
+void
+generic_model::advance_time(double us)
+{
+  d_tracker->advance_time(us);
+}
+
 float
 generic_model::get_frequency()
 {

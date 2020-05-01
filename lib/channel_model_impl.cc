@@ -49,12 +49,22 @@ channel_model_impl::channel_model_impl(
                  gr::io_signature::make(1, 1, sizeof(gr_complex)),
                  gr::io_signature::make(1, 1, sizeof(gr_complex))),
   d_sample_rate(sample_rate),
+  d_time_win_samples(0),
+  d_win_produced(0),
   d_model(model),
   d_noise_type(noise_type)
 {
-  d_time_resolution_us = d_model->get_tracker()->get_time_resolution_us();
-  d_time_resolution_samples = (d_sample_rate * d_time_resolution_us) / 1e6;
-  set_output_multiple(d_time_resolution_samples);
+  if (!model) {
+    std::string msg = name() +  ": Invalid model";
+    throw std::invalid_argument(msg);
+  }
+
+  d_time_win_samples = (d_sample_rate *
+                        model->get_tracker()->get_time_resolution_us()) / 1e6;
+
+  /* A power of 2, should speed up the scheduler */
+  set_output_multiple(2048);
+
   /* We use Volk underneath for complex multiplication */
   set_alignment(8);
 
@@ -68,7 +78,8 @@ channel_model_impl::channel_model_impl(
   case NOISE_NONE:
     break;
   default:
-    throw std::runtime_error("Invalid noise type.");
+    std::string msg = name() +  ": Invalid noise type";
+    throw std::invalid_argument(msg);
   }
 }
 
@@ -87,33 +98,27 @@ channel_model_impl::work(int noutput_items,
   const gr_complex *in = (const gr_complex *) input_items[0];
   gr_complex *out = (gr_complex *) output_items[0];
 
-  pmt::pmt_t csv_log;
-  for (size_t t = 0; t < noutput_items / d_time_resolution_samples; t++) {
-    if (d_model->get_tracker()->is_observation_over()) {
-      return WORK_DONE;
-    }
+  if (d_model->get_tracker()->is_observation_over()) {
+    return WORK_DONE;
+  }
 
-    if (d_noise_type != NOISE_NONE) {
-      d_model->generic_work(&in[d_time_resolution_samples * t],
-                            &out[d_time_resolution_samples * t],
-                            d_time_resolution_samples, d_sample_rate);
-      d_noise->add_noise(&out[d_time_resolution_samples * t],
-                         &out[d_time_resolution_samples * t],
-                         d_time_resolution_samples, d_model->get_noise_floor());
-    }
-    else {
-      d_model->generic_work(&in[d_time_resolution_samples * t],
-                            &out[d_time_resolution_samples * t],
-                            d_time_resolution_samples, d_sample_rate);
-    }
-    /* Produce messages only in case we have AOS */
-    if (d_model->aos()) {
-      message_port_pub(pmt::mp("csv"),
-                       pmt::make_blob(d_model->get_csv_log().c_str(),
-                                      d_model->get_csv_log().length()));
-      message_port_pub(pmt::mp("doppler"),
-                       pmt::from_double(d_model->get_doppler_freq()));
-    }
+  size_t avail = std::min<size_t>(noutput_items,
+                                  d_time_win_samples - d_win_produced);
+  d_model->generic_work(in, out, avail, d_sample_rate);
+
+  /* Produce messages only in case we have AOS */
+  if (d_model->aos()) {
+    message_port_pub(pmt::mp("csv"),
+                     pmt::make_blob(d_model->get_csv_log().c_str(),
+                                    d_model->get_csv_log().length()));
+    message_port_pub(pmt::mp("doppler"),
+                     pmt::from_double(d_model->get_doppler_freq()));
+  }
+  d_win_produced += avail;
+
+  if (d_win_produced == d_time_win_samples) {
+    d_win_produced = 0;
+    d_model->advance_time(d_model->get_tracker()->get_time_resolution_us());
   }
 
   return noutput_items;

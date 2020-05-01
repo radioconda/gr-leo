@@ -38,15 +38,14 @@ private:
 
   /*!
    * \brief The interval between every orbit calculation that is
-   * done by tracker in microseconds.
-   */
-  float d_time_resolution_us;
-
-  /*!
-   * \brief The interval between every orbit calculation that is
    * done by tracker in samples.
    */
-  size_t d_time_resolution_samples;
+  size_t d_time_win_samples;
+
+  /*!
+   * \brief Produced samples of the time window
+   */
+  size_t d_win_produced;
 
   /*!
    * \brief A shared pointer to the variable model

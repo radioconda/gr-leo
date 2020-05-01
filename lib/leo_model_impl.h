@@ -21,8 +21,7 @@
 #ifndef INCLUDED_LEO_LEO_MODEL_IMPL_H
 #define INCLUDED_LEO_LEO_MODEL_IMPL_H
 
-#include "../include/leo/leo_model.h"
-#include <gnuradio/fxpt_nco.h>
+#include <leo/leo_model.h>
 
 namespace gr {
 namespace leo {
@@ -31,18 +30,19 @@ class LEO_API leo_model_impl : public leo_model {
 
 private:
   const impairment_enum_t d_doppler_shift_enum;
-  gr::fxpt_nco d_nco;
 
   float d_surface_watervap_density;
   float d_temperature;
   float d_rainfall_rate;
   float d_doppler_shift;
+  gr_complex d_phase;
   float d_atmo_attenuation;
   float d_rainfall_attenuation;
   float d_pathloss_attenuation;
   float d_pointing_attenuation;
   float d_total_attenuation;
   double d_slant_range;
+  double d_elev;
   bool d_write_csv_header;
 
   generic_attenuation::generic_attenuation_sptr d_atmo_gases_attenuation;

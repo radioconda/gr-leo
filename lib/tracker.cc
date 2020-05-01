@@ -439,28 +439,12 @@ tracker::generate_passlist(const int time_step)
   return d_passlist;
 }
 
-/**
- * Calculates the range, in kilometers, between the ground station and
- * the satellite, at a specific time instance of the observation timeframe.
- *
- * @return the range if the current elevation of the satellite is positive,
- * zero otherwise. Note that positive satellite elevation means that the
- * satellite is above the horizon and there is a line-of-sight with the observer.
- */
 double
 tracker::get_slant_range()
 {
-  double elevation;
-
   Eci eci = d_sgp4.FindPosition(get_elapsed_time());
   CoordTopocentric topo = d_observer.GetLookAngle(eci);
-  elevation = Util::RadiansToDegrees(topo.elevation);
-  if (elevation < 0) {
-    return 0;
-  }
-  else {
-    return topo.range;
-  }
+  return topo.range;
 }
 
 double
@@ -486,16 +470,7 @@ tracker::get_velocity()
 
   Eci eci = d_sgp4.FindPosition(get_elapsed_time());
   CoordTopocentric topo = d_observer.GetLookAngle(eci);
-
   return topo.range_rate;
-}
-
-double
-tracker::get_current_elevation()
-{
-  Eci eci = d_sgp4.FindPosition(get_elapsed_time());
-  CoordTopocentric topo = d_observer.GetLookAngle(eci);
-  return Util::RadiansToDegrees(topo.elevation);
 }
 
 DateTime

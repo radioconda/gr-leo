@@ -71,20 +71,24 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
                                const float rainfall_rate) :
   generic_model("leo_model", tracker, mode),
   d_doppler_shift_enum((const impairment_enum_t) doppler_shift_enum),
-  d_nco(),
-  d_slant_range(0),
   d_doppler_shift(0),
+  d_phase(1.0, 0.0),
+  d_atmo_attenuation(0.0),
+  d_rainfall_attenuation(0.0),
+  d_pathloss_attenuation(0.0),
+  d_pointing_attenuation(0.0),
+  d_total_attenuation(0.0),
+  d_slant_range(0.0),
+  d_elev(0.0),
   d_surface_watervap_density(surface_watervap_density),
   d_temperature(temperature),
   d_rainfall_rate(rainfall_rate),
   d_write_csv_header(true),
-  d_atmo_attenuation(0),
-  d_rainfall_attenuation(0),
-  d_pathloss_attenuation(0),
-  d_total_attenuation(0)
+  d_atmo_gases_attenuation(nullptr),
+  d_precipitation_attenuation(nullptr),
+  d_fspl_attenuation(nullptr),
+  d_pointing_loss_attenuation(nullptr)
 {
-  d_nco.set_freq(0);
-
   orbit_update();
 
   switch (d_doppler_shift_enum) {
@@ -92,7 +96,7 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
   case IMPAIRMENT_NONE:
     break;
   default:
-    throw std::runtime_error("Invalid doppler shift enumeration!");
+    throw std::runtime_error("Invalid Doppler shift enumeration!");
   }
 
   switch (enable_link_margin) {
@@ -205,11 +209,11 @@ leo_model_impl::calculate_total_attenuation()
 
   LEO_DEBUG(
     "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | \
-			Path Loss (dB): %f | Atmospheric Loss (dB): %f | Rainfall Loss\
-			(dB): %f | Pointing Loss (dB): %f |  Doppler (Hz): %f | \
-			Link Margin (dB): %f",
+    Path Loss (dB): %f | Atmospheric Loss (dB): %f | Rainfall Loss\
+    (dB): %f | Pointing Loss (dB): %f |  Doppler (Hz): %f | \
+    Link Margin (dB): %f",
     d_tracker->get_elapsed_time().ToString().c_str(), d_slant_range,
-    d_tracker->get_elevation_degrees(), d_pathloss_attenuation,
+    d_elev, d_pathloss_attenuation,
     d_atmo_attenuation, d_rainfall_attenuation, d_pointing_attenuation,
     d_doppler_shift, d_link_margin_db);
 
@@ -254,7 +258,7 @@ leo_model_impl::generate_csv_log()
   else {
     stringStream << d_tracker->get_elapsed_time().ToString().c_str()
                  << "," << d_slant_range << ","
-                 << d_tracker->get_elevation_degrees() << ","
+                 << d_elev << ","
                  << d_pathloss_attenuation << "," << d_atmo_attenuation << ","
                  << d_rainfall_attenuation << "," << d_pointing_attenuation << ","
                  << d_doppler_shift << "," << d_link_margin_db;
@@ -269,9 +273,8 @@ leo_model_impl::get_doppler_freq()
 }
 
 void
-leo_model_impl::generic_work(const gr_complex *inbuffer,
-                             gr_complex *outbuffer, int noutput_items,
-                             double samp_rate)
+leo_model_impl::generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
+                             int noutput_items, double samp_rate)
 {
   const gr_complex *in = (const gr_complex *) inbuffer;
   gr_complex *out = (gr_complex *) outbuffer;
@@ -283,18 +286,19 @@ leo_model_impl::generic_work(const gr_complex *inbuffer,
 
   gr_complex attenuation_linear;
 
-  d_slant_range = d_tracker->get_slant_range();
-
-  if (d_slant_range) {
+  d_elev = d_tracker->get_elevation_degrees();
+  if (d_elev > 0.0) {
+    d_slant_range = d_tracker->get_slant_range();
     if (d_doppler_shift_enum == DOPPLER_SHIFT) {
       d_doppler_shift = calculate_doppler_shift(
                           d_tracker->get_velocity());
-
-      d_nco.set_freq(2 * M_PI * d_doppler_shift / samp_rate);
+      volk_32fc_s32fc_x2_rotator_32fc(outbuffer, inbuffer,
+                                      (2 * M_PI * d_doppler_shift / samp_rate) / std::abs(2 * M_PI * d_doppler_shift /
+                                          samp_rate),
+                                      &d_phase, noutput_items);
+      /* Change the pointer to simplify the rest of the logic */
+      inbuffer = outbuffer;
     }
-    d_nco.sincos(outbuffer, noutput_items, 1.0);
-    volk_32fc_x2_multiply_32fc(outbuffer, outbuffer, inbuffer, noutput_items);
-
     /**
      * Get total attenuation in dB, convert it to linear and
      * multiply
@@ -302,18 +306,17 @@ leo_model_impl::generic_work(const gr_complex *inbuffer,
      * should be set.
      */
     total_attenuation_db = calculate_total_attenuation();
-    attenuation_linear = gr_complex(
-                           1.0 / pow(10, (total_attenuation_db / 20)));
-    volk_32fc_s32fc_multiply_32fc(outbuffer, outbuffer, attenuation_linear,
+    attenuation_linear = gr_complex(1.0 / std::pow(10.0f,
+                                    (total_attenuation_db / 20.0f)), 0.0f);
+    volk_32fc_s32fc_multiply_32fc(outbuffer, inbuffer, attenuation_linear,
                                   noutput_items);
   }
   else {
     memset(outbuffer, 0, noutput_items * sizeof(gr_complex));
+    d_phase = gr_complex(1.0, 0.0);
   }
-
-  d_tracker->advance_time(1e6 * noutput_items / samp_rate);
-
 }
+
 } /* namespace model */
 } /* namespace leo */
 } /* namespace gr */

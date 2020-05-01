@@ -57,24 +57,28 @@ public:
     UPLINK, DOWNLINK
   };
 
-  friend class channel_model;
-
   /*!
    * \brief Pure virtual function that must be implemented by every
    * derived class and is responsible to apply all the appropriate
-   * transformations and attenuations to the input signal, as they
-   * are described by the corresponding channel model.
+   * transformations and apply the available types of attenuation to the
+   * input signal, as they are described by the corresponding channel model.
    *
    * \param inbuffer Pointer to the complex input signal
    * \param outbuffer Pointer to the complex input signal
-   * \param noutput_items The number of available input samples to
-   * \param samp_rate the sampling rate. Necessary to advance properly
-   * time of simulation
+   * \param noutput_items The number of available input samples to process
+   *
    * process
    */
   virtual void
   generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
                int noutput_items, double samp_rate) = 0;
+
+  /**
+   * Advances the time of the simulation
+   * @param us the time window to advance, expressed in microseconds
+   */
+  virtual void
+  advance_time(double us);
 
   static int base_unique_id;
 
