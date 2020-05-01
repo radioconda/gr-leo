@@ -192,8 +192,8 @@ public:
    * \brief Get the model's log as a CSV formatted string.
    * \return the string log
    */
-  std::string
-  get_csv_log();
+  virtual std::string
+  get_csv_log() = 0;
 
   /*!
    * \brief Get the model's noise-floor.
@@ -210,9 +210,6 @@ public:
 
   virtual float
   calculate_noise_floor() = 0;
-
-  virtual void
-  generate_csv_log() = 0;
 
   /*!
    * \brief Get the resulting frequency with the effect of Doppler.
@@ -231,7 +228,6 @@ protected:
    * \brief Represents the uplink or downlink transmission mode
    */
   uint8_t d_mode;
-  std::string d_csv_log;
   tracker::tracker_sptr d_tracker;
   float d_noise_floor;
 

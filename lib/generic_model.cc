@@ -230,13 +230,7 @@ bool
 generic_model::aos()
 {
   const double elev = d_tracker->get_elevation_degrees();
-  return elev > 0.0;
-}
-
-std::string
-generic_model::get_csv_log()
-{
-  return d_csv_log;
+  return elev > 1.0;
 }
 
 void

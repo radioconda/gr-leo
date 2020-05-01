@@ -205,8 +205,6 @@ leo_model_impl::calculate_total_attenuation()
     estimate_link_margin();
   }
 
-  generate_csv_log();
-
   LEO_DEBUG(
     "Time: %s | Slant Range (km): %f | Elevation (degrees): %f | \
     Path Loss (dB): %f | Atmospheric Loss (dB): %f | Rainfall Loss\
@@ -243,8 +241,8 @@ leo_model_impl::calculate_noise_floor()
   return d_noise_floor;
 }
 
-void
-leo_model_impl::generate_csv_log()
+std::string
+leo_model_impl::get_csv_log()
 {
   std::ostringstream stringStream;
   if (d_write_csv_header) {
@@ -263,7 +261,7 @@ leo_model_impl::generate_csv_log()
                  << d_rainfall_attenuation << "," << d_pointing_attenuation << ","
                  << d_doppler_shift << "," << d_link_margin_db;
   }
-  d_csv_log = stringStream.str();
+  return stringStream.str();
 }
 
 double
@@ -273,25 +271,24 @@ leo_model_impl::get_doppler_freq()
 }
 
 void
+leo_model_impl::advance_time(double us)
+{
+  d_tracker->advance_time(us);
+  calculate_total_attenuation();
+  d_elev = d_tracker->get_elevation_degrees();
+  d_slant_range = d_tracker->get_slant_range();
+  d_doppler_shift = calculate_doppler_shift(d_tracker->get_velocity());
+}
+
+void
 leo_model_impl::generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
                              int noutput_items, double samp_rate)
 {
   const gr_complex *in = (const gr_complex *) inbuffer;
   gr_complex *out = (gr_complex *) outbuffer;
 
-  float pl_attenuation_db;
-  float total_attenuation_db;
-  float tracker_antenna_gain_db;
-  float satellite_antenna_gain_db;
-
-  gr_complex attenuation_linear;
-
-  d_elev = d_tracker->get_elevation_degrees();
-  if (d_elev > 0.0) {
-    d_slant_range = d_tracker->get_slant_range();
+  if (aos()) {
     if (d_doppler_shift_enum == DOPPLER_SHIFT) {
-      d_doppler_shift = calculate_doppler_shift(
-                          d_tracker->get_velocity());
       volk_32fc_s32fc_x2_rotator_32fc(outbuffer, inbuffer,
                                       (2 * M_PI * d_doppler_shift / samp_rate) / std::abs(2 * M_PI * d_doppler_shift /
                                           samp_rate),
@@ -302,12 +299,9 @@ leo_model_impl::generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
     /**
      * Get total attenuation in dB, convert it to linear and
      * multiply
-     * TODO: Examine if restriction for elevation > 1 degree
-     * should be set.
      */
-    total_attenuation_db = calculate_total_attenuation();
-    attenuation_linear = gr_complex(1.0 / std::pow(10.0f,
-                                    (total_attenuation_db / 20.0f)), 0.0f);
+    gr_complex attenuation_linear = gr_complex(1.0 / std::pow(10.0f,
+                                    (d_total_attenuation / 20.0f)), 0.0f);
     volk_32fc_s32fc_multiply_32fc(outbuffer, inbuffer, attenuation_linear,
                                   noutput_items);
   }

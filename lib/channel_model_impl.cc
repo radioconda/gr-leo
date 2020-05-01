@@ -108,9 +108,9 @@ channel_model_impl::work(int noutput_items,
 
   /* Produce messages only in case we have AOS */
   if (d_model->aos()) {
+    const std::string &str = d_model->get_csv_log();
     message_port_pub(pmt::mp("csv"),
-                     pmt::make_blob(d_model->get_csv_log().c_str(),
-                                    d_model->get_csv_log().length()));
+                     pmt::make_blob(str.c_str(), str.length()));
     message_port_pub(pmt::mp("doppler"),
                      pmt::from_double(d_model->get_doppler_freq()));
   }
