@@ -215,6 +215,18 @@ generic_model::get_noise_floor()
   return d_noise_floor;
 }
 
+/**
+ *
+ * @return true in case there is Acquisition of Signal (AOS). In other words,
+ * when the elevation is above 0.
+ */
+bool
+generic_model::aos()
+{
+  const double elev = d_tracker->get_elevation_degrees();
+  return elev > 0.0;
+}
+
 std::string
 generic_model::get_csv_log()
 {

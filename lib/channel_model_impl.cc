@@ -106,11 +106,14 @@ channel_model_impl::work(int noutput_items,
                             &out[d_time_resolution_samples * t],
                             d_time_resolution_samples, d_sample_rate);
     }
-    message_port_pub(pmt::mp("csv"),
-                     pmt::make_blob(d_model->get_csv_log().c_str(),
-                                    d_model->get_csv_log().length()));
-    message_port_pub(pmt::mp("doppler"),
-                     pmt::from_double(d_model->get_doppler_freq()));
+    /* Produce messages only in case we have AOS */
+    if (d_model->aos()) {
+      message_port_pub(pmt::mp("csv"),
+                       pmt::make_blob(d_model->get_csv_log().c_str(),
+                                      d_model->get_csv_log().length()));
+      message_port_pub(pmt::mp("doppler"),
+                       pmt::from_double(d_model->get_doppler_freq()));
+    }
   }
 
   return noutput_items;

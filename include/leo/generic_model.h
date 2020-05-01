@@ -198,6 +198,9 @@ public:
   float
   get_noise_floor();
 
+  bool
+  aos();
+
   virtual void
   estimate_link_margin() = 0;
 
