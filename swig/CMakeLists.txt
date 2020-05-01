@@ -40,7 +40,8 @@ include(GrPython)
 ########################################################################
 # Setup swig generation
 ########################################################################
-set(GR_SWIG_INCLUDE_DIRS
+set(GR_SWIG_INCLUDE_DIRS 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     $<TARGET_PROPERTY:gnuradio::runtime_swig,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
