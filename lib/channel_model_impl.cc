@@ -105,6 +105,9 @@ channel_model_impl::work(int noutput_items,
   size_t avail = std::min<size_t>(noutput_items,
                                   d_time_win_samples - d_win_produced);
   d_model->generic_work(in, out, avail, d_sample_rate);
+  if (d_noise_type != NOISE_NONE) {
+    d_noise->add_noise(out, out, avail, d_model->get_noise_floor());
+  }
 
   /* Produce messages only in case we have AOS */
   if (d_model->aos()) {

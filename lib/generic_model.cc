@@ -33,8 +33,10 @@ generic_model::generic_model(std::string name,
                              const uint8_t mode) :
   d_name(name),
   d_mode(mode),
-  d_noise_floor(0),
-  d_tracker(tracker)
+  d_noise_floor(-174.0),
+  d_tracker(tracker),
+  d_link_margin(nullptr),
+  d_link_margin_db(0.0)
 {
   my_id = base_unique_id++;
 }
