@@ -28,19 +28,19 @@ parameters:
     category: RF Configuration
 -   id: tx_power_dbm
     label: TX Power (dBm)
-    d_type: float
+    dtype: float
     category: RF Configuration
 -   id: noise_figure
     label: Receiver Noise Figure (dB)
-    d_type: float
+    dtype: float
     category: RF Configuration
 -   id: noise_temp
     label: Receiver Effective Noise Temperature (K)
-    d_type: float
+    dtype: float
     category: RF Configuration
 -   id: rx_bw
     label: Receiver Bandwidth (Hz)
-    d_type: float
+    dtype: float
     category: RF Configuration
 -   id: tx_antenna
     label: Antenna TX
