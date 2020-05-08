@@ -51,9 +51,9 @@ public:
    * \param beamwidth The beamwidth of the antenna.
    * \param rolloff_gain The rolloff gain of the antenna.
    */
-  custom_antenna_impl(uint8_t type, float frequency, int polarization,
-                      float pointing_error, float gain, float beamwidth,
-                      float rolloff_gain);
+  custom_antenna_impl(uint8_t type, double frequency, int polarization,
+                      double pointing_error, double gain, double beamwidth,
+                      double rolloff_gain);
 
   ~custom_antenna_impl();
 
@@ -62,14 +62,14 @@ public:
    * of the parent's pure virtual function for the custom antenna.
    * \return the gain in dBiC.
    */
-  float
+  double
   get_gain();
 
   /*!
    * \brief Get the the gain roll-off of the antenna.
    * \return the gain roll-off in dB.
    */
-  float
+  double
   get_gain_rolloff();
 
   /*!
@@ -77,14 +77,14 @@ public:
    * of the parent's pure virtual function for the custom antenna.
    * \return the beamwodth.
    */
-  float
+  double
   get_beamwidth();
 
 private:
 
-  float d_gain;
-  float d_beamwidth;
-  float d_rolloff_gain;
+  double d_gain;
+  double d_beamwidth;
+  double d_rolloff_gain;
 
 };
 } // namespace antenna

@@ -32,8 +32,9 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-quadrifilar_helix_antenna::make(uint8_t type, float frequency, int polarization,
-                                float pointing_error, float loop)
+quadrifilar_helix_antenna::make(uint8_t type, double frequency,
+                                int polarization,
+                                double pointing_error, double loop)
 {
   return generic_antenna::generic_antenna_sptr(
            new quadrifilar_helix_antenna_impl(type, frequency, polarization,
@@ -41,10 +42,10 @@ quadrifilar_helix_antenna::make(uint8_t type, float frequency, int polarization,
 }
 
 quadrifilar_helix_antenna_impl::quadrifilar_helix_antenna_impl(uint8_t type,
-    float frequency,
+    double frequency,
     int polarization,
-    float pointing_error,
-    float loop) :
+    double pointing_error,
+    double loop) :
   generic_antenna(QUADRIFILAR_HELIX, frequency, polarization, pointing_error),
   d_loop(loop)
 {
@@ -57,20 +58,20 @@ quadrifilar_helix_antenna_impl::~quadrifilar_helix_antenna_impl()
 {
 }
 
-float
+double
 quadrifilar_helix_antenna_impl::get_gain()
 {
   return 4;
 }
 
-float
+double
 quadrifilar_helix_antenna_impl::get_gain_rolloff()
 {
-  float error_deg = utils::radians_to_degrees(d_pointing_error);
+  double error_deg = utils::radians_to_degrees(d_pointing_error);
   return -1.5 * (-4 + 10 * std::log10(1.256 * (1 + std::cos(d_pointing_error))));
 }
 
-float
+double
 quadrifilar_helix_antenna_impl::get_beamwidth()
 {
   return 150;

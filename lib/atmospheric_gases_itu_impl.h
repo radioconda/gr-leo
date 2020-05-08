@@ -31,7 +31,7 @@ namespace attenuation {
 class LEO_API atmospheric_gases_itu_impl : public atmospheric_gases_itu {
 
 public:
-  atmospheric_gases_itu_impl(float surface_watervap_density);
+  atmospheric_gases_itu_impl(double surface_watervap_density);
 
   ~atmospheric_gases_itu_impl();
 
@@ -39,21 +39,21 @@ public:
     OXYGEN = 1, WATER_VAPOUR = 2
   } atmo_element_t;
 
-  float
+  double
   get_attenuation();
 
 private:
 
-  float d_temperature;
-  float d_oxygen_pressure;
-  float d_water_pressure;
-  float d_surface_watervap_density;
+  double d_temperature;
+  double d_oxygen_pressure;
+  double d_water_pressure;
+  double d_surface_watervap_density;
 
   /*!
    * Spectroscopic data for oxygen attenuation
    * Rec. ITU-R P.676-11
    */
-  std::vector<std::vector<float>> d_table1 {
+  std::vector<std::vector<double>> d_table1 {
     { 50.474214, 0.975, 9.651, 6.69, 0, 2.566, 6.85 },
     { 50.987745, 2.529, 8.653, 7.17, 0, 2.246, 6.8 },
     { 51.50336, 6.193, 7.709, 7.64, 0, 1.947, 6.729 },
@@ -103,7 +103,7 @@ private:
    * Spectroscopic data for water-vapour attenuation
    * Rec. ITU-R P.676-11
    */
-  std::vector<std::vector<float>> d_table2 {
+  std::vector<std::vector<double>> d_table2 {
     { 22.23508, 0.1079, 2.144, 26.38, 0.76, 5.087, 1 },
     { 67.80396, 0.0011, 8.732, 28.58, 0.69, 4.93, 0.82 },
     { 119.99594, 0.0007, 8.353, 29.48, 0.7, 4.78, 0.79 },
@@ -144,55 +144,55 @@ private:
    * \return The temperature in Kelvin
    */
   double
-  get_temperature(float alt);
+  get_temperature(double alt);
 
   /*!
    * \brief Get the dry air pressure at a specific altitude in the atmosphere
    * \return The pressure in hPa
    */
   double
-  get_pressure(float alt);
+  get_pressure(double alt);
 
   /*!
    * \brief Get the water-vapour pressure at a specific altitude in the atmosphere
    * \return The pressure in hPa
    */
   double
-  get_water_vapour_pressure(float alt);
+  get_water_vapour_pressure(double alt);
 
-  float
-  geometric_to_geopotential(float alt);
+  double
+  geometric_to_geopotential(double alt);
 
-  float
-  geopotential_to_geometric(float alt);
+  double
+  geopotential_to_geometric(double alt);
 
-  float
+  double
   S(size_t index, atmo_element_t element);
 
-  float
+  double
   F(size_t index, atmo_element_t element);
 
-  float
+  double
   ND();
 
-  float
+  double
   N(atmo_element_t element);
 
-  float
+  double
   gamma();
 
-  float
-  nh(float temperature, float oxygen_pressure,
-     float watevapour_pressure);
+  double
+  nh(double temperature, double oxygen_pressure,
+     double watevapour_pressure);
 
-  float
-  a(float an, float rn, float delta);
+  double
+  a(double an, double rn, double delta);
 
-  float
-  alpha(size_t n, float rn, float delta, float prev_alpha);
+  double
+  alpha(size_t n, double rn, double delta, double prev_alpha);
 
-  float
-  beta(size_t n, float rn, float delta, float prev_alpha);
+  double
+  beta(size_t n, double rn, double delta, double prev_alpha);
 
 };
 } // namespace attenuation

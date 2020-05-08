@@ -10,7 +10,7 @@ parameters:
     hide: all
 -   id: sample_rate
     label: Sampling Rate
-    dtype: float
+    dtype: real
 -   id: model
     label: Channel Model
     dtype: raw

@@ -31,14 +31,14 @@ namespace leo {
 
 satellite::satellite_sptr
 satellite::make(const std::string &tle_title, const std::string &tle_1,
-                const std::string &tle_2, const float freq_tx,
-                const float freq_rx,
-                const float tx_power_dbm,
+                const std::string &tle_2, const double freq_tx,
+                const double freq_rx,
+                const double tx_power_dbm,
                 generic_antenna::generic_antenna_sptr tx_antenna,
                 generic_antenna::generic_antenna_sptr rx_antenna,
-                const float noise_figure,
-                const float noise_temp,
-                const float rx_bw)
+                const double noise_figure,
+                const double noise_temp,
+                const double rx_bw)
 {
   return satellite::satellite_sptr(
            new satellite(tle_title, tle_1, tle_2, freq_tx, freq_rx,
@@ -48,14 +48,14 @@ satellite::make(const std::string &tle_title, const std::string &tle_1,
 
 satellite::satellite(
   const std::string &tle_title, const std::string &tle_1,
-  const std::string &tle_2, const float comm_freq_tx,
-  const float comm_freq_rx,
-  const float tx_power_dbm,
+  const std::string &tle_2, const double comm_freq_tx,
+  const double comm_freq_rx,
+  const double tx_power_dbm,
   generic_antenna::generic_antenna_sptr tx_antenna,
   generic_antenna::generic_antenna_sptr rx_antenna,
-  const float noise_figure,
-  const float noise_temp,
-  const float rx_bw) :
+  const double noise_figure,
+  const double noise_temp,
+  const double rx_bw) :
   d_tle_title(tle_title),
   d_tle_1(tle_1),
   d_tle_2(tle_2),
@@ -84,13 +84,13 @@ satellite::unique_id()
   return my_id;
 }
 
-const float
+const double
 satellite::get_comm_freq_rx() const
 {
   return d_comm_freq_rx;
 }
 
-const float
+const double
 satellite::get_comm_freq_tx() const
 {
   return d_comm_freq_tx;
@@ -126,25 +126,25 @@ satellite::get_rx_antenna()
   return d_rx_antenna;
 }
 
-const float
+const double
 satellite::get_tx_power_dbm() const
 {
   return d_tx_power_dbm;
 }
 
-const float
+const double
 satellite::get_noise_figure() const
 {
   return d_noise_figure;
 }
 
-const float
+const double
 satellite::get_noise_temperature() const
 {
   return d_noise_temp;
 }
 
-const float
+const double
 satellite::get_rx_bandwidth() const
 {
   return d_rx_bw;

@@ -46,12 +46,12 @@ parameters:
     option_labels: [None, ITU Recommendation, Regression Analysis]
 -   id: surface_watervap_density
     label: Surface H2O Density (g/m3)
-    dtype: float
+    dtype: real
     default: '7.5'
     hide: ${ ('none' if int(atmo_gases_attenuation)==2 else 'all') }
 -   id: temperature
     label: Surface Temperature (Celsius)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(atmo_gases_attenuation)==2 else 'all') }
 -   id: precipitation_attenuation
@@ -62,7 +62,7 @@ parameters:
     option_labels: [None, ITU Recommendation, Local Measurement]
 -   id: rainfall_rate
     label: Rainfall Rate (mm3/h)
-    dtype: float
+    dtype: real
     default: '25'
     hide: ${ ('none' if int(precipitation_attenuation)==4 else 'all') }
 -   id: enable_link_margin

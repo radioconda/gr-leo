@@ -32,17 +32,17 @@ namespace gr {
 namespace leo {
 
 tracker::tracker_sptr
-tracker::make(satellite::satellite_sptr satellite_info, const float gs_lat,
-              const float gs_lon, const float gs_alt,
+tracker::make(satellite::satellite_sptr satellite_info, const double gs_lat,
+              const double gs_lon, const double gs_alt,
               const std::string &obs_start, const std::string &obs_end,
-              const float time_resolution_us, const float comm_freq_tx,
-              const float comm_freq_rx,
-              const float tx_power_dbm,
+              const double time_resolution_us, const double comm_freq_tx,
+              const double comm_freq_rx,
+              const double tx_power_dbm,
               generic_antenna::generic_antenna_sptr tx_antenna,
               generic_antenna::generic_antenna_sptr rx_antenna,
-              const float noise_figure,
-              const float noise_temp,
-              const float rx_bw)
+              const double noise_figure,
+              const double noise_temp,
+              const double rx_bw)
 {
   return tracker::tracker_sptr(
            new tracker(satellite_info, gs_lat, gs_lon, gs_alt, obs_start,
@@ -70,18 +70,18 @@ tracker::make(satellite::satellite_sptr satellite_info, const float gs_lat,
  * defines the interval between every orbit-related calculation for the observed satellite.
  */
 tracker::tracker(satellite::satellite_sptr satellite_info,
-                 const float gs_lat, const float gs_lon,
-                 const float gs_alt, const std::string &obs_start,
+                 const double gs_lat, const double gs_lon,
+                 const double gs_alt, const std::string &obs_start,
                  const std::string &obs_end,
-                 const float time_resolution_us,
-                 const float comm_freq_tx,
-                 const float comm_freq_rx,
-                 const float tx_power_dbm,
+                 const double time_resolution_us,
+                 const double comm_freq_tx,
+                 const double comm_freq_rx,
+                 const double tx_power_dbm,
                  generic_antenna::generic_antenna_sptr tx_antenna,
                  generic_antenna::generic_antenna_sptr rx_antenna,
-                 const float noise_figure,
-                 const float noise_temp,
-                 const float rx_bw) :
+                 const double noise_figure,
+                 const double noise_temp,
+                 const double rx_bw) :
   d_time_resolution_us(time_resolution_us),
   d_observer(gs_lat, gs_lon, gs_alt),
   d_satellite(satellite_info),
@@ -114,8 +114,8 @@ tracker::tracker(satellite::satellite_sptr satellite_info,
 }
 
 tracker::tracker(const std::string &tle_title, const std::string &tle_1,
-                 const std::string &tle_2, const float gs_lat,
-                 const float gs_lon, const float gs_alt,
+                 const std::string &tle_2, const double gs_lat,
+                 const double gs_lon, const double gs_alt,
                  const std::string &obs_start, const std::string &obs_end) :
   d_time_resolution_us(300e3),
   d_observer(gs_lat, gs_lon, gs_alt),
@@ -482,37 +482,37 @@ tracker::parse_ISO_8601_UTC(const std::string &datetime)
                   tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
-float
+double
 tracker::get_time_resolution_us()
 {
   return d_time_resolution_us;
 }
 
-const float
+const double
 tracker::get_comm_freq_rx() const
 {
   return d_comm_freq_rx;
 }
 
-const float
+const double
 tracker::get_comm_freq_tx() const
 {
   return d_comm_freq_tx;
 }
 
-const float
+const double
 tracker::get_altitude() const
 {
   return d_gs_alt;
 }
 
-const float
+const double
 tracker::get_latitude() const
 {
   return d_gs_lat;
 }
 
-const float
+const double
 tracker::get_lontitude() const
 {
   return d_gs_lon;
@@ -530,25 +530,25 @@ tracker::get_rx_antenna()
   return d_rx_antenna;
 }
 
-const float
+const double
 tracker::get_tx_power_dbm() const
 {
   return d_tx_power_dbm;
 }
 
-const float
+const double
 tracker::get_noise_figure() const
 {
   return d_noise_figure;
 }
 
-const float
+const double
 tracker::get_noise_temperature() const
 {
   return d_noise_temp;
 }
 
-const float
+const double
 tracker::get_rx_bandwidth() const
 {
   return d_rx_bw;

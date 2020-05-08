@@ -33,8 +33,8 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-monopole_antenna::make(uint8_t type, float frequency, int polarization,
-                       float pointing_error)
+monopole_antenna::make(uint8_t type, double frequency, int polarization,
+                       double pointing_error)
 {
   return generic_antenna::generic_antenna_sptr(
            new monopole_antenna_impl(type, frequency, polarization,
@@ -42,9 +42,9 @@ monopole_antenna::make(uint8_t type, float frequency, int polarization,
 }
 
 monopole_antenna_impl::monopole_antenna_impl(uint8_t type,
-    float frequency,
+    double frequency,
     int polarization,
-    float pointing_error) :
+    double pointing_error) :
   generic_antenna(MONOPOLE, frequency, polarization, pointing_error)
 {
   LEO_DEBUG("MONOPOLE");
@@ -56,16 +56,16 @@ monopole_antenna_impl::~monopole_antenna_impl()
 {
 }
 
-float
+double
 monopole_antenna_impl::get_gain()
 {
   return 2.15;
 }
 
-float
+double
 monopole_antenna_impl::get_gain_rolloff()
 {
-  float error_deg = utils::radians_to_degrees(d_pointing_error);
+  double error_deg = utils::radians_to_degrees(d_pointing_error);
   if (error_deg < 100) {
     if (!error_deg) {
       return 162.1;
@@ -78,7 +78,7 @@ monopole_antenna_impl::get_gain_rolloff()
   }
 }
 
-float
+double
 monopole_antenna_impl::get_beamwidth()
 {
   return 156.2;

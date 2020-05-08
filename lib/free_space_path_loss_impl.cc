@@ -46,11 +46,11 @@ free_space_path_loss_impl::~free_space_path_loss_impl()
 {
 }
 
-float
+double
 free_space_path_loss_impl::get_attenuation()
 {
-  float attenuation = 0;
-  float path_loss = 0;
+  double attenuation = 0;
+  double path_loss = 0;
 
   return 92.45 + 20 * std::log10(slant_range * frequency);
 }

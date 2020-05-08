@@ -35,8 +35,8 @@ class LEO_API precipitation_itu : virtual public generic_attenuation {
 public:
 
   static generic_attenuation::generic_attenuation_sptr
-  make(float rainfall_rate, float tracker_lontitude,
-       float tracker_latitude, float tracker_altitude,
+  make(double rainfall_rate, double tracker_lontitude,
+       double tracker_latitude, double tracker_altitude,
        impairment_enum_t mode);
 
 };

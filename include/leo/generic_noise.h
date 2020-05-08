@@ -39,9 +39,9 @@ public:
 
   virtual void
   add_noise(gr_complex *outbuf, const gr_complex *inbuf, size_t num,
-            float snr) = 0;
+            double snr) = 0;
 
-  float
+  double
   measure_signal_power(const gr_complex *inbuf, size_t num);
 
 };

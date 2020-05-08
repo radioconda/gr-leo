@@ -40,19 +40,19 @@ link_margin::~link_margin()
 {
 }
 
-float
-link_margin::calc_link_margin(float total_loss_db,
-                              float satellite_antenna_gain,
-                              float tracker_antenna_gain,
-                              float transmission_power_dbw,
-                              float noise_floor)
+double
+link_margin::calc_link_margin(double total_loss_db,
+                              double satellite_antenna_gain,
+                              double tracker_antenna_gain,
+                              double transmission_power_dbw,
+                              double noise_floor)
 {
-  float signal_power_gs_input = transmission_power_dbw - total_loss_db
-                                + satellite_antenna_gain + tracker_antenna_gain;
+  double signal_power_gs_input = transmission_power_dbw - total_loss_db
+                                 + satellite_antenna_gain + tracker_antenna_gain;
 
-  // float gs_noise_power = BOLTZMANS_CONST + 10 * log10(GS_NOISE_TEMP)
+  // double gs_noise_power = BOLTZMANS_CONST + 10 * log10(GS_NOISE_TEMP)
   //                        + 10 * log10(gs_receiver_bw);
-  float gs_snr = signal_power_gs_input - noise_floor;
+  double gs_snr = signal_power_gs_input - noise_floor;
 
   // TODO: Fix dynamic minimum required modulation SNR
   return gs_snr;

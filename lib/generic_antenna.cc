@@ -29,8 +29,8 @@
 namespace gr {
 namespace leo {
 
-generic_antenna::generic_antenna(uint8_t type, float frequency,
-                                 int polarization, float pointing_error) :
+generic_antenna::generic_antenna(uint8_t type, double frequency,
+                                 int polarization, double pointing_error) :
   d_type(type),
   d_frequency(frequency),
   d_polarization(polarization),
@@ -43,25 +43,25 @@ generic_antenna::~generic_antenna()
 {
 }
 
-float
+double
 generic_antenna::get_frequency()
 {
   return d_frequency;
 }
 
-float
+double
 generic_antenna::get_pointing_error()
 {
   return d_pointing_error;
 }
 
 void
-generic_antenna::set_pointing_error(float error)
+generic_antenna::set_pointing_error(double error)
 {
   d_pointing_error = utils::degrees_to_radians(error);
 }
 
-float
+double
 generic_antenna::get_wavelength()
 {
   return LIGHT_SPEED / d_frequency;

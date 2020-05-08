@@ -51,8 +51,8 @@ public:
    * \return a boost::shared_ptr to the constructed tracker object.
    */
   static generic_antenna::generic_antenna_sptr
-  make(uint8_t type, float frequency, int polarization, float pointing_error,
-       float boom_length);
+  make(uint8_t type, double frequency, int polarization, double pointing_error,
+       double boom_length);
 
 };
 } // namespace antenna

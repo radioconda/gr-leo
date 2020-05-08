@@ -51,10 +51,10 @@ antenna_pointing_loss_impl::~antenna_pointing_loss_impl()
 {
 }
 
-float
+double
 antenna_pointing_loss_impl::get_attenuation()
 {
-  float attenuation = 0;
+  double attenuation = 0;
 //        attenuation += d_tracker_antenna->get_gain_rolloff();
   attenuation += d_satellite_antenna->get_gain_rolloff();
   return attenuation;

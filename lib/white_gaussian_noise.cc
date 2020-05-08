@@ -47,12 +47,12 @@ white_gaussian_noise::~white_gaussian_noise()
 
 void
 white_gaussian_noise::add_noise(gr_complex *outbuf, const gr_complex *inbuf,
-                                size_t num, float power)
+                                size_t num, double power)
 {
   gr_complex ns;
-  float snr_linear;
-  float measured;
-  float imp = 1;
+  double snr_linear;
+  double measured;
+  double imp = 1;
 
   measured = measure_signal_power(inbuf, num);
 

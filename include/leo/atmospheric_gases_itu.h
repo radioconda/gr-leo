@@ -58,7 +58,7 @@ public:
    * \return a boost::shared_ptr<generic_attenuation> pointer
    */
   static generic_attenuation::generic_attenuation_sptr
-  make(float surface_watervap_density);
+  make(double surface_watervap_density);
 
 };
 } // namespace attenuation

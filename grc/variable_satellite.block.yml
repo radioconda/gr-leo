@@ -24,23 +24,23 @@ parameters:
     category: General
 -   id: comm_freq_tx
     label: Frequency TX (Hz)
-    dtype: float
+    dtype: real
     category: RF Configuration
 -   id: tx_power_dbm
     label: TX Power (dBm)
-    dtype: float
+    dtype: real
     category: RF Configuration
 -   id: noise_figure
     label: Receiver Noise Figure (dB)
-    dtype: float
+    dtype: real
     category: RF Configuration
 -   id: noise_temp
     label: Receiver Effective Noise Temperature (K)
-    dtype: float
+    dtype: real
     category: RF Configuration
 -   id: rx_bw
     label: Receiver Bandwidth (Hz)
-    dtype: float
+    dtype: real
     category: RF Configuration
 -   id: tx_antenna
     label: Antenna TX
@@ -49,7 +49,7 @@ parameters:
     category: RF Configuration
 -   id: comm_freq_rx
     label: Frequency RX (Hz)
-    dtype: float
+    dtype: real
     category: RF Configuration
 -   id: rx_antenna
     label: Antenna RX

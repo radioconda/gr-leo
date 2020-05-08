@@ -49,7 +49,7 @@ public:
    * \return a boost::shared_ptr<generic_attenuation> pointer
    */
   static generic_attenuation::generic_attenuation_sptr
-  make(float watervap, float temperature);
+  make(double watervap, double temperature);
 
 };
 } // namespace attenuation

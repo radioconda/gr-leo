@@ -57,11 +57,11 @@ generic_model::advance_time(double us)
   d_tracker->advance_time(us);
 }
 
-float
+double
 generic_model::get_frequency()
 {
-  float freq_rx;
-  float freq_tx;
+  double freq_rx;
+  double freq_tx;
 
   if (d_mode == UPLINK) {
     freq_rx = d_tracker->get_satellite_info()->get_comm_freq_rx();
@@ -97,7 +97,7 @@ generic_model::get_polarization()
   }
 }
 
-float
+double
 generic_model::get_tracker_antenna_gain()
 {
   if (d_mode == UPLINK) {
@@ -125,7 +125,7 @@ generic_model::get_tracker_antenna()
   }
 }
 
-float
+double
 generic_model::get_satellite_antenna_gain()
 {
   if (d_mode == UPLINK) {
@@ -139,7 +139,7 @@ generic_model::get_satellite_antenna_gain()
   }
 }
 
-float
+double
 generic_model::get_tx_power_dbm()
 {
   if (d_mode == UPLINK) {
@@ -153,7 +153,7 @@ generic_model::get_tx_power_dbm()
   }
 }
 
-float
+double
 generic_model::get_noise_figure()
 {
   if (d_mode == DOWNLINK) {
@@ -167,7 +167,7 @@ generic_model::get_noise_figure()
   }
 }
 
-float
+double
 generic_model::get_noise_temperature()
 {
   if (d_mode == DOWNLINK) {
@@ -181,7 +181,7 @@ generic_model::get_noise_temperature()
   }
 }
 
-float
+double
 generic_model::get_receiver_bandwidth()
 {
   if (d_mode == DOWNLINK) {
@@ -217,7 +217,7 @@ generic_model::unique_id()
   return my_id;
 }
 
-float
+double
 generic_model::get_noise_floor()
 {
   return d_noise_floor;
@@ -238,7 +238,7 @@ generic_model::aos()
 void
 generic_model::orbit_update()
 {
-  float elevation_radians = d_tracker->get_elevation_radians();
+  double elevation_radians = d_tracker->get_elevation_radians();
   double range = d_tracker->get_slant_range();
   uint8_t polarization = get_polarization();
 

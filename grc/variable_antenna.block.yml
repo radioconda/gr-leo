@@ -14,7 +14,7 @@ parameters:
             Helix]
 -   id: frequency
     label: Frequency (Hz)
-    dtype: float
+    dtype: real
 -   id: polarization
     label: Polarization
     dtype: int
@@ -23,7 +23,7 @@ parameters:
     option_labels: [RHCP, LHCP, LINEAR VERTICAL, LINEAR HORIZONTAL]
 -   id: boom_length
     label: Boom length (m)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==0 else 'all') }
 -   id: turns
@@ -33,47 +33,47 @@ parameters:
     hide: ${ ('none' if int(type)==1 else 'all') }
 -   id: turn_spacing
     label: Turn spacing (m)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==1 else 'all') }
 -   id: circumference
     label: Circumference (m)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==1 else 'all') }
 -   id: diameter
     label: Diameter (m)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==2 else 'all') }
 -   id: aperture_efficiency
     label: Aperture efficiency (%)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==2 else 'all') }
 -   id: lp
     label: Loop (m)
-    dtype: float
+    dtype: real
     default: '0.5'
     hide: ${ ('none' if int(type)==6 else 'all') }
 -   id: gain
     label: Gain (dBiC)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==3 else 'all') }
 -   id: rolloff_gain
     label: Roll-Off Gain (dB)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==3 else 'all') }
 -   id: beamwidth
     label: Beamwidth (degrees)
-    dtype: float
+    dtype: real
     default: '0'
     hide: ${ ('none' if int(type)==3 else 'all') }
 -   id: pointing_error
     label: Pointing Error (Degrees)
-    dtype: float
+    dtype: real
     default: '0'
 value: "${ #if int(type)==0:\nleo.yagi_antenna_make(type, frequency, polarization,\
     \ pointing_error, boom_length)\n \

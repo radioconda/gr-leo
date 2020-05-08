@@ -32,9 +32,9 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-parabolic_reflector_antenna::make(uint8_t type, float frequency,
-                                  int polarization, float pointing_error, float diameter,
-                                  float aperture_efficiency)
+parabolic_reflector_antenna::make(uint8_t type, double frequency,
+                                  int polarization, double pointing_error, double diameter,
+                                  double aperture_efficiency)
 {
   return generic_antenna::generic_antenna_sptr(
            new parabolic_reflector_antenna_impl(type, frequency, polarization,
@@ -44,9 +44,9 @@ parabolic_reflector_antenna::make(uint8_t type, float frequency,
 }
 
 parabolic_reflector_antenna_impl::parabolic_reflector_antenna_impl(
-  uint8_t type, float frequency, int polarization, float pointing_error,
-  float diameter,
-  float aperture_efficiency) :
+  uint8_t type, double frequency, int polarization, double pointing_error,
+  double diameter,
+  double aperture_efficiency) :
   generic_antenna(PARABOLIC_REFLECTOR, frequency, polarization, pointing_error),
   d_diameter(diameter),
   d_aperture_efficiency(aperture_efficiency)
@@ -61,7 +61,7 @@ parabolic_reflector_antenna_impl::~parabolic_reflector_antenna_impl()
 {
 }
 
-float
+double
 parabolic_reflector_antenna_impl::get_gain()
 {
   return 20.4 + 20 * std::log10(d_diameter)
@@ -70,11 +70,11 @@ parabolic_reflector_antenna_impl::get_gain()
 }
 
 
-float
+double
 parabolic_reflector_antenna_impl::get_gain_rolloff()
 {
-  float error_deg = utils::radians_to_degrees(d_pointing_error);
-  float tmp = 2 * (error_deg * (79.76 / get_beamwidth()));
+  double error_deg = utils::radians_to_degrees(d_pointing_error);
+  double tmp = 2 * (error_deg * (79.76 / get_beamwidth()));
   if (!error_deg) {
     return 0;
   }
@@ -84,7 +84,7 @@ parabolic_reflector_antenna_impl::get_gain_rolloff()
   }
 }
 
-float
+double
 parabolic_reflector_antenna_impl::get_beamwidth()
 {
   return 21 / (d_diameter * (d_frequency / 1e6 / 1000));

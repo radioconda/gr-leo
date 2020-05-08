@@ -31,7 +31,7 @@ namespace gr {
 namespace leo {
 
 channel_model::sptr
-channel_model::make(const float sample_rate,
+channel_model::make(const double sample_rate,
                     generic_model::generic_model_sptr model,
                     const uint8_t noise_type)
 {
@@ -43,7 +43,7 @@ channel_model::make(const float sample_rate,
  * The private constructor
  */
 channel_model_impl::channel_model_impl(
-  const float sample_rate, generic_model::generic_model_sptr model,
+  const double sample_rate, generic_model::generic_model_sptr model,
   const uint8_t noise_type) :
   gr::sync_block("channel_model",
                  gr::io_signature::make(1, 1, sizeof(gr_complex)),

@@ -32,22 +32,22 @@ class LEO_API atmospheric_gases_regression_impl : public
   atmospheric_gases_regression {
 
 public:
-  atmospheric_gases_regression_impl(float surface_watervap_density,
-                                    float temperature);
+  atmospheric_gases_regression_impl(double surface_watervap_density,
+                                    double temperature);
 
   ~atmospheric_gases_regression_impl();
 
-  float
+  double
   get_attenuation();
 
 private:
 
-  float d_surface_watervap_density;
-  float d_temperature;
-  float d_af, d_bf, d_cf;
-  float d_azf, d_bzf, d_czf;
+  double d_surface_watervap_density;
+  double d_temperature;
+  double d_af, d_bf, d_cf;
+  double d_azf, d_bzf, d_czf;
 
-  typedef std::tuple<float, float, float, float> atmo_coefficients_t;
+  typedef std::tuple<double, double, double, double> atmo_coefficients_t;
 
   /*!
    * \brief Data taken from Ippolito - Radiowave Propagation in Satellite Communications
@@ -70,14 +70,14 @@ private:
     atmo_coefficients_t (6, 0.0404, 0.000651, 0.000196),
     atmo_coefficients_t (12, 0.0436, 0.00318, 0.000315), };
 
-  float
-  m(float y1, float y2, float f1, float f2);
+  double
+  m(double y1, double y2, double f1, double f2);
 
-  float
-  calc_coeff(float y1, float y2, float f1, float f2, float f0);
+  double
+  calc_coeff(double y1, double y2, double f1, double f2, double f0);
 
   atmospheric_gases_regression_impl::atmo_coefficients_t
-  get_atmo_coeff(float frequency,
+  get_atmo_coeff(double frequency,
                  std::vector<atmo_coefficients_t> *coeff_table);
 
 };

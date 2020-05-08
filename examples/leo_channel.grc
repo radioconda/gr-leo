@@ -57,7 +57,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 80e3
+    value: 1e6
   states:
     bus_sink: false
     bus_source: false
@@ -173,7 +173,7 @@ blocks:
     doppler_shift_enum: '7'
     enable_link_margin: 'True'
     fspl_attenuation_enum: '5'
-    mode: '0'
+    mode: '1'
     pointing_attenuation_enum: '0'
     precipitation_attenuation: '4'
     rainfall_rate: '90'
@@ -227,7 +227,7 @@ blocks:
     rx_antenna: tracker_rx_antenna
     rx_bw: '19200'
     satellite_info: variable_satellite_0
-    time_resolution_us: '1000'
+    time_resolution_us: '10000'
     tx_antenna: tracker_tx_antenna
     tx_power_dbm: '37'
     value: '''fine'''
@@ -238,6 +238,26 @@ blocks:
     coordinate: [1199, 78]
     rotation: 0
     state: enabled
+- name: analog_random_source_x_0
+  id: analog_random_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    max: '255'
+    maxoutbuf: '0'
+    min: '0'
+    minoutbuf: '0'
+    num_samps: '1000'
+    repeat: 'True'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [144, 404.0]
+    rotation: 0
+    state: disabled
 - name: analog_sig_source_x_1
   id: analog_sig_source_x
   parameters:
@@ -260,19 +280,52 @@ blocks:
     coordinate: [340, 144]
     rotation: 0
     state: enabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 352.0]
+    rotation: 0
+    state: enabled
+- name: digital_psk_mod_0
+  id: digital_psk_mod
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation_points: '2'
+    differential: 'True'
+    excess_bw: '0.35'
+    log: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mod_code: '"gray"'
+    samples_per_symbol: '16'
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [392, 340.0]
+    rotation: 0
+    state: disabled
 - name: leo_channel_model_0
   id: leo_channel_model
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    imp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
     model: variable_leo_model_def_0
     noise_type: '1'
     sample_rate: 80e3
-    snr: '10'
     value: '''fine'''
   states:
     bus_sink: false
@@ -360,7 +413,7 @@ blocks:
     bus_structure: null
     coordinate: [983, 242]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_waterfall_sink_x_0
   id: qtgui_waterfall_sink_x
   parameters:
@@ -424,9 +477,12 @@ blocks:
     state: enabled
 
 connections:
+- [analog_random_source_x_0, '0', digital_psk_mod_0, '0']
 - [analog_sig_source_x_1, '0', leo_channel_model_0, '0']
+- [digital_psk_mod_0, '0', leo_channel_model_0, '0']
 - [leo_channel_model_0, '0', qtgui_freq_sink_x_0, '0']
 - [leo_channel_model_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [leo_channel_model_0, csv, blocks_message_debug_0, print]
 
 metadata:
   file_format: 1

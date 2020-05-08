@@ -28,9 +28,9 @@
 namespace gr {
 namespace leo {
 
-float generic_attenuation::frequency = 0;
-float generic_attenuation::elevation_angle = 0;
-float generic_attenuation::slant_range = 0;
+double generic_attenuation::frequency = 0;
+double generic_attenuation::elevation_angle = 0;
+double generic_attenuation::slant_range = 0;
 uint8_t generic_attenuation::polarization = 0;
 
 generic_attenuation::generic_attenuation_sptr
@@ -48,13 +48,13 @@ generic_attenuation::~generic_attenuation()
 }
 
 void
-generic_attenuation::set_frequency(float freq)
+generic_attenuation::set_frequency(double freq)
 {
   frequency = freq / 1e9;
 }
 
 void
-generic_attenuation::set_slant_range(float range)
+generic_attenuation::set_slant_range(double range)
 {
   slant_range = range;
 }
@@ -66,7 +66,7 @@ generic_attenuation::set_polarization(uint8_t polar)
 }
 
 void
-generic_attenuation::set_elevation_angle(float elev_angle)
+generic_attenuation::set_elevation_angle(double elev_angle)
 {
   elevation_angle = elev_angle;
 }

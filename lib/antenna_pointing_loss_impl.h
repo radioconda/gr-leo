@@ -36,7 +36,7 @@ public:
 
   ~antenna_pointing_loss_impl();
 
-  float
+  double
   get_attenuation();
 
 private:

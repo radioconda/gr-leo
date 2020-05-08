@@ -37,20 +37,20 @@ namespace gr
       /**
        *
        */
-      float
+      double
       parser_ITU_heatmap (std::string lat_file_path, std::string lon_file_path,
-                          std::string heatmap_file_path, float lon, float lat)
+                          std::string heatmap_file_path, double lon, double lat)
       {
-        float value = -1;
+        double value = -1;
 
         size_t lon_idx = 0;
         size_t lat_idx = 0;
         size_t tmp_idx = 0;
         size_t middle_idx;
         bool reversed = false;
-        float tmp;
+        double tmp;
 
-        std::vector<float> coord;
+        std::vector<double> coord;
 
         std::string line;
         boost::regex pat ("[^\\s\\n]+");
@@ -151,14 +151,14 @@ namespace gr
 
       }
 
-      float
-      degrees_to_radians (float degrees)
+      double
+      degrees_to_radians (double degrees)
       {
         return degrees * MATH_PI / 180.0;
       }
 
-      float
-      radians_to_degrees (float radians)
+      double
+      radians_to_degrees (double radians)
       {
         return radians * 180.0 / MATH_PI;
       }

@@ -122,7 +122,7 @@ public:
    * \brief Get the correct operating frequency based on the transmission mode
    * \return the frequency in Hz
    */
-  float
+  double
   get_frequency();
 
   /*!
@@ -137,7 +137,7 @@ public:
    * downlink mode.
    * \return the satellite antenna gain in dBiC.
    */
-  float
+  double
   get_satellite_antenna_gain();
 
   /*!
@@ -145,16 +145,16 @@ public:
    * downlink mode.
    * \return the TX power in dBm.
    */
-  float
+  double
   get_tx_power_dbm();
 
-  float
+  double
   get_receiver_bandwidth();
 
-  float
+  double
   get_noise_temperature();
 
-  float
+  double
   get_noise_figure();
 
   /*!
@@ -170,7 +170,7 @@ public:
    * downlink mode.
    * \return the tracker antenna gain in dBiC.
    */
-  float
+  double
   get_tracker_antenna_gain();
 
   /*!
@@ -199,7 +199,7 @@ public:
    * \brief Get the model's noise-floor.
    * \return the noise-floor in dBm
    */
-  float
+  double
   get_noise_floor();
 
   bool
@@ -208,7 +208,7 @@ public:
   virtual void
   estimate_link_margin() = 0;
 
-  virtual float
+  virtual double
   calculate_noise_floor() = 0;
 
   /*!
@@ -229,14 +229,14 @@ protected:
    */
   uint8_t d_mode;
   tracker::tracker_sptr d_tracker;
-  float d_noise_floor;
+  double d_noise_floor;
 
   /*!
    * \brief A shared pointer to the link margin class
    */
   link_margin::link_margin_sptr d_link_margin;
 
-  float d_link_margin_db;
+  double d_link_margin_db;
 
 };
 

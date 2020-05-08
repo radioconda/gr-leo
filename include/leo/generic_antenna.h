@@ -58,8 +58,8 @@ public:
 
   uint8_t d_type;
 
-  float d_frequency;
-  float d_pointing_error;
+  double d_frequency;
+  double d_pointing_error;
 
   int d_polarization;
   int my_id;
@@ -71,7 +71,7 @@ public:
    * \brief Get the frequency of the antenna.
    * \return the frequency in Hz.
    */
-  float
+  double
   get_frequency();
 
   /*!
@@ -79,13 +79,13 @@ public:
    * \param error the pointing error in degrees.
    */
   void
-  set_pointing_error(float error);
+  set_pointing_error(double error);
 
   /*!
    * \brief Get the pointing error of the antenna.
    * \return the pointing error in degrees.
    */
-  float
+  double
   get_pointing_error();
 
   /*!
@@ -99,7 +99,7 @@ public:
    * \brief Get the wavelength of the antenna.
    * \return the wavelength in meters.
    */
-  float
+  double
   get_wavelength();
 
   /*!
@@ -107,7 +107,7 @@ public:
    * function MUST be implemented by every derived class.
    * \return the gain in dBiC.
    */
-  virtual float
+  virtual double
   get_gain() = 0;
 
   /*!
@@ -115,14 +115,14 @@ public:
    * function MUST be implemented by every derived class.
    * \return the beamwidth in degrees.
    */
-  virtual float
+  virtual double
   get_beamwidth() = 0;
 
   /*!
    * \brief Get the the gain roll-off of the antenna.
    * \return the gain roll-off in dB.
    */
-  virtual float
+  virtual double
   get_gain_rolloff() = 0;
 
   typedef boost::shared_ptr<generic_antenna> generic_antenna_sptr;
@@ -140,8 +140,8 @@ public:
    *
    * \return a boost::shared_ptr to the constructed tracker object.
    */
-  generic_antenna(uint8_t type, float frequency, int polarization,
-                  float pointing_error);
+  generic_antenna(uint8_t type, double frequency, int polarization,
+                  double pointing_error);
 
   generic_antenna(void) {};
 };

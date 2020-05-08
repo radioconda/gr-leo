@@ -52,9 +52,9 @@ public:
    * \return a boost::shared_ptr to the constructed tracker object.
    */
   static generic_antenna::generic_antenna_sptr
-  make(uint8_t type, float frequency, int polarization,
-       float pointing_error, size_t turns, float turn_spacing,
-       float circumference);
+  make(uint8_t type, double frequency, int polarization,
+       double pointing_error, size_t turns, double turn_spacing,
+       double circumference);
 
   helix_antenna() {};
 

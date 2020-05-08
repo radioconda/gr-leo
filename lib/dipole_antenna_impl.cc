@@ -33,8 +33,8 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-dipole_antenna::make(uint8_t type, float frequency, int polarization,
-                     float pointing_error)
+dipole_antenna::make(uint8_t type, double frequency, int polarization,
+                     double pointing_error)
 {
   return generic_antenna::generic_antenna_sptr(
            new dipole_antenna_impl(type, frequency, polarization,
@@ -42,9 +42,9 @@ dipole_antenna::make(uint8_t type, float frequency, int polarization,
 }
 
 dipole_antenna_impl::dipole_antenna_impl(uint8_t type,
-    float frequency,
+    double frequency,
     int polarization,
-    float pointing_error) :
+    double pointing_error) :
   generic_antenna(DIPOLE, frequency, polarization, pointing_error)
 {
   LEO_DEBUG("DIPOLE");
@@ -56,16 +56,16 @@ dipole_antenna_impl::~dipole_antenna_impl()
 {
 }
 
-float
+double
 dipole_antenna_impl::get_gain()
 {
   return 2.15;
 }
 
-float
+double
 dipole_antenna_impl::get_gain_rolloff()
 {
-  float error_deg = utils::radians_to_degrees(d_pointing_error);
+  double error_deg = utils::radians_to_degrees(d_pointing_error);
   if (error_deg < 90) {
     if (!error_deg) {
       return 0;
@@ -77,7 +77,7 @@ dipole_antenna_impl::get_gain_rolloff()
   }
 }
 
-float
+double
 dipole_antenna_impl::get_beamwidth()
 {
   return 156.2;

@@ -51,7 +51,7 @@ public:
    * \param model An LEO_API model object (See gr::leo::generic_model)
    */
   static sptr
-  make(const float sample_rate, generic_model::generic_model_sptr model,
+  make(const double sample_rate, generic_model::generic_model_sptr model,
        const uint8_t noise_type);
 
 };

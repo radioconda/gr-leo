@@ -33,18 +33,18 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-yagi_antenna::make(uint8_t type, float frequency, int polarization,
-                   float pointing_error, float boom_length)
+yagi_antenna::make(uint8_t type, double frequency, int polarization,
+                   double pointing_error, double boom_length)
 {
   return generic_antenna::generic_antenna_sptr(
            new yagi_antenna_impl(type, frequency, polarization,
                                  pointing_error, boom_length));
 }
 
-yagi_antenna_impl::yagi_antenna_impl(uint8_t type, float frequency,
+yagi_antenna_impl::yagi_antenna_impl(uint8_t type, double frequency,
                                      int polarization,
-                                     float pointing_error,
-                                     float boom_length) :
+                                     double pointing_error,
+                                     double boom_length) :
   generic_antenna(YAGI, frequency, polarization, pointing_error),
   d_boom_length(boom_length)
 {
@@ -58,7 +58,7 @@ yagi_antenna_impl::~yagi_antenna_impl()
 {
 }
 
-float
+double
 yagi_antenna_impl::get_gain()
 {
   for (size_t i = 0; i < d_yagi_performance.size(); i++) {
@@ -69,11 +69,11 @@ yagi_antenna_impl::get_gain()
   throw std::runtime_error("Invalid Yagi boom length");
 }
 
-float
+double
 yagi_antenna_impl::get_gain_rolloff()
 {
-  float error_deg = utils::radians_to_degrees(d_pointing_error);
-  float tmp = 2 * error_deg * (79.76 / get_beamwidth());
+  double error_deg = utils::radians_to_degrees(d_pointing_error);
+  double tmp = 2 * error_deg * (79.76 / get_beamwidth());
   if (error_deg > 0) {
     return -10
            * std::log10(
@@ -86,13 +86,13 @@ yagi_antenna_impl::get_gain_rolloff()
   }
 }
 
-float
+double
 yagi_antenna_impl::get_beamwidth()
 {
   return sqrt(40000 / std::pow(10, get_gain() / 10));
 }
 
-float
+double
 yagi_antenna_impl::find_optimum_elements()
 {
   for (size_t i = 0; i < d_yagi_performance.size(); i++) {

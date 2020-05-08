@@ -40,15 +40,15 @@ namespace gr
   {
     namespace utils
     {
-      float
+      double
       parser_ITU_heatmap (std::string lat_file, std::string lon_file,
-                          std::string heatmap_file, float lon, float lat);
+                          std::string heatmap_file, double lon, double lat);
 
-      float
-      degrees_to_radians(float degrees);
+      double
+      degrees_to_radians(double degrees);
 
-      float
-      radians_to_degrees(float radians);
+      double
+      radians_to_degrees(double radians);
     }
   }
 }

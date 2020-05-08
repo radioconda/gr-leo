@@ -32,9 +32,9 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-helix_antenna::make(uint8_t type, float frequency, int polarization,
-                    float pointing_error, size_t turns,
-                    float turn_spacing, float circumference)
+helix_antenna::make(uint8_t type, double frequency, int polarization,
+                    double pointing_error, size_t turns,
+                    double turn_spacing, double circumference)
 {
   return generic_antenna::generic_antenna_sptr(
            new helix_antenna_impl(type, frequency, polarization,
@@ -42,11 +42,11 @@ helix_antenna::make(uint8_t type, float frequency, int polarization,
                                   circumference));
 }
 
-helix_antenna_impl::helix_antenna_impl(uint8_t type, float frequency,
+helix_antenna_impl::helix_antenna_impl(uint8_t type, double frequency,
                                        int polarization,
-                                       float pointing_error,
-                                       size_t turns, float turn_spacing,
-                                       float circumference) :
+                                       double pointing_error,
+                                       size_t turns, double turn_spacing,
+                                       double circumference) :
   generic_antenna(HELIX, frequency, polarization, pointing_error),
   d_turns(turns),
   d_turn_spacing(turn_spacing),
@@ -61,7 +61,7 @@ helix_antenna_impl::~helix_antenna_impl()
 {
 }
 
-float
+double
 helix_antenna_impl::get_gain()
 {
   return 10
@@ -69,11 +69,11 @@ helix_antenna_impl::get_gain()
            15 * std::pow(d_circumference, 2) * d_turns * d_turn_spacing);
 }
 
-float
+double
 helix_antenna_impl::get_gain_rolloff()
 {
-  float error_deg = utils::radians_to_degrees(d_pointing_error);
-  float tmp = 2 * error_deg * (79.76 / get_beamwidth());
+  double error_deg = utils::radians_to_degrees(d_pointing_error);
+  double tmp = 2 * error_deg * (79.76 / get_beamwidth());
   if (error_deg > 0) {
     return -10
            * std::log10(
@@ -86,7 +86,7 @@ helix_antenna_impl::get_gain_rolloff()
   }
 }
 
-float
+double
 helix_antenna_impl::get_beamwidth()
 {
   return 115 / (d_circumference * std::sqrt(d_turns * d_turn_spacing));

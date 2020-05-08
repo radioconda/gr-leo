@@ -49,8 +49,8 @@ public:
    * \param pointing_error The pointing error of the antenna in degrees.
    * \param loop The loop of the quadrifilar helix antenna
    */
-  quadrifilar_helix_antenna_impl(uint8_t type, float frequency, int polarization,
-                                 float pointing_error, float loop);
+  quadrifilar_helix_antenna_impl(uint8_t type, double frequency, int polarization,
+                                 double pointing_error, double loop);
 
   ~quadrifilar_helix_antenna_impl();
 
@@ -59,14 +59,14 @@ public:
    * of the parent's pure virtual function for the quadrifilar helix antenna.
    * \return the gain in dBiC.
    */
-  float
+  double
   get_gain();
 
   /*!
    * \brief Get the the gain roll-off of the antenna.
    * \return the gain roll-off in dB.
    */
-  float
+  double
   get_gain_rolloff();
 
   /*!
@@ -74,12 +74,12 @@ public:
    * of the parent's pure virtual function for the quadrifilar helix antenna.
    * \return the beamwidth.
    */
-  float
+  double
   get_beamwidth();
 
 private:
 
-  float d_loop;
+  double d_loop;
 
 };
 } // namespace antenna

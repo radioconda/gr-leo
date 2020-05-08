@@ -34,7 +34,7 @@ private:
   /*!
    * \brief The sampling rate
    */
-  const float d_sample_rate;
+  const double d_sample_rate;
 
   /*!
    * \brief The interval between every orbit calculation that is
@@ -57,7 +57,7 @@ private:
   generic_noise::generic_noise_sptr d_noise;
 
 public:
-  channel_model_impl(const float sample_rate,
+  channel_model_impl(const double sample_rate,
                      generic_model::generic_model_sptr model,
                      const uint8_t noise_type);
 

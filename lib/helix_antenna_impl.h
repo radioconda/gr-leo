@@ -51,9 +51,9 @@ public:
    * \param circumference The circumference
    *
    */
-  helix_antenna_impl(uint8_t type, float frequency, int polarization,
-                     float pointing_error, size_t turns,
-                     float turn_spacing, float circumference);
+  helix_antenna_impl(uint8_t type, double frequency, int polarization,
+                     double pointing_error, size_t turns,
+                     double turn_spacing, double circumference);
 
   ~helix_antenna_impl();
 
@@ -62,14 +62,14 @@ public:
    * of the parent's pure virtual function for the helix antenna.
    * \return the gain in dBiC.
    */
-  float
+  double
   get_gain();
 
   /*!
    * \brief Get the the gain roll-off of the antenna.
    * \return the gain roll-off in dB.
    */
-  float
+  double
   get_gain_rolloff();
 
   /*!
@@ -77,14 +77,14 @@ public:
    * of the parent's pure virtual function for the helix antenna.
    * \return the beamwidth.
    */
-  float
+  double
   get_beamwidth();
 
 private:
 
   size_t d_turns;
-  float d_turn_spacing;
-  float d_circumference;
+  double d_turn_spacing;
+  double d_circumference;
 
 };
 } // namespace antenna

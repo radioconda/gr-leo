@@ -85,17 +85,17 @@ public:
    * \return a boost::shared_ptr to the constructed tracker object.
    */
   static tracker_sptr
-  make(satellite::satellite_sptr satellite_info, const float gs_lat,
-       const float gs_lon, const float gs_alt,
+  make(satellite::satellite_sptr satellite_info, const double gs_lat,
+       const double gs_lon, const double gs_alt,
        const std::string &obs_start, const std::string &obs_end,
-       const float time_resolution_us, const float comm_freq_tx,
-       const float comm_freq_rx,
-       const float tx_power_dbm,
+       const double time_resolution_us, const double comm_freq_tx,
+       const double comm_freq_rx,
+       const double tx_power_dbm,
        generic_antenna::generic_antenna_sptr tx_antenna,
        generic_antenna::generic_antenna_sptr rx_antenna,
-       const float noise_figure,
-       const float noise_temp,
-       const float rx_bw);
+       const double noise_figure,
+       const double noise_temp,
+       const double rx_bw);
 
   ~tracker();
 
@@ -122,17 +122,17 @@ public:
    *
    * \return a boost::shared_ptr to the constructed tracker object.
    */
-  tracker(satellite::satellite_sptr satellite_info, const float gs_lat,
-          const float gs_lon, const float gs_alt,
+  tracker(satellite::satellite_sptr satellite_info, const double gs_lat,
+          const double gs_lon, const double gs_alt,
           const std::string &obs_start, const std::string &obs_end,
-          const float time_resolution_us, const float comm_freq_tx,
-          const float comm_freq_rx,
-          const float tx_power_dbm,
+          const double time_resolution_us, const double comm_freq_tx,
+          const double comm_freq_rx,
+          const double tx_power_dbm,
           generic_antenna::generic_antenna_sptr tx_antenna,
           generic_antenna::generic_antenna_sptr rx_antenna,
-          const float noise_figure,
-          const float noise_temp,
-          const float rx_bw);
+          const double noise_figure,
+          const double noise_temp,
+          const double rx_bw);
 
   /*!
    * \brief The constructor of tracker class
@@ -149,8 +149,8 @@ public:
    * \return a boost::shared_ptr to the constructed tracker object.
    */
   tracker(const std::string &tle_title, const std::string &tle_1,
-          const std::string &tle_2, const float gs_lat, const float gs_lon,
-          const float gs_alt, const std::string &obs_start,
+          const std::string &tle_2, const double gs_lat, const double gs_lon,
+          const double gs_alt, const std::string &obs_start,
           const std::string &obs_end);
 
   /*!
@@ -204,9 +204,9 @@ public:
 
   /*!
    * Returns the time resolution of the observation in microseconds.
-   * @return a float representing the resolution in time of the observation.
+   * @return a double representing the resolution in time of the observation.
    */
-  float
+  double
   get_time_resolution_us();
 
   /*!
@@ -235,35 +235,35 @@ public:
    * Returns the RX frequency of the tracker's COMM system.
    * @return the frequency in Hz.
    */
-  const float
+  const double
   get_comm_freq_rx() const;
 
   /*!
    * Returns the TX frequency of the tracker's COMM system.
    * @return the frequency in Hz.
    */
-  const float
+  const double
   get_comm_freq_tx() const;
 
   /*!
    * Returns the altitude of the ground station.
    * @return the altitude in km.
    */
-  const float
+  const double
   get_altitude() const;
 
   /*!
    * Returns the latitude of the ground station.
    * @return the latitude in degrees.
    */
-  const float
+  const double
   get_latitude() const;
 
   /*!
    * Returns the longitude of the ground station.
    * @return the longitude in degrees.
    */
-  const float
+  const double
   get_lontitude() const;
 
   /*!
@@ -284,28 +284,28 @@ public:
    * Returns the TX power of the satellite's COMM system.
    * @return the TX power in dBm.
    */
-  const float
+  const double
   get_tx_power_dbm() const;
 
   /*!
    * Returns the noise figure of the tracker's COMM system.
    * @return the noise figure in dB.
    */
-  const float
+  const double
   get_noise_figure() const;
 
   /*!
   * Returns the effective noise temperature of the tracker's COMM system.
   * @return the noise temperature in K.
   */
-  const float
+  const double
   get_noise_temperature() const;
 
   /*!
    * Returns the receiver bandwidth of the tracker's COMM system.
    * @return the bandwidth in Hz.
    */
-  const float
+  const double
   get_rx_bandwidth() const;
 
 
@@ -325,20 +325,20 @@ private:
   DateTime d_obs_end;
   DateTime d_obs_elapsed;
 
-  const float d_time_resolution_us;
-  const float d_comm_freq_tx;
-  const float d_comm_freq_rx;
-  const float d_tx_power_dbm;
-  const float d_noise_figure;
-  const float d_noise_temp;
-  const float d_rx_bw;
+  const double d_time_resolution_us;
+  const double d_comm_freq_tx;
+  const double d_comm_freq_rx;
+  const double d_tx_power_dbm;
+  const double d_noise_figure;
+  const double d_noise_temp;
+  const double d_rx_bw;
 
   /**
    * The coordinates of the ground station.
    */
-  const float d_gs_lat;
-  const float d_gs_alt;
-  const float d_gs_lon;
+  const double d_gs_lat;
+  const double d_gs_alt;
+  const double d_gs_lon;
 
   generic_antenna::generic_antenna_sptr d_tx_antenna;
   generic_antenna::generic_antenna_sptr d_rx_antenna;

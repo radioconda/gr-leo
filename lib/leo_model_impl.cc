@@ -45,8 +45,8 @@ leo_model::make(tracker::tracker_sptr tracker, const uint8_t mode,
                 const uint8_t atmo_gases_attenuation,
                 const uint8_t precipitation_attenuation,
                 const uint8_t enable_link_margin,
-                const float surface_watervap_density,
-                const float temperature, const float rainfall_rate)
+                const double surface_watervap_density,
+                const double temperature, const double rainfall_rate)
 {
   return generic_model::generic_model_sptr(
            new leo_model_impl(tracker, mode, fspl_attenuation_enum,
@@ -66,9 +66,9 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
                                const uint8_t atmo_gases_enum,
                                const uint8_t precipitation_enum,
                                const uint8_t enable_link_margin,
-                               const float surface_watervap_density,
-                               const float temperature,
-                               const float rainfall_rate) :
+                               const double surface_watervap_density,
+                               const double temperature,
+                               const double rainfall_rate) :
   generic_model("leo_model", tracker, mode),
   d_doppler_shift_enum((const impairment_enum_t) doppler_shift_enum),
   d_doppler_shift(0),
@@ -170,13 +170,13 @@ leo_model_impl::~leo_model_impl()
 {
 }
 
-float
+double
 leo_model_impl::calculate_doppler_shift(double velocity)
 {
   return (-1e3 * velocity * get_frequency()) / LIGHT_SPEED;
 }
 
-float
+double
 leo_model_impl::calculate_total_attenuation()
 {
   d_total_attenuation = 0;
@@ -231,7 +231,7 @@ leo_model_impl::estimate_link_margin()
                        calculate_noise_floor());
 }
 
-float
+double
 leo_model_impl::calculate_noise_floor()
 {
 

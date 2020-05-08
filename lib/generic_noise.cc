@@ -36,10 +36,10 @@ generic_noise::~generic_noise()
 {
 }
 
-float
+double
 generic_noise::measure_signal_power(const gr_complex *inbuf, size_t num)
 {
-  float sum = 0;
+  double sum = 0;
 
   for (size_t i = 0; i < num; i++) {
     sum += pow(abs(inbuf[i]), 2);

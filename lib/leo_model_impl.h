@@ -31,16 +31,16 @@ class LEO_API leo_model_impl : public leo_model {
 private:
   const impairment_enum_t d_doppler_shift_enum;
 
-  float d_surface_watervap_density;
-  float d_temperature;
-  float d_rainfall_rate;
-  float d_doppler_shift;
+  double d_surface_watervap_density;
+  double d_temperature;
+  double d_rainfall_rate;
+  double d_doppler_shift;
   gr_complex d_phase;
-  float d_atmo_attenuation;
-  float d_rainfall_attenuation;
-  float d_pathloss_attenuation;
-  float d_pointing_attenuation;
-  float d_total_attenuation;
+  double d_atmo_attenuation;
+  double d_rainfall_attenuation;
+  double d_pathloss_attenuation;
+  double d_pointing_attenuation;
+  double d_total_attenuation;
   double d_slant_range;
   double d_elev;
   bool d_write_csv_header;
@@ -55,21 +55,21 @@ private:
    * given slant range.
    * \param slant_range The distance in kilometers between the observer and the
    *      satellite.
-   * @return a float representing the attenuation in dB.
+   * @return a double representing the attenuation in dB.
    */
-  float
+  double
   calculate_free_space_path_loss(double slant_range);
 
   /*!
    * Calculate the Doppler frequency shift for a given satellite range rate.
    * \param velocity The range rate of the satellite expressed in
    * kilometers/sec.
-   * @return a float representing the frequency shift in hertz.
+   * @return a double representing the frequency shift in hertz.
    */
-  float
+  double
   calculate_doppler_shift(double velocity);
 
-  float
+  double
   calculate_total_attenuation();
 
 public:
@@ -80,8 +80,8 @@ public:
                  const uint8_t atmo_gases_attenuation,
                  const uint8_t precipitation_attenuation,
                  const uint8_t enable_link_margin,
-                 const float surface_watervap_density,
-                 const float temperature, const float rainfall_rate);
+                 const double surface_watervap_density,
+                 const double temperature, const double rainfall_rate);
 
   ~leo_model_impl();
 
@@ -92,7 +92,7 @@ public:
   void
   estimate_link_margin();
 
-  float
+  double
   calculate_noise_floor();
 
   std::string

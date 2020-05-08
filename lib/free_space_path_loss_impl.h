@@ -37,7 +37,7 @@ public:
 
   ~free_space_path_loss_impl();
 
-  float
+  double
   get_attenuation();
 
 };

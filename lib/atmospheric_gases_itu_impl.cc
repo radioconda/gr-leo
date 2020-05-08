@@ -31,14 +31,14 @@ namespace leo {
 namespace attenuation {
 
 generic_attenuation::generic_attenuation_sptr
-atmospheric_gases_itu::make(float surface_watervap_density)
+atmospheric_gases_itu::make(double surface_watervap_density)
 {
   return generic_attenuation::generic_attenuation_sptr(
            new atmospheric_gases_itu_impl(surface_watervap_density));
 }
 
 atmospheric_gases_itu_impl::atmospheric_gases_itu_impl(
-  float surface_watervap_density) :
+  double surface_watervap_density) :
   generic_attenuation(),
   d_oxygen_pressure(0),
   d_temperature(0),
@@ -51,22 +51,22 @@ atmospheric_gases_itu_impl::~atmospheric_gases_itu_impl()
 {
 }
 
-float
-atmospheric_gases_itu_impl::geopotential_to_geometric(float alt)
+double
+atmospheric_gases_itu_impl::geopotential_to_geometric(double alt)
 {
   return (6356.766 * alt) / (6356.766 - alt);
 }
 
-float
-atmospheric_gases_itu_impl::geometric_to_geopotential(float alt)
+double
+atmospheric_gases_itu_impl::geometric_to_geopotential(double alt)
 {
   return (6356.766 * alt) / (6356.766 + alt);
 }
 
 double
-atmospheric_gases_itu_impl::get_temperature(float alt)
+atmospheric_gases_itu_impl::get_temperature(double alt)
 {
-  float geopotential_alt = geometric_to_geopotential(alt);
+  double geopotential_alt = geometric_to_geopotential(alt);
   double temperature = 0;
   /**
    * Troposphere
@@ -125,9 +125,9 @@ atmospheric_gases_itu_impl::get_temperature(float alt)
 }
 
 double
-atmospheric_gases_itu_impl::get_pressure(float alt)
+atmospheric_gases_itu_impl::get_pressure(double alt)
 {
-  float geopotential_alt = geometric_to_geopotential(alt);
+  double geopotential_alt = geometric_to_geopotential(alt);
   double pressure = 0;
   const double a0 = 95.571899;
   const double a1 = -4.011801;
@@ -201,16 +201,16 @@ atmospheric_gases_itu_impl::get_pressure(float alt)
 }
 
 double
-atmospheric_gases_itu_impl::get_water_vapour_pressure(float alt)
+atmospheric_gases_itu_impl::get_water_vapour_pressure(double alt)
 {
   double rh = d_surface_watervap_density * std::exp(-alt / 2);
   return (rh * get_temperature(alt)) / 216.7;
 }
 
-float
+double
 atmospheric_gases_itu_impl::S(size_t index, atmo_element_t element)
 {
-  float theta = 300 / d_temperature;
+  double theta = 300 / d_temperature;
   switch (element) {
   case OXYGEN:
     return d_table1[index][1] * 1e-7 * d_oxygen_pressure
@@ -227,11 +227,11 @@ atmospheric_gases_itu_impl::S(size_t index, atmo_element_t element)
   }
 }
 
-float
+double
 atmospheric_gases_itu_impl::F(size_t index, atmo_element_t element)
 {
-  float theta = 300 / d_temperature;
-  float f0;
+  double theta = 300 / d_temperature;
+  double f0;
   double df;
   double delta = 0;
   double result;
@@ -274,22 +274,22 @@ atmospheric_gases_itu_impl::F(size_t index, atmo_element_t element)
   return result;
 }
 
-float
+double
 atmospheric_gases_itu_impl::ND()
 {
-  float theta = 300 / d_temperature;
-  float d = (d_oxygen_pressure + d_water_pressure) * std::pow(theta, 0.8)
-            * 5.6e-4;
+  double theta = 300 / d_temperature;
+  double d = (d_oxygen_pressure + d_water_pressure) * std::pow(theta, 0.8)
+             * 5.6e-4;
   return frequency * d_oxygen_pressure * std::pow(theta, 2)
          * (6.14e-5 / (d * (1 + std::pow(frequency / d, 2)))
             + (d_oxygen_pressure * std::pow(theta, 1.5) * 1.4e-12
                / (1 + (std::pow(frequency, 1.5) * 1.9e-5))));
 }
 
-float
+double
 atmospheric_gases_itu_impl::N(atmo_element_t element)
 {
-  float sum = 0;
+  double sum = 0;
   switch (element) {
   case OXYGEN:
     for (size_t i = 0; i < d_table1.size(); i++) {
@@ -309,15 +309,15 @@ atmospheric_gases_itu_impl::N(atmo_element_t element)
 
 }
 
-float
+double
 atmospheric_gases_itu_impl::gamma()
 {
   return 0.1820 * frequency * (N(OXYGEN) + N(WATER_VAPOUR));
 }
 
-float
-atmospheric_gases_itu_impl::nh(float temperature, float oxygen_pressure,
-                               float watevapour_pressure)
+double
+atmospheric_gases_itu_impl::nh(double temperature, double oxygen_pressure,
+                               double watevapour_pressure)
 {
   return 1
          + (77.6 * (oxygen_pressure / temperature)
@@ -326,8 +326,8 @@ atmospheric_gases_itu_impl::nh(float temperature, float oxygen_pressure,
          * 1e-6;
 }
 
-float
-atmospheric_gases_itu_impl::a(float an, float rn, float delta)
+double
+atmospheric_gases_itu_impl::a(double an, double rn, double delta)
 {
   double internal = (-std::pow(an, 2) - 2 * rn * delta
                      - std::pow(delta, 2)) / (2 * an * rn + 2 * an * delta);
@@ -337,30 +337,30 @@ atmospheric_gases_itu_impl::a(float an, float rn, float delta)
   else if (internal > 1) {
     internal = 1;
   }
-  float a_tmp = MATH_PI - acos(internal);
+  double a_tmp = MATH_PI - acos(internal);
   return a_tmp;
 }
 
-float
-atmospheric_gases_itu_impl::alpha(size_t n, float rn, float delta,
-                                  float prev_alpha)
+double
+atmospheric_gases_itu_impl::alpha(size_t n, double rn, double delta,
+                                  double prev_alpha)
 {
-  float b = beta(n, rn, delta, prev_alpha);
-  float alpha_tmp = -rn * cos(b)
-                    + 0.5
-                    * std::sqrt(
-                      4 * std::pow(rn, 2) * std::pow(cos(b), 2)
-                      + (8 * rn * delta) + (4 * std::pow(delta, 2)));
+  double b = beta(n, rn, delta, prev_alpha);
+  double alpha_tmp = -rn * cos(b)
+                     + 0.5
+                     * std::sqrt(
+                       4 * std::pow(rn, 2) * std::pow(cos(b), 2)
+                       + (8 * rn * delta) + (4 * std::pow(delta, 2)));
   return alpha_tmp;
 }
 
-float
-atmospheric_gases_itu_impl::beta(size_t n, float rn, float delta,
-                                 float prev_alpha)
+double
+atmospheric_gases_itu_impl::beta(size_t n, double rn, double delta,
+                                 double prev_alpha)
 {
-  float delta_next = 0.0001 * std::exp(((n + 1) - 1) / 100);
-  float aangle;
-  float bangle;
+  double delta_next = 0.0001 * std::exp(((n + 1) - 1) / 100);
+  double aangle;
+  double bangle;
   if (n == 1) {
     bangle = 1.5707963268 - elevation_angle;
     return bangle;
@@ -379,16 +379,16 @@ atmospheric_gases_itu_impl::beta(size_t n, float rn, float delta,
 
 }
 
-float
+double
 atmospheric_gases_itu_impl::get_attenuation()
 {
-  float delta;
-  float delta_sum = 0;
-  float attenuation_sum = 0;
-  float attenuation;
-  float rn = EARTH_RADIUS;
-  float prev_alpha = 0;
-  float alpha_sum = 0;
+  double delta;
+  double delta_sum = 0;
+  double attenuation_sum = 0;
+  double attenuation;
+  double rn = EARTH_RADIUS;
+  double prev_alpha = 0;
+  double alpha_sum = 0;
 
   /**
    * Method is only valid for elevation angles above 1 degree

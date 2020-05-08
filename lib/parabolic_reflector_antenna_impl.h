@@ -52,9 +52,9 @@ class LEO_API parabolic_reflector_antenna_impl : public
    *
    */
 public:
-  parabolic_reflector_antenna_impl(uint8_t type, float frequency,
-                                   int polarization, float pointing_error, float diameter,
-                                   float aperture_efficiency);
+  parabolic_reflector_antenna_impl(uint8_t type, double frequency,
+                                   int polarization, double pointing_error, double diameter,
+                                   double aperture_efficiency);
 
   ~parabolic_reflector_antenna_impl();
 
@@ -63,7 +63,7 @@ public:
    * of the parent's pure virtual function for the parabolic reflector antenna.
    * \return the gain in dBiC.
    */
-  float
+  double
   get_gain();
 
   /*!
@@ -71,20 +71,20 @@ public:
    * of the parent's pure virtual function for the parabolic reflector antenna.
    * \return the beamwidth
    */
-  float
+  double
   get_beamwidth();
 
   /*!
    * \brief Get the the gain roll-off of the antenna.
    * \return the gain roll-off in dB.
    */
-  float
+  double
   get_gain_rolloff();
 
 private:
 
-  float d_diameter;
-  float d_aperture_efficiency;
+  double d_diameter;
+  double d_aperture_efficiency;
 
 };
 } // namespace antenna

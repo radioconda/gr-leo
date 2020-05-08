@@ -47,8 +47,8 @@ public:
    * polarization
    * \param pointing_error The pointing error of the antenna in degrees.
    */
-  dipole_antenna_impl(uint8_t type, float frequency, int polarization,
-                      float pointing_error);
+  dipole_antenna_impl(uint8_t type, double frequency, int polarization,
+                      double pointing_error);
 
   ~dipole_antenna_impl();
 
@@ -57,14 +57,14 @@ public:
    * of the parent's pure virtual function for the helix antenna.
    * \return the gain in dBiC.
    */
-  float
+  double
   get_gain();
 
   /*!
    * \brief Get the the gain roll-off of the antenna.
    * \return the gain roll-off in dB.
    */
-  float
+  double
   get_gain_rolloff();
 
   /*!
@@ -72,7 +72,7 @@ public:
    * of the parent's pure virtual function for the dipole antenna.
    * \return the beamwidth.
    */
-  float
+  double
   get_beamwidth();
 
 };

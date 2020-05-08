@@ -32,8 +32,8 @@ namespace leo {
 namespace attenuation {
 
 generic_attenuation::generic_attenuation_sptr
-atmospheric_gases_regression::make(float surface_watervap_density,
-                                   float temperature)
+atmospheric_gases_regression::make(double surface_watervap_density,
+                                   double temperature)
 {
   return generic_attenuation::generic_attenuation_sptr(
            new atmospheric_gases_regression_impl(surface_watervap_density,
@@ -41,7 +41,7 @@ atmospheric_gases_regression::make(float surface_watervap_density,
 }
 
 atmospheric_gases_regression_impl::atmospheric_gases_regression_impl(
-  float watervap, float temperature) :
+  double watervap, double temperature) :
   generic_attenuation(),
   d_surface_watervap_density(watervap),
   d_temperature(temperature)
@@ -66,28 +66,28 @@ atmospheric_gases_regression_impl::~atmospheric_gases_regression_impl()
 {
 }
 
-float
-atmospheric_gases_regression_impl::m(float y1, float y2, float f1,
-                                     float f2)
+double
+atmospheric_gases_regression_impl::m(double y1, double y2, double f1,
+                                     double f2)
 {
   return std::log10(y1 / y2) / std::log10(f1 / f2);
 }
 
-float
-atmospheric_gases_regression_impl::calc_coeff(float y1, float y2,
-    float f1, float f2,
-    float f0)
+double
+atmospheric_gases_regression_impl::calc_coeff(double y1, double y2,
+    double f1, double f2,
+    double f0)
 {
-  float _m = m(y1, y2, f1, f2);
+  double _m = m(y1, y2, f1, f2);
   return std::pow(
            10, _m * std::log10(f0) + (std::log10(y2) - _m * std::log10(f2)));
 }
 
 atmospheric_gases_regression_impl::atmo_coefficients_t
 atmospheric_gases_regression_impl::get_atmo_coeff(
-  float frequency, std::vector<atmo_coefficients_t> *coeff_table)
+  double frequency, std::vector<atmo_coefficients_t> *coeff_table)
 {
-  float a_f, b_f, c_f = 0;
+  double a_f, b_f, c_f = 0;
 
   if (frequency < std::get<0> ((*coeff_table)[0])) {
     a_f = std::get<1> ((*coeff_table)[0]);
@@ -129,15 +129,15 @@ atmospheric_gases_regression_impl::get_atmo_coeff(
   return atmo_coefficients_t (frequency, a_f, b_f, c_f);
 }
 
-float
+double
 atmospheric_gases_regression_impl::get_attenuation()
 {
-  float gammaa = d_af + d_bf * d_surface_watervap_density
-                 - d_cf * d_temperature;
-  float zenitha = d_azf + d_bzf * d_surface_watervap_density
-                  - d_czf * d_temperature;
+  double gammaa = d_af + d_bf * d_surface_watervap_density
+                  - d_cf * d_temperature;
+  double zenitha = d_azf + d_bzf * d_surface_watervap_density
+                   - d_czf * d_temperature;
 
-  float ha = zenitha / gammaa;
+  double ha = zenitha / gammaa;
 
   if (utils::radians_to_degrees(elevation_angle) >= 10) {
     return (ha * zenitha) / std::sin(elevation_angle);

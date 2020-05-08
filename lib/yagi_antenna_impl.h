@@ -50,8 +50,8 @@ public:
    * \param boom_length The length of the antenna boom in meters
    *
    */
-  yagi_antenna_impl(uint8_t type, float frequency, int polarization,
-                    float pointing_error, float boom_length);
+  yagi_antenna_impl(uint8_t type, double frequency, int polarization,
+                    double pointing_error, double boom_length);
 
   ~yagi_antenna_impl();
 
@@ -60,14 +60,14 @@ public:
    * of the parent's pure virtual function for the yagi antenna.
    * \return the gain in dBiC.
    */
-  float
+  double
   get_gain();
 
   /*!
    * \brief Get the the gain roll-off of the antenna.
    * \return the gain roll-off in dB.
    */
-  float
+  double
   get_gain_rolloff();
 
   /*!
@@ -75,12 +75,12 @@ public:
    * of the parent's pure virtual function for the yagi antenna.
    * \return the beamwidth
    */
-  float
+  double
   get_beamwidth();
 
 private:
 
-  typedef std::tuple<float, float, float> yagi_preformance_t;
+  typedef std::tuple<double, double, double> yagi_preformance_t;
 
   /**
    * Data taken from ARPL antenna book.
@@ -115,7 +115,7 @@ private:
         22,
         21.65) };
 
-  float d_boom_length;
+  double d_boom_length;
   size_t d_optimum_elements;
 
   /*!
@@ -124,7 +124,7 @@ private:
    *
    * \return the number of elements.
    */
-  float
+  double
   find_optimum_elements();
 
 };

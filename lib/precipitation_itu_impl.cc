@@ -33,8 +33,8 @@ namespace leo {
 namespace attenuation {
 
 generic_attenuation::generic_attenuation_sptr
-precipitation_itu::make(float rainfall_rate, float tracker_lontitude,
-                        float tracker_latitude, float tracker_altitude,
+precipitation_itu::make(double rainfall_rate, double tracker_lontitude,
+                        double tracker_latitude, double tracker_altitude,
                         impairment_enum_t mode)
 {
   return generic_attenuation::generic_attenuation_sptr(
@@ -44,8 +44,8 @@ precipitation_itu::make(float rainfall_rate, float tracker_lontitude,
 }
 
 precipitation_itu_impl::precipitation_itu_impl(
-  float rainfall_rate, float tracker_lontitude, float tracker_latitude,
-  float tracker_altitude, impairment_enum_t mode) :
+  double rainfall_rate, double tracker_lontitude, double tracker_latitude,
+  double tracker_altitude, impairment_enum_t mode) :
   generic_attenuation(),
   d_rainfall_rate(rainfall_rate),
   d_tracker_lontitude(tracker_lontitude),
@@ -84,15 +84,15 @@ precipitation_itu_impl::~precipitation_itu_impl()
 {
 }
 
-float
+double
 precipitation_itu_impl::get_attenuation()
 {
-  float Ls;
-  float LG;
-  float height_tmp;
-  float LE;
-  float gammar;
-  float Aaverage;
+  double Ls;
+  double LG;
+  double height_tmp;
+  double LE;
+  double gammar;
+  double Aaverage;
 
   if ((height_tmp = d_isotherm_height - d_hs) <= 0) {
     return 0;
@@ -117,21 +117,21 @@ precipitation_itu_impl::get_attenuation()
   return Aaverage;
 }
 
-float
+double
 precipitation_itu_impl::get_specific_attenuation()
 {
-  float gammar = 0;
-  float k = 0;
-  float logkh = 0;
-  float logkv = 0;
-  float a = 0;
-  float av = 0;
-  float ah = 0;
+  double gammar = 0;
+  double k = 0;
+  double logkh = 0;
+  double logkv = 0;
+  double a = 0;
+  double av = 0;
+  double ah = 0;
   /**
    * TODO: Move tilt in generic_attenuation class and
    * remove constant value
    */
-  float tilt = 45;
+  double tilt = 45;
 
   for (size_t j = 0; j < d_kh.size(); j++) {
     logkh += d_kh[j][0]
@@ -195,23 +195,23 @@ precipitation_itu_impl::get_specific_attenuation()
   return gammar;
 }
 
-float
+double
 precipitation_itu_impl::get_horizontal_reduction_factor(
-  float LG, float specific_attenuation)
+  double LG, double specific_attenuation)
 {
   return 1
          / (1 + 0.78 * std::sqrt((LG * specific_attenuation) / frequency)
             - 0.38 * (1 - std::exp(-2 * LG)));
 }
 
-float
-precipitation_itu_impl::calculate_effective_path_len(float LG, float hr,
-    float gammar)
+double
+precipitation_itu_impl::calculate_effective_path_len(double LG, double hr,
+    double gammar)
 {
-  float zeta;
-  float hrf;
-  float LR;
-  float x;
+  double zeta;
+  double hrf;
+  double LR;
+  double x;
 
   hrf = get_horizontal_reduction_factor(LG, gammar);
   zeta = std::pow(std::tan((hr - d_hs) / (LG * hrf)), -1);

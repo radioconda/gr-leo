@@ -52,7 +52,7 @@ public:
    * function MUST be implemented by every derived class.
    * \return the attenuation in dB.
    */
-  virtual float
+  virtual double
   get_attenuation() = 0;
 
   /*!
@@ -60,14 +60,14 @@ public:
    * \param freq The frequency in Hz
    */
   static void
-  set_frequency(float freq);
+  set_frequency(double freq);
 
   /*!
    * \brief Set slant range static variable
    * \param range The range in km
    */
   static void
-  set_slant_range(float range);
+  set_slant_range(double range);
 
   /*!
    * \brief Set polarization static variable
@@ -81,7 +81,7 @@ public:
    * \param elev_angle The elevation angle in radians
    */
   static void
-  set_elevation_angle(float elev_angle);
+  set_elevation_angle(double elev_angle);
 
   typedef boost::shared_ptr<generic_attenuation> generic_attenuation_sptr;
 
@@ -94,9 +94,9 @@ public:
   ~generic_attenuation();
 
 protected:
-  static float frequency;
-  static float elevation_angle;
-  static float slant_range;
+  static double frequency;
+  static double elevation_angle;
+  static double slant_range;
   static uint8_t polarization;
 };
 
