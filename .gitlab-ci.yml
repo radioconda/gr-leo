@@ -43,8 +43,8 @@ opensuse_build:
     - make
     - make install
     - python3 -c "import leo"
-ubuntu_1910_build:
-  image: ubuntu:19.10
+ubuntu_2004_build:
+  image: ubuntu:20.04
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
@@ -81,8 +81,8 @@ ubuntu_1910_build:
     - make install
     - ldconfig
     - python3 -c "import leo"
-ubuntu_1804_build:
-  image: ubuntu:18.04
+ubuntu_1910_build:
+  image: ubuntu:19.10
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
