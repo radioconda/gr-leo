@@ -43,6 +43,30 @@ opensuse_build:
     - make
     - make install
     - python3 -c "import leo"
+archlinux_build:
+  stage: build
+  image: archlinux:latest
+  before_script:
+    - |
+      pacman -Sy --noconfirm \
+          boost \
+          python \
+          base-devel \
+          swig \
+          make \
+          cmake \
+          gnuradio \
+          gmp \
+          orc \
+          log4cpp \
+          git
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+    - make
+    - make install
+    - python3 -c "import leo"
 ubuntu_2004_build:
   image: ubuntu:20.04
   variables:
