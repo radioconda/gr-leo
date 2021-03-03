@@ -67,52 +67,14 @@ archlinux_build:
     - make
     - make install
     - python3 -c "import leo"
-ubuntu_2004_build:
-  image: ubuntu:20.04
+ubuntu_build:
+  image: ubuntu:latest
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
     - apt-get -q update
     - apt-get -qy install software-properties-common
-    - add-apt-repository ppa:gnuradio/gnuradio-releases
-    - apt-get -q update
-    - |
-      apt-get -qy install \
-          libboost-dev \
-          libboost-date-time-dev \
-          libboost-filesystem-dev \
-          libboost-program-options-dev \
-          libboost-system-dev \
-          libboost-thread-dev \
-          libboost-regex-dev \
-          libboost-test-dev \
-          swig \
-          cmake \
-          gcc \
-          gnuradio-dev \
-          libconfig++-dev \
-          libgmp-dev \
-          liborc-0.4-0 \
-          liborc-0.4-dev \
-          liborc-0.4-dev-bin \
-          git
-  stage: build
-  script:
-    - mkdir -p build
-    - cd build
-    - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-    - make
-    - make install
-    - ldconfig
-    - python3 -c "import leo"
-ubuntu_1910_build:
-  image: ubuntu:19.10
-  variables:
-    DEBIAN_FRONTEND: "noninteractive"
-  before_script:
-    - apt-get -q update
-    - apt-get -qy install software-properties-common
-    - add-apt-repository ppa:gnuradio/gnuradio-releases
+    - add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
     - apt-get -q update
     - |
       apt-get -qy install \
