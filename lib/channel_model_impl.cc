@@ -109,19 +109,19 @@ channel_model_impl::work(int noutput_items,
     d_noise->add_noise(out, out, avail, d_model->get_noise_floor());
   }
 
-  /* Produce messages only in case we have AOS */
-  if (d_model->aos()) {
-    const std::string &str = d_model->get_csv_log();
-    message_port_pub(pmt::mp("csv"),
-                     pmt::make_blob(str.c_str(), str.length()));
-    message_port_pub(pmt::mp("doppler"),
-                     pmt::from_double(d_model->get_doppler_freq()));
-  }
   d_win_produced += avail;
 
   if (d_win_produced == d_time_win_samples) {
     d_win_produced = 0;
     d_model->advance_time(d_model->get_tracker()->get_time_resolution_us());
+    /* Produce messages only in case we have AOS */
+    if (d_model->aos()) {
+      const std::string &str = d_model->get_csv_log();
+      message_port_pub(pmt::mp("csv"),
+                       pmt::make_blob(str.c_str(), str.length()));
+      message_port_pub(pmt::mp("doppler"),
+                       pmt::from_double(d_model->get_doppler_freq()));
+    }
   }
 
   return noutput_items;
