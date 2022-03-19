@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H
 #define INCLUDED_LEO_QUADRIFILAR_HELIX_ANTENNA_IMPL_H
 
-#include "../include/leo/quadrifilar_helix_antenna.h"
+#include "../include/gnuradio/leo/quadrifilar_helix_antenna.h"
 #include <vector>
 
 namespace gr {

@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H
 #define INCLUDED_LEO_FREE_SPACE_PATH_LOSS_IMPL_H
 
-#include "../include/leo/free_space_path_loss.h"
+#include "../include/gnuradio/leo/free_space_path_loss.h"
 #include <vector>
 
 namespace gr {

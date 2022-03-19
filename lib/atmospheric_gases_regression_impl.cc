@@ -24,8 +24,8 @@
 
 #include "atmospheric_gases_regression_impl.h"
 #include <cmath>
-#include <leo/log.h>
-#include <leo/utils/helper.h>
+#include <gnuradio/leo/log.h>
+#include <gnuradio/leo/utils/helper.h>
 
 namespace gr {
 namespace leo {

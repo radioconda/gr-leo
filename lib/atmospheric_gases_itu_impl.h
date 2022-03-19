@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_ATMOSPHERIC_GASES_ITU_IMPL_H
 #define INCLUDED_LEO_ATMOSPHERIC_GASES_ITU_IMPL_H
 
-#include "../include/leo/atmospheric_gases_itu.h"
+#include "../include/gnuradio/leo/atmospheric_gases_itu.h"
 #include <vector>
 
 namespace gr {

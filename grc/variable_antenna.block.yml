@@ -75,45 +75,45 @@ parameters:
     label: Pointing Error (Degrees)
     dtype: real
     default: '0'
-value: "${ #if int(type)==0:\nleo.yagi_antenna_make(type, frequency, polarization,\
+value: "${ #if int(type)==0:\ngnuradio.leo.antenna.yagi_antenna.make(type, frequency, polarization,\
     \ pointing_error, boom_length)\n \
-    \ #elif int(type)==1:\\nleo.helix_antenna_make(type,\
+    \ #elif int(type)==1:\\ngnuradio.leo.antenna.helix_antenna.make(type,\
     \ frequency, polarization, pointing_error, turns,\
     \ turn_spacing, circumference)\n\
-    #elif int(type)==2:\\nleo.parabolic_reflector_antenna_make(type,\
+    #elif int(type)==2:\\ngnuradio.leo.antenna.parabolic_reflector_antenna.make(type,\
     \ frequency, polarization, pointing_error, diameter, aperture_efficiency)\n
-    #elif int(type)==3:\\nleo.custom_antenna_make(type, frequency, polarization,\
+    #elif int(type)==3:\\ngnuradio.leo.custom_antenna.make(type, frequency, polarization,\
     \ pointing_error, gain, beamwidth, rolloff_gain)\n\
-    #elif int(type)==4:\\nleo.monopole_antenna_make(type,\
+    #elif int(type)==4:\\ngnuradio.leo.antenna.monopole_antenna.make(type,\
     \ frequency, polarization, pointing_error)\n\
-    #elif int(type)==5:\\nleo.dipole_antenna_make(type,\
+    #elif int(type)==5:\\ngnuradio.leo.antenna.dipole_antenna.make(type,\
     \ frequency, polarization, pointing_error)\n\
-    #elif int(type)==6:\\nleo.quadrifilar_helix_antenna_make(type,\
+    #elif int(type)==6:\\ngnuradio.leo.antenna.quadrifilar_helix_antenna.make(type,\
     \ frequency, polarization, pointing_error, lp)\n\
     #else:\\nprint \"Invalid antenna\
     \ type\"\\nraise RuntimeError\\n%endif }"
 
 templates:
-    imports: import leo
+    imports: import gnuradio.leo
     var_make: |- 
         % if int(type)==0:
-        self.${id} = ${id} = leo.yagi_antenna_make(${type},\
+        self.${id} = ${id} = gnuradio.leo.antenna.yagi_antenna.make(${type},\
         ${frequency}, ${polarization}, ${pointing_error}, ${boom_length})\
         % elif int(type)==1:
-        self.${id} = ${id} = leo.helix_antenna_make(${type}, ${frequency},\
+        self.${id} = ${id} = gnuradio.leo.antenna.helix_antenna.make(${type}, ${frequency},\
         ${polarization}, ${pointing_error}, ${turns}, ${turn_spacing}, ${circumference})\
         % elif int(type)==2:
-        self.${id} = ${id} = leo.parabolic_reflector_antenna_make(${type}, ${frequency}, ${polarization},\
+        self.${id} = ${id} = gnuradio.leo.antenna.parabolic_reflector_antenna.make(${type}, ${frequency}, ${polarization},\
         ${pointing_error}, ${diameter}, ${aperture_efficiency})\
         % elif int(type)==3:
-        self.${id} = ${id} = leo.custom_antenna_make(${type},\
+        self.${id} = ${id} = gnuradio.leo.antenna.custom_antenna.make(${type},\
         ${frequency}, ${polarization}, ${pointing_error}, ${gain}, ${beamwidth}, ${rolloff_gain})\
         % elif int(type)==4:
-        self.${id} = ${id} = leo.monopole_antenna_make(${type}, ${frequency}, ${polarization}, ${pointing_error})\
+        self.${id} = ${id} = gnuradio.leo.antenna.monopole_antenna.make(${type}, ${frequency}, ${polarization}, ${pointing_error})\
         % elif int(type)==5:
-        self.${id} = ${id} = leo.dipole_antenna_make(${type}, ${frequency}, ${polarization}, ${pointing_error})\
+        self.${id} = ${id} = gnuradio.leo.antenna.dipole_antenna.make(${type}, ${frequency}, ${polarization}, ${pointing_error})\
         % elif int(type)==6:
-        self.${id} = ${id} = leo.quadrifilar_helix_antenna_make(${type},\
+        self.${id} = ${id} = gnuradio.leo.antenna.quadrifilar_helix_antenna.make(${type},\
         ${frequency}, ${polarization}, ${pointing_error}, ${lp})\
         % else:
         print \"Invalid antenna type\"\nraise RuntimeError\n% endif \n  "

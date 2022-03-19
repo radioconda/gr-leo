@@ -23,7 +23,7 @@
 #endif
 
 #include "antenna_pointing_loss_impl.h"
-#include <leo/log.h>
+#include <gnuradio/leo/log.h>
 
 namespace gr {
 namespace leo {

@@ -6,7 +6,7 @@ parameters:
 -   id: value
     label: Ignore Me
     dtype: raw
-    default: 'fine'
+    default: '''ok'''
     hide: all
 -   id: gs_lon
     label: Longtitude (Degrees)
@@ -71,14 +71,14 @@ parameters:
     dtype: raw
     default: antenna_variable
     category: RF Configuration
-value: "${ leo.tracker_make(satellite_info, gs_lat, gs_lon, gs_alt, obs_start, \
+value: "${ gnuradio.leo.tracker.make(satellite_info, gs_lat, gs_lon, gs_alt, obs_start, \
    \ obs_end, time_resolution_us, comm_freq_tx, comm_freq_rx, tx_power_dbm, tx_antenna, rx_antenna, \
    \ noise_figure, noise_temp, rx_bw) }"
    
 templates:
-   imports: import leo
+   imports: import gnuradio.leo
    var_make: |-
-      self.${id} = ${id} = leo.tracker_make(${satellite_info}, ${gs_lat}, ${gs_lon}, ${gs_alt}, ${obs_start}, \
+      self.${id} = ${id} = gnuradio.leo.tracker.make(${satellite_info}, ${gs_lat}, ${gs_lon}, ${gs_alt}, ${obs_start}, \
       ${obs_end}, ${time_resolution_us}, ${comm_freq_tx}, ${comm_freq_rx}, ${tx_power_dbm}, ${tx_antenna}, ${rx_antenna}, \
       ${noise_figure}, ${noise_temp}, ${rx_bw})
    

@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <leo/white_gaussian_noise.h>
+#include <gnuradio/leo/white_gaussian_noise.h>
 
 namespace gr {
 namespace leo {

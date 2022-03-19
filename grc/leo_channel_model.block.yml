@@ -39,7 +39,7 @@ outputs:
     optional: true
 
 templates:
-    imports: import leo
-    make: leo.channel_model(${sample_rate}, ${model}, ${noise_type})
+    imports: import gnuradio.leo
+    make: gnuradio.leo.channel_model.make(${sample_rate}, ${model}, ${noise_type})
 
 file_format: 1

@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_ANTENNA_POINTING_LOSS_IMPL_H
 #define INCLUDED_LEO_ANTENNA_POINTING_LOSS_IMPL_H
 
-#include "../include/leo/antenna_pointing_loss.h"
+#include "../include/gnuradio/leo/antenna_pointing_loss.h"
 
 namespace gr {
 namespace leo {

@@ -23,8 +23,8 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <leo/log.h>
-#include <leo/tracker.h>
+#include <gnuradio/leo/log.h>
+#include <gnuradio/leo/tracker.h>
 #include <chrono>
 #include <ctime>
 

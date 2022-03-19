@@ -23,8 +23,8 @@
 #endif
 
 #include "dipole_antenna_impl.h"
-#include <leo/log.h>
-#include <leo/utils/helper.h>
+#include <gnuradio/leo/log.h>
+#include <gnuradio/leo/utils/helper.h>
 #include <cmath>
 #include <limits>
 

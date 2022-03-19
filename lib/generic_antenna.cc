@@ -23,8 +23,8 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <leo/utils/helper.h>
-#include <leo/generic_antenna.h>
+#include <gnuradio/leo/utils/helper.h>
+#include <gnuradio/leo/generic_antenna.h>
 
 namespace gr {
 namespace leo {

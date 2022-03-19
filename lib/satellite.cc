@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <leo/satellite.h>
+#include <gnuradio/leo/satellite.h>
 #include <iostream>
 
 namespace gr {

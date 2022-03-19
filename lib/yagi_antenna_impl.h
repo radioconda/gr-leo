@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_YAGI_ANTENNA_IMPL_H
 #define INCLUDED_LEO_YAGI_ANTENNA_IMPL_H
 
-#include "../include/leo/yagi_antenna.h"
+#include "../include/gnuradio/leo/yagi_antenna.h"
 #include <vector>
 
 namespace gr {

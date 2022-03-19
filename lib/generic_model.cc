@@ -22,7 +22,7 @@
 #include "config.h"
 #endif
 
-#include <leo/generic_model.h>
+#include <gnuradio/leo/generic_model.h>
 #include <iostream>
 
 namespace gr {
