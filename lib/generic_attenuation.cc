@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <leo/generic_attenuation.h>
+#include <gnuradio/leo/generic_attenuation.h>
 
 namespace gr {
 namespace leo {

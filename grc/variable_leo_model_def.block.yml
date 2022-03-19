@@ -47,12 +47,12 @@ parameters:
 -   id: surface_watervap_density
     label: Surface H2O Density (g/m3)
     dtype: real
-    default: '7.5'
+    default: 7.5
     hide: ${ ('none' if int(atmo_gases_attenuation)==2 else 'all') }
 -   id: temperature
     label: Surface Temperature (Celsius)
     dtype: real
-    default: '0'
+    default: 0
     hide: ${ ('none' if int(atmo_gases_attenuation)==2 else 'all') }
 -   id: precipitation_attenuation
     label: Precipitation attenuation
@@ -63,7 +63,7 @@ parameters:
 -   id: rainfall_rate
     label: Rainfall Rate (mm3/h)
     dtype: real
-    default: '25'
+    default: 25
     hide: ${ ('none' if int(precipitation_attenuation)==4 else 'all') }
 -   id: enable_link_margin
     label: Link Margin Calculation
@@ -71,14 +71,14 @@ parameters:
     default: true
     options: [true, false]
     option_labels: ['On', 'Off']
-value: "${ leo.leo_model_make(tracker, mode, fspl_attenuation_enum, \n  \t\t\t\t\t\
+value: "${ gnuradio.leo.model.leo_model.make(tracker, mode, fspl_attenuation_enum, \n  \t\t\t\t\t\
     \t\t\tpointing_attenuation_enum, doppler_shift_enum, atmo_gases_attenuation, \n\
     \  \t\t\t\t\t\t\t\tprecipitation_attenuation, enable_link_margin, surface_watervap_density, temperature,\
     \ rainfall_rate) }"
 
 templates:
-    imports: import leo
-    var_make: "self.${id} = ${id} = leo.leo_model_make(${tracker}, ${mode}, ${fspl_attenuation_enum},\
+    imports: import gnuradio.leo
+    var_make: "self.${id} = ${id} = gnuradio.leo.model.leo_model.make(${tracker}, ${mode}, ${fspl_attenuation_enum},\
         \ \n  \t\t\t\t\t\t\t\t\t\t\t\t\t${pointing_attenuation_enum}, ${doppler_shift_enum},\n\
         \  \t\t\t\t\t\t\t\t\t\t\t\t\t${atmo_gases_attenuation}, ${precipitation_attenuation},\n\
         \  \t\t\t\t\t\t\t\t\t\t\t\t\t${enable_link_margin}, ${surface_watervap_density}, ${temperature},\

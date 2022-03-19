@@ -56,12 +56,12 @@ parameters:
     dtype: raw
     default: antenna_variable
     category: RF Configuration
-value: ${ leo.satellite_make(tle_title, tle_1, tle_2, comm_freq_tx, comm_freq_rx,
+value: ${ gnuradio.leo.satellite.make(tle_title, tle_1, tle_2, comm_freq_tx, comm_freq_rx,
     tx_power_dbm, tx_antenna, rx_antenna, noise_figure, noise_temp, rx_bw) }
 
 templates:
-    imports: import leo
-    var_make: self.${id} = ${id} = leo.satellite_make(${tle_title}, ${tle_1}, ${tle_2},
+    imports: import gnuradio.leo
+    var_make: self.${id} = ${id} = gnuradio.leo.satellite.make(${tle_title}, ${tle_1}, ${tle_2},
         ${comm_freq_tx}, ${comm_freq_rx}, ${tx_power_dbm}, ${tx_antenna}, ${rx_antenna},
         ${noise_figure}, ${noise_temp}, ${rx_bw})
 

@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_MONOPOLE_ANTENNA_IMPL_H
 #define INCLUDED_LEO_MONOPOLE_ANTENNA_IMPL_H
 
-#include "../include/leo/monopole_antenna.h"
+#include "../include/gnuradio/leo/monopole_antenna.h"
 #include <vector>
 
 namespace gr {

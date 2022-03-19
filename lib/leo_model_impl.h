@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_LEO_MODEL_IMPL_H
 #define INCLUDED_LEO_LEO_MODEL_IMPL_H
 
-#include <leo/leo_model.h>
+#include <gnuradio/leo/leo_model.h>
 
 namespace gr {
 namespace leo {

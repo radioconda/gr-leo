@@ -24,13 +24,13 @@
 
 #include "leo_model_impl.h"
 #include <cstring>
-#include <leo/free_space_path_loss.h>
-#include <leo/atmospheric_gases_itu.h>
-#include <leo/atmospheric_gases_regression.h>
-#include <leo/precipitation_itu.h>
-#include <leo/antenna_pointing_loss.h>
-#include <leo/utils/helper.h>
-#include <leo/log.h>
+#include <gnuradio/leo/free_space_path_loss.h>
+#include <gnuradio/leo/atmospheric_gases_itu.h>
+#include <gnuradio/leo/atmospheric_gases_regression.h>
+#include <gnuradio/leo/precipitation_itu.h>
+#include <gnuradio/leo/antenna_pointing_loss.h>
+#include <gnuradio/leo/utils/helper.h>
+#include <gnuradio/leo/log.h>
 #include <volk/volk.h>
 
 namespace gr {

@@ -23,8 +23,8 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include <leo/utils/helper.h>
-#include <leo/log.h>
+#include <gnuradio/leo/utils/helper.h>
+#include <gnuradio/leo/log.h>
 
 typedef boost::char_separator<char> separator_type;
 

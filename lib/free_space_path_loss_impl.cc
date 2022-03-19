@@ -24,7 +24,7 @@
 
 #include "free_space_path_loss_impl.h"
 #include <cmath>
-#include <leo/log.h>
+#include <gnuradio/leo/log.h>
 
 namespace gr {
 namespace leo {

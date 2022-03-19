@@ -22,8 +22,8 @@
 #include "config.h"
 #endif
 
-#include "../include/leo/link_margin.h"
-#include <leo/log.h>
+#include "../include/gnuradio/leo/link_margin.h"
+#include <gnuradio/leo/log.h>
 #include <cmath>
 #include <iostream>
 

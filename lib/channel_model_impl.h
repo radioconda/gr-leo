@@ -21,9 +21,9 @@
 #ifndef INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
 #define INCLUDED_LEO_CHANNEL_MODEL_IMPL_H
 
-#include <leo/channel_model.h>
-#include <leo/generic_noise.h>
-#include <leo/white_gaussian_noise.h>
+#include <gnuradio/leo/channel_model.h>
+#include <gnuradio/leo/generic_noise.h>
+#include <gnuradio/leo/white_gaussian_noise.h>
 
 
 namespace gr {

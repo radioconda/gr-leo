@@ -25,8 +25,8 @@
 #include "precipitation_itu_impl.h"
 #include <cmath>
 #include <string>
-#include <leo/utils/helper.h>
-#include <leo/log.h>
+#include <gnuradio/leo/utils/helper.h>
+#include <gnuradio/leo/log.h>
 
 namespace gr {
 namespace leo {

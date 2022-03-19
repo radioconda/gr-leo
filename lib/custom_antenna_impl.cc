@@ -23,7 +23,7 @@
 #endif
 
 #include "custom_antenna_impl.h"
-#include <leo/log.h>
+#include <gnuradio/leo/log.h>
 #include <cmath>
 
 namespace gr {

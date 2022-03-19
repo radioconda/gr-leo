@@ -13,7 +13,7 @@ from gnuradio import gr
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
-import leo
+import gnuradio.leo
 
 
 class passpredict(gr.top_block):
@@ -38,7 +38,7 @@ class passpredict(gr.top_block):
         ##################################################
 
 
-        self.variable_tracker_0 = variable_tracker_0 = leo.tracker(tle_title, tle_1, tle_2, \
+        self.variable_tracker_0 = variable_tracker_0 = gnuradio.leo.tracker(tle_title, tle_1, tle_2, \
         ground_station_longitude, ground_station_latitude, ground_station_altitude, obs_start, obs_end)
 
         ##################################################

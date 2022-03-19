@@ -22,7 +22,7 @@
 #define INCLUDED_LEO_PRECIPITATION_ITU_IMPL_H
 
 #include <vector>
-#include "../include/leo/precipitation_itu.h"
+#include "../include/gnuradio/leo/precipitation_itu.h"
 
 namespace gr {
 namespace leo {

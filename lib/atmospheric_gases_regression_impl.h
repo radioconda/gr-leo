@@ -21,7 +21,7 @@
 #ifndef INCLUDED_LEO_ATMOSPHERIC_GASES_REGRESSION_IMPL_H
 #define INCLUDED_LEO_ATMOSPHERIC_GASES_REGRESSION_IMPL_H
 
-#include "../include/leo/atmospheric_gases_regression.h"
+#include "../include/gnuradio/leo/atmospheric_gases_regression.h"
 #include <vector>
 
 namespace gr {

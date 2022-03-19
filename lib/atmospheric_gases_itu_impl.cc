@@ -24,7 +24,7 @@
 
 #include "atmospheric_gases_itu_impl.h"
 #include <cmath>
-#include <leo/log.h>
+#include <gnuradio/leo/log.h>
 
 namespace gr {
 namespace leo {
