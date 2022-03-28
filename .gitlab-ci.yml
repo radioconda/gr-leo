@@ -1,6 +1,4 @@
 variables:
-  GITLAB_CI_IMAGE_OPENSUSE: 'opensuse/tumbleweed'
-  GITLAB_CI_IMAGE_ARCHLINUX: 'archlinux:latest'
   GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:latest'
 stages:
   - style
@@ -16,65 +14,6 @@ style:
   script:
     - 'astyle --dry-run --options=.astylerc --formatted lib/*.cc lib/*.h include/leo/*.h  | sed ''s/^Formatted/ERROR: Unformatted/;T;q1'''
 
-# 'build' stage
-opensuse_build:
-  stage: build
-  image: ${GITLAB_CI_IMAGE_OPENSUSE}
-  before_script:
-    - |
-      zypper in -y \
-          boost-devel \
-          libboost_filesystem-devel \
-          libboost_system-devel \
-          libboost_thread-devel \
-          libboost_program_options-devel \
-          libboost_regex-devel \
-          libboost_test-devel \
-          python3 \
-          python3-devel \
-          swig \
-          cmake \
-          gcc-c++ \
-          gcc \
-          gnuradio \
-          gnuradio-devel \
-          gmp-devel \
-          libmpir-devel \
-          liborc-0_4-0 \
-          orc \
-          log4cpp-devel \
-          git
-  script:
-    - mkdir -p build
-    - cd build
-    - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-    - make
-    - make install
-    - python3 -c "import leo"
-archlinux_build:
-  stage: build
-  image: ${GITLAB_CI_IMAGE_ARCHLINUX}
-  before_script:
-    - |
-      pacman -Sy --noconfirm \
-          boost \
-          python \
-          base-devel \
-          swig \
-          make \
-          cmake \
-          gnuradio \
-          gmp \
-          orc \
-          log4cpp \
-          git
-  script:
-    - mkdir -p build
-    - cd build
-    - cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-    - make
-    - make install
-    - python3 -c "import leo"
 ubuntu_build:
   image: ${GITLAB_CI_IMAGE_UBUNTU}
   variables:
@@ -116,31 +55,32 @@ ubuntu_build:
 
 # 'documentation' stage
 pages:
-  image: ${GITLAB_CI_IMAGE_OPENSUSE}
+  image: ${GITLAB_CI_IMAGE_UBUNTU}
   before_script:
+    - apt-get -q update
+    - apt-get -qy install software-properties-common
+    - add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
+    - apt-get -q update
     - |
-      zypper in -y \
-          boost-devel \
-          libboost_filesystem-devel \
-          libboost_system-devel \
-          libboost_thread-devel \
-          libboost_program_options-devel \
-          libboost_regex-devel \
-          libboost_test-devel \
-          python3 \
-          python3-devel \
+      apt-get -qy install \
+          libboost-dev \
+          libboost-date-time-dev \
+          libboost-filesystem-dev \
+          libboost-program-options-dev \
+          libboost-system-dev \
+          libboost-thread-dev \
+          libboost-regex-dev \
+          libboost-test-dev \
           swig \
           cmake \
-          gcc-c++ \
-          gcc \
           doxygen \
-          gnuradio \
-          gnuradio-devel \
-          gmp-devel \
-          libmpir-devel \
-          liborc-0_4-0 \
-          orc \
-          log4cpp-devel \
+          gcc \
+          gnuradio-dev \
+          libconfig++-dev \
+          libgmp-dev \
+          liborc-0.4-0 \
+          liborc-0.4-dev \
+          liborc-0.4-dev-bin \
           git
   stage: documentation
   script:
