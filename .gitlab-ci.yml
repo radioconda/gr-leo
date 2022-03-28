@@ -1,5 +1,5 @@
 variables:
-  GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:latest'
+  GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:20.04'
 stages:
   - style
   - build
@@ -14,7 +14,8 @@ style:
   script:
     - 'astyle --dry-run --options=.astylerc --formatted lib/*.cc lib/*.h include/leo/*.h  | sed ''s/^Formatted/ERROR: Unformatted/;T;q1'''
 
-ubuntu_build:
+# 'build' stage
+ubuntu:
   image: ${GITLAB_CI_IMAGE_UBUNTU}
   variables:
     DEBIAN_FRONTEND: "noninteractive"
