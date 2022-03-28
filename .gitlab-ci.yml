@@ -1,5 +1,5 @@
 variables:
-  GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:20.04'
+  GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:jammy'
 stages:
   - style
   - build
@@ -22,8 +22,6 @@ ubuntu:
   before_script:
     - apt-get -q update
     - apt-get -qy install software-properties-common
-    - add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
-    - apt-get -q update
     - |
       apt-get -qy install \
           libboost-dev \
@@ -43,6 +41,7 @@ ubuntu:
           liborc-0.4-0 \
           liborc-0.4-dev \
           liborc-0.4-dev-bin \
+          libsndfile1-dev \
           git
   stage: build
   script:
@@ -52,7 +51,7 @@ ubuntu:
     - make
     - make install
     - ldconfig
-    - python3 -c "import leo"
+    - python3 -c "import gnuradio.leo"
 
 # 'documentation' stage
 pages:
@@ -60,8 +59,6 @@ pages:
   before_script:
     - apt-get -q update
     - apt-get -qy install software-properties-common
-    - add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
-    - apt-get -q update
     - |
       apt-get -qy install \
           libboost-dev \
@@ -82,6 +79,7 @@ pages:
           liborc-0.4-0 \
           liborc-0.4-dev \
           liborc-0.4-dev-bin \
+          libsndfile1-dev \
           git
   stage: documentation
   script:
