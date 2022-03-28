@@ -1,7 +1,13 @@
+variables:
+  GITLAB_CI_IMAGE_OPENSUSE: 'opensuse/tumbleweed'
+  GITLAB_CI_IMAGE_ARCHLINUX: 'archlinux:latest'
+  GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:latest'
 stages:
   - style
   - build
   - documentation
+
+# 'style' stage
 style:
   stage: style
   before_script:
@@ -9,9 +15,11 @@ style:
     - apt-get -qy install astyle
   script:
     - 'astyle --dry-run --options=.astylerc --formatted lib/*.cc lib/*.h include/leo/*.h  | sed ''s/^Formatted/ERROR: Unformatted/;T;q1'''
+
+# 'build' stage
 opensuse_build:
   stage: build
-  image: opensuse/tumbleweed
+  image: ${GITLAB_CI_IMAGE_OPENSUSE}
   before_script:
     - |
       zypper in -y \
@@ -45,7 +53,7 @@ opensuse_build:
     - python3 -c "import leo"
 archlinux_build:
   stage: build
-  image: archlinux:latest
+  image: ${GITLAB_CI_IMAGE_ARCHLINUX}
   before_script:
     - |
       pacman -Sy --noconfirm \
@@ -68,7 +76,7 @@ archlinux_build:
     - make install
     - python3 -c "import leo"
 ubuntu_build:
-  image: ubuntu:latest
+  image: ${GITLAB_CI_IMAGE_UBUNTU}
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
@@ -105,8 +113,10 @@ ubuntu_build:
     - make install
     - ldconfig
     - python3 -c "import leo"
+
+# 'documentation' stage
 pages:
-  image: opensuse/tumbleweed
+  image: ${GITLAB_CI_IMAGE_OPENSUSE}
   before_script:
     - |
       zypper in -y \
