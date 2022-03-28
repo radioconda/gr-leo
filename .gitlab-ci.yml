@@ -3,6 +3,7 @@ variables:
 stages:
   - style
   - build
+  - test
   - documentation
 
 # 'style' stage
@@ -14,7 +15,7 @@ style:
   script:
     - 'astyle --dry-run --options=.astylerc --formatted lib/*.cc lib/*.h include/leo/*.h  | sed ''s/^Formatted/ERROR: Unformatted/;T;q1'''
 
-# 'build' stage
+# 'test' stage
 ubuntu:
   image: ${GITLAB_CI_IMAGE_UBUNTU}
   variables:
@@ -44,7 +45,7 @@ ubuntu:
           liborc-0.4-dev \
           liborc-0.4-dev-bin \
           git
-  stage: build
+  stage: test
   script:
     - mkdir -p build
     - cd build
