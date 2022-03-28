@@ -1,10 +1,11 @@
 variables:
   GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:20.04'
+  GITLAB_CI_IMAGE_ALPINE: 'alpine:3.15.2'
 stages:
   - style
   - build
   - test
-  - documentation
+  - deploy
 
 # 'style' stage
 style:
@@ -55,8 +56,9 @@ ubuntu:
     - ldconfig
     - python3 -c "import leo"
 
-# 'documentation' stage
-pages:
+# 'build' stage
+docs:
+  stage: build
   image: ${GITLAB_CI_IMAGE_UBUNTU}
   before_script:
     - apt-get -q update
@@ -84,16 +86,19 @@ pages:
           liborc-0.4-dev \
           liborc-0.4-dev-bin \
           git
-  stage: documentation
   script:
     - mkdir -p build
     - cd build
     - rm -rf *
     - cmake ..
     - make doxygen_target
-    - cd ..
-    - rm -rf public/*
-    - mv build/docs/doxygen/html public/
+
+# 'deploy' stage
+pages:
+  stage: deploy
+  image: ${GITLAB_CI_IMAGE_ALPINE}
+  script:
+    - mv build/docs/doxygen/html/ public/
   artifacts:
     paths:
       - public
