@@ -92,6 +92,11 @@ docs:
     - rm -rf *
     - cmake ..
     - make doxygen_target
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+      - build/docs/doxygen/html
 
 # 'deploy' stage
 pages:
