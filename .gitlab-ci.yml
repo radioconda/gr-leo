@@ -1,6 +1,6 @@
 variables:
   GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:20.04'
-  GITLAB_CI_IMAGE_ALPINE: 'alpine:3.15.2'
+  GITLAB_CI_IMAGE_ALPINE: 'alpine:3.15.3'
 stages:
   - style
   - build
