@@ -2,15 +2,15 @@ variables:
   GITLAB_CI_IMAGE_UBUNTU: 'ubuntu:20.04'
   GITLAB_CI_IMAGE_ALPINE: 'alpine:3.15.3'
 stages:
-  - style
+  - static
   - build
   - test
   - deploy
 
-# 'style' stage
+# 'static' stage
 style:
   image: ${GITLAB_CI_IMAGE_UBUNTU}
-  stage: style
+  stage: static
   before_script:
     - apt-get -q update
     - apt-get -qy install astyle
