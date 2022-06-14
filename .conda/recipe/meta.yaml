@@ -1,0 +1,90 @@
+{% set oot_name = "leo" %}
+{% set name = "gnuradio-" + oot_name %}
+{% set version = (environ.get("GIT_DESCRIBE_TAG_PEP440", "0.0.0." + datetime.datetime.now().strftime("%Y%m%d") + ".dev+" + environ.get("GIT_DESCRIBE_HASH", "local"))|string) %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  # use local path or git repository depending on if the build is local or done on CI
+  - path: "../.."  # [not os.environ.get("CI")]
+  - git_url: {{ environ.get('FEEDSTOCK_ROOT', "../..") }}  # [os.environ.get("CI")]
+  - git_url: https://github.com/dnwrnr/sgp4.git
+    folder: sgp4
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler("c") }}
+    - {{ compiler("cxx") }}
+    - cmake
+    - git
+    - ninja
+    - pkg-config
+    # cross-compilation requirements
+    - python                              # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+    - numpy                               # [build_platform != target_platform]
+    - pybind11                            # [build_platform != target_platform]
+    # Add extra build tool dependencies here
+
+  host:
+    - gmp  # [linux]
+    # the following two entries are for generating builds against specific GR versions
+    - gnuradio-core  # [not gnuradio_extra_pin]
+    - gnuradio-core {{ gnuradio_extra_pin }}.*  # [gnuradio_extra_pin]
+    - pip  # [win]
+    - pybind11
+    - python
+    - numpy
+    - volk
+    # Add/remove library dependencies here
+    - boost-cpp
+
+  run:
+    - numpy
+    - python
+    # Add/remove runtime dependencies here
+    - boost-cpp
+
+test:
+  commands:
+    # Add a list of commands to run to check that the package works. Examples below.
+
+    # verify that commands run
+    - leo_passpredict.py --help  # [not win]
+    - leo_passpredict --help  # [win]
+
+    # verify that (some) headers get installed
+    - test -f $PREFIX/include/gnuradio/{{ oot_name }}/api.h  # [not win]
+    - if not exist %PREFIX%\\Library\\include\\gnuradio\\{{ oot_name }}\\api.h exit 1  # [win]
+
+    # verify that libraries get installed
+    - test -f $PREFIX/lib/lib{{ name }}${SHLIB_EXT}  # [not win]
+    - if not exist %PREFIX%\\Library\\bin\\{{ name }}.dll exit 1  # [win]
+    - if not exist %PREFIX%\\Library\\lib\\{{ name }}.lib exit 1  # [win]
+
+    # verify that (some) GRC blocks get installed
+    {% set blocks = ["leo_channel_model", "variable_antenna", "variable_leo_model_def", "variable_satellite", "variable_tracker"] %}
+    {% for block in blocks %}
+    - test -f $PREFIX/share/gnuradio/grc/blocks/{{ block }}.block.yml  # [not win]
+    - if not exist %PREFIX%\\Library\\share\\gnuradio\\grc\\blocks\\{{ block }}.block.yml exit 1  # [win]
+    {% endfor %}
+
+  imports:
+    # verify that the python module imports
+    - gnuradio.{{ oot_name }}
+
+about:
+  home: https://github.com/<username>/gr-leo
+  license: GPL-3.0-or-later AND Apache-2.0
+  license_file:
+    - LICENSE
+    - sgp4/LICENSE
+  summary: A GNU Radio space telecommunication simulator
+  description: >
+   Gr-leo is a GNU Radio Out-of-Tree module that simulates the
+   telecommunication channel between orbiting satellites and Ground Stations.
