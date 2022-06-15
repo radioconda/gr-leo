@@ -27,7 +27,6 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/syscall.h>
 
 #define LEO_MESSAGES 0
 #define LEO_DEBUG_MESSAGES 0
