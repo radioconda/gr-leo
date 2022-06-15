@@ -366,7 +366,7 @@ leo_model_impl::generic_work(const gr_complex *inbuffer, gr_complex *outbuffer,
   if (aos()) {
     if (d_doppler_shift_enum == DOPPLER_SHIFT) {
       volk_32fc_s32fc_x2_rotator_32fc(outbuffer, inbuffer,
-                                      std::polar<float>(1.0f, 2.0f * M_PI * d_doppler_shift / samp_rate),
+                                      std::polar<float>(1.0f, static_cast<float>(2.0f * M_PI * d_doppler_shift / samp_rate)),
                                       &d_phase, noutput_items);
       /* Change the pointer to simplify the rest of the logic */
       inbuffer = outbuffer;
