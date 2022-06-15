@@ -27,6 +27,7 @@
 #include <gnuradio/leo/tracker.h>
 #include <chrono>
 #include <ctime>
+#include <iomanip>
 
 namespace gr {
 namespace leo {
@@ -477,7 +478,8 @@ DateTime
 tracker::parse_ISO_8601_UTC(const std::string &datetime)
 {
   std::tm tm;
-  strptime(datetime.c_str(), "%Y-%m-%dT%H:%M:%S", &tm);
+  std::istringstream ss(datetime);
+  ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
   return DateTime(tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
                   tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
