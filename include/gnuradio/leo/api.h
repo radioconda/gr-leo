@@ -20,7 +20,7 @@
 #define LEO_API __GR_ATTR_IMPORT
 #endif
 
-#ifndef DATA_PATH
+#ifndef GR_LEO_REL_DATA_PATH
 #error "Path for data files must be defined"
 #endif
 
