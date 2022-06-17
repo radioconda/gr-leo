@@ -33,7 +33,7 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-yagi_antenna::make(uint8_t type, double frequency, int polarization,
+yagi_antenna::make(antenna_t type, double frequency, polarization_t polarization,
                    double pointing_error, double boom_length)
 {
   return generic_antenna::generic_antenna_sptr(
@@ -41,8 +41,8 @@ yagi_antenna::make(uint8_t type, double frequency, int polarization,
                                  pointing_error, boom_length));
 }
 
-yagi_antenna_impl::yagi_antenna_impl(uint8_t type, double frequency,
-                                     int polarization,
+yagi_antenna_impl::yagi_antenna_impl(antenna_t type, double frequency,
+                                     polarization_t polarization,
                                      double pointing_error,
                                      double boom_length) :
   generic_antenna(YAGI, frequency, polarization, pointing_error),

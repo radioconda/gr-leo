@@ -38,13 +38,13 @@ namespace leo {
 namespace model {
 
 generic_model::generic_model_sptr
-leo_model::make(tracker::tracker_sptr tracker, const uint8_t mode,
-                const uint8_t fspl_attenuation_enum,
-                const uint8_t pointing_attenuation_enum,
-                const uint8_t doppler_shift_enum,
-                const uint8_t atmo_gases_attenuation,
-                const uint8_t precipitation_attenuation,
-                const uint8_t enable_link_margin,
+leo_model::make(tracker::tracker_sptr tracker, const link_mode_t mode,
+                const impairment_enum_t fspl_attenuation_enum,
+                const impairment_enum_t pointing_attenuation_enum,
+                const impairment_enum_t doppler_shift_enum,
+                const impairment_enum_t atmo_gases_attenuation,
+                const impairment_enum_t precipitation_attenuation,
+                const bool enable_link_margin,
                 const double surface_watervap_density,
                 const double temperature, const double rainfall_rate)
 {
@@ -59,18 +59,18 @@ leo_model::make(tracker::tracker_sptr tracker, const uint8_t mode,
 }
 
 leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
-                               const uint8_t mode,
-                               const uint8_t fspl_attenuation_enum,
-                               const uint8_t pointing_attenuation_enum,
-                               const uint8_t doppler_shift_enum,
-                               const uint8_t atmo_gases_enum,
-                               const uint8_t precipitation_enum,
-                               const uint8_t enable_link_margin,
+                               const link_mode_t mode,
+                               const impairment_enum_t fspl_attenuation_enum,
+                               const impairment_enum_t pointing_attenuation_enum,
+                               const impairment_enum_t doppler_shift_enum,
+                               const impairment_enum_t atmo_gases_enum,
+                               const impairment_enum_t precipitation_enum,
+                               const bool enable_link_margin,
                                const double surface_watervap_density,
                                const double temperature,
                                const double rainfall_rate) :
   generic_model("leo_model", tracker, mode),
-  d_doppler_shift_enum((const impairment_enum_t) doppler_shift_enum),
+  d_doppler_shift_enum(doppler_shift_enum),
   d_doppler_shift(0),
   d_phase(1.0, 0.0),
   d_atmo_attenuation(0.0),
@@ -133,7 +133,7 @@ leo_model_impl::leo_model_impl(tracker::tracker_sptr tracker,
     d_precipitation_attenuation = attenuation::precipitation_itu::make(
                                     d_rainfall_rate, d_tracker->get_lontitude(),
                                     d_tracker->get_latitude(), d_tracker->get_altitude(),
-                                    (impairment_enum_t) precipitation_enum);
+                                    precipitation_enum);
     break;
   case IMPAIRMENT_NONE:
     break;

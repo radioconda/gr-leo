@@ -50,7 +50,7 @@ public:
    * \param boom_length The length of the antenna boom in meters
    *
    */
-  yagi_antenna_impl(uint8_t type, double frequency, int polarization,
+  yagi_antenna_impl(antenna_t type, double frequency, polarization_t polarization,
                     double pointing_error, double boom_length);
 
   ~yagi_antenna_impl();
@@ -80,38 +80,38 @@ public:
 
 private:
 
-  typedef std::tuple<double, double, double> yagi_preformance_t;
+  typedef std::tuple<double, double, double> yagi_performance_t;
 
   /**
    * Data taken from ARPL antenna book.
    *
    * Τhe triplet refers to (boom length, elements number, maximum gain)
    */
-  std::vector<yagi_preformance_t> d_yagi_performance {
-    yagi_preformance_t (0.35, 3, 9.65), yagi_preformance_t (0.55, 4,
+  std::vector<yagi_performance_t> d_yagi_performance {
+    yagi_performance_t (0.35, 3, 9.65), yagi_performance_t (0.55, 4,
         10.86),
-    yagi_preformance_t (0.80, 5, 11.85), yagi_preformance_t (1.15, 6,
+    yagi_performance_t (0.80, 5, 11.85), yagi_performance_t (1.15, 6,
         12.45),
-    yagi_preformance_t (1.45, 7, 13.45), yagi_preformance_t (1.80, 8,
+    yagi_performance_t (1.45, 7, 13.45), yagi_performance_t (1.80, 8,
         14.05),
-    yagi_preformance_t (2.10, 9, 14.40), yagi_preformance_t (2.45, 10,
+    yagi_performance_t (2.10, 9, 14.40), yagi_performance_t (2.45, 10,
         15.25),
-    yagi_preformance_t (2.80, 11, 15.95), yagi_preformance_t (3.15,
+    yagi_performance_t (2.80, 11, 15.95), yagi_performance_t (3.15,
         12,
         16.30),
-    yagi_preformance_t (3.55, 13, 16.95), yagi_preformance_t (4.00,
+    yagi_performance_t (3.55, 13, 16.95), yagi_performance_t (4.00,
         14,
         17.45),
-    yagi_preformance_t (4.40, 15, 18.15), yagi_preformance_t (4.75,
+    yagi_performance_t (4.40, 15, 18.15), yagi_performance_t (4.75,
         16,
         18.65),
-    yagi_preformance_t (5.20, 17, 19.35), yagi_preformance_t (5.55,
+    yagi_performance_t (5.20, 17, 19.35), yagi_performance_t (5.55,
         18,
         19.85),
-    yagi_preformance_t (6.00, 19, 20.25), yagi_preformance_t (6.50,
+    yagi_performance_t (6.00, 19, 20.25), yagi_performance_t (6.50,
         20,
         20.75),
-    yagi_preformance_t (7.00, 21, 21.35), yagi_preformance_t (7.50,
+    yagi_performance_t (7.00, 21, 21.35), yagi_performance_t (7.50,
         22,
         21.65) };
 

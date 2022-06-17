@@ -31,7 +31,7 @@ namespace leo {
 double generic_attenuation::frequency = 0;
 double generic_attenuation::elevation_angle = 0;
 double generic_attenuation::slant_range = 0;
-uint8_t generic_attenuation::polarization = 0;
+polarization_t generic_attenuation::polarization = RHCP;
 
 generic_attenuation::generic_attenuation_sptr
 generic_attenuation::make()
@@ -60,7 +60,7 @@ generic_attenuation::set_slant_range(double range)
 }
 
 void
-generic_attenuation::set_polarization(uint8_t polar)
+generic_attenuation::set_polarization(polarization_t polar)
 {
   polarization = polar;
 }

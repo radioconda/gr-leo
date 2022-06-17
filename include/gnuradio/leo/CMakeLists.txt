@@ -12,6 +12,7 @@
 install(FILES
     utils/helper.h
     api.h
+    leo_types.h
     log.h
     generic_antenna.h
     yagi_antenna.h

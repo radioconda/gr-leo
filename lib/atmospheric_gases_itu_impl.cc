@@ -40,8 +40,8 @@ atmospheric_gases_itu::make(double surface_watervap_density)
 atmospheric_gases_itu_impl::atmospheric_gases_itu_impl(
   double surface_watervap_density) :
   generic_attenuation(),
-  d_oxygen_pressure(0),
   d_temperature(0),
+  d_oxygen_pressure(0),
   d_water_pressure(0),
   d_surface_watervap_density(surface_watervap_density)
 {

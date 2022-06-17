@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_GENERIC_ANTENNA_H
 
 #include <gnuradio/leo/api.h>
+#include <gnuradio/leo/leo_types.h>
 #include <memory>
 #include <string>
 
@@ -41,26 +42,12 @@ class LEO_API generic_antenna {
 public:
   static int base_unique_id;
 
-  /*!
-   * The enumeration that defines the type of the antenna
-   */
-  enum antenna_t {
-    YAGI,
-    HELIX,
-    PARABOLIC_REFLECTOR,
-    CANTED_TURNSTYLE,
-    CUSTOM,
-    MONOPOLE,
-    DIPOLE,
-    QUADRIFILAR_HELIX
-  };
-
-  uint8_t d_type;
+  antenna_t d_type;
 
   double d_frequency;
+  polarization_t d_polarization;
   double d_pointing_error;
 
-  int d_polarization;
   int my_id;
 
   int
@@ -91,7 +78,7 @@ public:
    * \brief Get the polarization of the antenna.
    * \return the gr::leo::generic_antenna::Polarization enum.
    */
-  int
+  polarization_t
   get_polarization();
 
   /*!
@@ -139,7 +126,7 @@ public:
    *
    * \return a std::shared_ptr to the constructed tracker object.
    */
-  generic_antenna(uint8_t type, double frequency, int polarization,
+  generic_antenna(antenna_t type, double frequency, polarization_t polarization,
                   double pointing_error);
 
   generic_antenna(void) {};

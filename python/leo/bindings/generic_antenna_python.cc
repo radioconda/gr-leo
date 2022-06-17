@@ -46,7 +46,7 @@ void bind_generic_antenna(py::module& m)
 
         .def("get_polarization",
              &generic_antenna::get_polarization)
-        
+
         .def("get_wavelength",
              &generic_antenna::get_wavelength)
 
@@ -63,16 +63,5 @@ void bind_generic_antenna(py::module& m)
              &generic_antenna::get_gain_rolloff)
 
         ;
-
-        // .def(py::enum_<antenna_t>(m, "antenna_t")
-        //     .value("YAGI", 0)
-        //     .value("HELIX", 1)
-        //     .value("PARABOLIC_REFLECTOR", 2)
-        //     .value("CANTED_TURNSTYLE", 3)
-        //     .value("CUSTOM", 4)
-        //     .value("MONOPOLE", 5)
-        //     .value("DIPOLE", 6)
-        //     .value("QUADRIFILAR_HELIX", 7)
-        //     .export_values());
 
 }

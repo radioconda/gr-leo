@@ -32,8 +32,8 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-quadrifilar_helix_antenna::make(uint8_t type, double frequency,
-                                int polarization,
+quadrifilar_helix_antenna::make(antenna_t type, double frequency,
+                                polarization_t polarization,
                                 double pointing_error, double loop)
 {
   return generic_antenna::generic_antenna_sptr(
@@ -41,9 +41,9 @@ quadrifilar_helix_antenna::make(uint8_t type, double frequency,
                pointing_error, loop));
 }
 
-quadrifilar_helix_antenna_impl::quadrifilar_helix_antenna_impl(uint8_t type,
+quadrifilar_helix_antenna_impl::quadrifilar_helix_antenna_impl(antenna_t type,
     double frequency,
-    int polarization,
+    polarization_t polarization,
     double pointing_error,
     double loop) :
   generic_antenna(QUADRIFILAR_HELIX, frequency, polarization, pointing_error),

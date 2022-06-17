@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_GENERIC_ATTENUATION_H
 
 #include <gnuradio/leo/api.h>
+#include <gnuradio/leo/leo_types.h>
 #include <string>
 #include <memory>
 #include <stdexcept>
@@ -74,7 +75,7 @@ public:
    * \param polar The polarization enumeration
    */
   static void
-  set_polarization(uint8_t polar);
+  set_polarization(polarization_t polar);
 
   /*!
    * \brief Set elevation angle static variable
@@ -97,7 +98,7 @@ protected:
   static double frequency;
   static double elevation_angle;
   static double slant_range;
-  static uint8_t polarization;
+  static polarization_t polarization;
 };
 
 } // namespace leo

@@ -29,8 +29,8 @@
 namespace gr {
 namespace leo {
 
-generic_antenna::generic_antenna(uint8_t type, double frequency,
-                                 int polarization, double pointing_error) :
+generic_antenna::generic_antenna(antenna_t type, double frequency,
+                                 polarization_t polarization, double pointing_error) :
   d_type(type),
   d_frequency(frequency),
   d_polarization(polarization),
@@ -67,7 +67,7 @@ generic_antenna::get_wavelength()
   return LIGHT_SPEED / d_frequency;
 }
 
-int
+polarization_t
 generic_antenna::get_polarization()
 {
   // FIXME

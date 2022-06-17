@@ -52,8 +52,8 @@ class LEO_API parabolic_reflector_antenna_impl : public
    *
    */
 public:
-  parabolic_reflector_antenna_impl(uint8_t type, double frequency,
-                                   int polarization, double pointing_error, double diameter,
+  parabolic_reflector_antenna_impl(antenna_t type, double frequency,
+                                   polarization_t polarization, double pointing_error, double diameter,
                                    double aperture_efficiency);
 
   ~parabolic_reflector_antenna_impl();

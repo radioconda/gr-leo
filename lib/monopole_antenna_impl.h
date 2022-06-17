@@ -47,7 +47,7 @@ public:
    * polarization
    * \param pointing_error The pointing error of the antenna in degrees.
    */
-  monopole_antenna_impl(uint8_t type, double frequency, int polarization,
+  monopole_antenna_impl(antenna_t type, double frequency, polarization_t polarization,
                         double pointing_error);
 
   ~monopole_antenna_impl();
