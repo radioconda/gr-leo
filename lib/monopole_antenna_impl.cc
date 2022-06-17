@@ -33,7 +33,7 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-monopole_antenna::make(uint8_t type, double frequency, int polarization,
+monopole_antenna::make(antenna_t type, double frequency, polarization_t polarization,
                        double pointing_error)
 {
   return generic_antenna::generic_antenna_sptr(
@@ -41,9 +41,9 @@ monopole_antenna::make(uint8_t type, double frequency, int polarization,
                                      pointing_error));
 }
 
-monopole_antenna_impl::monopole_antenna_impl(uint8_t type,
+monopole_antenna_impl::monopole_antenna_impl(antenna_t type,
     double frequency,
-    int polarization,
+    polarization_t polarization,
     double pointing_error) :
   generic_antenna(MONOPOLE, frequency, polarization, pointing_error)
 {

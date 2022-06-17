@@ -49,7 +49,7 @@ public:
    * \param pointing_error The pointing error of the antenna in degrees.
    * \param loop The loop of the quadrifilar helix antenna
    */
-  quadrifilar_helix_antenna_impl(uint8_t type, double frequency, int polarization,
+  quadrifilar_helix_antenna_impl(antenna_t type, double frequency, polarization_t polarization,
                                  double pointing_error, double loop);
 
   ~quadrifilar_helix_antenna_impl();

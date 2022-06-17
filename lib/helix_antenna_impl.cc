@@ -32,7 +32,7 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-helix_antenna::make(uint8_t type, double frequency, int polarization,
+helix_antenna::make(antenna_t type, double frequency, polarization_t polarization,
                     double pointing_error, size_t turns,
                     double turn_spacing, double circumference)
 {
@@ -42,8 +42,8 @@ helix_antenna::make(uint8_t type, double frequency, int polarization,
                                   circumference));
 }
 
-helix_antenna_impl::helix_antenna_impl(uint8_t type, double frequency,
-                                       int polarization,
+helix_antenna_impl::helix_antenna_impl(antenna_t type, double frequency,
+                                       polarization_t polarization,
                                        double pointing_error,
                                        size_t turns, double turn_spacing,
                                        double circumference) :

@@ -52,14 +52,14 @@ private:
    */
   generic_model::generic_model_sptr d_model;
 
-  uint8_t d_noise_type;
+  noise_t d_noise_type;
 
   generic_noise::generic_noise_sptr d_noise;
 
 public:
   channel_model_impl(const double sample_rate,
                      generic_model::generic_model_sptr model,
-                     const uint8_t noise_type);
+                     const noise_t noise_type);
 
   ~channel_model_impl();
 

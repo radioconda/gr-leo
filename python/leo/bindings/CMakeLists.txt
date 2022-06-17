@@ -30,6 +30,7 @@ include(GrPybind)
 
 list(APPEND leo_python_files
     python_bindings.cc
+    leo_types_python.cc
     generic_antenna_python.cc
     yagi_antenna_python.cc
     custom_antenna_python.cc

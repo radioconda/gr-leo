@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_GENERIC_MODEL_H
 
 #include <gnuradio/leo/api.h>
+#include <gnuradio/leo/leo_types.h>
 #include <gnuradio/leo/tracker.h>
 #include <gnuradio/leo/generic_attenuation.h>
 #include <gnuradio/leo/link_margin.h>
@@ -52,10 +53,6 @@ namespace leo {
  */
 class LEO_API generic_model {
 public:
-
-  enum Mode {
-    UPLINK, DOWNLINK
-  };
 
   /*!
    * \brief Pure virtual function that must be implemented by every
@@ -107,7 +104,7 @@ public:
    * \return a boost::shared_ptr to the constructed tracker object
    */
   generic_model(std::string name, tracker::tracker_sptr tracker,
-                const uint8_t mode);
+                const link_mode_t mode);
 
   generic_model(void) {};
 
@@ -129,7 +126,7 @@ public:
    * \brief Get the correct polarization based on the transmission mode
    * \return the polarization enumeration
    */
-  uint8_t
+  polarization_t
   get_polarization();
 
   /*!
@@ -227,7 +224,7 @@ protected:
   /*!
    * \brief Represents the uplink or downlink transmission mode
    */
-  uint8_t d_mode;
+  link_mode_t d_mode;
   tracker::tracker_sptr d_tracker;
   double d_noise_floor;
 

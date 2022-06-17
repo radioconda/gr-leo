@@ -23,6 +23,7 @@
 
 #include <gnuradio/leo/api.h>
 #include <gnuradio/leo/generic_attenuation.h>
+#include <gnuradio/leo/leo_types.h>
 
 namespace gr {
 namespace leo {
