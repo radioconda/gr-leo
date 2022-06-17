@@ -68,6 +68,10 @@ if(APPLE)
     )
 endif(APPLE)
 
+target_compile_definitions(gnuradio-leo
+    PUBLIC GR_LEO_REL_DATA_PATH=\"${GR_PKG_DATA_DIR}\"
+)
+
 ########################################################################
 # Install built library files
 ########################################################################
