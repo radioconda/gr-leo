@@ -59,12 +59,10 @@ GR_PYBIND_MAKE_OOT(leo
    gr::leo
    "${leo_python_files}")
 
-# copy in bindings .so file for use in QA test module
-add_custom_target(
-  copy_bindings_for_tests ALL
-  COMMAND
-    ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/*.so"
+# copy bindings extension for use in QA test module
+add_custom_command(TARGET leo_python POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:leo_python>
     ${CMAKE_BINARY_DIR}/test_modules/gnuradio/leo/
-  DEPENDS leo_python)
+)
 
 install(TARGETS leo_python DESTINATION ${GR_PYTHON_DIR}/gnuradio/leo COMPONENT pythonapi)
