@@ -24,7 +24,9 @@
 
 #include "precipitation_itu_impl.h"
 #include <cmath>
+#include <filesystem>
 #include <string>
+#include <gnuradio/constants.h>
 #include <gnuradio/leo/utils/helper.h>
 #include <gnuradio/leo/log.h>
 
@@ -58,12 +60,13 @@ precipitation_itu_impl::precipitation_itu_impl(
   /**
    * TODO: Extract info about Height above sea-level d_h ITU data
    */
-  std::string data_path(DATA_PATH);
+  std::filesystem::path gr_prefix = gr::prefix();
+  std::filesystem::path data_path = (gr_prefix / GR_LEO_REL_DATA_PATH).lexically_normal();
 
   d_isotherm_height = utils::parser_ITU_heatmap(
-                        data_path + "/ITU_RREC_P839/Lat.txt",
-                        data_path + "/ITU_RREC_P839/Lon.txt",
-                        data_path + "/ITU_RREC_P839/ITU_R-REC-P.839-4.txt",
+                        (data_path / "ITU_RREC_P839" / "Lat.txt").string(),
+                        (data_path / "ITU_RREC_P839" / "Lon.txt").string(),
+                        (data_path / "ITU_RREC_P839" / "ITU_R-REC-P.839-4.txt").string(),
                         d_tracker_lontitude, d_tracker_latitude);
 
   /**
@@ -73,9 +76,9 @@ precipitation_itu_impl::precipitation_itu_impl(
 
   if (d_mode == PRECIPITATION_ITU) {
     d_rainfall_rate = utils::parser_ITU_heatmap(
-                        data_path + "/ITU_RREC_P837/LAT_R001.TXT",
-                        data_path + "/ITU_RREC_P837/LON_R001.TXT",
-                        data_path + "/ITU_RREC_P837/LAT_R001.TXT", d_tracker_lontitude,
+                        (data_path / "ITU_RREC_P837" / "LAT_R001.TXT").string(),
+                        (data_path / "ITU_RREC_P837" / "LON_R001.TXT").string(),
+                        (data_path / "ITU_RREC_P837" / "LAT_R001.TXT").string(), d_tracker_lontitude,
                         d_tracker_latitude);
   }
 }
