@@ -5,6 +5,11 @@ label: Antenna
 flags: [show_id]
 
 parameters:
+-   id: value
+    label: Ignore Me
+    dtype: raw
+    default: '"ok"'
+    hide: all
 -   id: type
     label: Type
     dtype: int
@@ -75,27 +80,11 @@ parameters:
     label: Pointing Error (Degrees)
     dtype: real
     default: '0'
-value: "${ #if int(type)==0:\ngnuradio.leo.antenna.yagi_antenna.make(type, frequency, polarization,\
-    \ pointing_error, boom_length)\n \
-    \ #elif int(type)==1:\\ngnuradio.leo.antenna.helix_antenna.make(type,\
-    \ frequency, polarization, pointing_error, turns,\
-    \ turn_spacing, circumference)\n\
-    #elif int(type)==2:\\ngnuradio.leo.antenna.parabolic_reflector_antenna.make(type,\
-    \ frequency, polarization, pointing_error, diameter, aperture_efficiency)\n
-    #elif int(type)==3:\\ngnuradio.leo.custom_antenna.make(type, frequency, polarization,\
-    \ pointing_error, gain, beamwidth, rolloff_gain)\n\
-    #elif int(type)==4:\\ngnuradio.leo.antenna.monopole_antenna.make(type,\
-    \ frequency, polarization, pointing_error)\n\
-    #elif int(type)==5:\\ngnuradio.leo.antenna.dipole_antenna.make(type,\
-    \ frequency, polarization, pointing_error)\n\
-    #elif int(type)==6:\\ngnuradio.leo.antenna.quadrifilar_helix_antenna.make(type,\
-    \ frequency, polarization, pointing_error, lp)\n\
-    #else:\\nprint \"Invalid antenna\
-    \ type\"\\nraise RuntimeError\\n%endif }"
+value: ${ value }
 
 templates:
     imports: import gnuradio.leo
-    var_make: |- 
+    var_make: |-
         % if int(type)==0:
         self.${id} = ${id} = gnuradio.leo.antenna.yagi_antenna.make(${type},\
         ${frequency}, ${polarization}, ${pointing_error}, ${boom_length})\
