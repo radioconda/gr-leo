@@ -31,7 +31,7 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-custom_antenna::make(uint8_t type, double frequency, int polarization,
+custom_antenna::make(antenna_t type, double frequency, polarization_t polarization,
                      double pointing_error, double gain, double beamwidth, double rolloff_gain)
 {
   return generic_antenna::generic_antenna_sptr(
@@ -39,8 +39,8 @@ custom_antenna::make(uint8_t type, double frequency, int polarization,
                                    pointing_error, gain, beamwidth, rolloff_gain));
 }
 
-custom_antenna_impl::custom_antenna_impl(uint8_t type, double frequency,
-    int polarization,
+custom_antenna_impl::custom_antenna_impl(antenna_t type, double frequency,
+    polarization_t polarization,
     double pointing_error,
     double gain, double beamwidth, double rolloff_gain) :
   generic_antenna(CUSTOM, frequency, polarization, pointing_error),

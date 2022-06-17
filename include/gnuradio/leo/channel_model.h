@@ -23,6 +23,7 @@
 
 #include <gnuradio/leo/api.h>
 #include <gnuradio/leo/generic_model.h>
+#include <gnuradio/leo/leo_types.h>
 #include <gnuradio/sync_block.h>
 #include <memory>
 #include <string>
@@ -55,7 +56,7 @@ public:
    */
   static sptr
   make(const double sample_rate, generic_model::generic_model_sptr model,
-       const uint8_t noise_type, const bool store_csv, const char *filename);
+       const noise_t noise_type, const bool store_csv, const char *filename);
 
 };
 

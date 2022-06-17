@@ -189,13 +189,12 @@ private:
 
   const double d_comm_freq_tx;
   const double d_comm_freq_rx;
+  generic_antenna::generic_antenna_sptr d_tx_antenna;
+  generic_antenna::generic_antenna_sptr d_rx_antenna;
   const double d_tx_power_dbm;
   const double d_noise_figure;
   const double d_noise_temp;
   const double d_rx_bw;
-
-  generic_antenna::generic_antenna_sptr d_tx_antenna;
-  generic_antenna::generic_antenna_sptr d_rx_antenna;
 
 };
 
