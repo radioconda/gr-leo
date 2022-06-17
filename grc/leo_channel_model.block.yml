@@ -3,11 +3,6 @@ label: Channel Model
 flags: [show_id]
 
 parameters:
--   id: value
-    label: Ignore Me
-    dtype: raw
-    default: '''fine'''
-    hide: all
 -   id: sample_rate
     label: Sampling Rate
     dtype: real
