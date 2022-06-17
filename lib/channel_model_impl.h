@@ -53,7 +53,7 @@ private:
    */
   generic_model::generic_model_sptr d_model;
 
-  uint8_t d_noise_type;
+  noise_t d_noise_type;
 
   generic_noise::generic_noise_sptr d_noise;
 
@@ -65,7 +65,7 @@ private:
 public:
   channel_model_impl(const double sample_rate,
                      generic_model::generic_model_sptr model,
-                     const uint8_t noise_type, const bool store_csv, const char *filename);
+                     const noise_t noise_type, const bool store_csv, const char *filename);
 
   ~channel_model_impl();
 

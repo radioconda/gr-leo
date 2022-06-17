@@ -23,6 +23,7 @@
 
 #include <gnuradio/leo/api.h>
 #include <gnuradio/leo/generic_antenna.h>
+#include <gnuradio/leo/leo_types.h>
 #include <string>
 
 namespace gr {
@@ -49,7 +50,7 @@ public:
    * \return a boost::shared_ptr to the constructed tracker object.
    */
   static generic_antenna::generic_antenna_sptr
-  make(uint8_t type, double frequency, int polarization, double pointing_error);
+  make(antenna_t type, double frequency, polarization_t polarization, double pointing_error);
 
   monopole_antenna() {};
 

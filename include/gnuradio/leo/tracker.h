@@ -22,6 +22,7 @@
 #define INCLUDED_LEO_TRACKER_H
 
 #include <gnuradio/leo/api.h>
+#include <gnuradio/leo/leo_types.h>
 #include <gnuradio/leo/satellite.h>
 #include <libsgp4/CoordTopocentric.h>
 #include <libsgp4/CoordGeodetic.h>

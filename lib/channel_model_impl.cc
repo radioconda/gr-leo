@@ -32,7 +32,7 @@ namespace leo {
 
 channel_model::sptr channel_model::make(const double sample_rate,
                                         generic_model::generic_model_sptr model,
-                                        const uint8_t noise_type,
+                                        const noise_t noise_type,
                                         const bool store_csv, const char *filename)
 {
   return gnuradio::get_initial_sptr(
@@ -44,7 +44,7 @@ channel_model::sptr channel_model::make(const double sample_rate,
  */
 channel_model_impl::channel_model_impl(const double sample_rate,
                                        generic_model::generic_model_sptr model,
-                                       const uint8_t noise_type,
+                                       const noise_t noise_type,
                                        const bool store_csv, const char *filename)
   : gr::sync_block("channel_model",
                    gr::io_signature::make(1, 1, sizeof(gr_complex)),

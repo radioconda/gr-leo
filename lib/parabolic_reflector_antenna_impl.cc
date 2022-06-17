@@ -32,8 +32,8 @@ namespace leo {
 namespace antenna {
 
 generic_antenna::generic_antenna_sptr
-parabolic_reflector_antenna::make(uint8_t type, double frequency,
-                                  int polarization, double pointing_error, double diameter,
+parabolic_reflector_antenna::make(antenna_t type, double frequency,
+                                  polarization_t polarization, double pointing_error, double diameter,
                                   double aperture_efficiency)
 {
   return generic_antenna::generic_antenna_sptr(
@@ -44,7 +44,7 @@ parabolic_reflector_antenna::make(uint8_t type, double frequency,
 }
 
 parabolic_reflector_antenna_impl::parabolic_reflector_antenna_impl(
-  uint8_t type, double frequency, int polarization, double pointing_error,
+  antenna_t type, double frequency, polarization_t polarization, double pointing_error,
   double diameter,
   double aperture_efficiency) :
   generic_antenna(PARABOLIC_REFLECTOR, frequency, polarization, pointing_error),

@@ -21,6 +21,7 @@ namespace py = pybind11;
 // Please do not delete
 /**************************************/
 // BINDING_FUNCTION_PROTOTYPES(
+void bind_leo_types(py::module& m);
 void bind_generic_antenna(py::module& m);
 void bind_yagi_antenna(py::module& m);
 void bind_custom_antenna(py::module& m);
@@ -71,6 +72,7 @@ PYBIND11_MODULE(leo_python, m)
     // Please do not delete
     /**************************************/
     // BINDING_FUNCTION_CALLS(
+    bind_leo_types(m);
     bind_generic_antenna(m);
     bind_yagi_antenna(m);
     bind_custom_antenna(m);
