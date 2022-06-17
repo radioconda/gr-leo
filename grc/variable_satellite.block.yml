@@ -8,7 +8,7 @@ parameters:
 -   id: value
     label: Ignore Me
     dtype: raw
-    default: '''ok'''
+    default: '"ok"'
     hide: all
 -   id: tle_title
     label: TLE Title
@@ -56,13 +56,23 @@ parameters:
     dtype: raw
     default: antenna_variable
     category: RF Configuration
-value: ${ gnuradio.leo.satellite.make(tle_title, tle_1, tle_2, comm_freq_tx, comm_freq_rx,
-    tx_power_dbm, tx_antenna, rx_antenna, noise_figure, noise_temp, rx_bw) }
+value: ${ value }
 
 templates:
     imports: import gnuradio.leo
-    var_make: self.${id} = ${id} = gnuradio.leo.satellite.make(${tle_title}, ${tle_1}, ${tle_2},
-        ${comm_freq_tx}, ${comm_freq_rx}, ${tx_power_dbm}, ${tx_antenna}, ${rx_antenna},
-        ${noise_figure}, ${noise_temp}, ${rx_bw})
+    var_make: >-
+        self.${id} = ${id} = gnuradio.leo.satellite.make(
+            tle_title=${tle_title},
+            tle_1=${tle_1},
+            tle_2=${tle_2},
+            comm_freq_tx=${comm_freq_tx},
+            comm_freq_rx=${comm_freq_rx},
+            tx_power_dbm=${tx_power_dbm},
+            tx_antenna=${tx_antenna},
+            rx_antenna=${rx_antenna},
+            noise_figure=${noise_figure},
+            noise_temp=${noise_temp},
+            rx_bw=${rx_bw},
+        )
 
 file_format: 1
