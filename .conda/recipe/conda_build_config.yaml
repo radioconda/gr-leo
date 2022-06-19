@@ -12,3 +12,8 @@ gnuradio_extra_pin:
   # add version strings here like to get builds for versions other than
   # the conda-forge-wide default or version specified above for gnuradio_core
   #- "3.9.5"
+# need a minimum macOS that is higher than conda-forge default to support std path()
+MACOSX_DEPLOYMENT_TARGET:  # [osx and x86_64]
+  - "10.15"                # [osx and x86_64]
+MACOSX_SDK_VERSION:        # [osx and x86_64]
+  - "10.15"                # [osx and x86_64]
