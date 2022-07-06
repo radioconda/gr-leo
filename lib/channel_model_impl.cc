@@ -54,6 +54,9 @@ channel_model_impl::channel_model_impl(
   d_model(model),
   d_noise_type(noise_type)
 {
+  /* A power of 2, should speed up the scheduler */
+  set_output_multiple(2048);
+
   if (!model) {
     std::string msg = name() +  ": Invalid model";
     throw std::invalid_argument(msg);
@@ -61,9 +64,6 @@ channel_model_impl::channel_model_impl(
 
   d_time_win_samples = (d_sample_rate *
                         model->get_tracker()->get_time_resolution_us()) / 1e6;
-
-  /* A power of 2, should speed up the scheduler */
-  set_output_multiple(2048);
 
   /* We use Volk underneath for complex multiplication */
   set_alignment(8);
@@ -110,7 +110,6 @@ channel_model_impl::work(int noutput_items,
   }
 
   d_win_produced += avail;
-
   if (d_win_produced == d_time_win_samples) {
     d_win_produced = 0;
     d_model->advance_time(d_model->get_tracker()->get_time_resolution_us());
@@ -120,7 +119,8 @@ channel_model_impl::work(int noutput_items,
       message_port_pub(pmt::mp("csv"),
                        pmt::make_blob(str.c_str(), str.length()));
       message_port_pub(pmt::mp("doppler"),
-                       pmt::from_double(d_model->get_doppler_freq()));
+                       pmt::cons(pmt::intern(
+                                   "doppler"), pmt::from_double(d_model->get_doppler_freq())));
     }
   }
 

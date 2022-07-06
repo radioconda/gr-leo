@@ -1,6 +1,7 @@
 options:
   parameters:
     author: Kostis Triantafyllakis (kostastriantaf@gmail.com)
+    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -39,7 +40,7 @@ blocks:
     gui_hint: ''
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '0'
     step: '1'
@@ -50,19 +51,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [718, 514]
+    coordinate: [776, 692.0]
     rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: 1e6
+    value: 360e3
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [175, 11]
+    coordinate: [272, 4.0]
     rotation: 0
     state: enabled
 - name: satellite_rx_antenna
@@ -82,12 +83,12 @@ blocks:
     rolloff_gain: '0'
     turn_spacing: '0.25'
     turns: '10'
-    type: '6'
+    type: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [191, 514]
+    coordinate: [200, 684.0]
     rotation: 0
     state: enabled
 - name: satellite_tx_antenna
@@ -107,37 +108,37 @@ blocks:
     rolloff_gain: '0'
     turn_spacing: '0.25'
     turns: '10'
-    type: '6'
+    type: '5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [0, 514]
+    coordinate: [16, 676.0]
     rotation: 0
     state: enabled
 - name: tracker_rx_antenna
   id: variable_antenna
   parameters:
-    aperture_efficiency: '0'
-    beamwidth: '0'
-    boom_length: '0'
-    circumference: '0'
+    aperture_efficiency: '55'
+    beamwidth: '360'
+    boom_length: '2.35'
+    circumference: '1'
     comment: ''
-    diameter: '0'
+    diameter: '5.4'
     frequency: 435e6
-    gain: '0'
+    gain: '6'
     lp: '0.5'
-    pointing_error: '0'
-    polarization: '2'
+    pointing_error: pointing_error
+    polarization: '3'
     rolloff_gain: '0'
-    turn_spacing: '0'
-    turns: '0'
-    type: '6'
+    turn_spacing: '0.25'
+    turns: '10'
+    type: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [542, 514]
+    coordinate: [576, 684.0]
     rotation: 0
     state: enabled
 - name: tracker_tx_antenna
@@ -162,20 +163,20 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [382, 514]
+    coordinate: [400, 692.0]
     rotation: 0
     state: enabled
 - name: variable_leo_model_def_0
   id: variable_leo_model_def
   parameters:
-    atmo_gases_attenuation: '2'
+    atmo_gases_attenuation: '1'
     comment: ''
     doppler_shift_enum: '7'
     enable_link_margin: 'True'
     fspl_attenuation_enum: '5'
     mode: '1'
     pointing_attenuation_enum: '0'
-    precipitation_attenuation: '4'
+    precipitation_attenuation: '3'
     rainfall_rate: '90'
     surface_watervap_density: '7.5'
     temperature: '20'
@@ -185,7 +186,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [829, 450]
+    coordinate: [880, 692.0]
     rotation: 0
     state: enabled
 - name: variable_satellite_0
@@ -198,9 +199,9 @@ blocks:
     noise_temp: '190'
     rx_antenna: satellite_rx_antenna
     rx_bw: '1200'
-    tle_1: 1 25544U 98067A   18268.52547184  .00016717  00000-0  10270-3 0  9019
-    tle_2: 2 25544  51.6373 238.6885 0003885 206.9748 153.1203 15.53729445 14114
-    tle_title: ISS
+    tle_1: 1 84001U          20001.00000000  .00000000  00000-0  50000-4 0    08
+    tle_2: 2 84001  97.0000 156.0000 0001497   0.0000 124.0000 15.90816786    02
+    tle_title: QUBIK
     tx_antenna: satellite_tx_antenna
     tx_power_dbm: '27'
     value: '''ok'''
@@ -208,7 +209,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [0, 131]
+    coordinate: [56, 116.0]
     rotation: 0
     state: enabled
 - name: variable_tracker_0
@@ -218,16 +219,16 @@ blocks:
     comm_freq_tx: 435E6
     comment: ''
     gs_alt: '1'
-    gs_lat: '35.3333'
-    gs_lon: '25.1833'
+    gs_lat: '37.158136'
+    gs_lon: '22.893258'
     noise_figure: '1'
     noise_temp: '210'
-    obs_end: '2018-09-25T15:58:35.0000000Z'
-    obs_start: '2018-09-25T15:48:25.0000000Z'
+    obs_end: '2020-01-06T01:59:13.0000000Z'
+    obs_start: '2020-01-06T01:50:41.0000000Z'
     rx_antenna: tracker_rx_antenna
     rx_bw: '19200'
     satellite_info: variable_satellite_0
-    time_resolution_us: '10000'
+    time_resolution_us: '100000'
     tx_antenna: tracker_tx_antenna
     tx_power_dbm: '37'
     value: '''fine'''
@@ -235,7 +236,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1199, 78]
+    coordinate: [1208, 44.0]
     rotation: 0
     state: enabled
 - name: analog_random_source_x_0
@@ -248,7 +249,7 @@ blocks:
     maxoutbuf: '0'
     min: '0'
     minoutbuf: '0'
-    num_samps: '1000'
+    num_samps: '4096'
     repeat: 'True'
     type: byte
   states:
@@ -257,64 +258,78 @@ blocks:
     bus_structure: null
     coordinate: [144, 404.0]
     rotation: 0
-    state: disabled
-- name: analog_sig_source_x_1
-  id: analog_sig_source_x
+    state: enabled
+- name: blocks_msgpair_to_var_0
+  id: blocks_msgpair_to_var
   parameters:
     affinity: ''
     alias: ''
-    amp: '1000'
     comment: ''
-    freq: '1000'
+    target: freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 332.0]
+    rotation: 0
+    state: disabled
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '100.384265'
     maxoutbuf: '0'
     minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: samp_rate
     type: complex
-    waveform: analog.GR_COS_WAVE
+    vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [340, 144]
+    coordinate: [448, 364.0]
     rotation: 0
     state: enabled
-- name: blocks_message_debug_0
-  id: blocks_message_debug
+- name: blocks_throttle_0
+  id: blocks_throttle
   parameters:
     affinity: ''
     alias: ''
     comment: ''
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [880, 352.0]
+    coordinate: [560, 212.0]
     rotation: 0
-    state: enabled
-- name: digital_psk_mod_0
-  id: digital_psk_mod
+    state: bypassed
+- name: digital_gmsk_mod_0
+  id: digital_gmsk_mod
   parameters:
     affinity: ''
     alias: ''
+    bt: '0.35'
     comment: ''
-    constellation_points: '2'
-    differential: 'True'
-    excess_bw: '0.35'
+    do_unpack: 'True'
     log: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
-    mod_code: '"gray"'
-    samples_per_symbol: '16'
+    samples_per_symbol: '32'
     verbose: 'False'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [392, 340.0]
+    coordinate: [384, 252.0]
     rotation: 0
-    state: disabled
+    state: true
 - name: leo_channel_model_0
   id: leo_channel_model
   parameters:
@@ -331,158 +346,46 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [637, 257]
+    coordinate: [704, 504.0]
     rotation: 0
     state: true
-- name: qtgui_freq_sink_x_0
-  id: qtgui_freq_sink_x
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
   parameters:
     affinity: ''
     alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    average: '1.0'
-    axislabels: 'True'
     bw: samp_rate
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
     comment: ''
-    ctrlpanel: 'True'
     fc: '0'
-    fftsize: '4096'
-    freqhalf: 'True'
-    grid: 'False'
+    fftsize: '1024'
     gui_hint: ''
-    label: Relative Gain
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    legend: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
     name: '""'
-    nconnections: '1'
-    showports: 'True'
-    tr_chan: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_tag: '""'
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
     type: complex
-    units: dB
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    wintype: firdes.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [983, 242]
+    coordinate: [824, 36.0]
     rotation: 0
-    state: disabled
-- name: qtgui_waterfall_sink_x_0
-  id: qtgui_waterfall_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    axislabels: 'True'
-    bw: samp_rate
-    color1: '0'
-    color10: '0'
-    color2: '0'
-    color3: '0'
-    color4: '0'
-    color5: '0'
-    color6: '0'
-    color7: '0'
-    color8: '0'
-    color9: '0'
-    comment: ''
-    fc: '0'
-    fftsize: '4096'
-    freqhalf: 'True'
-    grid: 'False'
-    gui_hint: ''
-    int_max: '10'
-    int_min: '-140'
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    showports: 'True'
-    type: complex
-    update_time: '0.10'
-    wintype: firdes.WIN_BLACKMAN_hARRIS
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [905, 70]
-    rotation: 0
-    state: enabled
+    state: true
 
 connections:
-- [analog_random_source_x_0, '0', digital_psk_mod_0, '0']
-- [analog_sig_source_x_1, '0', leo_channel_model_0, '0']
-- [digital_psk_mod_0, '0', leo_channel_model_0, '0']
-- [leo_channel_model_0, '0', qtgui_freq_sink_x_0, '0']
-- [leo_channel_model_0, '0', qtgui_waterfall_sink_x_0, '0']
-- [leo_channel_model_0, csv, blocks_message_debug_0, print]
+- [analog_random_source_x_0, '0', digital_gmsk_mod_0, '0']
+- [blocks_multiply_const_vxx_0, '0', blocks_throttle_0, '0']
+- [blocks_throttle_0, '0', leo_channel_model_0, '0']
+- [digital_gmsk_mod_0, '0', blocks_multiply_const_vxx_0, '0']
+- [leo_channel_model_0, '0', qtgui_sink_x_0, '0']
 
 metadata:
   file_format: 1
+  grc_version: 3.10.2.0
