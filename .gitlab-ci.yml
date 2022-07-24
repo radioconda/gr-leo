@@ -15,7 +15,7 @@ style:
     - apt-get -q update
     - apt-get -qy install astyle
   script:
-    - 'astyle --dry-run --options=.astylerc --formatted lib/*.cc lib/*.h include/leo/*.h  | sed ''s/^Formatted/ERROR: Unformatted/;T;q1'''
+    - 'astyle --dry-run --options=.astylerc --formatted lib/*.cc lib/*.h include/gnuradio/leo/*.h  | sed ''s/^Formatted/ERROR: Unformatted/;T;q1'''
 
 # 'test' stage
 ubuntu:
@@ -23,6 +23,7 @@ ubuntu:
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
+    - export DEBIAN_FRONTEND=noninteractive
     - apt-get -q update
     - apt-get -qy install software-properties-common
     - |
@@ -61,6 +62,7 @@ docs:
   stage: build
   image: ${GITLAB_CI_IMAGE_UBUNTU}
   before_script:
+    - export DEBIAN_FRONTEND=noninteractive
     - apt-get -q update
     - apt-get -qy install software-properties-common
     - |
