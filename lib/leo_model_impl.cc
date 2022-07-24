@@ -264,6 +264,34 @@ leo_model_impl::get_csv_log()
   return stringStream.str();
 }
 
+std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>>
+    leo_model_impl::get_tags_vector()
+{
+  std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>> vec;
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>(pmt::intern("elapsed_time"),
+                pmt::intern(d_tracker->get_elapsed_time().ToString().c_str())));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>(pmt::intern("slant_range"),
+                pmt::from_double(d_slant_range)));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>(pmt::intern("elevation"),
+                pmt::from_double(d_elev)));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>
+                (pmt::intern("pathloss_attenuation"),
+                 pmt::from_double(d_pathloss_attenuation)));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>(pmt::intern("atmo_attenuation"),
+                pmt::from_double(d_atmo_attenuation)));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>
+                (pmt::intern("rainfall_attenuation"),
+                 pmt::from_double(d_rainfall_attenuation)));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>
+                (pmt::intern("pointing_attenuation"),
+                 pmt::from_double(d_pointing_attenuation)));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>
+                (pmt::intern("doppler_shift_freq"), pmt::from_double(d_doppler_shift)));
+  vec.push_back(std::pair<pmt::pmt_t, pmt::pmt_t>(pmt::intern("link_margin_db"),
+                pmt::from_double(d_link_margin_db)));
+  return vec;
+}
+
 double
 leo_model_impl::get_doppler_freq()
 {
@@ -278,6 +306,54 @@ leo_model_impl::advance_time(double us)
   d_elev = d_tracker->get_elevation_degrees();
   d_slant_range = d_tracker->get_slant_range();
   d_doppler_shift = calculate_doppler_shift(d_tracker->get_velocity());
+}
+
+double
+leo_model_impl::get_atmo_attenuation()
+{
+  return d_atmo_attenuation;
+}
+
+double
+leo_model_impl::get_rainfall_attenuation()
+{
+  return d_rainfall_attenuation;
+}
+
+double
+leo_model_impl::get_pathloss_attenuation()
+{
+  return d_pathloss_attenuation;
+}
+
+double
+leo_model_impl::get_pointing_attenuation()
+{
+  return d_pointing_attenuation;
+}
+
+double
+leo_model_impl::get_total_attenuation()
+{
+  return d_total_attenuation;
+}
+
+double
+leo_model_impl::get_slant_range()
+{
+  return d_slant_range;
+}
+
+double
+leo_model_impl::get_elevation()
+{
+  return d_elev;
+}
+
+double
+leo_model_impl::get_link_margin()
+{
+  return d_link_margin_db;
 }
 
 void

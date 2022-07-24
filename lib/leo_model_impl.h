@@ -21,6 +21,7 @@
 #ifndef INCLUDED_LEO_LEO_MODEL_IMPL_H
 #define INCLUDED_LEO_LEO_MODEL_IMPL_H
 
+#include <pmt/pmt.h>
 #include <gnuradio/leo/leo_model.h>
 
 namespace gr {
@@ -98,11 +99,38 @@ public:
   std::string
   get_csv_log();
 
+  std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>>
+      get_tags_vector();
+
   double
   get_doppler_freq();
 
   void
   advance_time(double us);
+
+  double
+  get_atmo_attenuation();
+
+  double
+  get_rainfall_attenuation();
+
+  double
+  get_pathloss_attenuation();
+
+  double
+  get_pointing_attenuation();
+
+  double
+  get_total_attenuation();
+
+  double
+  get_slant_range();
+
+  double
+  get_elevation();
+
+  double
+  get_link_margin();
 
 };
 } // namespace model

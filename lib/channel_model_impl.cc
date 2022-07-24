@@ -22,18 +22,17 @@
 #include "config.h"
 #endif
 
-#include <gnuradio/io_signature.h>
 #include "channel_model_impl.h"
+#include <gnuradio/io_signature.h>
 #include <iostream>
 #include <string>
 
 namespace gr {
 namespace leo {
 
-channel_model::sptr
-channel_model::make(const double sample_rate,
-                    generic_model::generic_model_sptr model,
-                    const uint8_t noise_type)
+channel_model::sptr channel_model::make(const double sample_rate,
+                                        generic_model::generic_model_sptr model,
+                                        const uint8_t noise_type)
 {
   return gnuradio::get_initial_sptr(
            new channel_model_impl(sample_rate, model, noise_type));
@@ -42,28 +41,28 @@ channel_model::make(const double sample_rate,
 /*
  * The private constructor
  */
-channel_model_impl::channel_model_impl(
-  const double sample_rate, generic_model::generic_model_sptr model,
-  const uint8_t noise_type) :
-  gr::sync_block("channel_model",
-                 gr::io_signature::make(1, 1, sizeof(gr_complex)),
-                 gr::io_signature::make(1, 1, sizeof(gr_complex))),
-  d_sample_rate(sample_rate),
-  d_time_win_samples(0),
-  d_win_produced(0),
-  d_model(model),
-  d_noise_type(noise_type)
+channel_model_impl::channel_model_impl(const double sample_rate,
+                                       generic_model::generic_model_sptr model,
+                                       const uint8_t noise_type)
+  : gr::sync_block("channel_model",
+                   gr::io_signature::make(1, 1, sizeof(gr_complex)),
+                   gr::io_signature::make(1, 1, sizeof(gr_complex))),
+    d_sample_rate(sample_rate),
+    d_time_win_samples(0),
+    d_win_produced(0),
+    d_model(model),
+    d_noise_type(noise_type)
 {
   /* A power of 2, should speed up the scheduler */
   set_output_multiple(2048);
 
   if (!model) {
-    std::string msg = name() +  ": Invalid model";
+    std::string msg = name() + ": Invalid model";
     throw std::invalid_argument(msg);
   }
 
-  d_time_win_samples = (d_sample_rate *
-                        model->get_tracker()->get_time_resolution_us()) / 1e6;
+  d_time_win_samples =
+    (d_sample_rate * model->get_tracker()->get_time_resolution_us()) / 1e6;
 
   /* We use Volk underneath for complex multiplication */
   set_alignment(8);
@@ -78,25 +77,27 @@ channel_model_impl::channel_model_impl(
   case NOISE_NONE:
     break;
   default:
-    std::string msg = name() +  ": Invalid noise type";
+    std::string msg = name() + ": Invalid noise type";
     throw std::invalid_argument(msg);
   }
+
+  d_tag.offset = 0;
+  d_tag.key = pmt::intern("frequency");
+  d_tag.srcid = alias_pmt();
+  d_offset = 0;
 }
 
 /*
  * Our virtual destructor.
  */
-channel_model_impl::~channel_model_impl()
-{
-}
+channel_model_impl::~channel_model_impl() {}
 
-int
-channel_model_impl::work(int noutput_items,
-                         gr_vector_const_void_star &input_items,
-                         gr_vector_void_star &output_items)
+int channel_model_impl::work(int noutput_items,
+                             gr_vector_const_void_star &input_items,
+                             gr_vector_void_star &output_items)
 {
-  const gr_complex *in = (const gr_complex *) input_items[0];
-  gr_complex *out = (gr_complex *) output_items[0];
+  const gr_complex *in = (const gr_complex *)input_items[0];
+  gr_complex *out = (gr_complex *)output_items[0];
 
   if (d_model->get_tracker()->is_observation_over()) {
     return WORK_DONE;
@@ -110,23 +111,34 @@ channel_model_impl::work(int noutput_items,
   }
 
   d_win_produced += avail;
+
+  uint64_t nitems = static_cast<uint64_t>(avail) + nitems_written(0);
+
   if (d_win_produced == d_time_win_samples) {
     d_win_produced = 0;
     d_model->advance_time(d_model->get_tracker()->get_time_resolution_us());
     /* Produce messages only in case we have AOS */
     if (d_model->aos()) {
+      d_tag.offset = nitems + d_time_win_samples;
+
+      d_tags_vec = d_model->get_tags_vector();
+      std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>>::iterator it;
+      for (it = d_tags_vec.begin(); it != d_tags_vec.end(); it++) {
+        d_tag.key = (*it).first;
+        d_tag.value = (*it).second;
+        add_item_tag(0, d_tag);
+      }
+
       const std::string &str = d_model->get_csv_log();
-      message_port_pub(pmt::mp("csv"),
-                       pmt::make_blob(str.c_str(), str.length()));
+      message_port_pub(pmt::mp("csv"), pmt::make_blob(str.c_str(), str.length()));
       message_port_pub(pmt::mp("doppler"),
-                       pmt::cons(pmt::intern(
-                                   "doppler"), pmt::from_double(d_model->get_doppler_freq())));
+                       pmt::cons(pmt::intern("doppler"),
+                                 pmt::from_double(d_model->get_doppler_freq())));
     }
   }
 
-  return noutput_items;
+  return avail;
 }
 
 } /* namespace leo */
 } /* namespace gr */
-

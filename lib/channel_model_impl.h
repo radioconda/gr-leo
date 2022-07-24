@@ -56,6 +56,10 @@ private:
 
   generic_noise::generic_noise_sptr d_noise;
 
+  tag_t d_tag;
+  uint64_t d_offset;
+  std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>> d_tags_vec;
+
 public:
   channel_model_impl(const double sample_rate,
                      generic_model::generic_model_sptr model,
@@ -65,7 +69,7 @@ public:
 
   int
   work(int noutput_items, gr_vector_const_void_star &input_items,
-       gr_vector_void_star &output_items);
+       gr_vector_void_star &output_items) override;
 };
 
 } // namespace leo

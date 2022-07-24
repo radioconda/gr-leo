@@ -21,6 +21,7 @@
 #ifndef INCLUDED_LEO_GENERIC_MODEL_H
 #define INCLUDED_LEO_GENERIC_MODEL_H
 
+#include <pmt/pmt.h>
 #include <gnuradio/leo/api.h>
 #include <gnuradio/leo/tracker.h>
 #include <gnuradio/leo/generic_attenuation.h>
@@ -194,6 +195,14 @@ public:
    */
   virtual std::string
   get_csv_log() = 0;
+
+  /*!
+   * \brief Get a vector of std::pair<pmt::pmt_t, pmt::pmt_t> pairs that represent the
+   * tags that will be appended to the outupt stream.
+   * \return a std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>>
+   */
+  virtual std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>>
+      get_tags_vector() = 0;
 
   /*!
    * \brief Get the model's noise-floor.

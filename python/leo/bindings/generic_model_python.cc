@@ -85,6 +85,9 @@ void bind_generic_model(py::module& m)
 
         .def("get_csv_log",
              &generic_model::get_csv_log)
+     
+        .def("get_tags_vector",
+             &generic_model::get_tags_vector)
 
         .def("get_noise_floor",
              &generic_model::get_noise_floor)
