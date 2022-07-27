@@ -36,7 +36,7 @@ set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 # Find gnuradio to get access to the cmake modules
 find_package(
-  Gnuradio "3.10" REQUIRED
+  Gnuradio "3.9" REQUIRED
   COMPONENTS runtime
              blocks
              pmt
