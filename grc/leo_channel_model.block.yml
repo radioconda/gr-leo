@@ -21,6 +21,18 @@ parameters:
     default: '1'
     options: ['0', '1']
     option_labels: [None, White Gaussian]
+- id: store_csv
+  label: CSV logging
+  dtype: int
+  default: '0'
+  options: [ '0', '1' ]
+  option_labels: [ Off, On ]
+- id: filename
+  label: File
+  dtype: file_save
+  hide: ${ ('none' if int(store_csv)==1 else 'all') }
+
+
 
 inputs:
 -   domain: stream
@@ -30,16 +42,12 @@ outputs:
 -   domain: stream
     dtype: complex
 
--   id: csv
-    domain: message
-    optional: true
-
--   id: doppler
+-   id: pdus
     domain: message
     optional: true
 
 templates:
     imports: import gnuradio.leo
-    make: gnuradio.leo.channel_model.make(${sample_rate}, ${model}, ${noise_type})
+    make: gnuradio.leo.channel_model.make(${sample_rate}, ${model}, ${noise_type}, ${store_csv}, ${filename})
 
 file_format: 1

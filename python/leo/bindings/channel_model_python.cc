@@ -41,7 +41,9 @@ void bind_channel_model(py::module& m)
              &channel_model::make,
              py::arg("sample_rate"),
              py::arg("model"),
-             py::arg("noise_type"))
+             py::arg("noise_type"),
+             py::arg("store_csv"),
+             py::arg("filename"))
 
         ;
 

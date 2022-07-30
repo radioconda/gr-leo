@@ -24,6 +24,7 @@
 #include <gnuradio/leo/channel_model.h>
 #include <gnuradio/leo/generic_noise.h>
 #include <gnuradio/leo/white_gaussian_noise.h>
+#include <fstream>
 
 
 namespace gr {
@@ -59,11 +60,12 @@ private:
   tag_t d_tag;
   uint64_t d_offset;
   std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>> d_tags_vec;
+  std::fstream d_fout;
 
 public:
   channel_model_impl(const double sample_rate,
                      generic_model::generic_model_sptr model,
-                     const uint8_t noise_type);
+                     const uint8_t noise_type, const bool store_csv, const char *filename);
 
   ~channel_model_impl();
 

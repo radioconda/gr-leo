@@ -322,11 +322,13 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
+    filename: out.csv
     maxoutbuf: '0'
     minoutbuf: '0'
     model: variable_leo_model_def_0
     noise_type: '1'
     sample_rate: 80e3
+    store_csv: '0'
     value: '''fine'''
   states:
     bus_sink: false

@@ -24,6 +24,6 @@ install(FILES
     	variable_satellite.block.yml
     	variable_tracker.block.yml
     	variable_leo_model_def.block.yml 
-    	variable_antenna.block.yml 
+    	variable_antenna.block.yml
     DESTINATION share/gnuradio/grc/blocks
 )

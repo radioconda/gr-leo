@@ -39,6 +39,7 @@ ubuntu:
           swig \
           cmake \
           gcc \
+          python3-gi\
           gnuradio-dev \
           libconfig++-dev \
           libgmp-dev \

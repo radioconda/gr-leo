@@ -32,10 +32,11 @@ namespace leo {
 
 channel_model::sptr channel_model::make(const double sample_rate,
                                         generic_model::generic_model_sptr model,
-                                        const uint8_t noise_type)
+                                        const uint8_t noise_type,
+                                        const bool store_csv, const char *filename)
 {
   return gnuradio::get_initial_sptr(
-           new channel_model_impl(sample_rate, model, noise_type));
+           new channel_model_impl(sample_rate, model, noise_type, store_csv, filename));
 }
 
 /*
@@ -43,7 +44,8 @@ channel_model::sptr channel_model::make(const double sample_rate,
  */
 channel_model_impl::channel_model_impl(const double sample_rate,
                                        generic_model::generic_model_sptr model,
-                                       const uint8_t noise_type)
+                                       const uint8_t noise_type,
+                                       const bool store_csv, const char *filename)
   : gr::sync_block("channel_model",
                    gr::io_signature::make(1, 1, sizeof(gr_complex)),
                    gr::io_signature::make(1, 1, sizeof(gr_complex))),
@@ -52,6 +54,8 @@ channel_model_impl::channel_model_impl(const double sample_rate,
     d_win_produced(0),
     d_model(model),
     d_noise_type(noise_type)
+
+
 {
   /* A power of 2, should speed up the scheduler */
   set_output_multiple(2048);
@@ -67,8 +71,7 @@ channel_model_impl::channel_model_impl(const double sample_rate,
   /* We use Volk underneath for complex multiplication */
   set_alignment(8);
 
-  message_port_register_out(pmt::mp("csv"));
-  message_port_register_out(pmt::mp("doppler"));
+  message_port_register_out(pmt::mp("pdus"));
 
   switch (d_noise_type) {
   case WHITE_GAUSSIAN:
@@ -85,6 +88,11 @@ channel_model_impl::channel_model_impl(const double sample_rate,
   d_tag.key = pmt::intern("frequency");
   d_tag.srcid = alias_pmt();
   d_offset = 0;
+
+  if (store_csv == 1) {
+    d_fout.open(filename, std::ios::out);
+  }
+
 }
 
 /*
@@ -123,17 +131,24 @@ int channel_model_impl::work(int noutput_items,
 
       d_tags_vec = d_model->get_tags_vector();
       std::vector<std::pair<pmt::pmt_t, pmt::pmt_t>>::iterator it;
+
+      pmt::pmt_t dict = pmt::make_dict();
       for (it = d_tags_vec.begin(); it != d_tags_vec.end(); it++) {
         d_tag.key = (*it).first;
         d_tag.value = (*it).second;
         add_item_tag(0, d_tag);
+
+        dict = pmt::dict_add(dict, (*it).first, (*it).second);
       }
 
       const std::string &str = d_model->get_csv_log();
-      message_port_pub(pmt::mp("csv"), pmt::make_blob(str.c_str(), str.length()));
-      message_port_pub(pmt::mp("doppler"),
-                       pmt::cons(pmt::intern("doppler"),
-                                 pmt::from_double(d_model->get_doppler_freq())));
+      d_fout << str.c_str() << "\n";
+      pmt::pmt_t t = pmt::init_c32vector(d_time_win_samples, out);
+//      gr_complex* tmp = c32vector_writable_elements(t, d_time_win_samples);
+//      memcpy(tmp, out, d_time_win_samples*sizeof(gr_complex));
+      message_port_pub(pmt::mp("pdus"),
+                       pmt::cons(dict,
+                                 t));
     }
   }
 

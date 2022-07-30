@@ -55,7 +55,7 @@ public:
    */
   static sptr
   make(const double sample_rate, generic_model::generic_model_sptr model,
-       const uint8_t noise_type);
+       const uint8_t noise_type, const bool store_csv, const char *filename);
 
 };
 
