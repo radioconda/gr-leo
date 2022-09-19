@@ -1,7 +1,7 @@
 BUILD:
 - aarch64-conda_cos7-linux-gnu
 boost_cpp:
-- 1.74.0
+- 1.78.0
 c_compiler:
 - gcc
 c_compiler_version:
@@ -23,7 +23,7 @@ docker_image:
 gmp:
 - '6'
 gnuradio_core:
-- 3.10.3
+- 3.10.4
 gnuradio_extra_pin:
 - ''
 numpy:
