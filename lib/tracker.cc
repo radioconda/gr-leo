@@ -82,28 +82,28 @@ tracker::tracker(satellite::satellite_sptr satellite_info,
                  generic_antenna::generic_antenna_sptr rx_antenna,
                  const double noise_figure,
                  const double noise_temp,
-                 const double rx_bw) :
-  d_time_resolution_us(time_resolution_us),
-  d_observer(gs_lat, gs_lon, gs_alt),
-  d_satellite(satellite_info),
-  d_tle(
-    Tle(d_satellite->get_tle_title(), d_satellite->get_tle_1(),
-        d_satellite->get_tle_2())),
-  d_sgp4(d_tle),
-  d_obs_start(parse_ISO_8601_UTC(obs_start)),
-  d_obs_end(parse_ISO_8601_UTC(obs_end)),
-  d_obs_elapsed(d_obs_start),
-  d_comm_freq_tx(comm_freq_tx),
-  d_comm_freq_rx(comm_freq_rx),
-  d_tx_antenna(tx_antenna),
-  d_rx_antenna(rx_antenna),
-  d_gs_alt(gs_alt),
-  d_gs_lat(gs_lat),
-  d_gs_lon(gs_lon),
-  d_tx_power_dbm(tx_power_dbm),
-  d_noise_figure(noise_figure),
-  d_noise_temp(noise_temp),
-  d_rx_bw(rx_bw)
+                 const double rx_bw)
+    : d_time_resolution_us(time_resolution_us),
+      d_observer(gs_lat, gs_lon, gs_alt),
+      d_satellite(satellite_info),
+      d_tle(libsgp4::Tle(d_satellite->get_tle_title(),
+                         d_satellite->get_tle_1(),
+                         d_satellite->get_tle_2())),
+      d_sgp4(d_tle),
+      d_obs_start(parse_ISO_8601_UTC(obs_start)),
+      d_obs_end(parse_ISO_8601_UTC(obs_end)),
+      d_obs_elapsed(d_obs_start),
+      d_comm_freq_tx(comm_freq_tx),
+      d_comm_freq_rx(comm_freq_rx),
+      d_tx_antenna(tx_antenna),
+      d_rx_antenna(rx_antenna),
+      d_gs_alt(gs_alt),
+      d_gs_lat(gs_lat),
+      d_gs_lon(gs_lon),
+      d_tx_power_dbm(tx_power_dbm),
+      d_noise_figure(noise_figure),
+      d_noise_temp(noise_temp),
+      d_rx_bw(rx_bw)
 
 {
   if (d_obs_end <= d_obs_start) {
@@ -165,17 +165,18 @@ tracker::get_satellite_info()
   return d_satellite;
 }
 
-double
-tracker::find_max_elevation(Observer &observer, SGP4 &sgp4,
-                            const DateTime &aos, const DateTime &los)
+double tracker::find_max_elevation(libsgp4::Observer& observer,
+                                   libsgp4::SGP4& sgp4,
+                                   const libsgp4::DateTime& aos,
+                                   const libsgp4::DateTime& los)
 {
 
   bool running;
 
   double time_step = (los - aos).TotalSeconds() / 9.0;
-  DateTime current_time(aos);  //! current time
-  DateTime time1(aos);  //! start time of search period
-  DateTime time2(los);  //! end time of search period
+  libsgp4::DateTime current_time(aos); //! current time
+  libsgp4::DateTime time1(aos);        //! start time of search period
+  libsgp4::DateTime time2(los);        //! end time of search period
   double max_elevation; //! max elevation
 
   running = true;
@@ -187,8 +188,8 @@ tracker::find_max_elevation(Observer &observer, SGP4 &sgp4,
       /*
        * find position
        */
-      Eci eci = sgp4.FindPosition(current_time);
-      CoordTopocentric topo = observer.GetLookAngle(eci);
+      libsgp4::Eci eci = sgp4.FindPosition(current_time);
+      libsgp4::CoordTopocentric topo = observer.GetLookAngle(eci);
 
       if (topo.elevation > max_elevation) {
         /*
@@ -236,18 +237,19 @@ tracker::find_max_elevation(Observer &observer, SGP4 &sgp4,
   return max_elevation;
 }
 
-DateTime
-tracker::find_crossing_point_time(Observer &observer, SGP4 &sgp4,
-                                  const DateTime &initial_time1,
-                                  const DateTime &initial_time2,
+libsgp4::DateTime
+tracker::find_crossing_point_time(libsgp4::Observer& observer,
+                                  libsgp4::SGP4& sgp4,
+                                  const libsgp4::DateTime& initial_time1,
+                                  const libsgp4::DateTime& initial_time2,
                                   bool finding_aos)
 {
   bool running;
   int cnt;
 
-  DateTime time1(initial_time1);
-  DateTime time2(initial_time2);
-  DateTime middle_time;
+  libsgp4::DateTime time1(initial_time1);
+  libsgp4::DateTime time2(initial_time2);
+  libsgp4::DateTime middle_time;
 
   running = true;
   cnt = 0;
@@ -256,8 +258,8 @@ tracker::find_crossing_point_time(Observer &observer, SGP4 &sgp4,
     /*
      * calculate satellite position
      */
-    Eci eci = sgp4.FindPosition(middle_time);
-    CoordTopocentric topo = observer.GetLookAngle(eci);
+    libsgp4::Eci eci = sgp4.FindPosition(middle_time);
+    libsgp4::CoordTopocentric topo = observer.GetLookAngle(eci);
 
     if (topo.elevation > 0.0) {
       /*
@@ -302,8 +304,8 @@ tracker::find_crossing_point_time(Observer &observer, SGP4 &sgp4,
   running = true;
   cnt = 0;
   while (running && cnt++ < 6) {
-    Eci eci = sgp4.FindPosition(middle_time);
-    CoordTopocentric topo = observer.GetLookAngle(eci);
+    libsgp4::Eci eci = sgp4.FindPosition(middle_time);
+    libsgp4::CoordTopocentric topo = observer.GetLookAngle(eci);
     if (topo.elevation > 0) {
       middle_time = middle_time.AddSeconds(finding_aos ? -1 : 1);
     }
@@ -319,13 +321,13 @@ std::vector<pass_details_t>
 tracker::generate_passlist(const int time_step)
 {
   pass_details_t pd;
-  DateTime aos_time;
-  DateTime los_time;
+  libsgp4::DateTime aos_time;
+  libsgp4::DateTime los_time;
 
   bool found_aos = false;
 
-  DateTime previous_time(d_obs_start);
-  DateTime current_time(d_obs_start);
+  libsgp4::DateTime previous_time(d_obs_start);
+  libsgp4::DateTime current_time(d_obs_start);
 
   d_passlist.clear();
 
@@ -335,8 +337,8 @@ tracker::generate_passlist(const int time_step)
     /*
      * calculate satellite position
      */
-    Eci eci = d_sgp4.FindPosition(current_time);
-    CoordTopocentric topo = d_observer.GetLookAngle(eci);
+    libsgp4::Eci eci = d_sgp4.FindPosition(current_time);
+    libsgp4::CoordTopocentric topo = d_observer.GetLookAngle(eci);
 
     if (!found_aos && topo.elevation > 0.0) {
       /*
@@ -390,13 +392,13 @@ tracker::generate_passlist(const int time_step)
       /*
        * at the end of the pass move the time along by 30mins
        */
-      current_time = current_time + TimeSpan(0, 30, 0);
+      current_time = current_time + libsgp4::TimeSpan(0, 30, 0);
     }
     else {
       /*
        * move the time along by the time step value
        */
-      current_time = current_time + TimeSpan(0, 0, time_step);
+      current_time = current_time + libsgp4::TimeSpan(0, 0, time_step);
     }
 
     if (current_time > d_obs_end) {
@@ -429,8 +431,9 @@ tracker::generate_passlist(const int time_step)
 
     std::vector<pass_details_t>::const_iterator itr = d_passlist.begin();
     do {
-      ss << "AOS: " << itr->aos << ", LOS: " << itr->los << ", MAX ELEVATION: "
-         << std::setw(4) << Util::RadiansToDegrees(itr->max_elevation) << std::endl;
+      ss << "AOS: " << itr->aos << ", LOS: " << itr->los
+         << ", MAX ELEVATION: " << std::setw(4)
+         << libsgp4::Util::RadiansToDegrees(itr->max_elevation) << std::endl;
     }
     while (++itr != d_passlist.end());
 
@@ -443,24 +446,24 @@ tracker::generate_passlist(const int time_step)
 double
 tracker::get_slant_range()
 {
-  Eci eci = d_sgp4.FindPosition(get_elapsed_time());
-  CoordTopocentric topo = d_observer.GetLookAngle(eci);
+  libsgp4::Eci eci = d_sgp4.FindPosition(get_elapsed_time());
+  libsgp4::CoordTopocentric topo = d_observer.GetLookAngle(eci);
   return topo.range;
 }
 
 double
 tracker::get_elevation_degrees()
 {
-  Eci eci = d_sgp4.FindPosition(get_elapsed_time());
-  CoordTopocentric topo = d_observer.GetLookAngle(eci);
-  return Util::RadiansToDegrees(topo.elevation);
+  libsgp4::Eci eci = d_sgp4.FindPosition(get_elapsed_time());
+  libsgp4::CoordTopocentric topo = d_observer.GetLookAngle(eci);
+  return libsgp4::Util::RadiansToDegrees(topo.elevation);
 }
 
 double
 tracker::get_elevation_radians()
 {
-  Eci eci = d_sgp4.FindPosition(get_elapsed_time());
-  CoordTopocentric topo = d_observer.GetLookAngle(eci);
+  libsgp4::Eci eci = d_sgp4.FindPosition(get_elapsed_time());
+  libsgp4::CoordTopocentric topo = d_observer.GetLookAngle(eci);
   return topo.elevation;
 }
 
@@ -469,19 +472,18 @@ tracker::get_velocity()
 {
   double elevation;
 
-  Eci eci = d_sgp4.FindPosition(get_elapsed_time());
-  CoordTopocentric topo = d_observer.GetLookAngle(eci);
+  libsgp4::Eci eci = d_sgp4.FindPosition(get_elapsed_time());
+  libsgp4::CoordTopocentric topo = d_observer.GetLookAngle(eci);
   return topo.range_rate;
 }
 
-DateTime
-tracker::parse_ISO_8601_UTC(const std::string &datetime)
+libsgp4::DateTime tracker::parse_ISO_8601_UTC(const std::string& datetime)
 {
   std::tm tm;
   std::istringstream ss(datetime);
   ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
-  return DateTime(tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-                  tm.tm_hour, tm.tm_min, tm.tm_sec);
+  return libsgp4::DateTime(
+      tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
 double
@@ -563,11 +565,7 @@ tracker::advance_time(double us)
   d_obs_elapsed = d_obs_elapsed.AddMicroseconds(us);
 }
 
-DateTime
-tracker::get_elapsed_time()
-{
-  return d_obs_elapsed;
-}
+libsgp4::DateTime tracker::get_elapsed_time() { return d_obs_elapsed; }
 
 bool
 tracker::is_observation_over()

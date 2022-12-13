@@ -112,8 +112,8 @@ find_package(Git)
 find_package(Volk REQUIRED)
 
 include(cmake/Modules/CPM.cmake)
-CPMAddPackage("gh:dnwrnr/sgp4#ca9d4d9")
-cpm_package_name_from_git_uri("gh:dnwrnr/sgp4#ca9d4d9" MPLA)
+CPMAddPackage("gh:dnwrnr/sgp4#147b1ae")
+cpm_package_name_from_git_uri("gh:dnwrnr/sgp4#147b1ae" MPLA)
 find_package(sgp4 REQUIRED)
 
 ########################################################################
