@@ -225,9 +225,9 @@ public:
 
   /*!
    * Returns the elapsed time of the observation.
-   * @return a SGP4::DateTime representation of the elapsed time.
+   * @return a libsgp4::DateTime representation of the elapsed time.
    */
-  DateTime
+  libsgp4::DateTime
   get_elapsed_time();
 
   /*!
@@ -310,19 +310,19 @@ public:
 
 private:
   std::vector<pass_details_t> d_passlist;
-  Observer d_observer;
+  libsgp4::Observer d_observer;
   satellite::satellite_sptr d_satellite;
 
   std::string d_tle_title;
   std::string d_tle_1;
   std::string d_tle_2;
 
-  Tle d_tle;
-  SGP4 d_sgp4;
+  libsgp4::Tle d_tle;
+  libsgp4::SGP4 d_sgp4;
 
-  DateTime d_obs_start;
-  DateTime d_obs_end;
-  DateTime d_obs_elapsed;
+  libsgp4::DateTime d_obs_start;
+  libsgp4::DateTime d_obs_end;
+  libsgp4::DateTime d_obs_elapsed;
 
   const double d_time_resolution_us;
   const double d_comm_freq_tx;
@@ -345,26 +345,26 @@ private:
   /*!
    * Converts an ISO-8601 UTC timestamp into a libSGP4 DateTime object.
    */
-  DateTime
+  libsgp4::DateTime
   parse_ISO_8601_UTC(const std::string &datetime);
 
   /*!
    * Calculates the maximum elevation of a satellite for a specific
    * observation timeframe.
    */
-  double
-  find_max_elevation(Observer &observer, SGP4 &sgp4, const DateTime &aos,
-                     const DateTime &los);
+  double find_max_elevation(libsgp4::Observer& observer,
+                            libsgp4::SGP4& sgp4,
+                            const libsgp4::DateTime& aos,
+                            const libsgp4::DateTime& los);
 
   /*!
    * Estimates the timestamp that an orbiting satellite crosses the horizon.
    */
-  DateTime
-  find_crossing_point_time(Observer &observer, SGP4 &sgp4,
-                           const DateTime &initial_time1,
-                           const DateTime &initial_time2,
-                           bool finding_aos);
-
+  libsgp4::DateTime find_crossing_point_time(libsgp4::Observer& observer,
+                                             libsgp4::SGP4& sgp4,
+                                             const libsgp4::DateTime& initial_time1,
+                                             const libsgp4::DateTime& initial_time2,
+                                             bool finding_aos);
 };
 
 } // namespace leo
