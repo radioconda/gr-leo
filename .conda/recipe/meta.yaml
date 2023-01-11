@@ -79,7 +79,7 @@ test:
     - gnuradio.{{ oot_name }}
 
 about:
-  home: https://github.com/<username>/gr-leo
+  home: https://gitlab.com/librespacefoundation/gr-leo
   license: GPL-3.0-or-later AND Apache-2.0
   license_file:
     - LICENSE
