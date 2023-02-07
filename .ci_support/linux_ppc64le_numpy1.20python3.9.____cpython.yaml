@@ -35,7 +35,7 @@ python:
 target_platform:
 - linux-ppc64le
 volk:
-- '2.5'
+- '3.0'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
