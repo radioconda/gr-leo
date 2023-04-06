@@ -1,19 +1,29 @@
 boost_cpp:
 - 1.78.0
 c_compiler:
-- vs2019
+- gcc
+c_compiler_version:
+- '11'
+cdt_name:
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
 - ryanvolz main
 cxx_compiler:
-- vs2019
+- gxx
+cxx_compiler_version:
+- '11'
+docker_image:
+- quay.io/condaforge/linux-anvil-ppc64le
+gmp:
+- '6'
 gnuradio_core:
-- 3.10.5
+- 3.10.6
 gnuradio_extra_pin:
 - ''
 numpy:
-- '1.20'
+- '1.21'
 pin_run_as_build:
   boost-cpp:
     max_pin: x.x.x
@@ -23,9 +33,11 @@ pin_run_as_build:
 python:
 - 3.8.* *_cpython
 target_platform:
-- win-64
+- linux-ppc64le
 volk:
 - '3.0'
 zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 - - python
   - numpy
