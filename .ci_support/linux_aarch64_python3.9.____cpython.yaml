@@ -5,7 +5,7 @@ boost_cpp:
 c_compiler:
 - gcc
 c_compiler_version:
-- '11'
+- '12'
 cdt_arch:
 - aarch64
 cdt_name:
@@ -17,13 +17,13 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '11'
+- '12'
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 gmp:
 - '6'
 gnuradio_core:
-- 3.10.6
+- 3.10.7
 gnuradio_extra_pin:
 - ''
 numpy:
