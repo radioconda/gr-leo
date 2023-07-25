@@ -51,12 +51,20 @@ requirements:
     - boost-cpp
 
 test:
+  requires:
+    - gnuradio-grc
+    - gnuradio-qtgui
   commands:
-    # Add a list of commands to run to check that the package works. Examples below.
-
     # verify that commands run
     - leo_passpredict.py --help  # [not win]
     - leo_passpredict --help  # [win]
+
+    # test that example flowgraphs compile
+    {% set flowgraphs = ["leo_channel"] %}
+    {% for flowgraph in flowgraphs %}
+    - grcc $PREFIX/share/gr-{{ oot_name }}/examples/{{ flowgraph }}.grc  # [not win]
+    - grcc %PREFIX%\\Library\\share\\gr-{{ oot_name }}\\examples\\{{ flowgraph }}.grc  # [win]
+    {% endfor %}
 
     # verify that (some) headers get installed
     - test -f $PREFIX/include/gnuradio/{{ oot_name }}/api.h  # [not win]
@@ -86,5 +94,10 @@ about:
     - sgp4/LICENSE
   summary: A GNU Radio space telecommunication simulator
   description: >
-   Gr-leo is a GNU Radio Out-of-Tree module that simulates the
-   telecommunication channel between orbiting satellites and Ground Stations.
+    Gr-leo is a GNU Radio Out-of-Tree module that simulates the
+    telecommunication channel between orbiting satellites and Ground Stations.
+
+    Example gnuradio-companion flowgraphs are installed with the package and
+    can be found in:
+        - (Linux/macOS) `$CONDA_PREFIX/share/gr-leo/examples`
+        - (Windows) `%CONDA_PREFIX%\share\gr-leo\examples`
