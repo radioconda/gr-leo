@@ -1,9 +1,11 @@
 {% set oot_name = "leo" %}
 {% set name = "gnuradio-" + oot_name %}
 {% set version = (environ.get("GIT_DESCRIBE_TAG_PEP440", "0.0.0." + datetime.datetime.now().strftime("%Y%m%d") + ".dev+" + environ.get("GIT_DESCRIBE_HASH", "local"))|string).lstrip("v") %}
+{% set library = "Library/" if win else "" %}
+{% set build = 0 %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name|lower }}-split
   version: {{ version }}
 
 source:
@@ -14,7 +16,7 @@ source:
     folder: sgp4
 
 build:
-  number: 0
+  number: {{ build }}
 
 requirements:
   build:
@@ -41,50 +43,101 @@ requirements:
     - python
     - numpy
     - volk
-    # Add/remove library dependencies here
-    - boost-cpp
 
-  run:
-    - numpy
-    - python
-    # Add/remove runtime dependencies here
-    - boost-cpp
+outputs:
+  - name: {{ name }}-data
+    build:
+      string: "unix_{{ build }}"  # [unix]
+      string: "win_{{ build }}"  # [win]
+      noarch: generic
+    requirements:
+      run:
+        - __unix  # [unix]
+        - __win  # [win]
+    files:
+      - {{ library }}share/gr-leo/ITU_RREC_P1511
+      - {{ library }}share/gr-leo/ITU_RREC_P837
+      - {{ library }}share/gr-leo/ITU_RREC_P839
+    test:
+      commands:
+        - test -f $PREFIX/share/gr-leo/ITU_RREC_P1511/TOPOLAT.txt  # [unix]
+        - test -f $PREFIX/share/gr-leo/ITU_RREC_P837/LAT_R001.TXT  # [unix]
+        - test -f $PREFIX/share/gr-leo/ITU_RREC_P839/Lat.txt  # [unix]
+        - if not exist %LIBRARY_PREFIX%/share/gr-leo/ITU_RREC_P1511/TOPOLAT.txt exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%/share/gr-leo/ITU_RREC_P837/LAT_R001.TXT exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%/share/gr-leo/ITU_RREC_P839/Lat.txt exit 1  # [win]
 
-test:
-  requires:
-    - gnuradio-grc
-    - gnuradio-qtgui
-  commands:
-    # verify that commands run
-    - leo_passpredict.py --help  # [not win]
-    - leo_passpredict --help  # [win]
+  - name: {{ name }}
+    requirements:
+      build:
+        - {{ compiler("c") }}
+        - {{ compiler("cxx") }}
+        # cross-compilation requirements
+        - python                              # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+      host:
+        - gmp  # [linux]
+        # the following two entries are for generating builds against specific GR versions
+        - gnuradio-core  # [not gnuradio_extra_pin]
+        - gnuradio-core {{ gnuradio_extra_pin }}.*  # [gnuradio_extra_pin]
+        - pip  # [win]
+        - pybind11
+        - python
+        - numpy
+        - volk
+      run:
+        - {{ pin_subpackage('gnuradio-leo-data', exact=True) }}
+        - numpy
+        - python
+    files:
+      - {{ library }}bin/leo_passpredict*
+      - {{ library }}include/gnuradio/leo
+      - {{ library }}lib/cmake/gnuradio-leo
+      - lib/libgnuradio-leo*  # [unix]
+      - Library/bin/gnuradio-leo.dll  # [win]
+      - Library/lib/gnuradio-leo.lib  # [win]
+      - {{ library }}share/gnuradio/grc/blocks/leo*.yml
+      - {{ library }}share/gnuradio/grc/blocks/variable_antenna.block.yml
+      - {{ library }}share/gnuradio/grc/blocks/variable_leo_model_def.block.yml
+      - {{ library }}share/gnuradio/grc/blocks/variable_satellite.block.yml
+      - {{ library }}share/gnuradio/grc/blocks/variable_tracker.block.yml
+      - {{ library }}share/gr-leo/examples
+      - {{ SP_DIR }}/gnuradio/leo  # [unix]
+      - Lib/site-packages/gnuradio/leo  # [win]
+    test:
+      requires:
+        - gnuradio-grc
+        - gnuradio-qtgui
+      commands:
+        # verify that commands run
+        - leo_passpredict.py --help  # [not win]
+        - leo_passpredict --help  # [win]
 
-    # test that example flowgraphs compile
-    {% set flowgraphs = ["leo_channel"] %}
-    {% for flowgraph in flowgraphs %}
-    - grcc $PREFIX/share/gr-{{ oot_name }}/examples/{{ flowgraph }}.grc  # [not win]
-    - grcc %PREFIX%\\Library\\share\\gr-{{ oot_name }}\\examples\\{{ flowgraph }}.grc  # [win]
-    {% endfor %}
+        # test that example flowgraphs compile
+        {% set flowgraphs = ["leo_channel"] %}
+        {% for flowgraph in flowgraphs %}
+        - grcc $PREFIX/share/gr-{{ oot_name }}/examples/{{ flowgraph }}.grc  # [not win]
+        - grcc %PREFIX%\\Library\\share\\gr-{{ oot_name }}\\examples\\{{ flowgraph }}.grc  # [win]
+        {% endfor %}
 
-    # verify that (some) headers get installed
-    - test -f $PREFIX/include/gnuradio/{{ oot_name }}/api.h  # [not win]
-    - if not exist %PREFIX%\\Library\\include\\gnuradio\\{{ oot_name }}\\api.h exit 1  # [win]
+        # verify that (some) headers get installed
+        - test -f $PREFIX/include/gnuradio/{{ oot_name }}/api.h  # [not win]
+        - if not exist %PREFIX%\\Library\\include\\gnuradio\\{{ oot_name }}\\api.h exit 1  # [win]
 
-    # verify that libraries get installed
-    - test -f $PREFIX/lib/lib{{ name }}${SHLIB_EXT}  # [not win]
-    - if not exist %PREFIX%\\Library\\bin\\{{ name }}.dll exit 1  # [win]
-    - if not exist %PREFIX%\\Library\\lib\\{{ name }}.lib exit 1  # [win]
+        # verify that libraries get installed
+        - test -f $PREFIX/lib/lib{{ name }}${SHLIB_EXT}  # [not win]
+        - if not exist %PREFIX%\\Library\\bin\\{{ name }}.dll exit 1  # [win]
+        - if not exist %PREFIX%\\Library\\lib\\{{ name }}.lib exit 1  # [win]
 
-    # verify that (some) GRC blocks get installed
-    {% set blocks = ["leo_channel_model", "variable_antenna", "variable_leo_model_def", "variable_satellite", "variable_tracker"] %}
-    {% for block in blocks %}
-    - test -f $PREFIX/share/gnuradio/grc/blocks/{{ block }}.block.yml  # [not win]
-    - if not exist %PREFIX%\\Library\\share\\gnuradio\\grc\\blocks\\{{ block }}.block.yml exit 1  # [win]
-    {% endfor %}
-
-  imports:
-    # verify that the python module imports
-    - gnuradio.{{ oot_name }}
+        # verify that (some) GRC blocks get installed
+        {% set blocks = ["leo_channel_model", "variable_antenna", "variable_leo_model_def", "variable_satellite", "variable_tracker"] %}
+        {% for block in blocks %}
+        - test -f $PREFIX/share/gnuradio/grc/blocks/{{ block }}.block.yml  # [not win]
+        - if not exist %PREFIX%\\Library\\share\\gnuradio\\grc\\blocks\\{{ block }}.block.yml exit 1  # [win]
+        {% endfor %}
+      imports:
+        # verify that the python module imports
+        - gnuradio.{{ oot_name }}
 
 about:
   home: https://gitlab.com/librespacefoundation/gr-leo
@@ -101,3 +154,6 @@ about:
     can be found in:
         - (Linux/macOS) `$CONDA_PREFIX/share/gr-leo/examples`
         - (Windows) `%CONDA_PREFIX%\share\gr-leo\examples`
+
+extra:
+  feedstock-name: {{ name }}
