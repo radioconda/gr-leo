@@ -116,7 +116,7 @@ where $`\Delta f_d`$ is measured in Hz
 * Boost C++ Libraries ( > 1.35.0 )
 * VOLK
 * SWIG
-* [C++ SGP4 Satellite Library](https://github.com/dnwrnr/sgp4) (will be automatically installed if not present)
+* [C++ SGP4 Satellite Library](https://github.com/dnwrnr/sgp4) ( 1.0 ) (will be automatically installed if not present)
 
 ## Installation
 
