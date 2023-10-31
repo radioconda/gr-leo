@@ -30,3 +30,7 @@ skip_render:
 test: native_and_emulated
 # enable uploads to Anaconda Cloud from specified branches only
 upload_on_branch: conda
+conda_build_tool: conda-build
+conda_solver: libmamba
+remote_ci_setup:
+  - "conda-forge-ci-setup=4"
