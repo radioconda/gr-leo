@@ -47,6 +47,10 @@ else
   echo -e "\n\nNot mangling homebrew as we are not running in CI"
 fi
 
+if [[ "${sha:-}" == "" ]]; then
+  sha=$(git rev-parse HEAD)
+fi
+
 echo -e "\n\nRunning the build setup script."
 source run_conda_forge_build_setup
 
@@ -79,7 +83,8 @@ else
 
     conda build ./.conda/recipe -m ./.ci_support/${CONFIG}.yaml \
         --suppress-variables ${EXTRA_CB_OPTIONS:-} \
-        --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
+        --clobber-file ./.ci_support/clobber_${CONFIG}.yaml \
+        --extra-meta flow_run_id="$flow_run_id" remote_url="$remote_url" sha="$sha"
 
     ( startgroup "Uploading packages" ) 2> /dev/null
 
