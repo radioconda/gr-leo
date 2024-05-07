@@ -7,4 +7,4 @@
 
 install(
     FILES leo_channel.grc
-    DESTINATION ${GR_PKG_DATA_DIR}/examples)
+    DESTINATION share/gnuradio/examples/leo)
