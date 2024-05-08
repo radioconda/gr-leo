@@ -97,12 +97,13 @@ outputs:
       - lib/libgnuradio-leo*  # [unix]
       - Library/bin/gnuradio-leo.dll  # [win]
       - Library/lib/gnuradio-leo.lib  # [win]
+      - {{ library }}share/gnuradio/examples/leo
       - {{ library }}share/gnuradio/grc/blocks/leo*.yml
       - {{ library }}share/gnuradio/grc/blocks/variable_antenna.block.yml
       - {{ library }}share/gnuradio/grc/blocks/variable_leo_model_def.block.yml
       - {{ library }}share/gnuradio/grc/blocks/variable_satellite.block.yml
       - {{ library }}share/gnuradio/grc/blocks/variable_tracker.block.yml
-      - {{ library }}share/gr-leo/examples
+      - {{ library }}share/gnuradio/manifests/leo
       - {{ SP_DIR }}/gnuradio/leo  # [unix]
       - Lib/site-packages/gnuradio/leo  # [win]
     test:
@@ -117,8 +118,8 @@ outputs:
         # test that example flowgraphs compile
         {% set flowgraphs = ["leo_channel"] %}
         {% for flowgraph in flowgraphs %}
-        - grcc $PREFIX/share/gr-{{ oot_name }}/examples/{{ flowgraph }}.grc  # [not win]
-        - grcc %PREFIX%\\Library\\share\\gr-{{ oot_name }}\\examples\\{{ flowgraph }}.grc  # [win]
+        - grcc $PREFIX/share/gnuradio/examples/leo/{{ flowgraph }}.grc  # [not win]
+        - grcc %PREFIX%\\Library\\share\\gnuradio\\examples\\leo\\{{ flowgraph }}.grc  # [win]
         {% endfor %}
 
         # verify that (some) headers get installed

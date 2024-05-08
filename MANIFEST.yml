@@ -1,0 +1,20 @@
+title: The LEO OOT Module
+version: 1.0
+brief: A GNU Radio space telecommunication simulator
+tags: # Tags are arbitrary, but look at CGRAN what other authors are using
+  - leo
+  - satellite
+  - communication
+author:
+  - Libre Space Foundation
+copyright_owner:
+  - Libre Space Foundation
+license: GPL-3.0-or-later
+gr_supported_version:
+  - 3.10
+repo: https://gitlab.com/librespacefoundation/gr-leo
+website: https://gitlab.com/librespacefoundation/gr-leo
+#icon: # Put a URL to a square image here that will be used as an icon
+description: |-
+  Gr-leo is a GNU Radio Out-of-Tree module that simulates the telecommunication channel between orbiting satellites and Ground Stations.
+file_format: 1
